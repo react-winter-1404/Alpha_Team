@@ -1,7 +1,9 @@
 
+
 const AuthPage = () => {
+
   return (
-    <div>AuthPage</div>
+    <div className=""></div>
   )
 }
 
