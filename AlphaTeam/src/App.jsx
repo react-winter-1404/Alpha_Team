@@ -1,6 +1,10 @@
-import AuthPage from "./pages/Auth"
-import AnimatedCard from "./test/AnimatedCard"
-import ThemeSwitcher from "./test/ThemeSwitcher"
+// import AuthPage from "./pages/Auth"
+// import AnimatedCard from "./test/AnimatedCard"
+// import ThemeSwitcher from "./test/ThemeSwitcher"
+
+
+import { RouterProvider } from "react-router-dom"
+import router from "./router/router"
 
 
 const App = () => {
@@ -8,7 +12,8 @@ const App = () => {
     <>
       {/* <AuthPage/> */}
       {/* <ThemeSwitcher/> */}
-      <AnimatedCard/>
+      {/* <AnimatedCard/> */}
+      <RouterProvider router={router}/>
     </>
   )
 }
