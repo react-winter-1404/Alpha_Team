@@ -2,7 +2,7 @@
 
 const Banner = () => {
   return (
-      <div>
+      <div className="mb-15">
         <div className="h-16 w-[120%] relative bg-[#3772ff] -rotate-3 text-center text-[#fefdff]">
           <img
           src="/images/Group 117.png"
