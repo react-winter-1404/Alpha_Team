@@ -3,9 +3,9 @@
 
 export default function FeatureCards() {
   return(
-    <div className="flex justify-center items-center gap-7.5 w-[90%] h-75 my-12.5 mx-auto">
+    <div className="flex flex-wrap md:justify-center items-center gap-7.5 w-[90%] my-12.5 mx-auto">
     
-    <div className="w-[40%] h-full border-[3px] border-[#ccc] rounded-[30px] text-right overflow-hidden">
+    <div className=" relative w-[90%] mx-auto md:mx-0 md:w-[40%] h-[332px] border-[3px] border-[#ccc] rounded-[30px] text-right overflow-hidden">
       <p className="text-[32px] mr-5">پنل اختصاصی دانشجو</p>
       <p className="w-55 text-[16px] opacity-80 font-light mt-2.5 mr-5">
         پنل های اختصاصی دانشجویی برای مدیریت دوره ها و تمرین ها
@@ -13,11 +13,11 @@ export default function FeatureCards() {
       <img 
         src="/icons/Frame.png" 
         alt="" 
-        className="-mt-32.5 mr-2.5 w-125 h-125 max-w-none" 
+        className="absolute top-[5px] left-[10px] w-[500px] h-[500px]" 
       />
     </div>
 
-    <div className="w-[30%] h-full rounded-[30px] bg-[#3772FF]">
+    <div className="w-[90%] md:w-[30%] mx-auto md:mx-0 h-[332px] rounded-[30px] bg-[#3772FF]">
       <div className="flex justify-between items-center p-5">
         <p className="mr-[20px] text-white text-[24px]">دوره‌های جدید تابستانه!</p>
         <div className="h-[40px] w-[40px] rounded-full bg-white flex items-center justify-center">
@@ -34,10 +34,11 @@ export default function FeatureCards() {
       <img 
         src="/images/Group 143.png" 
         alt="" 
-        className="w-50 h-50 mr-37.5 -mt-7.5 max-w-none" 
+        className="w-50 h-50 mr-30 md:mr-50 -mt-[20px] md:-mt-[-30px] max-w-none" 
       />
     </div>
-    <div className="w-[25%] h-full border-[3px] border-[#ccc] rounded-[30px]">
+
+    <div className="w-[90%] md:w-[25%] mx-auto md:mx-0 h-[332px] border-[3px] border-[#ccc] rounded-[30px]">
       <div className="flex justify-between items-center p-5">
         <p className="text-[24px]">درباره ما بیشتر بخوانید</p>
         <div className="h-10 w-10 rounded-full bg-[#3772FF] flex items-center justify-center">
