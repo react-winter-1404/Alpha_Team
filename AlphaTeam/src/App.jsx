@@ -1,15 +1,12 @@
-import AuthPage from "./pages/Auth"
-import AnimatedCard from "./test/AnimatedCard"
-import ThemeSwitcher from "./test/ThemeSwitcher"
+import { Toaster } from "react-hot-toast"
 
 
 const App = () => {
   return (
-    <>
-      {/* <AuthPage/> */}
-      {/* <ThemeSwitcher/> */}
-      <AnimatedCard/>
-    </>
+    <div className="" >
+      <Toaster/>
+
+    </div>
   )
 }
 
