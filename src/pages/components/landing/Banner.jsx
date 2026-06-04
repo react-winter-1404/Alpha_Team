@@ -7,7 +7,7 @@ const Banner = () => {
           <img
           src="/images/Group 117.png"
           alt=""
-          className="w-full h-[150%] absolute top-[-13px] md:top-[-18px] mr-[-150px] rotate-[5.5deg] md:rotate-[2.7deg] scale-[2] md:scale-[1.5] origin-center"
+          className="w-full h-[150%] absolute top-[-13px] md:top-[-18px] mr-[-20px] md:mr-[-150px] rotate-[6deg] md:rotate-[2.7deg] scale-[4] md:scale-[1.5] origin-center"
         />
       </div>
     </div>

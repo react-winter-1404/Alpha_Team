@@ -18,8 +18,8 @@ export default function NavbarHeader() {
   }
   return (
     <>
-    <Navbar maxWidth="full"  className=" relative w-full justify-between p-1.5 font-extralight" >
-      <NavbarContent justify="start">
+    <Navbar maxWidth="full"  className=" relative mx-auto w-[95%] flex items-center justify-between p-1.5 font-extralight" >
+      <NavbarContent >
         <NavbarBrand className="gap-3">
           <div className="md:w-[34px] md:h-[33px] w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-primary/30">
             <img src="/icons/Untitled-1 4.svg" alt="" style={{width:"100%", height:"100%"}}/>
@@ -30,7 +30,7 @@ export default function NavbarHeader() {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden md:flex gap-8" justify="center">
+      <NavbarContent className="hidden md:flex gap-8" >
         <NavbarItem>
           <Link to={'/'} color="foreground" className="hover:text-primary  opacity-80 hover:opacity-100 transition-colors">خانه</Link>
         </NavbarItem>
@@ -45,7 +45,7 @@ export default function NavbarHeader() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent justify="end" className="gap-2 md:gap-4">
+      <NavbarContent  className="gap-2 md:gap-4">
         <Button 
           isIconOnly 
           disableRipple
