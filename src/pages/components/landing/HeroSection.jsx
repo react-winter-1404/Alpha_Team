@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <section className="my-10 mx-auto w-[90%] md:w-3/5 text-center" >
       <div className="items-center justify-center flex flex-wrap gap-5 my-5 text-[33px] md:text-[48px]">
-        <p className="">تجربه‌ای بی‌نظیر در یادگیری</p>
+        <p className=" ">تجربه‌ای بی‌نظیر در یادگیری</p>
         <Button 
                   isIconOnly 
                   disableRipple

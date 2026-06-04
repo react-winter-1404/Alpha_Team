@@ -12,9 +12,14 @@ import { useEffect, useRef, useState } from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
-const RegisterForm = ({step,submitFuncOne,submitFuncTwo,submitFuncThree}) => {
-
+const RegisterForm = ({
+  step,
+  submitFuncOne,
+  submitFuncTwo,
+  submitFuncThree,
+}) => {
   const [isHidenPass, setIsHidenPass] = useState(true);
   const [gmailInpValue, setGmailInpValue] = useState("");
 
@@ -180,9 +185,9 @@ const RegisterForm = ({step,submitFuncOne,submitFuncTwo,submitFuncThree}) => {
 
           <div className="w-full flex justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold">
             <div className="">حساب کاربری دارید؟</div>
-            <div className="underline underline-offset-4">
+            <Link to={"/Auth/Login"} className="underline underline-offset-4">
               ورود به حساب کاربری
-            </div>
+            </Link>
           </div>
         </motion.div>
       )}
@@ -196,11 +201,17 @@ const RegisterForm = ({step,submitFuncOne,submitFuncTwo,submitFuncThree}) => {
         >
           <Formik
             onSubmit={(values) => {
-                console.log(values);
-                submitFuncTwo(values)
+              console.log({
+                ...values,
+                verifyCode: Number(values.verifyCode),
+              });
+              submitFuncTwo({
+                ...values,
+                verifyCode: Number(values.verifyCode),
+              });
             }}
             initialValues={{
-              gmail: "",
+              gmail: `${gmailInpValue}`,
               password: "",
               verifyCode: "",
               phoneNumber: "",
@@ -208,8 +219,8 @@ const RegisterForm = ({step,submitFuncOne,submitFuncTwo,submitFuncThree}) => {
             validationSchema={Yup.object({
               verifyCode: Yup.string()
                 .required("لطفا کد تایید را وارد کنید")
-                .length(6, "کد تایید باید ۶ رقمی باشد")
-                .matches(/^[0-9]{6}$/, "کد تایید فقط باید شامل اعداد باشد"),
+                .length(4, "کد تایید باید ۴ رقمی باشد")
+                .matches(/^[0-9]{4}$/, "کد تایید فقط باید شامل اعداد باشد"),
             })}
           >
             {({ values, errors, touched, setFieldValue }) => (
@@ -220,7 +231,7 @@ const RegisterForm = ({step,submitFuncOne,submitFuncTwo,submitFuncThree}) => {
 
                     <InputOTP
                       className="flex-row-reverse justify-center"
-                      maxLength={6}
+                      maxLength={4}
                       isInvalid={errors.verifyCode && touched.verifyCode}
                       inputMode="numeric"
                       pattern="^[0-9]+$"
@@ -240,23 +251,17 @@ const RegisterForm = ({step,submitFuncOne,submitFuncTwo,submitFuncThree}) => {
                           index={1}
                           className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
                         />
+                      </InputOTP.Group>
+
+                      <InputOTP.Separator className="mx-2 text-xl text-muted" />
+
+                      <InputOTP.Group className="gap-2 flex-row-reverse">
                         <InputOTP.Slot
                           index={2}
                           className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
                         />
-                      </InputOTP.Group>
-                      <InputOTP.Separator className="mx-2 text-xl text-muted" />
-                      <InputOTP.Group className="gap-2 flex-row-reverse">
                         <InputOTP.Slot
                           index={3}
-                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                        />
-                        <InputOTP.Slot
-                          index={4}
-                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                        />
-                        <InputOTP.Slot
-                          index={5}
                           className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
                         />
                       </InputOTP.Group>
@@ -322,7 +327,7 @@ const RegisterForm = ({step,submitFuncOne,submitFuncTwo,submitFuncThree}) => {
               submitFuncThree(values);
             }}
             initialValues={{
-              gmail: "",
+              gmail: `${gmailInpValue}`,
               password: "",
               verifyCode: "",
               phoneNumber: "",

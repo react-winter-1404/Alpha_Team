@@ -1,7 +1,8 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
-import { Link } from "@heroui/link";
+// import { Link } from "@heroui/link";
 import { Button } from "@heroui/button";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function NavbarHeader() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -31,7 +32,7 @@ export default function NavbarHeader() {
 
       <NavbarContent className="hidden md:flex gap-8" justify="center">
         <NavbarItem>
-          <Link href="/" color="foreground" className="hover:text-primary  opacity-80 hover:opacity-100 transition-colors">خانه</Link>
+          <Link to={'/'} color="foreground" className="hover:text-primary  opacity-80 hover:opacity-100 transition-colors">خانه</Link>
         </NavbarItem>
         <NavbarItem>
           <Link href="#" color="foreground" className="hover:text-primary  opacity-80 hover:text-primary hover:opacity-100 transition-colors">دوره‌ها</Link>
@@ -61,7 +62,7 @@ export default function NavbarHeader() {
           variant="shadow" 
           className="md:text-[16px] md:px-6 text-[16px] px-3 bg-blue-500 text-white rounded-3xl"
         >
-          ورود یا ثبت‌نام
+          <Link to={'/Auth/Login'} >ورود یا ثبت نام</Link>
         </Button>
 
         <Button

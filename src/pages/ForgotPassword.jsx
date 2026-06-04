@@ -22,7 +22,6 @@ const ForgotPasswordPage = () => {
         setStep(2);
       }
     } catch (error) {
-        // console.log(error.response.data)
       toast.error(error.response.data.message);
     }
   };
@@ -33,11 +32,13 @@ const ForgotPasswordPage = () => {
       if (response.data.success) {
         toast.success("ثبت نام شما با موفقیت انجام شد!");
         //   navigate("/Auth/Login");
+      } else {
+        toast.error(response.data.message);
       }
     } catch (error) {
       toast.error(error.response.data.message);
-    }finally{
-        console.log('fetchForgotPasswordStpTwo')
+    } finally {
+      console.log("fetchForgotPasswordStpTwo");
     }
   };
   return (

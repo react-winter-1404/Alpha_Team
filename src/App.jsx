@@ -1,21 +1,27 @@
-// import AuthPage from "./pages/Auth"
-// import AnimatedCard from "./test/AnimatedCard"
-// import ThemeSwitcher from "./test/ThemeSwitcher"
-
-
-import { RouterProvider } from "react-router-dom"
-import router from "./router/router"
-
+import { RouterProvider } from "react-router-dom";
+import router from "./router/router";
+import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
 
 const App = () => {
+  useEffect(() => {
+    JSON.parse(localStorage.getItem("token"))
+      ? localStorage.setItem("isLogin", true)
+      : localStorage.setItem("isLogin", false);
+  }, []);
+
+  window.addEventListener("storage", () => {
+    JSON.parse(localStorage.getItem("token"))
+      ? localStorage.setItem("isLogin", true)
+      : localStorage.setItem("isLogin", false);
+  });
+
   return (
     <>
-      {/* <AuthPage/> */}
-      {/* <ThemeSwitcher/> */}
-      {/* <AnimatedCard/> */}
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
+      <Toaster />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

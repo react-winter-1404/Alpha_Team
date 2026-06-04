@@ -7,15 +7,12 @@
 
 @import "tailwindcss";
 @import "@heroui/styles";
-<<<<<<< HEAD:AlphaTeam/src/index.css
-=======
+
 
 body {
-  font-family: "IRANYekan", sans-serif;
+  /* font-family: "IRANYekan", sans-serif; */
 }
 
-
->>>>>>> 44456263970bfd64da81a6abb8d0540ac03da0de:src/index.css
 :root {
   --text: #6b6375;
   --text-h: #08060d;

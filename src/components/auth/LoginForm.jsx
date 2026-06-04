@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import { Link } from "react-router-dom";
 
 const LoginForm = ({ submitFunction }) => {
   const [isHidenPass, setIsHidenPass] = useState(true);
@@ -153,7 +154,8 @@ const LoginForm = ({ submitFunction }) => {
               className="bg-[rgba(55,114,255,0.231)] text-blue-500 font-bold text-[10px] sm:text-xs"
             >
               <HugeiconsIcon icon={SecurityPasswordIcon} />
-              فراموشی رمز عبور
+              <Link to={'/Auth/ForgotPassword'} > فراموشی رمز عبور</Link>
+             
             </Button>
           </div>
 
@@ -170,7 +172,7 @@ const LoginForm = ({ submitFunction }) => {
 
       <div className="w-full flex justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold">
         <div className="">حساب کاربری ندارید؟</div>
-        <div className="underline underline-offset-4">ایجاد حساب کاربری</div>
+        <Link to={'/Auth/Register'} className="underline underline-offset-4">ایجاد حساب کاربری</Link>
       </div>
     </div>
   );

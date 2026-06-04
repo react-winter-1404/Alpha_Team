@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const LoginPage = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const fetchLogin = async (values) => {
     try {
@@ -15,7 +15,7 @@ const LoginPage = () => {
       if (response.data.success) {
         toast.success(response.data.message);
         if (response.data.token) {
-          // navigate('/');
+          navigate('/');
           localStorage.setItem("token", JSON.stringify(response.data.token));
           localStorage.setItem("isLogin", true);
         }

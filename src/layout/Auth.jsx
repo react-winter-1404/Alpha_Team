@@ -3,15 +3,13 @@ import { Button } from "@heroui/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons";
 import { motion } from "framer-motion";
-import RegisterPage from "../pages/Register";
-import LoginPage from "../pages/Login";
-import ForgotPasswordPage from "../pages/ForgotPassword";
+import { Outlet } from "react-router-dom";
 
 
 const AuthLayout = () => {
   const { theme, setTheme } = useTheme();
   return (
-    <div className="relative max-w-6xl h-screen mx-auto flex">
+    <div className="relative max-w-6xl h-screen mx-auto flex font-sans ">
       <motion.div
         className="w-full h-full flex"
         initial={{ opacity: 0, scale: 0.9, y: -20 }}
@@ -19,12 +17,10 @@ const AuthLayout = () => {
         exit={{ opacity: 0, scale: 0.95, y: -20 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
       >
-        {/* <LoginPage /> */}
-        {/* <RegisterPage /> */}
-        <ForgotPasswordPage/>
+        <Outlet/>
 
         <Button
-          className="absolute top-7 left-3 p-0 m-0 h-9 w-9 bg-default "
+          className="absolute top-7 left-3 p-0 m-0 h-9 w-9 bg-overlay border "
           onPress={() => setTheme(theme === "light" ? "dark" : "light")}
           variant="tertiary"
         >

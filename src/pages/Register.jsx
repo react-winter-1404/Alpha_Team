@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import RegisterForm from "../components/auth/RegisterForm";
 import { useState } from "react";
 import toast from "react-hot-toast";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   postRgisterDataStpOne,
   postRgisterDataStpThree,
@@ -12,7 +12,7 @@ import {
 
 const RegisterPage = () => {
   const [step, setStep] = useState(1);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const fetchRgisterStpOne = async (values) => {
     try {
@@ -31,12 +31,14 @@ const RegisterPage = () => {
       const response = await postRgisterDataStpTwo(values);
       console.log(response.data);
       if (response.data.success) {
-        toast.success("کد شما تایید شد لطفا اطلاعات خود را کامل کنید");
+        toast.success(response.data.message);
         setStep(3);
+      }else{
+        toast.error(response.data.message);
       }
     } catch (error) {
       console.log(error.response);
-      toast.error("کد وارد شده نادرست می باشد لطفا دوباره امتحان کنید.");
+      toast.error(error.response.message);
     }
   };
   const fetchRgisterStpThree = async (values) => {
@@ -45,7 +47,9 @@ const RegisterPage = () => {
     console.log(response.data);
     if (response.data.success) {
       toast.success("ثبت نام شما با موفقیت انجام شد!");
-      //   navigate("/Auth/Login");
+      navigate("/Auth/Login");
+    }else{
+      toast.error(response.data.message);
     }} catch (error) {
       toast.error(error.response.data.message);
     }
