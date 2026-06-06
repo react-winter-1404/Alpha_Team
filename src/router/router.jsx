@@ -4,6 +4,9 @@ import AuthLayout from "../layout/Auth";
 import LoginPage from "../pages/Login";
 import RegisterPage from "../pages/Register";
 import ForgotPasswordPage from "../pages/ForgotPassword";
+import NotFound404Page from "../pages/NotFound404";
+import ContactUsPage from "../pages/ContactUs";
+import AboutUsPage from "../pages/AboutUs";
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -16,6 +19,9 @@ const router = createBrowserRouter([
       { path: "/Auth/ForgotPassword", element: <ForgotPasswordPage /> },
     ],
   },
+  { path: "/About_Us", element: <AboutUsPage/> },
+  { path: "/Contact_Us", element: <ContactUsPage/> },
+  { path: "*", element: <NotFound404Page/> },
 ]);
 
 export default router;

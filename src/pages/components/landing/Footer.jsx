@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -29,8 +29,9 @@ const Footer = () => {
             <li className="text-[#787878] dark:text-white mb-5">ما</li>
             
             <li>اساتید</li>
-            <li>درباره ما</li>
-            <li>ارتباط با ما</li>
+            <li><Link to={"/About_Us"} > درباره ما </Link></li>
+            <li><Link to={"/Contact_Us"} > ارتباط با ما </Link></li>
+            
           </ul>
         </div>
 

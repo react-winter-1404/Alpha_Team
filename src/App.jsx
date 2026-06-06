@@ -3,6 +3,8 @@ import router from "./router/router";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 
+
+
 const App = () => {
   useEffect(() => {
     JSON.parse(localStorage.getItem("token"))

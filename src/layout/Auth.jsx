@@ -7,7 +7,7 @@ import { Outlet } from "react-router-dom";
 
 
 const AuthLayout = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme("system");
   return (
     <div className="relative max-w-6xl h-screen mx-auto flex font-sans ">
       <motion.div

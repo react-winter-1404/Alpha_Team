@@ -1,17 +1,20 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
-// import { Link } from "@heroui/link";
+import { useTheme } from "@heroui/use-theme";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons";
 import { Button } from "@heroui/button";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function NavbarHeader() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  // const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme("system");
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle("dark");
-  };
+  // const toggleTheme = () => {
+  //   setIsDarkMode(!isDarkMode);
+  //   document.documentElement.classList.toggle("dark");
+  // };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -41,7 +44,7 @@ export default function NavbarHeader() {
           <Link href="#" color="foreground" className="hover:text-primary  opacity-80 hover:text-primary hover:opacity-100 transition-colors">اخبار و مقالات</Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="#" color="foreground" className="hover:text-primary  opacity-80 hover:text-primary hover:opacity-100 transition-colors">ارتباط با ما</Link>
+          <Link to={'/Contact_Us'} color="foreground" className="hover:text-primary  opacity-80 hover:text-primary hover:opacity-100 transition-colors">ارتباط با ما</Link>
         </NavbarItem>
       </NavbarContent>
 
@@ -50,10 +53,14 @@ export default function NavbarHeader() {
           isIconOnly 
           disableRipple
           variant="flat" 
-          onClick={toggleTheme}
-          className="text-xl border-solid border dark:border-gray-600 rounded-full border-gray-200 text-center"
+          onPress={() => setTheme(theme === "light" ? "dark" : "light")}
+          className="text-xl border-solid border flex items-center justify-center dark:border-gray-600 rounded-full border-gray-200 text-center"
         >
-          {isDarkMode ? "☀️" : "🌙"}
+          {theme === "light" ? (
+            <HugeiconsIcon icon={Moon02Icon} className=" m-0 w-4 h-4 " />
+          ) : (
+            <HugeiconsIcon icon={Sun03Icon} className=" m-0 w-4 h-4 " />
+          )}
         </Button>
         
         <Button 

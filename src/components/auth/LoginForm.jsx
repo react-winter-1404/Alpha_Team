@@ -151,7 +151,7 @@ const LoginForm = ({ submitFunction }) => {
             </div>
             <Button
               variant="secondary"
-              className="bg-[rgba(55,114,255,0.231)] text-blue-500 font-bold text-[10px] sm:text-xs"
+              className="bg-[rgba(55,114,255,0.231)] text-accent font-bold text-[10px] sm:text-xs"
             >
               <HugeiconsIcon icon={SecurityPasswordIcon} />
               <Link to={'/Auth/ForgotPassword'} > فراموشی رمز عبور</Link>

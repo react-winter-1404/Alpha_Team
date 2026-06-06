@@ -31,7 +31,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
           exit={{ opacity: 0, scale: 0.95, y: -20 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          <div className="border border-red-600 w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
+          <div className=" w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
             <div className="w-full flex flex-col gap-4 sm:gap-6">
               <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold">
                 <div className="">فراموشی رمزعبور؟</div>
@@ -69,7 +69,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
               }}
             >
               {() => (
-                <Form className="border border-black w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
+                <Form className=" w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
                   <div className="flex flex-col gap-3 sm:gap-5">
                     <label
                       htmlFor="email"
@@ -125,7 +125,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
           exit={{ opacity: 0, scale: 0.95, y: -20 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          <div className="border border-red-600 w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
+          <div className=" w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
             <div className="w-full flex flex-col gap-4 sm:gap-6">
               <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold">
                 <div className="">رمزعبور جدید</div>
@@ -144,7 +144,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
               }}
               initialValues={{
                 email: "",
-                gamil:gmailInpValue,
+                gmail:gmailInpValue,
                 newPassword: "",
                 newPassword1: "",
                 resetValue: "",
@@ -181,7 +181,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
               })}
             >
               {({ values, errors, touched, setFieldValue }) => (
-                <Form className="border border-black w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
+                <Form className=" w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
                   <div className="flex flex-col gap-3 sm:gap-5">
                     <div className="w-full flex flex-col gap-1 sm:gap-1.5">
                       <label
