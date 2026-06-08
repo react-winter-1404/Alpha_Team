@@ -7,6 +7,8 @@ import ForgotPasswordPage from "../pages/ForgotPassword";
 import NotFound404Page from "../pages/NotFound404";
 import ContactUsPage from "../pages/ContactUs";
 import AboutUsPage from "../pages/AboutUs";
+import ListingPage from "../pages/ListingPage";
+import CourseDetailPage from "../pages/CourseDetail";
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -19,9 +21,11 @@ const router = createBrowserRouter([
       { path: "/Auth/ForgotPassword", element: <ForgotPasswordPage /> },
     ],
   },
-  { path: "/About_Us", element: <AboutUsPage/> },
-  { path: "/Contact_Us", element: <ContactUsPage/> },
-  { path: "*", element: <NotFound404Page/> },
+  { path: "/About_Us", element: <AboutUsPage /> },
+  { path: "/Contact_Us", element: <ContactUsPage /> },
+  { path: "*", element: <NotFound404Page /> },
+  { path: "/courses", element: <ListingPage /> },
+  { path: "/coursDetail", element: <CourseDetailPage/> }
 ]);
 
 export default router;

@@ -3,7 +3,7 @@
 import React from 'react';
 import { Pagination } from "@heroui/react";
 
-export function CoursePagination({ page, totalPages, itemsPerPage, totalItems, onPageChange }) {
+ function CoursePagination({ page, totalPages, itemsPerPage, totalItems, onPageChange }) {
   
   const getPageNumbers = () => {
     const pages = [];
@@ -90,3 +90,4 @@ export function CoursePagination({ page, totalPages, itemsPerPage, totalItems, o
     </Pagination>
   );
 }
+export default CoursePagination;

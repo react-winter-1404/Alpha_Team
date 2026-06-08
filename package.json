@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@gravity-ui/icons": "^2.18.0",
     "@heroui/button": "^2.2.32",
     "@heroui/link": "^2.2.26",
     "@heroui/navbar": "^2.2.30",

@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+// import React from "react";
 import { Tag, TagGroup } from "@heroui/react";
 
-export function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
+function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
   
   const handleSelectionChange = (keys) => {
     const selectedId = Array.from(keys)[0];
@@ -68,3 +68,4 @@ export function CourseSorting({ currentSortingCol, currentSortType, onSortChange
     </div>
   );
 }
+export default CourseSorting;
