@@ -9,6 +9,7 @@ import ContactUsPage from "../pages/ContactUs";
 import AboutUsPage from "../pages/AboutUs";
 import ListingPage from "../pages/ListingPage";
 import CourseDetailPage from "../pages/CourseDetail";
+import NewsPage from "../pages/NewsPage"
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
   { path: "*", element: <NotFound404Page /> },
   { path: "/courses", element: <ListingPage /> },
   { path: "/coursDetail", element: <CourseDetailPage/> }
+  ,{ path: "/News", element: <NewsPage/> }
 ]);
 
 export default router;

@@ -1,6 +1,5 @@
 "use client";
 
-// import React from "react";
 import { Tag, TagGroup } from "@heroui/react";
 
 function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
