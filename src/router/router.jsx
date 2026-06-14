@@ -25,7 +25,7 @@ const router = createBrowserRouter([
   { path: "/Contact_Us", element: <ContactUsPage /> },
   { path: "*", element: <NotFound404Page /> },
   { path: "/courses", element: <ListingPage /> },
-  { path: "/coursDetail", element: <CourseDetailPage/> }
+  { path: "/courses/:id", element: <CourseDetailPage/> }
 ]);
 
 export default router;

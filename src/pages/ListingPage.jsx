@@ -144,6 +144,7 @@ const ListingPage = () => {
                   number={course.capacity || 0}
                   price={course.cost !== undefined && course.cost !== null ? course.cost.toLocaleString() : "0"}
                   rating={course.courseRate?.avg || 0}
+                  id={course.courseId}
                 />
               ))}
             </div>

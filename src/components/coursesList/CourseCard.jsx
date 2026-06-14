@@ -4,6 +4,7 @@ import { ToggleButton } from "@heroui/react";
 // import teacherIcon from '../../assets/CourseCards/teacher-stroke-rounded 1.png'
 // import Calendar from '../../assets/CourseCards/calendar-03-stroke-rounded 1.png';
 // import studentIcon from '../../assets/CourseCards/students-stroke-rounded 1.png'
+import { Link } from "react-router-dom";
 
  const CourseCard = ({
   viewMode, 
@@ -14,7 +15,8 @@ import { ToggleButton } from "@heroui/react";
   number,
   rating,
   teacher,
-  price
+  price,
+  id
 }) => {
   const isRow = viewMode === 'row';
 
@@ -38,9 +40,9 @@ import { ToggleButton } from "@heroui/react";
       <div className={`flex flex-col justify-between flex-1 ${isRow ? 'h-full py-2 px-2' : 'px-4 py-3'}`}>
         
         <div style={{ direction: 'rtl' }}>
-          <h1 className={`font-black text-[#2B2B2B] ${isRow ? 'text-[24px] text-right mb-1' : 'text-[32px] text-center'}`}>
+          <Link to={`/courses/${id}`} className={`font-black text-[#2B2B2B] ${isRow ? 'text-[24px] text-right mb-1' : 'text-[32px] text-center'}`}>
             {title}
-          </h1>
+          </Link>
           <span className={`block text-[#A7A7A7] text-[14px] leading-7 ${isRow ? 'text-right mt-1 line-clamp-2' : 'text-center mt-2'}`}>
             {discribtion}
           </span>

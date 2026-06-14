@@ -1,102 +1,200 @@
 import NavbarHeader from "./components/landing/NavbarHeader";
-import { Button, Chip } from "@heroui/react";
-import { HugeiconsIcon } from "@hugeicons/react";
+import Footer from "./components/landing/Footer";
+import CourseCard from "../components/coursesList/CourseCard";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import InfoBox from "../components/courseDetail/InfoBox";
+import DetailSection from "../components/courseDetail/DetailSection";
 import {
-  StudentsIcon,
-  Calendar03Icon,
-  StarIcon,
-  BookmarkAdd02Icon,
-  ThumbsUpIcon,
-  ThumbsDownIcon,
-} from "@hugeicons/core-free-icons";
+  getAllTechs,
+  getCourseDetails,
+  getCoursesWithPagination,
+} from "../core/services/Course/get";
 
 const CourseDetailPage = () => {
-  return (
-    <div className=" w-full  flex flex-col items-center ">
-      <NavbarHeader />
-      <div className=" border border-black flex items-start w-[92%] gap-[5%] pt-18.25 ">
-        <div className=" border-4  w-[40%] sticky top-32 bg-overlay flex flex-col rounded-3xl px-5 pt-3.25 pb-5 ">
-          <Button
-            variant="danger-soft"
-            className=" h-6.25 w-29 flex items-center gap-2.5 text-center p-0 pb-1 font-semibold  "
-          >
-            <span className=" w-2 h-2 bg-danger rounded-full mt-1 "></span>
-            درحال برگزاری
-          </Button>
-          <div className=" flex items-start mt-6 ">
-            <div className=" text-5xl font-semibold ">ری‌اکت جی‌اس</div>
-            <div className=" font-bold text-lg flex items-center ">
-              (4{" "}
-              <HugeiconsIcon
-                icon={StarIcon}
-                size={16}
-                color="yellow"
-                fill="yellow"
-              />{" "}
-              )
-            </div>
-          </div>
-          <div className=" flex mt-8 text-lg gap-2 ">
-            <Chip
-              variant="primary"
-              color="accent"
-              className=" text-[15px] h-8.5 px-3 pb-1.5 "
-            >
-              برنامه نویسی
-            </Chip>
-            <Chip
-              variant="primary"
-              color="accent"
-              className=" text-[15px] h-8.5 px-3 pb-1.5 "
-            >
-              مبتدی
-            </Chip>
-          </div>
-          <div className=" flex flex-col gap-5 text-xl font-bold my-8 ">
-            <div className=" flex gap-4 items-center  ">
-              <HugeiconsIcon icon={StudentsIcon} size={26} />
-              <div className="">80 / 120 دانشجو</div>
-            </div>
-            <div className=" flex gap-4 items-center  ">
-              <HugeiconsIcon icon={Calendar03Icon} size={26} />
-              <div className="">
-                20 اردیبهشت 1403
-                <span className=" text-muted text-lg font-medium ">(شروع)</span>
-              </div>
-            </div>
-            <div className=" flex gap-4 items-center  ">
-              <HugeiconsIcon icon={Calendar03Icon} size={26} />
-              <div className="">
-                20 اردیبهشت 1403
-                <span className=" text-muted text-lg font-medium ">
-                  (پایان)
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className=" font-semibold flex gap-1.5 items-end ">
-            <span className="text-3xl ">1,800,000</span>
-            <span className=" text-accent ">تومان</span>
-          </div>
-          <div className=" flex justify-between mt-9 ">
-            <Button className=" w-[56%] h-15 rounded-full font-bold text-xl pb-2 ">
-              رزرو دوره
-            </Button>
-            <Button  variant="outline" className=' h-15 w-15 rounded-full p-0 text-2xl  ' >
-              <HugeiconsIcon icon={BookmarkAdd02Icon} className=" h-6.5 w-6.5 " />
-            </Button>
-            <Button isIconOnly variant="outline" className=' h-15 w-15 rounded-full p-0 text-2xl  ' >
-              <HugeiconsIcon icon={ThumbsUpIcon} className=" h-6.5 w-6.5 " />
-            </Button>
-            <Button isIconOnly variant="outline" className=' h-15 w-15 rounded-full p-0 text-2xl  ' >
-              <HugeiconsIcon icon={ThumbsDownIcon} className=" h-6.5 w-6.5 " />
-            </Button>
-          </div>
+  const Params = useParams();
+  // console.log(Params);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const [courseDetail, setCourseDetail] = useState([]);
+  const [courses, setCourses] = useState([]);
+
+  let techsList = [];
+  const fetchCourseDetail = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getCourseDetails({ courseId: Params.id });
+      setCourseDetail(response.data);
+    } catch (error) {
+      console.error(error);
+      setIsError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  console.log(courseDetail.courseTech);
+  if (courseDetail.courseTech) {
+    for (let i of courseDetail.courseTech) {
+      techsList.push(i.tech.techName);
+    }
+    // console.log(techsList)
+  }
+
+  const [techIdList, setTechIdList] = useState([]);
+  const [techs, setTechs] = useState([]);
+
+  const fetchTechs = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getAllTechs();
+      setTechs(response.data);
+      // console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  function addTechId() {
+    let technologysList = [];
+    if (techs) {
+      // console.log(techs)
+      for (let i of techs) {
+        // console.log(i.techName)
+        for (let j of techsList) {
+          // console.log(j)
+          if (i.techName == j) {
+            technologysList.push(i.id);
+          }
+        }
+      }
+    }
+    setTechIdList(technologysList.join(","));
+  }
+  // console.log(techIdList)
+
+  const fetchCourse = async () => {
+    if (techIdList != "") {
+      setIsLoading(true);
+      try {
+        const response = await getCoursesWithPagination({
+          rowsOfPage: 4,
+          pageNumber: 1,
+          techCount: 1,
+          listTech: techIdList,
+        });
+        setCourses(response.data.courseFilterDtos);
+        // console.log(response.data)
+      } catch (error) {
+        console.error(error);
+        setIsError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchCourseDetail();
+  }, [Params.id]);
+  useEffect(() => {
+    fetchTechs();
+  }, []);
+  useEffect(() => {
+    addTechId();
+  }, [techsList]);
+  useEffect(() => {
+    fetchCourse();
+  }, [techIdList]);
+  // console.log(courses)
+
+  if (isLoading) {
+    return (
+      <div className="w-full flex flex-col items-center">
+        <NavbarHeader />
+        <div className="flex justify-center items-center h-screen">
+          <div className="text-2xl">در حال بارگذاری...</div>
         </div>
-        <div className=" border border-black w-[55%] h-500 "></div>
+        <Footer />
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="w-full flex flex-col items-center">
+        <NavbarHeader />
+        <div className="flex justify-center items-center h-screen">
+          <div className="text-2xl text-red-500">خطا در بارگذاری اطلاعات</div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+  if (!isLoading && !isError) {
+    return (
+      <div className=" w-full  flex flex-col items-center  ">
+        <NavbarHeader />
+        <div className=" border border-black flex flex-col lg:flex-row items-start w-[90.5%] gap-10 lg:gap-[4.75%] pt-16 ">
+          <InfoBox
+            title={courseDetail.title}
+            courseLevelName={courseDetail.courseLevelName}
+            capacity={courseDetail.capacity}
+            startTime={courseDetail.startTime}
+            endTime={courseDetail.endTime}
+            cost={courseDetail.cost}
+            isActive={courseDetail.isActive}
+            courseRate={courseDetail.courseRate}
+            courseTech={[...techsList]}
+          />
+          <DetailSection
+            title={courseDetail.title}
+            courseId={courseDetail.courseId}
+            imageAddress={courseDetail.imageAddress}
+            teacherId={courseDetail.teacherId}
+            teacherName={courseDetail.teacherName}
+            miniDescribe={courseDetail.miniDescribe}
+            describe={courseDetail.describe}
+          />
+        </div>
+        {courses.length >= 1 && (
+          <div className=" mt-10  flex flex-col  w-[90.5%] gap-10 lg:gap-15 pt-16 px-5 ">
+            <div className=" text-5xl ">دوره های دیگر</div>
+            <div className="  flex flex-wrap gap-5.75 justify-center  ">
+              {courses.map((course, index) => (
+                <CourseCard
+                  key={course.id || course.courseId || index}
+                  viewMode={"gird"}
+                  imageURL={
+                    course.tumbImageAddress ||
+                    course.imageAddress ||
+                    "https://via.placeholder.com/315x225"
+                  }
+                  title={course.title || course.courseName || ""}
+                  discribtion={course.describe || course.shortDescribe || ""}
+                  teacher={course.teacherName || "مدرس دوره"}
+                  date={course.lastUpdate || course.startDate || ""}
+                  number={course.capacity || 0}
+                  price={
+                    course.cost !== undefined && course.cost !== null
+                      ? course.cost.toLocaleString()
+                      : "0"
+                  }
+                  rating={course.courseRate?.avg || 0}
+                  id={course.courseId}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <Footer />
+      </div>
+    );
+  }
 };
 
 export default CourseDetailPage;

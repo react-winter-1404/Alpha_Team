@@ -54,6 +54,16 @@ body {
   box-sizing: border-box;
   direction: rtl;
 }
+.emoji-picker-light {
+  --epr-bg-color: #f3f4f6 !important;  /* gray-100 */
+  --epr-category-label-bg-color: #f3f4f6 !important;
+  --epr-hover-bg-color: #e5e7eb !important;
+}
+.emoji-picker-dark {
+  --epr-bg-color: #1a1a1a !important;
+  --epr-text-color: #ffffff !important;
+  --epr-hover-bg-color: #333333 !important;
+}
 
 /*
 در کد های پایین تم رو عوض کردم و یک تم نزدیک به پروژه رو گذاشتم

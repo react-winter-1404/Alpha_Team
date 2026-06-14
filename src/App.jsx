@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 const App = () => {
   useEffect(() => {
-    JSON.parse(localStorage.getItem("token"))
+    localStorage.getItem("token")
       ? localStorage.setItem("isLogin", true)
       : localStorage.setItem("isLogin", false);
   }, []);
