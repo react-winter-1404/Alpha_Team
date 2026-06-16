@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Spinner } from '@heroui/react';
 import CourseFilters from '../components/coursesList/CourseFilters';
-import { CourseCard } from '../components/coursesList/CourseCard';
-import { CoursePagination } from '../components/coursesList/CoursePagination';
-import { CourseSorting } from '../components/coursesList/CourseSorting';
+import  CourseCard  from '../components/coursesList/CourseCard';
+import  CoursePagination  from '../components/coursesList/CoursePagination';
+import  CourseSorting  from '../components/coursesList/CourseSorting';
 
 const ListingPage = () => {
   const [courses, setCourses] = useState([]);
@@ -144,6 +144,7 @@ const ListingPage = () => {
                   number={course.capacity || 0}
                   price={course.cost !== undefined && course.cost !== null ? course.cost.toLocaleString() : "0"}
                   rating={course.courseRate?.avg || 0}
+                  id={course.courseId}
                 />
               ))}
             </div>

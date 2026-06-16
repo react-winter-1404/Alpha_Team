@@ -1,11 +1,17 @@
-import React from 'react'
+// import React from 'react'
 import { Heart } from "@gravity-ui/icons";
 import { ToggleButton } from "@heroui/react";
+
 // import teacherIcon from 'public/icons/teacher-stroke-rounded 1.png'
 // import Calendar from 'public/icons/calendar-03-stroke-rounded 1.png';
 // import studentIcon from 'public/icons/students-stroke-rounded 1.png'
 
-export const CourseCard = ({
+// import teacherIcon from '../../assets/CourseCards/teacher-stroke-rounded 1.png'
+// import Calendar from '../../assets/CourseCards/calendar-03-stroke-rounded 1.png';
+// import studentIcon from '../../assets/CourseCards/students-stroke-rounded 1.png'
+import { Link } from "react-router-dom";
+
+ const CourseCard = ({
   viewMode, 
   imageURL,
   discribtion,
@@ -14,7 +20,8 @@ export const CourseCard = ({
   number,
   rating,
   teacher,
-  price
+  price,
+  id
 }) => {
   const isRow = viewMode === 'row';
 
@@ -38,9 +45,9 @@ export const CourseCard = ({
       <div className={`flex flex-col justify-between flex-1 ${isRow ? 'h-full py-2 px-2' : 'px-4 py-3'}`}>
         
         <div style={{ direction: 'rtl' }}>
-          <h1 className={`font-black text-[#2B2B2B] ${isRow ? 'text-[24px] text-right mb-1' : 'text-[32px] text-center'}`}>
+          <Link to={`/courses/${id}`} className={`font-black text-[#2B2B2B] ${isRow ? 'text-[24px] text-right mb-1' : 'text-[32px] text-center'}`}>
             {title}
-          </h1>
+          </Link>
           <span className={`block text-[#A7A7A7] text-[14px] leading-7 ${isRow ? 'text-right mt-1 line-clamp-2' : 'text-center mt-2'}`}>
             {discribtion}
           </span>
@@ -51,17 +58,17 @@ export const CourseCard = ({
           style={{ direction: 'rtl' }}
         >
           <div className='flex items-center gap-2'>
-            <img src={""} className='w-5 h-5' alt="teacher" />
+            <img src={''} className='w-5 h-5' alt="teacher" />
             <span className='text-[16px] font-bold text-[#2B2B2B]'>{teacher}</span>
           </div>
 
           <div className='flex items-center gap-2'>
-            <img src={""} className='w-5 h-5' alt="calendar" />
+            <img src={''} className='w-5 h-5' alt="calendar" />
             <span className='text-[16px] font-bold text-[#2B2B2B]'>{date}</span>
           </div>
 
           <div className='flex items-center gap-2'>
-            <img src={""} className='w-5 h-5' alt="students" />
+            <img src={''} className='w-5 h-5' alt="students" />
             <span className='text-[16px] font-bold text-[#2B2B2B]'>{number} دانشجو</span>
           </div>
         </div>
@@ -90,3 +97,4 @@ export const CourseCard = ({
     </div>
   )
 }
+export default CourseCard;

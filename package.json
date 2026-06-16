@@ -19,6 +19,7 @@
     "@hugeicons/core-free-icons": "^4.1.4",
     "@hugeicons/react": "^1.1.6",
     "axios": "^1.16.1",
+    "emoji-picker-react": "^4.19.1",
     "formik": "^2.4.9",
     "framer-motion": "^12.40.0",
     "persian-datepicker-react": "^1.0.50",
@@ -29,6 +30,7 @@
     "react-hook-form": "^7.78.0",
     "react-hot-toast": "^2.6.0",
     "react-multi-date-picker": "^4.5.2",
+    "react-resize-detector": "^12.3.0",
     "react-router-dom": "^7.15.1",
     "yup": "^1.7.1"
   },

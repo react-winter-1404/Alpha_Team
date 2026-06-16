@@ -3,12 +3,13 @@ import router from "./router/router";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 // import ListingPage from "../src/pages/ListingPage";
+// import {ListingPage} from "../src/pages/ListingPage";
 
 
 
 const App = () => {
   useEffect(() => {
-    JSON.parse(localStorage.getItem("token"))
+    localStorage.getItem("token")
       ? localStorage.setItem("isLogin", true)
       : localStorage.setItem("isLogin", false);
   }, []);
