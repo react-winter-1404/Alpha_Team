@@ -1,9 +1,9 @@
 import React from 'react'
 import { Heart } from "@gravity-ui/icons";
 import { ToggleButton } from "@heroui/react";
-import teacherIcon from '../../assets/CourseCards/teacher-stroke-rounded 1.png'
-import Calendar from '../../assets/CourseCards/calendar-03-stroke-rounded 1.png';
-import studentIcon from '../../assets/CourseCards/students-stroke-rounded 1.png'
+// import teacherIcon from 'public/icons/teacher-stroke-rounded 1.png'
+// import Calendar from 'public/icons/calendar-03-stroke-rounded 1.png';
+// import studentIcon from 'public/icons/students-stroke-rounded 1.png'
 
 export const CourseCard = ({
   viewMode, 
@@ -51,17 +51,17 @@ export const CourseCard = ({
           style={{ direction: 'rtl' }}
         >
           <div className='flex items-center gap-2'>
-            <img src={teacherIcon} className='w-5 h-5' alt="teacher" />
+            <img src={""} className='w-5 h-5' alt="teacher" />
             <span className='text-[16px] font-bold text-[#2B2B2B]'>{teacher}</span>
           </div>
 
           <div className='flex items-center gap-2'>
-            <img src={Calendar} className='w-5 h-5' alt="calendar" />
+            <img src={""} className='w-5 h-5' alt="calendar" />
             <span className='text-[16px] font-bold text-[#2B2B2B]'>{date}</span>
           </div>
 
           <div className='flex items-center gap-2'>
-            <img src={studentIcon} className='w-5 h-5' alt="students" />
+            <img src={""} className='w-5 h-5' alt="students" />
             <span className='text-[16px] font-bold text-[#2B2B2B]'>{number} دانشجو</span>
           </div>
         </div>
