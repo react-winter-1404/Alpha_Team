@@ -1,6 +1,11 @@
 // import React from 'react'
 import { Heart } from "@gravity-ui/icons";
 import { ToggleButton } from "@heroui/react";
+
+// import teacherIcon from 'public/icons/teacher-stroke-rounded 1.png'
+// import Calendar from 'public/icons/calendar-03-stroke-rounded 1.png';
+// import studentIcon from 'public/icons/students-stroke-rounded 1.png'
+
 // import teacherIcon from '../../assets/CourseCards/teacher-stroke-rounded 1.png'
 // import Calendar from '../../assets/CourseCards/calendar-03-stroke-rounded 1.png';
 // import studentIcon from '../../assets/CourseCards/students-stroke-rounded 1.png'

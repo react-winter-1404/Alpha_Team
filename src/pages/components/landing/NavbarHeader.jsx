@@ -27,9 +27,7 @@ export default function NavbarHeader() {
           <div className="md:w-[34px] md:h-[33px] w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-primary/30">
             <img src="/icons/Untitled-1 4.svg" alt="" style={{width:"100%", height:"100%"}}/>
           </div>
-          <p className="hidden md:block text-2xl  text-blue-400 bg-clip-text ">
-            آکادمی کد نویسی بحر
-          </p>
+          <img src="/public/icons/Untitled-1 3.png" alt="" className="mt-4 w-[189.1px] h-[37.69px]"/>
         </NavbarBrand>
       </NavbarContent>
 

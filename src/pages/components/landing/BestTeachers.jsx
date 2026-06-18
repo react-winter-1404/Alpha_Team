@@ -1,6 +1,28 @@
+import { useEffect, useState } from "react"
+import { Teachers } from "../../../core/services/get"
 
 
 const BestTeachers = () => {
+
+  const [course, setCourse] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+    
+  useEffect(() => {
+    const fetchCourses = async () => {
+    setIsLoading(true)
+    
+    try {
+      const response = await Teachers({pageNumber:1, rowsOfPage:8})
+      setCourse(response.data.news)
+      console.log("دیتای دریافتی از سمت سرور", response.data)
+    } catch (error) {
+      console.log(error)
+    } finally{
+        setIsLoading(false)
+      }
+    }
+      fetchCourses()
+    }, [])
 
   return (
     <div className="m-auto w-[95%] mt-15">
@@ -10,8 +32,11 @@ const BestTeachers = () => {
       </div>
 
       <div className="flex flex-wrap justify-center items-end gap-[100px] ">
-
-        <div className="relative border-4 border-[#e4e4e4] bg-[#fefdff] dark:bg-[#585757] h-[297px] w-[90%] md:w-[20%] flex flex-col gap-2 rounded-[24px] text-center">
+        {
+          isLoading ? (<p>در حال فراخوانی...</p>):
+        (
+        <>
+          <div className="relative border-4 border-[#e4e4e4] bg-[#fefdff] dark:bg-[#585757] h-[297px] w-[90%] md:w-[20%] flex flex-col gap-2 rounded-[24px] text-center">
           <div className="absolute h-[64px] w-[64px] bg-[#787878] rounded-full top-[-32px] right-[95px]"></div>
 
           <span className="mt-[50px] block text-[20px] md:text-[24px] text-[#272727] dark:text-white">محمدحسین بحرالعلومی</span>
@@ -49,6 +74,10 @@ const BestTeachers = () => {
 
           <button className="cursor-pointer mx-auto w-[90%] h-[40px] text-[20px] text-[#fefdff] rounded-[65px] bg-[#3772ff]">صفحه استاد</button>
         </div>
+        </>
+        
+
+        )}
 
       </div>
 

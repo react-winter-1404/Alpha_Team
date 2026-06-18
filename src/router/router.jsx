@@ -7,6 +7,7 @@ import ForgotPasswordPage from "../pages/ForgotPassword";
 import NotFound404Page from "../pages/NotFound404";
 import ContactUsPage from "../pages/ContactUs";
 import AboutUsPage from "../pages/AboutUs";
+import Panel from "../layout/Panel";
 import ListingPage from "../pages/ListingPage";
 import CourseDetailPage from "../pages/CourseDetail";
 import NewsPage from "../pages/NewsPage";
@@ -14,6 +15,7 @@ import NewsDetailPage from "../pages/NewsDetail";
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
+  { path: "/panel", element: <Panel /> },
   {
     path: "/Auth",
     element: <AuthLayout />,

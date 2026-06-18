@@ -13,7 +13,7 @@ const PopularCourse = () => {
     month: "long",
     day: "numeric",
   }).format(date);
-};
+}
 
   const [course, setCourse] = useState([])
   const [isLoading, setIsLoading] = useState(false)
