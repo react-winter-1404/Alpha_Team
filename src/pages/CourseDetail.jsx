@@ -13,7 +13,7 @@ import {
 
 const CourseDetailPage = () => {
   const Params = useParams();
-  // console.log(Params);
+
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);

@@ -41,7 +41,7 @@ export default function NavbarHeader() {
           <Link to={"/courses"} color="foreground" className="hover:text-primary  opacity-80 hover:text-primary hover:opacity-100 transition-colors">دوره‌ها</Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="#" color="foreground" className="hover:text-primary  opacity-80 hover:text-primary hover:opacity-100 transition-colors">اخبار و مقالات</Link>
+          <Link to={'/news'} color="foreground" className="hover:text-primary  opacity-80 hover:text-primary hover:opacity-100 transition-colors">اخبار و مقالات</Link>
         </NavbarItem>
         <NavbarItem>
           <Link to={'/Contact_Us'} color="foreground" className="hover:text-primary  opacity-80 hover:text-primary hover:opacity-100 transition-colors">ارتباط با ما</Link>
