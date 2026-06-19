@@ -37,12 +37,10 @@ import { Pagination } from "@heroui/react";
   return (
     <Pagination className="w-full flex flex-col items-center gap-3" style={{ direction: 'rtl' }}>
       
-      {/* بخش خلاصه وضعیت تعداد دوره‌ها */}
       <Pagination.Summary className="text-gray-500 text-sm font-medium">
         نمایش {startItem} تا {endItem} از مجموع {totalItems} دوره یافت شده
       </Pagination.Summary>
       
-      {/* دکمه‌های ناوبری صفحات */}
       <Pagination.Content className="flex items-center gap-1" style={{ direction: 'ltr' }}>
         <Pagination.Item>
           <Pagination.Previous 
