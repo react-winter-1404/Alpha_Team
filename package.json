@@ -27,7 +27,7 @@
     "react-circular-progressbar": "^2.2.0",
     "react-dom": "^19.2.6",
     "react-element-popper": "^2.1.7",
-    "react-hook-form": "^7.78.0",
+    "react-hook-form": "^7.79.0",
     "react-hot-toast": "^2.6.0",
     "react-multi-date-picker": "^4.5.2",
     "react-resize-detector": "^12.3.0",
@@ -51,9 +51,9 @@
     "vite": "^8.0.12"
   },
   "overrides": {
-  "@react-types/shared": "3.34.0",
-  "react-aria": "3.49.0",
-  "react-stately": "3.47.0",
-  "react-aria-components": "1.18.0"
-}
+    "@react-types/shared": "3.34.0",
+    "react-aria": "3.49.0",
+    "react-stately": "3.47.0",
+    "react-aria-components": "1.18.0"
+  }
 }
