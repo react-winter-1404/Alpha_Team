@@ -18,6 +18,7 @@ const LoginPage = () => {
           navigate('/');
           localStorage.setItem("token", JSON.stringify(response.data.token));
           localStorage.setItem("isLogin", true);
+          localStorage.setItem("userId", JSON.stringify(response.data.id));
         }
       }
     } catch (error) {

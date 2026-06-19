@@ -127,6 +127,7 @@ const NewsPage = () => {
                   date={new Date(news.insertDate).toLocaleDateString("fa-IR")}
                   like={news.currentLikeCount}
                   dislike={news.currentDissLikeCount}
+                  id={news.id}
                 />
               </div>
             ))

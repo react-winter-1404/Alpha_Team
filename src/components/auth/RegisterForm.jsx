@@ -192,127 +192,135 @@ const RegisterForm = ({
         </motion.div>
       )}
       {step == 2 && (
-        <motion.div
-          className="w-full flex flex-col gap-3 sm:gap-5"
-          initial={{ opacity: 0, scale: 0.9, y: -20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: -20 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        >
-          <Formik
-            onSubmit={(values) => {
-              console.log({
-                ...values,
-                verifyCode: Number(values.verifyCode),
-              });
-              submitFuncTwo({
-                ...values,
-                verifyCode: Number(values.verifyCode),
-              });
-            }}
-            initialValues={{
-              gmail: `${gmailInpValue}`,
-              password: "",
-              verifyCode: "",
-              phoneNumber: "",
-            }}
-            validationSchema={Yup.object({
-              verifyCode: Yup.string()
-                .required("لطفا کد تایید را وارد کنید")
-                .length(4, "کد تایید باید ۴ رقمی باشد")
-                .matches(/^[0-9]{4}$/, "کد تایید فقط باید شامل اعداد باشد"),
-            })}
-          >
-            {({ values, errors, touched, setFieldValue }) => (
-              <>
-                <Form className="border border-black w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
-                  <div className="flex flex-col gap-3 sm:gap-5">
-                    <label className="font-bold text-lg">کد تایید</label>
+  <motion.div
+    className="w-full flex flex-col gap-3 sm:gap-5"
+    initial={{ opacity: 0, scale: 0.9, y: -20 }}
+    animate={{ opacity: 1, scale: 1, y: 0 }}
+    exit={{ opacity: 0, scale: 0.95, y: -20 }}
+    transition={{ duration: 0.3, ease: "easeOut" }}
+  >
+    <Formik
+      onSubmit={(values) => {
+        console.log({
+          ...values,
+          verifyCode: Number(values.verifyCode),
+        });
+        submitFuncTwo({
+          ...values,
+          verifyCode: Number(values.verifyCode),
+        });
+      }}
+      initialValues={{
+        gmail: `${gmailInpValue}`,
+        password: "",
+        verifyCode: "",
+        phoneNumber: "",
+      }}
+      validationSchema={Yup.object({
+        verifyCode: Yup.string()
+          .required("لطفا کد تایید را وارد کنید")
+          .length(6, "کد تایید باید ۶ رقمی باشد")
+          .matches(/^[0-9]{6}$/, "کد تایید فقط باید شامل اعداد باشد"),
+      })}
+    >
+      {({ values, errors, touched, setFieldValue }) => (
+        <>
+          <Form className="border border-black w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
+            <div className="flex flex-col gap-3 sm:gap-5">
+              <label className="font-bold text-lg">کد تایید</label>
 
-                    <InputOTP
-                      className="flex-row-reverse justify-center"
-                      maxLength={4}
-                      isInvalid={errors.verifyCode && touched.verifyCode}
-                      inputMode="numeric"
-                      pattern="^[0-9]+$"
-                      variant="secondary"
-                      value={values.verifyCode}
-                      onChange={(newValue) =>
-                        setFieldValue("verifyCode", newValue)
-                      }
-                      name="verifyCode"
-                    >
-                      <InputOTP.Group className="gap-2 flex-row-reverse">
-                        <InputOTP.Slot
-                          index={0}
-                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                        />
-                        <InputOTP.Slot
-                          index={1}
-                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                        />
-                      </InputOTP.Group>
+              <InputOTP
+                className="flex-row-reverse justify-center"
+                maxLength={6}
+                isInvalid={errors.verifyCode && touched.verifyCode}
+                inputMode="numeric"
+                pattern="^[0-9]+$"
+                variant="secondary"
+                value={values.verifyCode}
+                onChange={(newValue) =>
+                  setFieldValue("verifyCode", newValue)
+                }
+                name="verifyCode"
+              >
+                <InputOTP.Group className="gap-2 flex-row-reverse">
+                  <InputOTP.Slot
+                    index={0}
+                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                  />
+                  <InputOTP.Slot
+                    index={1}
+                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                  />
+                  <InputOTP.Slot
+                    index={2}
+                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                  />
+                </InputOTP.Group>
 
-                      <InputOTP.Separator className="mx-2 text-xl text-muted" />
+                <InputOTP.Separator className="mx-2 text-xl text-muted" />
 
-                      <InputOTP.Group className="gap-2 flex-row-reverse">
-                        <InputOTP.Slot
-                          index={2}
-                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                        />
-                        <InputOTP.Slot
-                          index={3}
-                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                        />
-                      </InputOTP.Group>
-                    </InputOTP>
+                <InputOTP.Group className="gap-2 flex-row-reverse">
+                  <InputOTP.Slot
+                    index={3}
+                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                  />
+                  <InputOTP.Slot
+                    index={4}
+                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                  />
+                  <InputOTP.Slot
+                    index={5}
+                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                  />
+                </InputOTP.Group>
+              </InputOTP>
 
-                    {errors.verifyCode && touched.verifyCode && (
-                      <span className="text-xs text-red-600">
-                        {errors.verifyCode}
-                      </span>
-                    )}
-                  </div>
+              {errors.verifyCode && touched.verifyCode && (
+                <span className="text-xs text-red-600">
+                  {errors.verifyCode}
+                </span>
+              )}
+            </div>
 
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    className="w-full h-10 sm:h-11 font-bold text-sm sm:text-[16px]"
-                  >
-                    تایید
-                  </Button>
-                </Form>
+            <Button
+              variant="primary"
+              type="submit"
+              className="w-full h-10 sm:h-11 font-bold text-sm sm:text-[16px]"
+            >
+              تایید
+            </Button>
+          </Form>
 
-                <div className="w-full flex justify-between text-xs sm:text-sm font-bold">
-                  <div className="h-full flex gap-2 sm:gap-3 items-center text-accent">
-                    <div className="bg-[rgba(55,114,255,0.231)] text-accent flex items-center gap-2 font-bold text-[10px] sm:text-xs px-3.5 py-1 rounded-full">
-                      <HugeiconsIcon icon={TimeQuarterPassIcon} />
-                      {formatTimer(timer)}
-                    </div>
-                    <div
-                      onClick={() => {
-                        if (timer === 0) {
-                          resetTimer();
-                        }
-                      }}
-                      className={`underline underline-offset-4 text-xs ${timer !== 0 && "text-foreground"} ${timer == 0 && "cursor-pointer"}`}
-                    >
-                      ارسال مجدد کد
-                    </div>
-                  </div>
-                  <Button
-                    variant="secondary"
-                    className="bg-[rgba(55,114,255,0.231)] text-accent font-bold text-[10px] sm:text-xs"
-                  >
-                    تغییر شماره همراه
-                    <HugeiconsIcon icon={ArrowMoveUpLeftIcon} />
-                  </Button>
-                </div>
-              </>
-            )}
-          </Formik>
-        </motion.div>
+          <div className="w-full flex justify-between text-xs sm:text-sm font-bold">
+            <div className="h-full flex gap-2 sm:gap-3 items-center text-accent">
+              <div className="bg-[rgba(55,114,255,0.231)] text-accent flex items-center gap-2 font-bold text-[10px] sm:text-xs px-3.5 py-1 rounded-full">
+                <HugeiconsIcon icon={TimeQuarterPassIcon} />
+                {formatTimer(timer)}
+              </div>
+              <div
+                onClick={() => {
+                  if (timer === 0) {
+                    resetTimer();
+                  }
+                }}
+                className={`underline underline-offset-4 text-xs ${timer !== 0 && "text-foreground"} ${timer == 0 && "cursor-pointer"}`}
+              >
+                ارسال مجدد کد
+              </div>
+            </div>
+            <Button
+              variant="secondary"
+              className="bg-[rgba(55,114,255,0.231)] text-accent font-bold text-[10px] sm:text-xs"
+            >
+              تغییر شماره همراه
+              <HugeiconsIcon icon={ArrowMoveUpLeftIcon} />
+            </Button>
+          </div>
+        </>
       )}
+    </Formik>
+  </motion.div>
+)}
       {step == 3 && (
         <motion.div
           className="w-full flex flex-col gap-3 sm:gap-5"

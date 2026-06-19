@@ -7,14 +7,18 @@ import ForgotPasswordPage from "../pages/ForgotPassword";
 import NotFound404Page from "../pages/NotFound404";
 import ContactUsPage from "../pages/ContactUs";
 import AboutUsPage from "../pages/AboutUs";
+import Panel from "../layout/Panel";
 import ListingPage from "../pages/ListingPage";
 import CourseDetailPage from "../pages/CourseDetail";
 import NewsPage from "../pages/NewsPage"
 import TeacherList from "../pages/TeacherList";
 import TeacherDetail from "../components/Teacher/TeacherDetail";
+// import NewsPage from "../pages/NewsPage";
+import NewsDetailPage from "../pages/NewsDetail";
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
+  { path: "/panel", element: <Panel /> },
   {
     path: "/Auth",
     element: <AuthLayout />,
@@ -32,7 +36,11 @@ const router = createBrowserRouter([
   { path: "/coursDetail", element: <CourseDetailPage/> }
   ,{ path: "/News", element: <NewsPage/> } , 
   { path: "/teacherList", element: <TeacherList/> } ,
-  { path: "/teachers/:id", element: <TeacherDetail /> }
+  { path: "/teachers/:id", element: <TeacherDetail /> } ,
+  { path: "/courses/:id", element: <CourseDetailPage /> },
+  { path: "/news", element: <NewsPage /> },
+  { path: "/news/:id", element: <NewsDetailPage /> },
+
 ]);
 
 export default router;

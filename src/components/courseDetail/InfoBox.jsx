@@ -35,7 +35,7 @@ const InfoBox = ({
   const end = new Date(endTime).toLocaleDateString("fa-IR");
 
   return (
-    <div className=" border-4 w-full mx-auto max-w-120 lg:max-w-none lg:w-[40.75%] lg:sticky top-29 bg-overlay flex flex-col rounded-3xl px-5 pt-3.25 pb-5 ">
+    <div className=" border-4 max-h-screen w-full mx-auto max-w-120 lg:max-w-none lg:w-[40.75%] lg:sticky top-29 bg-overlay flex flex-col rounded-3xl px-5 pt-3.25 pb-5 ">
       {isActive && (
         <Chip
           variant="danger-soft"
@@ -46,9 +46,9 @@ const InfoBox = ({
         </Chip>
       )}
       <div className=" flex items-start mt-4 ">
-        <div className=" text-2xl lg:text-[42px] font-semibold ">{title}</div>
-        <div className="  lg:text-xl flex items-center ">
-          ({courseRate}{" "}
+        <div className=" text-2xl lg:text-3xl xl:text-[42px] font-semibold ">{title}</div>
+        <div className="  lg:text-xl flex items-center gap-1 ">
+          ({Number(courseRate).toFixed(1)}{" "}
           <HugeiconsIcon
             icon={StarIcon}
             size={16}
@@ -58,7 +58,7 @@ const InfoBox = ({
           )
         </div>
       </div>
-      <div className=" flex mt-2 lg:mt-4 text-lg gap-2 ">
+      <div className=" flex flex-wrap mt-2 lg:mt-4 text-lg gap-2 ">
         {courseTechs.map((tech, index) => {
           return (
             <Chip
