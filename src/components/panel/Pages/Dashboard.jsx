@@ -67,7 +67,8 @@ const Dashboard = () => {
     const hour = time.getHours();
 
     if (hour >= 5 && hour < 12) return "صبح بخیر";
-    if (hour >= 12 && hour < 18) return "ظهر بخیر";
+    if (hour >= 12 && hour < 15) return "ظهر بخیر";
+    if (hour >= 15 && hour < 19) return "عصر بخیر";
     return "شب بخیر";
   };
 

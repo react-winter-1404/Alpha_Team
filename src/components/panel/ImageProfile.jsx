@@ -1,8 +1,29 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
+import { postAddProfileImage } from "../../core/services/userPanel/post"
 
 const ImageProfile = () => {
 
   const [imageList, setImageList] = useState([])
+  useEffect(()=>{
+    console.log(imageList)
+  },[imageList])
+  const fetchAddProfileImage =async (data) => {
+    const formData = new FormData();
+
+    formData.append("formFile", data);
+
+    try {
+      const response = await postAddProfileImage(formData);
+      if (response.data.success) {
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message || "خطا در ثبت اطلاعات");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "خطا در ارتباط با سرور");
+    }
+  }
 
   const fileHandler = (e) => {
     const image = e.target.files[0]
@@ -10,7 +31,7 @@ const ImageProfile = () => {
     if(!image) return
 
     const imgURL = URL.createObjectURL(image)
-
+    fetchAddProfileImage(imgURL);
     setImageList(i => [...i, {
       image: imgURL,
       file: image,

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import PanelPages from "../components/panel/PanelPages";
-import ProfilePanel from "../components/panel/Pages/Profile";
 import { getUserProfile } from "../core/services/userPanel/get";
 import { useTheme } from "@heroui/use-theme";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -18,6 +17,7 @@ const Panel = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [userProfile, setUserProfile] = useState([]);
+  const [userRoles, setUserRoles] = useState("");
 
   const fetchUserProfile = async () => {
     setIsLoading(true);
@@ -33,6 +33,7 @@ const Panel = () => {
   };
   useEffect(() => {
     fetchUserProfile();
+    setUserRoles(JSON.parse(localStorage.getItem("roles")));
   }, []);
 
   return (
@@ -230,16 +231,21 @@ const Panel = () => {
         <div className="w-full h-[80px] p-2.5 rounded-[16px] bg-[#fefdff] flex justify-between items-center">
           <div className=" w-[#200px] h-full flex justify-center items-center gap-3">
             <img
-              src="/public/images/Hark.png"
+              src={userProfile.currentPictureAddress}
               alt=""
-              className="w-[56px] h-[56px]"
+              className="w-[56px] h-[56px] rounded-full "
             />
             <div>
               <span className="text-[20px] text-[#272727] flex  ">
                 {userProfile.fName + " " + userProfile.lName}
               </span>
               <span className="text-[16px] text-[#272727] block">
-                ادمین، دانشجو
+                { userRoles && userRoles.map((role, index) => (
+                  <span key={index}>
+                    {role}
+                    {index < userRoles.length - 1 && ", "}
+                  </span>
+                ))}
               </span>
             </div>
           </div>
