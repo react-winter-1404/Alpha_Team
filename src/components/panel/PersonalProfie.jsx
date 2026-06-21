@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { getUserProfile } from "../../core/services/userPanel/get";
 import { Skeleton } from "@heroui/react";
 
-const PersonalProfile = () => {
+const PersonalProfile = ({progressPercent}) => {
   const [submittedPercent, setSubmittedPercent] = useState(0);
   const [userProfile, setUserProfile] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -65,7 +65,7 @@ const PersonalProfile = () => {
     return { clr: "#47C724", p: "اطلاعات کاربری شما تکمیل شد" };
   };
 
-  const pc = getProgressInfo(submittedPercent);
+  const pc = getProgressInfo(progressPercent || submittedPercent);
   const isError = (field) => isSubmitted && errors[field];
 
   return (
@@ -115,14 +115,13 @@ const PersonalProfile = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="w-[70%] h-full flex flex-wrap gap-8"
         >
-          {/* Name */}
           <div className="flex flex-col gap-2 w-[40%] group">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="n"
                 className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-115"
               >
-                نام
+                نام <span className="text-red-500">*</span>
               </label>
               {isError("name") && (
                 <span className="text-red-500 text-xs whitespace-nowrap">
@@ -142,14 +141,13 @@ const PersonalProfile = () => {
             />
           </div>
 
-          {/* Last Name */}
           <div className="flex flex-col gap-2 w-[40%] group">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="f"
                 className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-115"
               >
-                نام خانوادگی
+                نام خانوادگی <span className="text-red-500">*</span>
               </label>
               {isError("lastName") && (
                 <span className="text-red-500 text-xs whitespace-nowrap">
@@ -169,7 +167,6 @@ const PersonalProfile = () => {
             />
           </div>
 
-          {/* About Me */}
           <div className="flex flex-col gap-2 w-full mt-[-10px] group">
             <div className="flex items-center justify-between w-[86%]">
               <label
@@ -197,7 +194,6 @@ const PersonalProfile = () => {
             />
           </div>
 
-          {/* Phone */}
           <div className="flex flex-col gap-2 w-[40%] mt-[-10px] group">
             <div className="flex items-center justify-between">
               <label
@@ -226,14 +222,13 @@ const PersonalProfile = () => {
             />
           </div>
 
-          {/* National Code */}
           <div className="flex flex-col gap-2 w-[40%] mt-[-10px] group">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="c"
                 className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-115"
               >
-                کد ملی
+                کد ملی <span className="text-red-500">*</span>
               </label>
               {isError("code") && (
                 <span className="text-red-500 text-xs whitespace-nowrap">
@@ -256,14 +251,13 @@ const PersonalProfile = () => {
             />
           </div>
 
-          {/* Birthday - DatePicker */}
           <div className="flex flex-col gap-2 w-[40%] mt-[-10px] group">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="b"
                 className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-[1.15]"
               >
-                تاریخ تولد
+                تاریخ تولد <span className="text-red-500">*</span>
               </label>
               {isError("birthday") && (
                 <span className="text-red-500 text-xs whitespace-nowrap">
@@ -272,7 +266,7 @@ const PersonalProfile = () => {
               )}
             </div>
             <input
-              defaultValue={userProfile.birthDay.split("T")[0]}
+              defaultValue={userProfile.birthDay?.split("T")[0]}
               type="date"
               {...register("birthday", { required: "تاریخ تولد الزامی است" })}
               id="b"
@@ -280,13 +274,12 @@ const PersonalProfile = () => {
             />
           </div>
 
-          {/* Gender */}
           <div className="flex flex-col gap-2 w-[40%] mt-[-10px]">
             <div className="flex items-center justify-between">
               <label
                 className={`block whitespace-nowrap transition-all duration-200 cursor-pointer ${isError("sex") ? "text-red-500" : ""}`}
               >
-                جنسیت
+                جنسیت <span className="text-red-500">*</span>
               </label>
               {isError("sex") && (
                 <span className="text-red-500 text-xs whitespace-nowrap">
@@ -298,7 +291,7 @@ const PersonalProfile = () => {
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   {...register("sex", { required: "جنسیت را انتخاب کنید" })}
-                  defaultChecked={userProfile.gender}
+                  defaultChecked={userProfile.gender === true}
                   type="radio"
                   value="male"
                 />
@@ -307,7 +300,7 @@ const PersonalProfile = () => {
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   {...register("sex", { required: "جنسیت را انتخاب کنید" })}
-                  defaultChecked={!userProfile.gender}
+                  defaultChecked={userProfile.gender === false}
                   type="radio"
                   value="female"
                 />
@@ -316,7 +309,6 @@ const PersonalProfile = () => {
             </div>
           </div>
 
-          {/* Email */}
           <div className="flex flex-col gap-2 w-full mt-[-10px] group">
             <div className="flex items-center justify-between w-[86%]">
               <label
@@ -345,7 +337,6 @@ const PersonalProfile = () => {
             />
           </div>
 
-          {/* Address */}
           <div className="flex flex-col gap-2 w-full mt-[-10px] group">
             <div className="flex items-center justify-between w-[86%]">
               <label
@@ -382,13 +373,12 @@ const PersonalProfile = () => {
         </form>
       )}
 
-      {/* Progress Section */}
       <div className="w-[27%] h-[35%] border p-3">
         <h3 className="text-[16px] text-[#272727]">وضعیت اطلاعات حساب</h3>
         <div className="m-auto mt-[40px] h-[130px] w-[136px]">
           <CircularProgressbar
-            value={submittedPercent}
-            text={`${submittedPercent}%`}
+            value={progressPercent || submittedPercent}
+            text={`${progressPercent || submittedPercent}%`}
             styles={buildStyles({
               pathColor: pc.clr,
               textColor: pc.clr,

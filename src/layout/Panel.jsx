@@ -14,6 +14,8 @@ const Panel = () => {
   const [favMag, setFavMag] = useState(false);
   const [profile, setProfile] = useState(false);
   const { theme, setTheme } = useTheme("system");
+  const [profilePic, setProfilePic] = useState("")
+
 
   const [isLoading, setIsLoading] = useState(false);
   const [userProfile, setUserProfile] = useState([]);
@@ -24,6 +26,7 @@ const Panel = () => {
     try {
       const response = await getUserProfile();
       setUserProfile(response.data);
+      setProfilePic(response.data.currentPictureAddress || "")
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -231,7 +234,7 @@ const Panel = () => {
         <div className="w-full h-[80px] p-2.5 rounded-[16px] bg-[#fefdff] flex justify-between items-center">
           <div className=" w-[#200px] h-full flex justify-center items-center gap-3">
             <img
-              src={userProfile.currentPictureAddress}
+              src={profilePic || userProfile.currentPictureAddress}
               alt=""
               className="w-[56px] h-[56px] rounded-full "
             />
@@ -284,6 +287,8 @@ const Panel = () => {
           favCourses={favCourses}
           favMag={favMag}
           profile={profile}
+          profilePic={profilePic}
+          setProfilePic={setProfilePic}
         />
       </div>
     </div>

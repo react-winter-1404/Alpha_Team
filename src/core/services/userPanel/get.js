@@ -14,3 +14,6 @@ import apiClient from "../../interceptor/interceptor";
 export const getUserProfile =()=>{
     return apiClient.get(`/SharePanel/GetProfileInfo`);
 }
+export const getUserCoursesReserve =()=>{
+    return apiClient.get(`/SharePanel/GetMyCoursesReserve`);
+}

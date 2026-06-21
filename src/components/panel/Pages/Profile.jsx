@@ -5,7 +5,7 @@ import AddressProfile from "../AddressProfile";
 import LinksProfile from "../LinksProfile";
 import { getUserProfile } from "../../../core/services/userPanel/get";
 
-const ProfilePanel = () => {
+const ProfilePanel = ({ profilePic, setProfilePic }) => {
   const [personal, setPersonal] = useState(true);
   const [image, setImage] = useState(false);
   const [addres, setAddres] = useState(false);
@@ -22,7 +22,7 @@ const ProfilePanel = () => {
       const response = await getUserProfile();
       setUserProfile(response.data);
       setBirthDay(response.data.birthDay);
-      // console.log(response.data);
+      setProfilePic(response.data.currentPictureAddress || "");
     } catch (error) {
       console.error(error);
     } finally {
@@ -40,9 +40,9 @@ const ProfilePanel = () => {
         <div className="relative w-full h-[113px] rounded-[16px] bg-[#3772ff]">
           <div className="w-[128px] h-[128px] rounded-full bg-[#427efc] border-white border-[5px] absolute top-[60px] right-[35px]">
             <img
-              src={userProfile.currentPictureAddress}
+              src={profilePic || userProfile.currentPictureAddress}
               alt=""
-              className="m-auto rounded-full "
+              className="m-auto rounded-full w-full h-full object-cover"
             />
             <div className="w-[24px] h-[24px] bg-[#3772ff] border-[#fefdff] border[3px] rounded-full absolute top-[85px] right-1">
               <img
@@ -62,12 +62,13 @@ const ProfilePanel = () => {
               </h3>
               <span className="text-[16px] text-[#787878] mt-4">
                 (
-                { userRoles && userRoles.map((role, index) => (
-                  <span key={index}>
-                    {role}
-                    {index < userRoles.length - 1 && ", "}
-                  </span>
-                ))}
+                {userRoles &&
+                  userRoles.map((role, index) => (
+                    <span key={index}>
+                      {role}
+                      {index < userRoles.length - 1 && ", "}
+                    </span>
+                  ))}
                 )
               </span>
             </div>
@@ -194,32 +195,24 @@ const ProfilePanel = () => {
         </span>
       </div>
 
-      <div className="bg-[#fefdff] w-full  rounded-b-[16px]">
+      <div className="bg-[#fefdff] w-full rounded-b-[16px]">
         <div
-          className={`${personal ? "h-full w-full rounded-b-[16px]" : "hidden"}
-          `}
+          className={`${personal ? "h-full w-full rounded-b-[16px]" : "hidden"}`}
         >
-          <PersonalProfie />
+          <PersonalProfie
+            progressPercent={userProfile.profileCompletionPercentage}
+          />
         </div>
 
-        <div
-          className={`${image ? "h-full w-full" : "hidden"}
-          `}
-        >
-          <ImageProfile />
+        <div className={`${image ? "h-full w-full" : "hidden"}`}>
+          <ImageProfile onProfileChange={setProfilePic} />
         </div>
 
-        <div
-          className={`${addres ? "h-full w-full" : "hidden"}
-          `}
-        >
+        <div className={`${addres ? "h-full w-full" : "hidden"}`}>
           <AddressProfile />
         </div>
 
-        <div
-          className={`${links ? "h-full w-full" : "hidden"}
-          `}
-        >
+        <div className={`${links ? "h-full w-full" : "hidden"}`}>
           <LinksProfile />
         </div>
       </div>

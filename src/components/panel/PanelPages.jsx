@@ -5,7 +5,7 @@ import MyCourses from "./Pages/MyCourses"
 import MyReserve from "./Pages/MyReserve"
 import ProfilePanel from "./Pages/Profile"
 
-const PanelPages = ({dashboard, myCourse, myReserve, favCourses, favMag, profile}) => {
+const PanelPages = ({dashboard, myCourse, myReserve, favCourses, favMag, profile,profilePic,setProfilePic}) => {
 
   return (
     <div>
@@ -14,7 +14,7 @@ const PanelPages = ({dashboard, myCourse, myReserve, favCourses, favMag, profile
         {myReserve && (<MyReserve/>)}
         {favCourses && (<FavCourses/>)}
         {favMag && (<FavMag/>)}
-        {profile && (<ProfilePanel/>)}
+        {profile && <ProfilePanel profilePic={profilePic} setProfilePic={setProfilePic} />}
     </div>
   )
 }
