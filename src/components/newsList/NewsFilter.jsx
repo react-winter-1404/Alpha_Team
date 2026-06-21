@@ -21,7 +21,7 @@ const NewsFilter = ({ onFilterChange }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://188.121.111.8:3001/News/GetListNewsCategory");
+        const response = await axios.get("http://188.121.104.25:3001/News/GetListNewsCategory");
         if (response.data) {
           setCategories(response.data);
         }
