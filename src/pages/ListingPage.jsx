@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from '../core/interceptor/interceptor';
 import { Spinner } from '@heroui/react';
 import NavbarHeader from './components/landing/NavbarHeader';
 import Footer from './components/landing/Footer';
@@ -7,7 +7,7 @@ import CourseFilters from '../components/coursesList/CourseFilters';
 import CourseCard from '../components/coursesList/CourseCard';
 import CoursePagination from '../components/coursesList/CoursePagination';
 import CourseSorting from '../components/coursesList/CourseSorting';
-import grid from '../assets/Courses/grid-view-stroke-rounded 1.png' ; 
+import grid from '../assets/Courses/grid-view-stroke-rounded 1.png'; 
 import row from '../assets/Courses/layout-3-row-stroke-rounded 1.png';
 
 const ListingPage = () => {
@@ -15,7 +15,6 @@ const ListingPage = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
-
   const [filters, setFilters] = useState({
     PageNumber: 1,
     RowsOfPage: 9,
@@ -33,71 +32,52 @@ const ListingPage = () => {
     TeacherId: null
   });
 
-  useEffect(() => {
-    const fetchCoursesData = async () => {
-      setLoading(true);
-      try {
-        const cleanedParams = {};
-        
-        Object.entries(filters).forEach(([key, value]) => {
-          if (value !== '' && value !== null && value !== undefined) {
-            if (key === 'CostDown' && (value === 10000 || value === 1000000)) {
-              return;
-            }
-            if (key === 'CostUp' && (value === 4960000 || value === 1000000)) {
-              return;
-            }
-            cleanedParams[key] = value;
-          }
-        });
-
-        const response = await axios.get('http://188.121.104.25:3001/Home/GetCoursesWithPagination', {
-          params: cleanedParams
-        });
-        
-        if (response.data) {
-          const courseList = response.data.courseFilterDtos || [];
-          const total = response.data.totalCount || courseList.length || 0;
-          
-          setCourses(courseList);
-          setTotalCount(Number(total));
+  const fetchCoursesData = async () => {
+    setLoading(true);
+    try {
+      const cleanedParams = {};
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== '' && value !== null && value !== undefined) {
+          if (key === 'CostDown' && (value === 10000 || value === 1000000)) return;
+          if (key === 'CostUp' && (value === 4960000 || value === 1000000)) return;
+          cleanedParams[key] = value;
         }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      });
 
+      const response = await apiClient.get('/Home/GetCoursesWithPagination', { params: cleanedParams });
+      if (response.data) {
+        const courseList = response.data.courseFilterDtos || [];
+        const total = response.data.totalCount || courseList.length || 0;
+        setCourses(courseList);
+        setTotalCount(Number(total));
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchCoursesData();
   }, [filters]);
 
   const handlePageChange = (page) => {
-    setFilters(prev => ({
-      ...prev,
-      PageNumber: page
-    }));
+    setFilters(prev => ({ ...prev, PageNumber: page }));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const totalPages = Math.ceil(totalCount / filters.RowsOfPage) || 1;
-
   const handleSortChange = (sortingCol, sortType) => {
-    setFilters(prev => ({
-      ...prev,
-      SortingCol: sortingCol,
-      SortType: sortType,
-      PageNumber: 1
-    }));
+    setFilters(prev => ({ ...prev, SortingCol: sortingCol, SortType: sortType, PageNumber: 1 }));
   };
+
+  const totalPages = Math.ceil(totalCount / filters.RowsOfPage) || 1;
 
   return (
     <div className="w-full min-h-screen bg-[#fefdff] flex flex-col justify-between">
       <div>
         <NavbarHeader />
-        
         <div className="w-[1380px] min-h-[500px] pb-[60px] rounded-[40px] bg-[#fefdff] border-4 border-[#e4e4e4] overflow-hidden mx-auto my-10 p-[32px] grid grid-cols-12 gap-10 relative">
-          
           <div className="col-span-9 flex flex-col justify-between">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between items-center w-full" style={{ direction: 'rtl' }}>
@@ -108,18 +88,11 @@ const ListingPage = () => {
                     onSortChange={handleSortChange}
                   />
                 </div>
-
                 <div className="flex items-center gap-2 border-r border-gray-300 pr-4 mr-4">
-                  <button 
-                    onClick={() => setViewMode('grid')}
-                    className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-gray-100 shadow-sm border border-gray-200' : 'opacity-50'}`}
-                  >
+                  <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-gray-100 shadow-sm border border-gray-200' : 'opacity-50'}`}>
                     <img src={grid} alt="Grid View" className="w-5 h-5" />
                   </button>
-                  <button 
-                    onClick={() => setViewMode('row')}
-                    className={`p-1.5 rounded-lg transition-all ${viewMode === 'row' ? 'bg-gray-100 shadow-sm border border-gray-200' : 'opacity-50'}`}
-                  >
+                  <button onClick={() => setViewMode('row')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'row' ? 'bg-gray-100 shadow-sm border border-gray-200' : 'opacity-50'}`}>
                     <img src={row} alt="Row View" className="w-5 h-5" />
                   </button>
                 </div>
@@ -131,9 +104,7 @@ const ListingPage = () => {
                     <Spinner size="lg" color="primary" />
                   </div>
                 ) : courses.length === 0 ? (
-                  <div className="w-full text-center py-20 text-gray-400 font-medium">
-                    دوره ای با فیلترهای انتخاب شده یافت نشد.
-                  </div>
+                  <div className="w-full text-center py-20 text-gray-400 font-medium">دوره ای با فیلترهای انتخاب شده یافت نشد.</div>
                 ) : (
                   <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center" : "flex flex-col gap-6 w-full"}>
                     {courses.map((course, index) => (
@@ -146,12 +117,17 @@ const ListingPage = () => {
                           teacher={course.teacherName || "مدرس دوره"}
                           date={course.lastUpdate || course.startDate || ""}
                           number={course.capacity || 0}
-                          price={course.cost !== undefined && course.cost !== null ? course.cost.toLocaleString() : "0"}
+                          price={course.cost?.toLocaleString() || "0"}
                           id={course.courseId}
                           likeCount={course.likeCount}
                           dissLikeCount={course.dissLikeCount}
                           technologyList={course.technologyList}
                           levelName={course.levelName}
+                          userLikedId={course.userLikedId}
+                          userIsLiked={course.userIsLiked}
+                          currentUserDissLike={course.currentUserDissLike}
+                          isUserFavorite={course.isUserFavorite}
+                          onUpdate={fetchCoursesData}
                         />
                       </div>
                     ))}
@@ -159,7 +135,6 @@ const ListingPage = () => {
                 )}
               </div>
             </div>
-
             <div className="w-full flex justify-center mt-12">
               {!loading && totalPages > 1 && (
                 <CoursePagination
@@ -172,11 +147,9 @@ const ListingPage = () => {
               )}
             </div>
           </div>
-
           <div className="col-span-3 w-[321px]">
             <CourseFilters filters={filters} setFilters={setFilters} />
           </div>
-
         </div>
       </div>
       <Footer />
