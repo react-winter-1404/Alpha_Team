@@ -7,8 +7,16 @@ import CourseFilters from '../components/coursesList/CourseFilters';
 import CourseCard from '../components/coursesList/CourseCard';
 import CoursePagination from '../components/coursesList/CoursePagination';
 import CourseSorting from '../components/coursesList/CourseSorting';
-import grid from '../assets/Courses/grid-view-stroke-rounded 1.png'; 
-import row from '../assets/Courses/layout-3-row-stroke-rounded 1.png';
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  GridViewIcon,
+  ViewAgendaIcon,
+  Menu02Icon,
+  Home01Icon,
+  Book02Icon,
+  News01Icon,
+  FlipPhoneIcon,
+} from "@hugeicons/core-free-icons";
 
 const ListingPage = () => {
   const [courses, setCourses] = useState([]);
@@ -88,12 +96,12 @@ const ListingPage = () => {
                     onSortChange={handleSortChange}
                   />
                 </div>
-                <div className="flex items-center gap-2 border-r border-gray-300 pr-4 mr-4">
-                  <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-accent shadow-sm  ' : 'opacity-50'}`}>
-                    <img src={grid} alt="Grid View" className="w-5 h-5" />
+                <div className="flex items-center gap-2 border-r border-gray-500 pr-4 mr-4">
+                  <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === 'grid' ? 'bg-accent shadow-sm text-accent-foreground ' : 'opacity-50'}`}>
+                    <HugeiconsIcon icon={GridViewIcon} className=" m-0 w-5 h-5   " />
                   </button>
-                  <button onClick={() => setViewMode('row')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'row' ? 'bg-separator dark:bg-surface shadow-sm border ' : 'opacity-50'}`}>
-                    <img src={row} alt="Row View" className="w-5 h-5" />
+                  <button onClick={() => setViewMode('row')} className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === 'row' ? 'bg-accent shadow-sm text-accent-foreground ' : 'opacity-50'}`}>
+                    <HugeiconsIcon icon={ViewAgendaIcon} className=" m-0 w-5 h-5   " />
                   </button>
                 </div>
               </div>

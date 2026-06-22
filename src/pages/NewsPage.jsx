@@ -108,11 +108,11 @@ const NewsPage = () => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (
-    <div className="w-full min-h-screen bg-[#fefdff] flex flex-col justify-between">
+    <div className="w-full min-h-screen  flex flex-col justify-between">
       <div>
         <NavbarHeader />
         
-        <div className="w-[1380px] min-h-[500px] pb-[60px] rounded-[40px] bg-[#fefdff] border-4 border-[#e4e4e4] overflow-hidden mx-auto my-10 p-[32px] grid grid-cols-12 gap-10 relative">
+        <div className="w-[1380px] min-h-[500px] pb-[60px] rounded-[40px]  dark:bg-surface-secondary border-4  overflow-hidden mx-auto my-10 p-[32px] grid grid-cols-12 gap-10 relative">
           
           <div className="col-span-9 flex flex-col justify-between">
             <div className="flex flex-col gap-4">
@@ -140,7 +140,7 @@ const NewsPage = () => {
                     </div>
                   ))
                 ) : (
-                  <div className="w-full text-center py-20 text-gray-400 font-medium">
+                  <div className="w-full text-center py-20 text-gray-400 dark:text-gray-500 font-medium">
                     خبری با فیلترهای انتخاب شده پیدا نشد.
                   </div>
                 )}

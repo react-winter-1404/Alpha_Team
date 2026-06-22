@@ -18,8 +18,8 @@ const NewsSort = ({ onSortChange }) => {
   };
 
   return (
-    <div dir="rtl" className="w-full bg-[#e4e4e4]/40 rounded-[16px] p-2 backdrop-blur-sm flex items-center gap-4 select-none">
-      <span className="text-gray-700 font-medium text-xs mr-2">ترتیب</span>
+    <div dir="rtl" className="w-full bg-default dark:bg-surface rounded-[16px] p-2 backdrop-blur-sm flex items-center gap-4 select-none">
+      <span className="text-foreground font-medium text-xs mr-2">ترتیب</span>
       
       <div className="flex gap-2 bg-transparent rounded-xl p-0.5">
         {tabs.map((tab) => {
@@ -31,8 +31,8 @@ const NewsSort = ({ onSortChange }) => {
               onClick={() => handleTabChange(tab.key, tab.col, tab.type)}
               className={`h-8 text-xs font-medium px-4 rounded-xl transition-all duration-200 cursor-pointer outline-none border-none
                 ${isSelected 
-                  ? "bg-blue-600 text-white shadow-sm font-semibold" 
-                  : "text-gray-600 hover:text-gray-800 hover:bg-gray-200/50"
+                  ? "bg-accent text-accent-foreground shadow-sm font-bold" 
+                  : "text-foreground/60 hover:text-foreground hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
                 }`}
             >
               {tab.title}

@@ -87,30 +87,30 @@ const NewsFilter = ({ onFilterChange }) => {
   return (
     <div 
       dir="rtl" 
-      className="w-[321px] h-[319px] bg-[#e4e4e4]/40 rounded-[24px] p-5 flex flex-col justify-between box-border backdrop-blur-sm"
+      className="w-[321px] h-[319px] bg-default dark:bg-surface rounded-[24px] p-5 flex flex-col justify-between box-border backdrop-blur-sm"
     >
       <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2 text-gray-700 font-medium text-sm mb-1">
-          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="flex items-center gap-2 text-foreground font-medium text-sm mb-1">
+          <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <span>جستجوی اخبار و مقالات</span>
         </div>
         <SearchField name="search" onSubmit={handleSearchSubmit} onClear={() => handleSearchSubmit("")}>
-          <SearchField.Group className="bg-white/80 border-0 rounded-xl h-11 px-3 shadow-none flex items-center">
+          <SearchField.Group className="bg-overlay border-0 rounded-xl h-11 px-3 shadow-none flex items-center">
             <SearchField.Input 
-              className="w-full text-right text-xs bg-transparent border-none outline-none text-gray-800 placeholder-gray-400" 
+              className="w-full text-right text-xs bg-transparent border-none outline-none text-foreground dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500" 
               placeholder="جستجو کنید..." 
             />
-            <SearchField.ClearButton className="text-gray-400 hover:text-gray-600" />
+            <SearchField.ClearButton className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300" />
             <SearchField.SearchIcon className="text-blue-600 w-5 h-5 mr-auto cursor-pointer" />
           </SearchField.Group>
         </SearchField>
       </div>
 
       <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2 text-gray-700 font-medium text-sm mb-1">
-          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="flex items-center gap-2 text-foreground font-medium text-sm mb-1">
+          <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
           </svg>
           <span>دسته بندی</span>
@@ -118,12 +118,12 @@ const NewsFilter = ({ onFilterChange }) => {
 
         <Popover isOpen={isOpen} onOpenChange={setIsOpen} placement="bottom-start">
           <Popover.Trigger>
-            <Button className="w-full bg-white/80 border-0 rounded-xl h-11 px-3 flex items-center justify-between shadow-none text-xs text-gray-700 font-normal normal-case">
+            <Button className="w-full bg-overlay border-0 rounded-xl h-11 px-3 flex items-center justify-between shadow-none text-xs text-foreground dark:text-gray-300 font-normal normal-case">
               <span className="truncate max-w-[240px] text-right w-full">{getSelectedCategoriesLabel()}</span>
-              <span className="text-gray-400 text-xxs">▼</span>
+              <span className="text-gray-400 dark:text-gray-500 text-xxs">▼</span>
             </Button>
           </Popover.Trigger>
-          <Popover.Content className="bg-white rounded-xl shadow-lg border border-gray-100 w-[281px] p-1 max-h-[220px] overflow-y-auto">
+          <Popover.Content className="bg-overlay rounded-xl shadow-lg border w-[281px] p-1 max-h-[220px] overflow-y-auto">
             <div className="flex flex-col w-full">
               {categories.map((cat) => {
                 const isSelected = selectedCatIds.includes(String(cat.id));
@@ -131,8 +131,8 @@ const NewsFilter = ({ onFilterChange }) => {
                   <div
                     key={cat.id}
                     onClick={() => handleCategoryClick(cat.id)}
-                    className={`flex items-center justify-between p-2.5 my-0.5 text-xs rounded-lg cursor-pointer transition-colors text-gray-700 select-none
-                      ${isSelected ? "bg-blue-50 text-blue-600 font-medium" : "hover:bg-gray-50"}`}
+                    className={`flex items-center justify-between p-2.5 my-0.5 text-xs rounded-lg cursor-pointer transition-colors text-muted dark:text-gray-300 select-none
+                      ${isSelected ? "bg-accent-soft text-accent font-medium" : "hover:bg-gray-50 dark:hover:bg-gray-700"}`}
                   >
                     <span>{cat.categoryName}</span>
                     {isSelected && <span className="text-blue-600 font-bold">✓</span>}
@@ -145,8 +145,8 @@ const NewsFilter = ({ onFilterChange }) => {
       </div>
 
       <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2 text-gray-700 font-medium text-sm mb-1">
-          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="flex items-center gap-2 text-foreground font-medium text-sm mb-1">
+          <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <span>تاریخ انتشار</span>
@@ -158,43 +158,43 @@ const NewsFilter = ({ onFilterChange }) => {
           value={dateRange}
           onChange={handleDateChange}
         >
-          <DateField.Group fullWidth className="bg-white/80 border-0 rounded-xl h-11 px-3 flex items-center justify-between shadow-none text-xs text-gray-600">
-            <DateField.Input slot="start" className="outline-none bg-transparent">
+          <DateField.Group fullWidth className="bg-overlay border-0 rounded-xl h-11 px-3 flex items-center justify-between shadow-none text-xs text-gray-600 dark:text-gray-300">
+            <DateField.Input slot="start" className="outline-none bg-transparent dark:text-white">
               {(segment) => <DateField.Segment segment={segment} className="text-xs" />}
             </DateField.Input>
-            <DateRangePicker.RangeSeparator className="mx-1 text-gray-400" />
-            <DateField.Input slot="end" className="outline-none bg-transparent">
+            <DateRangePicker.RangeSeparator className="mx-1 text-gray-400 dark:text-gray-500" />
+            <DateField.Input slot="end" className="outline-none bg-transparent dark:text-white">
               {(segment) => <DateField.Segment segment={segment} className="text-xs" />}
             </DateField.Input>
             <DateField.Suffix className="mr-auto">
               <DateRangePicker.Trigger>
-                <DateRangePicker.TriggerIndicator className="text-gray-400" />
+                <DateRangePicker.TriggerIndicator className="text-gray-400 dark:text-gray-500" />
               </DateRangePicker.Trigger>
             </DateField.Suffix>
           </DateField.Group>
-          <DateRangePicker.Popover className="bg-white rounded-2xl shadow-xl border border-gray-100 p-2">
+          <DateRangePicker.Popover className="bg-overlay rounded-2xl shadow-xl border p-2">
             <RangeCalendar aria-label="انتخاب بازه زمانی" className="text-xs">
               <RangeCalendar.Header className="flex items-center justify-between pb-2">
-                <RangeCalendar.YearPickerTrigger className="flex items-center gap-1 font-medium text-gray-700">
+                <RangeCalendar.YearPickerTrigger className="flex items-center gap-1 font-medium text-muted dark:text-gray-300">
                   <RangeCalendar.YearPickerTriggerHeading />
                   <RangeCalendar.YearPickerTriggerIndicator />
                 </RangeCalendar.YearPickerTrigger>
                 <div className="flex gap-1">
-                  <RangeCalendar.NavButton slot="previous" className="p-1 rounded-lg hover:bg-gray-100" />
-                  <RangeCalendar.NavButton slot="next" className="p-1 rounded-lg hover:bg-gray-100" />
+                  <RangeCalendar.NavButton slot="previous" className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" />
+                  <RangeCalendar.NavButton slot="next" className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" />
                 </div>
               </RangeCalendar.Header>
               <RangeCalendar.Grid>
                 <RangeCalendar.GridHeader>
-                  {(day) => <RangeCalendar.HeaderCell className="text-gray-400 font-normal p-1">{day}</RangeCalendar.HeaderCell>}
+                  {(day) => <RangeCalendar.HeaderCell className="text-gray-400 dark:text-gray-500 font-normal p-1">{day}</RangeCalendar.HeaderCell>}
                 </RangeCalendar.GridHeader>
                 <RangeCalendar.GridBody>
-                  {(date) => <RangeCalendar.Cell date={date} className="p-1 text-center data-[selected=true]:bg-blue-600 data-[selected=true]:text-white rounded-lg" />}
+                  {(date) => <RangeCalendar.Cell date={date} className="p-1 text-center data-[selected=true]:bg-blue-600 data-[selected=true]:text-white rounded-lg dark:text-gray-300" />}
                 </RangeCalendar.GridBody>
               </RangeCalendar.Grid>
               <RangeCalendar.YearPickerGrid className="mt-2 border-t pt-2">
                 <RangeCalendar.YearPickerGridBody>
-                  {({year}) => <RangeCalendar.YearPickerCell year={year} className="p-1 text-center hover:bg-gray-100 rounded-md" />}
+                  {({year}) => <RangeCalendar.YearPickerCell year={year} className="p-1 text-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md dark:text-gray-300" />}
                 </RangeCalendar.YearPickerGridBody>
               </RangeCalendar.YearPickerGrid>
             </RangeCalendar>

@@ -1,5 +1,4 @@
 "use client";
-
 import { Tag, TagGroup } from "@heroui/react";
 
 function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
@@ -42,7 +41,7 @@ function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
 
   return (
     <div className="flex items-center gap-3 bg-default dark:bg-surface px-6 py-3 rounded-[20px] shadow-sm mb-6 w-full" >
-      <span className="text-gray-700 font-bold text-sm shrink-0">مرتب‌سازی بر اساس:</span>
+      <span className="text- font-bold text-sm shrink-0">مرتب‌سازی بر اساس:</span>
       
       <TagGroup 
         aria-label="سورت کردن دوره‌ها" 
