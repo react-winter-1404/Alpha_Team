@@ -11,11 +11,6 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   GridViewIcon,
   ViewAgendaIcon,
-  Menu02Icon,
-  Home01Icon,
-  Book02Icon,
-  News01Icon,
-  FlipPhoneIcon,
 } from "@hugeicons/core-free-icons";
 
 const ListingPage = () => {
@@ -82,26 +77,30 @@ const ListingPage = () => {
   const totalPages = Math.ceil(totalCount / filters.RowsOfPage) || 1;
 
   return (
-    <div className="w-full min-h-screen  flex flex-col justify-between">
+    <div className="w-full min-h-screen flex flex-col justify-between" style={{ direction: 'rtl' }}>
       <div>
         <NavbarHeader />
-        <div className="w-[1380px] min-h-[500px] pb-[60px] rounded-[40px] dark:bg-surface-secondary border-4  overflow-hidden mx-auto my-10 p-[32px] grid grid-cols-12 gap-10 relative">
-          <div className="col-span-9 flex flex-col justify-between">
+        
+        <div className="max-w-[1380px] w-full min-h-[500px] pb-[60px] rounded-[24px] md:rounded-[40px] dark:bg-surface-secondary border-4 overflow-hidden mx-auto my-6 md:my-10 p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 relative">
+          
+          <div className="col-span-1 lg:col-span-9 flex flex-col justify-between order-last lg:order-first">
             <div className="flex flex-col gap-4">
-              <div className="flex justify-between items-center w-full" style={{ direction: 'rtl' }}>
-                <div className="flex-1">
+              
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
+                <div className="w-full sm:flex-1">
                   <CourseSorting 
                     currentSortingCol={filters.SortingCol}
                     currentSortType={filters.SortType}
                     onSortChange={handleSortChange}
                   />
                 </div>
-                <div className="flex items-center gap-2 border-r border-gray-500 pr-4 mr-4">
+                
+                <div className="hidden sm:flex items-center gap-2 border-r border-gray-500 pr-4 mr-4">
                   <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === 'grid' ? 'bg-accent shadow-sm text-accent-foreground ' : 'opacity-50'}`}>
-                    <HugeiconsIcon icon={GridViewIcon} className=" m-0 w-5 h-5   " />
+                    <HugeiconsIcon icon={GridViewIcon} className="m-0 w-5 h-5" />
                   </button>
                   <button onClick={() => setViewMode('row')} className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === 'row' ? 'bg-accent shadow-sm text-accent-foreground ' : 'opacity-50'}`}>
-                    <HugeiconsIcon icon={ViewAgendaIcon} className=" m-0 w-5 h-5   " />
+                    <HugeiconsIcon icon={ViewAgendaIcon} className="m-0 w-5 h-5" />
                   </button>
                 </div>
               </div>
@@ -112,11 +111,11 @@ const ListingPage = () => {
                     <Spinner size="lg" color="primary" />
                   </div>
                 ) : courses.length === 0 ? (
-                  <div className="w-full text-center py-20 text-gray-400 font-medium">دوره ای با فیلترهای انتخاب شده یافت نشد.</div>
+                  <div className="w-full text-center py-20 text-gray-400 font-medium">دوره‌ای با فیلترهای انتخاب شده یافت نشد.</div>
                 ) : (
-                  <div className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center" : "flex flex-col gap-6 w-full"}>
+                  <div className={viewMode === 'grid' ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center" : "flex flex-col gap-6 w-full"}>
                     {courses.map((course, index) => (
-                      <div key={course.id || course.courseId || index} className={viewMode === 'grid' ? "" : "relative w-full h-[288px]"}>
+                      <div key={course.id || course.courseId || index} className={viewMode === 'grid' ? "w-full flex justify-center" : "relative w-full min-h-[288px]"}>
                         <CourseCard
                           viewMode={viewMode}
                           imageURL={course.tumbImageAddress || course.imageAddress || "https://via.placeholder.com/315x225"}
@@ -143,7 +142,8 @@ const ListingPage = () => {
                 )}
               </div>
             </div>
-            <div className="w-full flex justify-center mt-12">
+            
+            <div className="w-full flex justify-center mt-12 overflow-x-auto">
               {!loading && totalPages > 1 && (
                 <CoursePagination
                   page={filters.PageNumber}
@@ -155,9 +155,11 @@ const ListingPage = () => {
               )}
             </div>
           </div>
-          <div className="col-span-3 w-[321px]">
+          
+          <div className="col-span-1 lg:col-span-3 w-full lg:max-w-[321px] mx-auto">
             <CourseFilters filters={filters} setFilters={setFilters} />
           </div>
+
         </div>
       </div>
       <Footer />
