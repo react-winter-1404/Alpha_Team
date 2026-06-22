@@ -61,7 +61,8 @@ const FavMag = () => {
   });
 
   return (
-    <div>
+    <>
+    <div className="hidden md:block">
       <h3 className="text-[32px] text-[#272727] mt-5">علاقه‌مندی مقالات</h3>
 
       <div className="flex justify-start items-center gap-5 mt-7">
@@ -224,7 +225,23 @@ const FavMag = () => {
         </div>
       </div>
     </div>
+<<<<<<< HEAD
   );
 };
+=======
+
+    <div className="block md:hidden">
+      <div className="flex justify-between items-center ">
+        <h3 className="text-[32px] text-[#272727]">علاقه‌مندی مقاله</h3>
+
+        <button className="w-[83px] h-[41px] rounded-[64px] bg-[#3772ff] text-[16px] text-[#fefdff]">فیلتر</button>
+      </div>
+
+    </div>
+    </>
+    
+  )
+}
+>>>>>>> 376d1c5428580b5ecc2899e2804fa1abc5dc13c7
 
 export default FavMag;

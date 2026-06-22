@@ -32,6 +32,25 @@ body {
   --mono: ui-monospace, Consolas, monospace;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  max-width: none !important;
+  text-align: initial;
+}
+
+body {
+  display: block;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #9ca3af;
@@ -152,4 +171,145 @@ body {
   --surface-tertiary-foreground: oklch(99.11% 0.0015 253.83);
   --warning: oklch(82.03% 0.1392 76.34);
   --warning-foreground: oklch(21.03% 0.0059 76.34);
+}
+
+.dashboard-calendar,
+.dashboard-calendar .rmdp-wrapper,
+.dashboard-calendar .rmdp-calendar {
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 16px !important;
+}
+
+.dashboard-calendar .rmdp-wrapper {
+  overflow: hidden !important;
+}
+
+.dashboard-calendar .rmdp-calendar {
+  padding: 0 !important;
+}
+ 
+.dashboard-calendar .rmdp-header {
+  height: 50px !important;
+  margin: 0 !important;
+  padding: 0 48px !important;
+  background: #3772ff !important;
+  color: #ffff !important;
+  border-radius: 16px 16px 0 0 !important;
+  display: grid !important;
+  /* grid-template-columns: 36px 1fr 36px !important; */
+  align-items: center !important;
+}
+
+.dashboard-calendar .rmdp-header-values {
+  /* grid-column: 2 !important;
+  justify-self: center !important; */
+  color: #fff !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  /* margin: 0 !important; */
+}
+
+.dashboard-calendar .rmdp-arrow-container {
+  position: static !important;
+  transform: none !important;
+  width: 32px !important;
+  height: 32px !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #fff !important;
+}
+
+.dashboard-calendar .rmdp-arrow-container:first-child {
+  grid-column: 1 !important;
+  justify-self: start !important;
+}
+
+.dashboard-calendar .rmdp-arrow-container:last-child {
+  grid-column: 3 !important;
+  justify-self: end !important;
+}
+
+.dashboard-calendar .rmdp-arrow {
+  border-color: #fff !important;
+}
+
+.dashboard-calendar .rmdp-month-picker,
+.dashboard-calendar .rmdp-year-picker {
+  background: #fff !important;
+}
+
+.dashboard-calendar .rmdp-day-picker {
+  width: 100% !important;
+  height: calc(100% - 50px) !important;
+  padding: 10px 14px 12px !important;
+  box-sizing: border-box !important;
+  display: block !important;
+}
+
+.dashboard-calendar .rmdp-week {
+  width: 100% !important;
+  max-width: none !important;
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  align-items: center !important;
+  justify-items: center !important;
+  margin: 0 !important;
+}
+
+.dashboard-calendar .rmdp-week-day {
+  width: 100% !important;
+  max-width: none !important;
+  height: 28px !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #3772ff !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+.dashboard-calendar .rmdp-day {
+  width: 100% !important;
+  max-width: none !important;
+  height: 31px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.dashboard-calendar .rmdp-day span {
+  width: 26px !important;
+  height: 26px !important;
+  position: static !important;
+  transform: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 999px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #272727 !important;
+}
+
+.dashboard-calendar .rmdp-selected span {
+  background: #3772ff !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.dashboard-calendar .rmdp-today span {
+  background: #8ef0a1 !important;
+  color: #272727 !important;
+}
+
+.dashboard-calendar .rmdp-day.rmdp-out span {
+  color: #bdbdbd !important;
 }
