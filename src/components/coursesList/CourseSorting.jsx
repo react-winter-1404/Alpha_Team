@@ -31,6 +31,7 @@ function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
         onSortChange(null, null);
     }
   };
+  const isSelected = (id) => activeKey.includes(id);
 
 
   let activeKey = [];
@@ -40,7 +41,7 @@ function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
   else if (currentSortingCol === "capacity") activeKey = ["popularity"];
 
   return (
-    <div className="flex items-center gap-3 bg-[#F5F5F5] px-6 py-3 rounded-[20px] shadow-sm mb-6 w-full" style={{ direction: 'rtl' }}>
+    <div className="flex items-center gap-3 bg-default dark:bg-surface px-6 py-3 rounded-[20px] shadow-sm mb-6 w-full" >
       <span className="text-gray-700 font-bold text-sm shrink-0">مرتب‌سازی بر اساس:</span>
       
       <TagGroup 
@@ -50,16 +51,16 @@ function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
         onSelectionChange={handleSelectionChange}
       >
         <TagGroup.List className="flex gap-2">
-          <Tag id="price-desc" className="cursor-pointer font-medium text-xs px-3 py-1 rounded-xl">
+          <Tag id="price-desc" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl ${isSelected("price-desc") ? ' bg-accent text-accent-foreground font-bold ':''} `}>
             گران‌ترین‌ها
           </Tag>
-          <Tag id="price-asc" className="cursor-pointer font-medium text-xs px-3 py-1 rounded-xl">
+          <Tag id="price-asc" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl ${isSelected("price-asc") ? ' bg-accent text-accent-foreground font-bold ':''} `}>
             ارزان‌ترین‌ها
           </Tag>
-          <Tag id="rating" className="cursor-pointer font-medium text-xs px-3 py-1 rounded-xl">
+          <Tag id="rating" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl ${isSelected("rating") ? ' bg-accent text-accent-foreground font-bold ':''} `}>
             بالاترین امتیاز
           </Tag>
-          <Tag id="popularity" className="cursor-pointer font-medium text-xs px-3 py-1 rounded-xl">
+          <Tag id="popularity" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl ${isSelected("popularity") ? ' bg-accent text-accent-foreground font-bold ':''} `}>
             محبوب‌ترین‌ها
           </Tag>
         </TagGroup.List>

@@ -36,8 +36,8 @@ const BestTeachers = () => {
           isLoading ? (<p>در حال فراخوانی...</p>):
         (
         <>
-          <div className="relative border-4 border-[#e4e4e4] bg-[#fefdff] dark:bg-[#585757] h-[297px] w-[90%] md:w-[20%] flex flex-col gap-2 rounded-[24px] text-center">
-          <div className="absolute h-[64px] w-[64px] bg-[#787878] rounded-full top-[-32px] right-[95px]"></div>
+          <div className="relative border-4 border bg-overlay dark:bg-surface-secondary h-[297px] w-[90%] md:w-[20%] flex flex-col items-center gap-2 rounded-[24px] text-center">
+          <div className="absolute h-[64px] w-[64px] bg-[#787878] rounded-full top-[-32px] "></div>
 
           <span className="mt-[50px] block text-[20px] md:text-[24px] text-[#272727] dark:text-white">محمدحسین بحرالعلومی</span>
           <span className="block text-[14px] md:text-[16px] text-[#787878] dark:text-[#d8d5d5]">دکتری هوش مصنوعی</span>
@@ -49,10 +49,10 @@ const BestTeachers = () => {
           <button className="cursor-pointer mx-auto w-[90%] h-[40px] text-[20px] text-[#fefdff] rounded-[65px] bg-[#3772ff]">صفحه استاد</button>
         </div>
 
-        <div className="relative border-4 boder-[#3772ff] bg-[#fefdff] dark:bg-[#585757] h-[341px] w-[90%] md:w-[25%] flex flex-col gap-2 rounded-[32px] text-center">
-          <div className="absolute border-4 boder-[#3772ff] h-[88px] w-[88px] bg-[#787878] rounded-full top-[-44px] right-[110px]"></div>
+        <div className="relative border-4 border-accent bg-overlay dark:bg-surface-secondary h-[341px] w-[90%] md:w-[25%] flex flex-col items-center gap-2 rounded-[32px] text-center">
+          <div className="absolute border-4 border-accent h-[88px] w-[88px] bg-[#787878] rounded-full top-[-44px] "></div>
 
-          <span className="mt-[50px] block text-[20px] md:text-[24px] text-[#272727] text-white">محمدحسین بحرالعلومی</span>
+          <span className="mt-[50px] block text-[20px] md:text-[24px]  ">محمدحسین بحرالعلومی</span>
           <span className="block text-[14px] md:text-[16px] text-[#787878] dark:text-[#d8d5d5]">دکتری هوش مصنوعی</span>
 
           <span className="block text-[32px] md:text-[36px] text-[#3772ff]">4.2🥇</span>
@@ -62,8 +62,8 @@ const BestTeachers = () => {
           <button className="cursor-pointer mx-auto mt-[20px] w-[90%] h-[50px] text-[20px] text-[#fefdff] rounded-[65px] bg-[#3772ff]">صفحه استاد</button>
         </div>
 
-        <div className="relative border-4 border-[#e4e4e4] bg-[#fefdff] dark:bg-[#585757] dark:text-[#ece8e8] h-[297px] w-[90%] md:w-[20%] flex flex-col gap-2 rounded-[24px] text-center">
-          <div className="absolute h-[64px] w-[64px] bg-[#787878] rounded-full top-[-32px] right-[95px]"></div>
+        <div className="relative border-4 border bg-overlay dark:bg-surface-secondary dark:text-[#ece8e8] h-[297px] w-[90%] md:w-[20%] flex flex-col items-center gap-2 rounded-[24px] text-center">
+          <div className="absolute h-[64px] w-[64px] bg-[#787878] rounded-full top-[-32px] "></div>
 
           <span className="mt-[50px] block text-[20px] md:text-[24px] text-[#272727] dark:text-white">محمدحسین بحرالعلومی</span>
           <span className="block text-[14px] md:text-[16px] text-[#787878] dark:text-[#d8d5d5]">دکتری هوش مصنوعی</span>

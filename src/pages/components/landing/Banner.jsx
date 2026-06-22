@@ -2,13 +2,21 @@
 
 const Banner = () => {
   return (
-      <div className="mb-15">
-        <div className="h-[40px] md:h-16 w-[120%] relative bg-[#3772ff] rotate-3 md:-rotate-3 text-center text-[#fefdff]">
-          <img
-          src="/images/Group 117.png"
-          alt=""
-          className="w-full h-[150%] absolute top-[-13px] md:top-[-18px] mr-[-20px] md:mr-[-150px] rotate-[6deg] md:rotate-[2.7deg] scale-[4] md:scale-[1.5] origin-center"
-        />
+      <div className=" relative mb-10 mt-5 h-37 ">
+        <div className=" absolute top-[28%] right-[-5%] h-16 w-[110%] flex items-center gap-4  bg-accent text-accent-foreground -rotate-4 lg:-rotate-3 text-center overflow-hidden  ">
+          <div className=" whitespace-nowrap ">خدماتی که ما به شما ارائه میدهیم</div>
+          <div className=" w-1 h-1 p-0.5 border border-accent-foreground bg-accent-foreground rounded-full mt-2   "></div>
+          <div className=" whitespace-nowrap ">خدماتی که ما به شما ارائه میدهیم</div>
+          <div className=" w-1 h-1 p-0.5 border border-accent-foreground bg-accent-foreground rounded-full mt-2  "></div>
+          <div className=" whitespace-nowrap ">خدماتی که ما به شما ارائه میدهیم</div>
+          <div className=" w-1 h-1 p-0.5 border border-accent-foreground bg-accent-foreground rounded-full mt-2  "></div>
+          <div className=" whitespace-nowrap ">خدماتی که ما به شما ارائه میدهیم</div>
+          <div className=" w-1 h-1 p-0.5 border border-accent-foreground bg-accent-foreground rounded-full mt-2  "></div>
+          <div className=" whitespace-nowrap ">خدماتی که ما به شما ارائه میدهیم</div>
+          <div className=" w-1 h-1 p-0.5 border border-accent-foreground bg-accent-foreground rounded-full mt-2  "></div>
+          <div className=" whitespace-nowrap ">خدماتی که ما به شما ارائه میدهیم</div>
+          <div className=" w-1 h-1 p-0.5 border border-accent-foreground bg-accent-foreground rounded-full mt-2  "></div>
+          <div className=" whitespace-nowrap ">خدماتی که ما به شما ارائه میدهیم</div>
       </div>
     </div>
   )

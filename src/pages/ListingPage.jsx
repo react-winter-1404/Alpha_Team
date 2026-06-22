@@ -74,10 +74,10 @@ const ListingPage = () => {
   const totalPages = Math.ceil(totalCount / filters.RowsOfPage) || 1;
 
   return (
-    <div className="w-full min-h-screen bg-[#fefdff] flex flex-col justify-between">
+    <div className="w-full min-h-screen  flex flex-col justify-between">
       <div>
         <NavbarHeader />
-        <div className="w-[1380px] min-h-[500px] pb-[60px] rounded-[40px] bg-[#fefdff] border-4 border-[#e4e4e4] overflow-hidden mx-auto my-10 p-[32px] grid grid-cols-12 gap-10 relative">
+        <div className="w-[1380px] min-h-[500px] pb-[60px] rounded-[40px] dark:bg-surface-secondary border-4  overflow-hidden mx-auto my-10 p-[32px] grid grid-cols-12 gap-10 relative">
           <div className="col-span-9 flex flex-col justify-between">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between items-center w-full" style={{ direction: 'rtl' }}>
@@ -89,10 +89,10 @@ const ListingPage = () => {
                   />
                 </div>
                 <div className="flex items-center gap-2 border-r border-gray-300 pr-4 mr-4">
-                  <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-gray-100 shadow-sm border border-gray-200' : 'opacity-50'}`}>
+                  <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-accent shadow-sm  ' : 'opacity-50'}`}>
                     <img src={grid} alt="Grid View" className="w-5 h-5" />
                   </button>
-                  <button onClick={() => setViewMode('row')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'row' ? 'bg-gray-100 shadow-sm border border-gray-200' : 'opacity-50'}`}>
+                  <button onClick={() => setViewMode('row')} className={`p-1.5 rounded-lg transition-all ${viewMode === 'row' ? 'bg-separator dark:bg-surface shadow-sm border ' : 'opacity-50'}`}>
                     <img src={row} alt="Row View" className="w-5 h-5" />
                   </button>
                 </div>
