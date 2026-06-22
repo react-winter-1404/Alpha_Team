@@ -17,3 +17,9 @@ export const getUserProfile =()=>{
 export const getUserCoursesReserve =()=>{
     return apiClient.get(`/SharePanel/GetMyCoursesReserve`);
 }
+export const getUserFavoriteCourses =()=>{
+    return apiClient.get(`/SharePanel/GetMyFavoriteCourses`);
+}
+export const getUserFavoriteNews =()=>{
+    return apiClient.get(`/SharePanel/GetMyFavoriteNews`);
+}

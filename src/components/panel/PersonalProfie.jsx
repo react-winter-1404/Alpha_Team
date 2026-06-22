@@ -41,11 +41,12 @@ const PersonalProfile = ({progressPercent}) => {
     formData.append("LName", data.lastName?.trim() || "");
     formData.append("UserAbout", data.aboutMe?.trim() || "");
     formData.append("NationalCode", data.code?.trim() || "");
-    formData.append("Gender", data.sex || "");
+    formData.append("Gender", data.sex === "male");
     formData.append("BirthDay", new Date(data.birthday).toISOString());
     formData.append("HomeAdderess", data.address?.trim() || "");
-    formData.append("gmail", data.email?.trim() || "");
+    formData.append("RecoveryEmail", 'asas');
     formData.append("phoneNumber", data.phone?.trim() || "");
+  
 
     try {
       const response = await putPersonalProfile(formData);

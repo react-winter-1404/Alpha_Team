@@ -61,7 +61,7 @@ const RowCourseCard = ({ course }) => {
         </Chip>
       </div>
       <div className=" w-[10%] flex justify-center ">
-        <Link to={`/courses/${course.courseId}`} className="">
+        <Link to={`/courses/${courseDetail.courseId}`} className="">
           <HugeiconsIcon className=" cursor-pointer " icon={ViewIcon} />
         </Link>
       </div>

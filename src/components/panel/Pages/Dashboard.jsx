@@ -4,6 +4,7 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { Courses } from "../../../core/services/get";
 import { getUserProfile } from "../../../core/services/userPanel/get";
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 
 const Dashboard = () => {
   const [value, setValue] = useState(new Date());
@@ -11,6 +12,15 @@ const Dashboard = () => {
   const [course, setCourse] = useState([]);
   const [userProfile, setUserProfile] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+   const [submittedPercent, setSubmittedPercent] = useState(0);
+
+   const getProgressInfo = (c) => {
+    if (c < 50) return { clr: "#ffc619", p: "اطلاعات کاربری شما تکمیل نیست!" };
+    if (c < 100) return { clr: "#3E98C7", p: "اطلاعات کاربری شما تکمیل نیست!" };
+    return { clr: "#47C724", p: "اطلاعات کاربری شما تکمیل شد" };
+  };
+     const pc = getProgressInfo( submittedPercent);
+
 
 
   useEffect(() => {
@@ -36,6 +46,7 @@ const Dashboard = () => {
       const response = await getUserProfile();
       setUserProfile(response.data);
       console.log(response.data);
+      setSubmittedPercent(response.data.profileCompletionPercentage)
     } catch (error) {
       console.error(error);
     } finally {
@@ -142,6 +153,31 @@ const Dashboard = () => {
           />
         </div>
 
+<<<<<<< HEAD
+        <div className="w-[30%] h-[287px] bg-[#fefdff] rounded-[16px] flex flex-col ">
+          <h3 className="text-[16px] text-[#272727] mt-3 mr-2 ">وضعیت اطلاعات حساب</h3>
+        <div className="m-auto mt-[40px] h-[130px] w-[136px]">
+          <CircularProgressbar
+            value={ submittedPercent}
+            text={`${ submittedPercent}%`}
+            styles={buildStyles({
+              pathColor: pc.clr,
+              textColor: pc.clr,
+              trailColor: "#f0f0f0",
+              strokeLinecap: "round",
+              textSize: "34px",
+              pathTransitionDuration: 0.5,
+            })}
+          />
+        </div>
+        <p
+          className="text-[14px] mt-[20px] text-center mb-7 "
+          style={{ color: pc.clr }}
+        >
+          {pc.p}
+        </p>
+        </div>
+=======
         <div className="hidden md:flex w-[25%] h-[287px] bg-[#fefdff] rounded-[16px]"></div>
       </div>
 
@@ -168,6 +204,7 @@ const Dashboard = () => {
           <div></div>
         </div>
 
+>>>>>>> 376d1c5428580b5ecc2899e2804fa1abc5dc13c7
       </div>
 
       <div className="w-full h-[470px] flex flex-col justify-start items-center gap-3 mt-3 p-3 bg-[#fefdff] rounded-[16px]">
