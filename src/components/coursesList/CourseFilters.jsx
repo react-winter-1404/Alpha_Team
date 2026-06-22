@@ -19,16 +19,25 @@ import {
   TeacherIcon,
   Money03Icon,
   Calendar02Icon,
+  Cancel01Icon,
 } from "@hugeicons/core-free-icons";
 
-
-
-export default function CourseFilters({ filters, setFilters }) {
+export default function CourseFilters({ 
+  filters, 
+  setFilters, 
+  isMobile = false, 
+  isOpen = false, 
+  onClose,
+  currentSortingCol,
+  currentSortType,
+  onSortChange 
+}) {
   const [localPrice, setLocalPrice] = useState([10000, 5000000]);
   const [categories, setCategories] = useState([]);
   const [isCatOpen, setIsCatOpen] = useState(false);
   const [isLevelOpen, setIsLevelOpen] = useState(false);
   const [isTeacherOpen, setIsTeacherOpen] = useState(false);
+  const [isSortOpen, setIsSortOpen] = useState(false);
 
   const levels = [
     { id: "1", name: "مبتدی" },
@@ -80,16 +89,19 @@ export default function CourseFilters({ filters, setFilters }) {
     }));
   };
 
-  return (
-    <div 
-      className="w-[321px] min-h-[602px] bg-default dark:bg-surface rounded-[30px] p-6 flex flex-col gap-6 shadow-sm"
-      style={{ direction: 'rtl' }}
-    >
+  const getSortLabel = () => {
+    if (currentSortingCol === "cost" && currentSortType === "DESC") return "گران‌ترین‌ها";
+    if (currentSortingCol === "cost" && currentSortType === "ASC") return "ارزان‌ترین‌ها";
+    if (currentSortingCol === "courseRate") return "بالاترین امتیاز";
+    if (currentSortingCol === "capacity") return "محبوب‌ترین‌ها";
+    return "انتخاب کنید";
+  };
+
+  const renderFilterFields = () => (
+    <>
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1">
-          <span>
-            <HugeiconsIcon icon={CellsIcon} className=" m-0 w-5 h-5 " />
-          </span>
+          <HugeiconsIcon icon={CellsIcon} className="w-5 h-5 text-gray-700 dark:text-gray-300" />
           <span>جستجوی دوره</span>
         </div>
         <SearchField 
@@ -108,10 +120,8 @@ export default function CourseFilters({ filters, setFilters }) {
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1">
-          <span>
-            <HugeiconsIcon icon={Search01Icon} className=" m-0 w-5 h-5 " />
-          </span>
-          <span>دسته بندی</span>
+          <HugeiconsIcon icon={Search01Icon} className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+          <span>دسته‌بندی</span>
         </div>
         <Popover isOpen={isCatOpen} onOpenChange={setIsCatOpen} placement="bottom-start">
           <Popover.Trigger>
@@ -148,9 +158,7 @@ export default function CourseFilters({ filters, setFilters }) {
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1">
-          <span>
-            <HugeiconsIcon icon={Layers01Icon} className=" m-0 w-5 h-5 " />
-          </span>
+          <HugeiconsIcon icon={Layers01Icon} className="w-5 h-5 text-gray-700 dark:text-gray-300" />
           <span>سطح آموزشی</span>
         </div>
         <Popover isOpen={isLevelOpen} onOpenChange={setIsLevelOpen} placement="bottom-start">
@@ -188,9 +196,7 @@ export default function CourseFilters({ filters, setFilters }) {
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1">
-          <span>
-            <HugeiconsIcon icon={TeacherIcon} className=" m-0 w-5 h-5 " />
-          </span>
+          <HugeiconsIcon icon={TeacherIcon} className="w-5 h-5 text-gray-700 dark:text-gray-300" />
           <span>اساتید</span>
         </div>
         <Popover isOpen={isTeacherOpen} onOpenChange={setIsTeacherOpen} placement="bottom-start">
@@ -227,12 +233,10 @@ export default function CourseFilters({ filters, setFilters }) {
       </div>
 
       <div className="flex flex-col gap-2">
-        <div className="flex justify-between items-center text-sm font-bold  mb-1">
+        <div className="flex justify-between items-center text-sm font-bold mb-1">
           <div className="flex items-center gap-2">
-            <span>
-              <HugeiconsIcon icon={Money03Icon} className=" m-0 w-5 h-5 " />
-            </span>
-            <span className=" font-bold text-sm">قیمت</span>
+            <HugeiconsIcon icon={Money03Icon} className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+            <span className="font-bold text-sm">قیمت</span>
           </div>
           <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 flex gap-1" style={{ direction: 'ltr' }}>
             <span>{localPrice[1].toLocaleString()}</span>
@@ -267,7 +271,7 @@ export default function CourseFilters({ filters, setFilters }) {
                   <Slider.Thumb 
                     key={i} 
                     index={i} 
-                    className="bg-blue-600 w-5 h-5 border-2 border-overbg-overlay dark:border-gray-800 shadow-md cursor-pointer" 
+                    className="bg-blue-600 w-5 h-5 border-2 border-overlay dark:border-gray-800 shadow-md cursor-pointer" 
                   />
                 ))}
               </>
@@ -278,9 +282,7 @@ export default function CourseFilters({ filters, setFilters }) {
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1">
-          <span>
-            <HugeiconsIcon icon={Calendar02Icon} className=" m-0 w-5 h-5 " />
-          </span>
+          <HugeiconsIcon icon={Calendar02Icon} className="w-5 h-5 text-gray-700 dark:text-gray-300" />
           <span>تاریخ برگزاری</span>
         </div>
         
@@ -323,13 +325,115 @@ export default function CourseFilters({ filters, setFilters }) {
                   {(day) => <RangeCalendar.HeaderCell className="text-gray-400 dark:text-gray-500 font-normal p-1">{day}</RangeCalendar.HeaderCell>}
                 </RangeCalendar.GridHeader>
                 <RangeCalendar.GridBody>
-                  {(date) => <RangeCalendar.Cell date={date} className="p-1 text-center data-[selected=true]:bg-blue-600 data-[selected=true]:text-overbg-overlay dark:text-gray-300 rounded-lg" />}
+                  {(date) => <RangeCalendar.Cell date={date} className="p-1 text-center data-[selected=true]:bg-blue-600 data-[selected=true]:text-overlay dark:text-gray-300 rounded-lg" />}
                 </RangeCalendar.GridBody>
               </RangeCalendar.Grid>
             </RangeCalendar>
           </DateRangePicker.Popover>
         </DateRangePicker>
       </div>
+
+      {isMobile && (
+  <div className="flex flex-col gap-2">
+    <div className="flex items-center gap-2 font-bold text-sm mb-1">
+      <span className="text-sm font-bold">ترتیب</span>
+    </div>
+    <Popover isOpen={isSortOpen} onOpenChange={setIsSortOpen} placement="bottom-start">
+      <Popover.Trigger>
+        <Button className="w-full bg-overlay border-none rounded-2xl h-12 px-4 flex items-center justify-between shadow-sm text-sm text-muted dark:text-gray-300 font-normal">
+          <span className="text-right w-full">{getSortLabel()}</span>
+          <span className="text-gray-400 text-xs">▼</span>
+        </Button>
+      </Popover.Trigger>
+      <Popover.Content className="bg-overlay rounded-xl shadow-lg border w-[273px] p-1">
+        <div className="flex flex-col w-full">
+          {[
+            { id: "price-desc", label: "گران‌ترین‌ها", col: "cost", type: "DESC" },
+            { id: "price-asc", label: "ارزان‌ترین‌ها", col: "cost", type: "ASC" },
+            { id: "rating", label: "بالاترین امتیاز", col: "courseRate", type: "DESC" },
+            { id: "popularity", label: "محبوب‌ترین‌ها", col: "capacity", type: "DESC" }
+          ].map((item) => {
+            const isAct = currentSortingCol === item.col && currentSortType === item.type;
+            return (
+              <div
+                key={item.id}
+                onClick={() => {
+                  if (isAct) {
+                    onSortChange(null, null);
+                  } else {
+                    onSortChange(item.col, item.type);
+                  }
+                  setIsSortOpen(false);
+                }}
+                className={`flex items-center justify-between p-2.5 my-0.5 text-xs rounded-lg cursor-pointer transition-colors text-muted dark:text-gray-300 select-none
+                  ${isAct ? "bg-accent-soft text-accent font-medium" : "hover:bg-gray-50 dark:hover:bg-gray-700"}`}
+              >
+                <span>{item.label}</span>
+                {isAct && <span className="text-blue-600 font-bold">✓</span>}
+              </div>
+            );
+          })}
+        </div>
+      </Popover.Content>
+    </Popover>
+  </div>
+)}
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <div 
+        className={`fixed inset-0 z-50 flex flex-col justify-end transition-opacity duration-300 lg:hidden ${
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        style={{ direction: 'rtl' }}
+      >
+        <div 
+          className="absolute inset-0 bg-black/30 backdrop-blur-md transition-all" 
+          onClick={onClose}
+        />
+
+        <div 
+          className={`relative w-full max-h-[90vh] bg-white dark:bg-surface-secondary rounded-t-[40px] p-6 shadow-2xl flex flex-col transition-transform duration-300 ease-out transform ${
+            isOpen ? "translate-y-0" : "translate-y-full"
+          }`}
+        >
+          <div className="flex items-center justify-between mb-6 border-b pb-4">
+            <span className="text-lg font-bold text-gray-800 dark:text-white">ترتیب و فیلتر</span>
+            
+            <button 
+              onClick={onClose}
+              className="flex items-center gap-1 border border-red-500 text-red-500 px-4 py-1.5 rounded-full text-xs font-bold bg-red-50/50 hover:bg-red-50 transition-colors cursor-pointer"
+            >
+              <HugeiconsIcon icon={Cancel01Icon} className="w-4 h-4" />
+              <span>بستن</span>
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto pr-1 flex flex-col gap-6 pb-20">
+            {renderFilterFields()}
+          </div>
+
+          <div className="absolute bottom-4 left-6 right-6 bg-gradient-to-t from-white dark:from-surface-secondary pt-2">
+            <Button 
+              onClick={onClose}
+              className="w-full h-12 bg-blue-600 text-white font-bold text-base rounded-2xl shadow-md cursor-pointer transition-all active:scale-95"
+            >
+              اعمال
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      className="w-[321px] min-h-[602px] bg-default dark:bg-surface rounded-[30px] p-6 flex flex-col gap-6 shadow-sm"
+      style={{ direction: 'rtl' }}
+    >
+      {renderFilterFields()}
     </div>
   );
 }
