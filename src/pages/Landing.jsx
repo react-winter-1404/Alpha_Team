@@ -7,10 +7,12 @@ import Footer from './components/landing/Footer'
 import NewsBar from './components/landing/News'
 import NavbarHeader from './components/landing/NavbarHeader'
 import License from './components/landing/LicenseCards'
+// import ScrollProgressBar from '../layout/ScrollProgressBar'
 
 const LandingPage = () => {
   return (
     <div style={{overflow:"hidden"}}>
+      {/* <ScrollProgressBar /> */}
       <NavbarHeader/>
       <Hero/>
       <FeatureCards/>
