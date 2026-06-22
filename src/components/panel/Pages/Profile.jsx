@@ -36,7 +36,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
 
   return (
     <div>
-      <div className="w-full h-[320px] bg-[#fefdff] mt-[20px] rounded-t-[16px]">
+      <div className="w-full bg-[#fefdff] mt-[20px] rounded-t-[16px]">
         <div className="relative w-full h-[113px] rounded-[16px] bg-[#3772ff]">
           <div className="w-[128px] h-[128px] rounded-full bg-[#427efc] border-white border-[5px] absolute top-[60px] right-[35px]">
             <img
@@ -45,22 +45,21 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
               className="m-auto rounded-full w-full h-full object-cover"
             />
             <div className="w-[24px] h-[24px] bg-[#3772ff] border-[#fefdff] border[3px] rounded-full absolute top-[85px] right-1">
-              <img
-                src="/public/images/Group 148.png"
-                alt=""
-                className="m-auto"
-              />
+              <img src="/public/images/Group 148.png" alt=""  className="m-auto" />
             </div>
+
           </div>
         </div>
 
-        <div className="p-[30px] w-full h-[120px] flex justify-between items-center">
-          <div className="w-[550px] h-[30px]">
-            <div className="flex justify-start items-center gap-4 mt-10">
-              <h3 className="text-[36px] text-[#272727]">
+        <div className="p-[30px] w-full  flex flex-col md:flex-row justify-start items-start md:gap-80">
+          <div className=" flex flex-col justify-start items-start">
+            <div className="w-full flex justify-start items-center gap-3 mt-10">
+
+              <h3 className="text-[24px] md:text-[36px] text-[#272727]">
                 {userProfile.fName + " " + userProfile.lName}
               </h3>
-              <span className="text-[16px] text-[#787878] mt-4">
+
+              <span className="text-[14px] md:text-[16px] text-[#787878] mt-4 w-[100px]">
                 (
                 {userRoles &&
                   userRoles.map((role, index) => (
@@ -71,9 +70,10 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
                   ))}
                 )
               </span>
+
             </div>
 
-            <div className="flex justify-start items-center gap-2 mt-4">
+            <div className="flex flex-col md:flex-row justify-start items-start md:items-center gap-2 mt-4">
               <div className="flex justify-center items-center gap-2">
                 <img
                   src="/public/icons/smart-phone-01-stroke-rounded 2.png"
@@ -116,7 +116,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
             </div>
           </div>
 
-          <div className="w-[400px] h-[30px] mt-30">
+          <div className="mt-10 md:mt-20">
             <span className="text-[16px] text-[#787878]">درباره من</span>
             <p className="text-[16px] text-[#272727] mt-2">
               {userProfile.userAbout}
@@ -125,7 +125,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
         </div>
       </div>
 
-      <div className="bg-[#fefdff] border-b p-[30px] w-full h-[60px] flex justify-start items-center gap-6 text-[20px] text-[#272727] ">
+      <div className="bg-[#fefdff] border-b px-[30px] py-[20px] h-[65px] w-full flex justify-start items-center gap-6 text-[16px] md:text-[20px] text-[#272727] overflow-x-auto whitespace-nowrap overflow-y-hidden">
         <span
           onClick={() => {
             setPersonal(true);
@@ -133,7 +133,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
             setAddres(false);
             setLinks(false);
           }}
-          className={`cursor-pointer opacity-[0.5] -mb-6.5   
+          className={`cursor-pointer opacity-[0.5] -mb-7.5   
           ${
             personal
               ? "opacity-[1] border-b-[#3772ff] border-b-3"
@@ -150,7 +150,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
             setAddres(false);
             setLinks(false);
           }}
-          className={`cursor-pointer opacity-[0.5] -mb-6.5   
+          className={`cursor-pointer opacity-[0.5] -mb-7.5     
           ${
             image
               ? "opacity-[1] border-b-[#3772ff] border-b-3"
@@ -167,7 +167,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
             setAddres(true);
             setLinks(false);
           }}
-          className={`cursor-pointer opacity-[0.5] -mb-6.5   
+          className={`cursor-pointer opacity-[0.5] -mb-7.5    
           ${
             addres
               ? "opacity-[1] border-b-[#3772ff] border-b-3"
@@ -184,7 +184,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
             setAddres(false);
             setLinks(true);
           }}
-          className={`cursor-pointer opacity-[0.5] -mb-6.5   
+          className={`cursor-pointer opacity-[0.5] -mb-7.5    
           ${
             links
               ? "opacity-[1] border-b-[#3772ff] border-b-3"

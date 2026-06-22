@@ -111,11 +111,40 @@ const PersonalProfile = ({progressPercent}) => {
           <Skeleton className="w-[169px] h-[56px] rounded-[64px]" />
         </div>
       ) : (
+
+        
+        <div className="flex flex-col justify-center items-center">
+
+        <div className="w-full h-[35%] border p-3 block md:hidden">
+        <h3 className="text-[16px] text-[#272727]">وضعیت اطلاعات حساب</h3>
+        <div className="m-auto mt-[40px] h-[130px] w-[136px]">
+          <CircularProgressbar
+            value={submittedPercent}
+            text={`${submittedPercent}%`}
+            styles={buildStyles({
+              pathColor: pc.clr,
+              textColor: pc.clr,
+              trailColor: "#f0f0f0",
+              strokeLinecap: "round",
+              textSize: "34px",
+              pathTransitionDuration: 0.5,
+            })}
+          />
+        </div>
+        <p
+          className="text-[14px] mt-[20px] text-center"
+          style={{ color: pc.clr }}
+        >
+          {pc.p}
+        </p>
+        </div>
+
+
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-[70%] h-full flex flex-wrap gap-8"
+          className=" w-[90%] md:w-[70%] h-full flex flex-wrap gap-8 mt-10"
         >
-          <div className="flex flex-col gap-2 w-[40%] group">
+          <div className="flex flex-col gap-2 w-full md:w-[40%] group">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="n"
@@ -141,7 +170,7 @@ const PersonalProfile = ({progressPercent}) => {
             />
           </div>
 
-          <div className="flex flex-col gap-2 w-[40%] group">
+          <div className="flex flex-col gap-2 w-full md:w-[40%] group">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="f"
@@ -167,8 +196,9 @@ const PersonalProfile = ({progressPercent}) => {
             />
           </div>
 
+          
           <div className="flex flex-col gap-2 w-full mt-[-10px] group">
-            <div className="flex items-center justify-between w-[86%]">
+            <div className="flex items-center justify-between w-full md:w-[86%]">
               <label
                 htmlFor="a"
                 className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-115"
@@ -189,12 +219,13 @@ const PersonalProfile = ({progressPercent}) => {
               defaultValue={userProfile.userAbout}
               id="a"
               placeholder="یک متن درباره خود بنویسید"
-              className={`w-[86%] h-[93px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 text-right resize-none transition-all outline-0 ${isError("aboutMe") ? "border-2 border-red-500" : ""}`}
+              className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 text-right resize-none transition-all outline-0 ${isError("aboutMe") ? "border-2 border-red-500" : ""}`}
               dir="rtl"
             />
           </div>
 
-          <div className="flex flex-col gap-2 w-[40%] mt-[-10px] group">
+          
+          <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px] group">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="p"
@@ -222,7 +253,8 @@ const PersonalProfile = ({progressPercent}) => {
             />
           </div>
 
-          <div className="flex flex-col gap-2 w-[40%] mt-[-10px] group">
+          
+          <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px] group">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="c"
@@ -251,7 +283,8 @@ const PersonalProfile = ({progressPercent}) => {
             />
           </div>
 
-          <div className="flex flex-col gap-2 w-[40%] mt-[-10px] group">
+          
+          <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px] group">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="b"
@@ -266,7 +299,7 @@ const PersonalProfile = ({progressPercent}) => {
               )}
             </div>
             <input
-              defaultValue={userProfile.birthDay?.split("T")[0]}
+              defaultValue={userProfile.birthDay ? userProfile.birthDay.split("T")[0] : ""}
               type="date"
               {...register("birthday", { required: "تاریخ تولد الزامی است" })}
               id="b"
@@ -274,7 +307,8 @@ const PersonalProfile = ({progressPercent}) => {
             />
           </div>
 
-          <div className="flex flex-col gap-2 w-[40%] mt-[-10px]">
+          
+          <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px]">
             <div className="flex items-center justify-between">
               <label
                 className={`block whitespace-nowrap transition-all duration-200 cursor-pointer ${isError("sex") ? "text-red-500" : ""}`}
@@ -333,10 +367,11 @@ const PersonalProfile = ({progressPercent}) => {
               defaultValue={userProfile.gmail}
               id="e"
               placeholder="ایمیل خود را وارد کنید"
-              className={`w-[86%] h-[48px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 transition-all outline-0 ${isError("email") ? "border-2 border-red-500" : ""}`}
+              className={`w-full md:w-[86%] h-[48px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 transition-all outline-0 ${isError("email") ? "border-2 border-red-500" : ""}`}
             />
           </div>
 
+          
           <div className="flex flex-col gap-2 w-full mt-[-10px] group">
             <div className="flex items-center justify-between w-[86%]">
               <label
@@ -359,21 +394,24 @@ const PersonalProfile = ({progressPercent}) => {
               defaultValue={userProfile.homeAdderess}
               id="ad"
               placeholder="آدرس سکونت خود را وارد کنید"
-              className={`w-[86%] h-[93px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 text-right resize-none transition-all outline-0 ${isError("address") ? "border-2 border-red-500" : ""}`}
+              className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 text-right resize-none transition-all outline-0 ${isError("address") ? "border-2 border-red-500" : ""}`}
               dir="rtl"
             />
           </div>
 
           <button
             type="submit"
-            className="w-[169px] h-[56px] rounded-[64px] bg-[#3772ff] text-[20px] text-[#fefdff] cursor-pointer hover:bg-[#2a5fd8] transition-colors"
+            className="w-[145px] md:w-[169px] h-[41px] md:h-[56px] rounded-[64px] bg-[#3772ff] text-[16px] md:text-[20px] text-[#fefdff] cursor-pointer hover:bg-[#2a5fd8] transition-colors"
           >
             اعمال تغییرات
           </button>
         </form>
+
+        </div>
       )}
 
-      <div className="w-[27%] h-[35%] border p-3">
+      
+      <div className="w-[60%] h-[35%] border p-3 hidden md:block">
         <h3 className="text-[16px] text-[#272727]">وضعیت اطلاعات حساب</h3>
         <div className="m-auto mt-[40px] h-[130px] w-[136px]">
           <CircularProgressbar
@@ -396,6 +434,7 @@ const PersonalProfile = ({progressPercent}) => {
           {pc.p}
         </p>
       </div>
+      
     </div>
   );
 };

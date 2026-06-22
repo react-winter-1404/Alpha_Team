@@ -16,6 +16,7 @@ const Panel = () => {
   const { theme, setTheme } = useTheme("system");
   const [profilePic, setProfilePic] = useState("")
 
+  const [smallMenu, setSmallMenu] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [userProfile, setUserProfile] = useState([]);
@@ -34,14 +35,15 @@ const Panel = () => {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchUserProfile();
     setUserRoles(JSON.parse(localStorage.getItem("roles")));
   }, []);
 
   return (
-    <div className="w-full h-[1370px] p-[20px] m-auto flex justify-center items-start gap-2.5 bg-[#f0f0f0] rounded-[16px]">
-      <div className="w-[276px] h-[976px] p-4 rounded-[16px] bg-[#fefdff]">
+    <div className="fixed inset-0 w-screen min-h-screen p-3 md:p-5 flex flex-col md:flex-row gap-3 bg-[#f0f0f0] overflow-auto">
+      <div className="hidden md:block md:w-[276px] md:h-[950px] p-4 rounded-[16px] bg-[#fefdff]">
         <div className=" w-full h-[60px] flex justify-center items-center">
           <img
             src="/public/icons/Untitled-1 2.png"
@@ -230,28 +232,35 @@ const Panel = () => {
         </div>
       </div>
 
-      <div className="w-[1096px] h-full rounded-[16px]">
-        <div className="w-full h-[80px] p-2.5 rounded-[16px] bg-[#fefdff] flex justify-between items-center">
-          <div className=" w-[#200px] h-full flex justify-center items-center gap-3">
+      <div className="flex-1 w-full rounded-[16px]">
+        <div className="w-full p-2.5 rounded-[16px] md:bg-[#fefdff] flex sm:flex-row justify-between items-center gap-3">
+          
+          <div className="hidden w-[200px] h-full md:flex justify-center items-center gap-3">
             <img
               src={profilePic || userProfile.currentPictureAddress}
               alt=""
-              className="w-[56px] h-[56px] rounded-full "
+              className="w-[56px] h-[56px] rounded-full"
             />
+
             <div>
-              <span className="text-[20px] text-[#272727] flex  ">
+              <span className="text-[20px] text-[#272727] flex">
                 {userProfile.fName + " " + userProfile.lName}
               </span>
+
               <span className="text-[16px] text-[#272727] block">
-                { userRoles && userRoles.map((role, index) => (
-                  <span key={index}>
-                    {role}
-                    {index < userRoles.length - 1 && ", "}
-                  </span>
-                ))}
+                {userRoles &&
+                  userRoles.map((role, index) => (
+                    <span key={index}>
+                      {role}
+                      {index < userRoles.length - 1 && ", "}
+                    </span>
+                  ))}
               </span>
             </div>
           </div>
+
+
+          <img src="/public/icons/Untitled-1 2.png" alt="" className="h-[40px] w-[40px] md:hidden"/>
 
           <div className="flex justify-between items-center w-[120px] h-full">
             <button className="relative w-[56px] h-[56px] border-solid border dark:border-gray-600 rounded-full border-gray-200 text-center">
@@ -290,6 +299,118 @@ const Panel = () => {
           profilePic={profilePic}
           setProfilePic={setProfilePic}
         />
+      </div>
+
+      <div className="md:hidden w-full h-[60px] rounded-[30px] bg-[#fefdff] border-1 border-[#f0f0f0] flex justify-between items-center">
+        <div
+        onClick={() => {
+                  setDashboard(true);
+                  setMyCourse(false);
+                  setMyReserve(false);
+                  setFavCourses(false);
+                  setFavMag(false);
+                  setProfile(false);
+                }}
+
+         className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center">
+          <img src="/public/icons/dashboard-circle-stroke-rounded 1.png" alt="" className="w-[32px] h-[32px] m-auto"/>
+        </div>
+
+        <div
+        onClick={() => {
+                  setDashboard(false);
+                  setMyCourse(true);
+                  setMyReserve(false);
+                  setFavCourses(false);
+                  setFavMag(false);
+                  setProfile(false);
+                }}
+         className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-[#ecebec]">
+          <img src="/public/icons/book-02-stroke-rounded 1.png" alt="" className="w-[32px] h-[32px] m-auto"/>
+        </div>
+
+        <div
+        onClick={() => {
+                  setDashboard(false);
+                  setMyCourse(false);
+                  setMyReserve(true);
+                  setFavCourses(false);
+                  setFavMag(false);
+                  setProfile(false);
+                }}
+         className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-[#ecebec]">
+          <img src="/public/icons/time-setting-03-stroke-rounded 1.png" alt="" className="w-[32px] h-[32px] m-auto"/>
+        </div>
+
+        <div
+        onClick={() => {
+                  setDashboard(false);
+                  setMyCourse(false);
+                  setMyReserve(false);
+                  setFavCourses(false);
+                  setFavMag(false);
+                  setProfile(true);
+                }}
+         className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-[#ecebec]">
+          <img src="/public/icons/dashboard-circle-stroke-rounded 1.png" alt="" className="w-[32px] h-[32px] m-auto"/>
+        </div>
+
+        <div onClick={() => setSmallMenu(!smallMenu)} className="relative w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-[#ecebec]">
+          <img src="/public/icons/more-vertical-circle-01-stroke-rounded 1.png" alt="" className="w-[32px] h-[32px] m-auto"/>
+
+          {
+            smallMenu && 
+            <div className="absolute top-[-250px] left-2 w-[221px] h-[248px] rounded-[16px] bg-[#ffff] flex flex-col justify-center items-center">
+              <ul className="m-0 p-0">
+                <li 
+                onClick={() => {
+                  setDashboard(false);
+                  setMyCourse(false);
+                  setMyReserve(false);
+                  setFavCourses(true);
+                  setFavMag(false);
+                  setProfile(false);
+                }}
+                className="flex justify-start items-center gap-3 p-2">
+                  <img src="/public/icons/book-bookmark-02-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px] "/>
+                  <span className="text-[16px] text-[#272727]">علاقه‌مندی دوره</span>
+                </li>
+
+                <li 
+                onClick={() => {
+                  setDashboard(false);
+                  setMyCourse(false);
+                  setMyReserve(false);
+                  setFavCourses(false);
+                  setFavMag(true);
+                  setProfile(false);
+                }}
+                className="flex justify-start items-center gap-3 p-2">
+                  <img src="/public/icons/file-bookmark-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px] "/>
+                  <span className="text-[16px] text-[#272727]">علاقه‌مندی مقاله</span>
+                </li>
+
+                <li className="flex justify-start items-center gap-3 p-2">
+                  <img src="/public/icons/money-send-02-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px] "/>
+                  <span className="text-[16px] text-[#272727]">پرداخت ها</span>
+                </li>
+
+                <li className="flex justify-start items-center gap-3 p-2">
+                  <img src={userProfile.currentPictureAddress} alt="" className="w-[24px] h-[24px] "/>
+                  <span className="text-[16px] text-[#272727]">حساب‌های کاربری</span>
+                </li>
+
+                <li className="flex justify-start items-center gap-3 p-2">
+                  <img src="/public/icons/logout-03-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px] "/>
+                  <span className="text-[16px] text-[#ff5454]">خروج از حساب</span>
+                </li>
+              </ul>
+            </div>
+          }
+        </div>
+
+        
+        
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 
 const FavCourses = () => {
   return (
-    <div>
+    <>
+    <div className="hidden md:block">
       <h3 className="text-[32px] text-[#272727] mt-5">علاقه‌مندی دوره</h3>
 
       <div className="flex justify-start items-center gap-5 mt-7">
@@ -45,6 +46,17 @@ const FavCourses = () => {
 
       </div>
     </div>
+
+    <div className="block md:hidden">
+      <div className="flex justify-between items-center ">
+        <h3 className="text-[32px] text-[#272727]">علاقه‌مندی دوره</h3>
+
+        <button className="w-[83px] h-[41px] rounded-[64px] bg-[#3772ff] text-[16px] text-[#fefdff]">فیلتر</button>
+      </div>
+
+    </div>
+    </>
+    
   )
 }
 
