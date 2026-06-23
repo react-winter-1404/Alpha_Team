@@ -11,6 +11,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   GridViewIcon,
   ViewAgendaIcon,
+  FilterIcon,
 } from "@hugeicons/core-free-icons";
 
 const ListingPage = () => {
@@ -18,6 +19,8 @@ const ListingPage = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  
   const [filters, setFilters] = useState({
     PageNumber: 1,
     RowsOfPage: 9,
@@ -86,8 +89,17 @@ const ListingPage = () => {
           <div className="col-span-1 lg:col-span-9 flex flex-col justify-between order-last lg:order-first">
             <div className="flex flex-col gap-4">
               
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
-                <div className="w-full sm:flex-1">
+              <div className="flex flex-row justify-end sm:justify-between items-center gap-4 w-full">
+  
+              <button 
+              onClick={() => setIsFilterOpen(true)}
+              className="lg:hidden flex items-center gap-2 bg-blue-600 text-white px-4 h-10 rounded-xl font-bold text-sm shadow-sm cursor-pointer transition-all active:scale-[0.98]"
+  >
+              <span>ترتیب و فیلتر</span>
+              <HugeiconsIcon icon={FilterIcon} className="w-4 h-4" />
+              </button>
+
+                <div className="hidden lg:block w-full sm:flex-1">
                   <CourseSorting 
                     currentSortingCol={filters.SortingCol}
                     currentSortType={filters.SortType}
@@ -156,12 +168,24 @@ const ListingPage = () => {
             </div>
           </div>
           
-          <div className="col-span-1 lg:col-span-3 w-full lg:max-w-[321px] mx-auto">
-            <CourseFilters filters={filters} setFilters={setFilters} />
+          <div className="hidden lg:block col-span-1 lg:col-span-3 w-full lg:max-w-[321px] mx-auto">
+            <CourseFilters filters={filters} setFilters={setFilters} isMobile={false} />
           </div>
 
         </div>
       </div>
+
+      <CourseFilters 
+        filters={filters} 
+        setFilters={setFilters} 
+        isMobile={true} 
+        isOpen={isFilterOpen} 
+        onClose={() => setIsFilterOpen(false)} 
+        currentSortingCol={filters.SortingCol}
+        currentSortType={filters.SortType}
+        onSortChange={handleSortChange}
+      />
+
       <Footer />
     </div>
   );
