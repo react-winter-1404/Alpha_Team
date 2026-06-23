@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { 
   SearchField, 
-  DateRangePicker, 
+  DatePicker, 
   DateField, 
-  RangeCalendar,
+  Calendar,
   Popover,
   Button,
   Slider
@@ -21,6 +21,7 @@ import {
   Calendar02Icon,
   Cancel01Icon,
 } from "@hugeicons/core-free-icons";
+import { I18nProvider } from "@react-aria/i18n";
 
 export default function CourseFilters({ 
   filters, 
@@ -34,34 +35,34 @@ export default function CourseFilters({
 }) {
   const [localPrice, setLocalPrice] = useState([10000, 5000000]);
   const [categories, setCategories] = useState([]);
+  const [teachers, setTeachers] = useState([]);
   const [isCatOpen, setIsCatOpen] = useState(false);
   const [isLevelOpen, setIsLevelOpen] = useState(false);
   const [isTeacherOpen, setIsTeacherOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
 
   const levels = [
-    { id: "1", name: "مبتدی" },
-    { id: "2", name: "متوسط" },
-    { id: "3", name: "پیشرفته" }
-  ];
-
-  const teachers = [
-    { id: "10", name: "taha null" },
-    { id: "11", name: "kian null" }
+    { id: "cl1", name: "مبتدی" },
+    { id: "cl2", name: "متوسط" },
+    { id: "cl3", name: "پیشرفته" }
   ];
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchFilterData = async () => {
       try {
-        const response = await axios.get("http://188.121.104.25:3001/News/GetListNewsCategory");
-        if (response.data) {
-          setCategories(response.data);
-        }
+        const [catResponse, teacherResponse] = await Promise.all([
+          axios.get("http://188.121.104.25:3001/News/GetListNewsCategory"),
+          axios.get("http://188.121.104.25:3001/Home/GetTeachers")
+        ]);
+
+        if (catResponse.data) setCategories(catResponse.data);
+        if (teacherResponse.data) setTeachers(teacherResponse.data);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchCategories();
+    
+    fetchFilterData();
   }, []);
 
   const handleSearchSubmit = (value) => {
@@ -80,11 +81,21 @@ export default function CourseFilters({
     }));
   };
 
-  const handleDateChange = (range) => {
+  const handleSingleDateChange = (dateValue) => {
+    if (!dateValue) {
+      setFilters(prev => ({ ...prev, StartDate: null, PageNumber: 1 }));
+      return;
+    }
+    
+    const jsDate = dateValue.toDate('UTC');
+    const year = jsDate.getUTCFullYear();
+    const month = String(jsDate.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(jsDate.getUTCDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}T00:00:00.000Z`;
+
     setFilters(prev => ({
       ...prev,
-      StartDate: range?.start ? new Date(range.start.year, range.start.month - 1, range.start.day).toISOString() : null,
-      EndDate: range?.end ? new Date(range.end.year, range.end.month - 1, range.end.day).toISOString() : null,
+      StartDate: formattedDate,
       PageNumber: 1
     }));
   };
@@ -98,7 +109,7 @@ export default function CourseFilters({
   };
 
   const renderFilterFields = () => (
-    <>
+    <I18nProvider locale="fa-IR-u-ca-persian">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1">
           <HugeiconsIcon icon={CellsIcon} className="w-5 h-5 text-gray-700 dark:text-gray-300" />
@@ -203,26 +214,26 @@ export default function CourseFilters({
           <Popover.Trigger>
             <Button className="w-full bg-overlay border-none rounded-2xl h-12 px-4 flex items-center justify-between shadow-sm text-sm text-muted dark:text-gray-300 font-normal">
               <span className="truncate max-w-[220px] text-right w-full">
-                {teachers.find(t => String(t.id) === String(filters.TeacherId))?.name || "انتخاب کنید"}
+                {teachers.find(t => String(t.teacherId) === String(filters.TeacherId))?.fullName || "انتخاب کنید"}
               </span>
               <span className="text-gray-400 dark:text-gray-500 text-xs">▼</span>
             </Button>
           </Popover.Trigger>
-          <Popover.Content className="bg-overlay rounded-xl shadow-lg border w-[273px] p-1 overflow-y-auto">
+          <Popover.Content className="bg-overlay rounded-xl shadow-lg border w-[273px] p-1 max-h-[220px] overflow-y-auto">
             <div className="flex flex-col w-full">
               {teachers.map((t) => {
-                const isSelected = String(t.id) === String(filters.TeacherId);
+                const isSelected = String(t.teacherId) === String(filters.TeacherId);
                 return (
                   <div
-                    key={t.id}
+                    key={t.teacherId}
                     onClick={() => {
-                      handleSelectField("TeacherId", isSelected ? null : t.id);
+                      handleSelectField("TeacherId", isSelected ? null : t.teacherId);
                       setIsTeacherOpen(false);
                     }}
                     className={`flex items-center justify-between p-2.5 my-0.5 text-xs rounded-lg cursor-pointer transition-colors text-muted dark:text-gray-300 select-none
                       ${isSelected ? "bg-accent-soft text-accent font-medium" : "hover:bg-gray-50 dark:hover:bg-gray-700"}`}
                   >
-                    <span>{t.name}</span>
+                    <span>{t.fullName}</span>
                     {isSelected && <span className="text-blue-600 font-bold">✓</span>}
                   </div>
                 );
@@ -241,8 +252,8 @@ export default function CourseFilters({
           <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 flex gap-1" style={{ direction: 'ltr' }}>
             <span>{localPrice[1].toLocaleString()}</span>
             <span className="text-gray-400 dark:text-gray-500">تا</span>
-            <span>{localPrice[0].toLocaleString()}</span>
             <span className="text-gray-400 dark:text-gray-500">از</span>
+            <span>{localPrice[0].toLocaleString()}</span>
           </div>
         </div>
 
@@ -251,7 +262,7 @@ export default function CourseFilters({
           aria-label="محدوده قیمت"
           value={localPrice}
           minValue={10000}
-          maxValue={5000000}
+          maxValue={15000000}
           step={50000}
           onChange={setLocalPrice}
           onChangeEnd={(val) => {
@@ -283,102 +294,115 @@ export default function CourseFilters({
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1">
           <HugeiconsIcon icon={Calendar02Icon} className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-          <span>تاریخ برگزاری</span>
+          <span>تاریخ شروع برگزاری</span>
         </div>
         
-        <DateRangePicker
-          aria-label="بازه تاریخی دوره"
-          className="w-full"
-          endName="endDate"
-          startName="startDate"
-          onChange={handleDateChange}
+        <DatePicker 
+          className="w-full" 
+          name="date"
+          aria-label="تاریخ شروع دوره"
+          onChange={handleSingleDateChange}
+          placement="bottom-start"
+          value={filters.StartDate ? null : undefined}
         >
           <DateField.Group fullWidth className="bg-overlay rounded-2xl h-12 flex items-center justify-between px-3 border-none text-sm text-gray-600 dark:text-gray-300">
-            <DateField.Input slot="start" className="outline-none bg-transparent dark:text-white">
+            <DateField.Input className="outline-none bg-transparent dark:text-white">
               {(segment) => <DateField.Segment segment={segment} />}
             </DateField.Input>
-            <DateRangePicker.RangeSeparator className="mx-2 text-gray-400 dark:text-gray-500" />
-            <DateField.Input slot="end" className="outline-none bg-transparent dark:text-white">
-              {(segment) => <DateField.Segment segment={segment} />}
-            </DateField.Input>
-            <DateField.Suffix className="mr-auto">
-              <DateRangePicker.Trigger>
-                <DateRangePicker.TriggerIndicator className="text-gray-400 dark:text-gray-500" />
-              </DateRangePicker.Trigger>
+            <DateField.Suffix className="mr-auto flex items-center gap-2">
+              {filters.StartDate && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSingleDateChange(null);
+                  }}
+                  className="text-gray-400 hover:text-red-500 p-1 rounded-full transition-colors cursor-pointer flex items-center justify-center"
+                >
+                  <HugeiconsIcon icon={Cancel01Icon} className="w-4 h-4" />
+                </button>
+              )}
+              <DatePicker.Trigger>
+                <DatePicker.TriggerIndicator className="text-gray-400 dark:text-gray-500" />
+              </DatePicker.Trigger>
             </DateField.Suffix>
           </DateField.Group>
-
-          <DateRangePicker.Popover className="bg-overlay rounded-2xl shadow-xl border p-2">
-            <RangeCalendar aria-label="انتخاب تاریخ برگزاری">
-              <RangeCalendar.Header className="flex items-center justify-between pb-2">
-                <RangeCalendar.YearPickerTrigger className="flex items-center gap-1 font-medium text-muted dark:text-gray-300">
-                  <RangeCalendar.YearPickerTriggerHeading />
-                  <RangeCalendar.YearPickerTriggerIndicator />
-                </RangeCalendar.YearPickerTrigger>
-                <div className="flex gap-1">
-                  <RangeCalendar.NavButton slot="previous" className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" />
-                  <RangeCalendar.NavButton slot="next" className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" />
+          <DatePicker.Popover className="bg-overlay rounded-2xl shadow-xl border p-4 w-[320px] min-w-[320px] max-w-[320px] overflow-visible">
+            <Calendar aria-label="Event date" className="w-full select-none overflow-visible">
+              <Calendar.Header className="flex items-center justify-between pb-3 border-b mb-2">
+                <Calendar.YearPickerTrigger className="flex items-center gap-1 font-medium text-sm text-gray-700 dark:text-gray-300">
+                  <Calendar.YearPickerTriggerHeading />
+                  <Calendar.YearPickerTriggerIndicator />
+                </Calendar.YearPickerTrigger>
+                <div className="flex gap-2">
+                  <Calendar.NavButton slot="previous" className="p-1.5 rounded-lg border hover:bg-gray-50 dark:hover:bg-gray-800 dark:text-white" />
+                  <Calendar.NavButton slot="next" className="p-1.5 rounded-lg border hover:bg-gray-50 dark:hover:bg-gray-800 dark:text-white" />
                 </div>
-              </RangeCalendar.Header>
-              <RangeCalendar.Grid>
-                <RangeCalendar.GridHeader>
-                  {(day) => <RangeCalendar.HeaderCell className="text-gray-400 dark:text-gray-500 font-normal p-1">{day}</RangeCalendar.HeaderCell>}
-                </RangeCalendar.GridHeader>
-                <RangeCalendar.GridBody>
-                  {(date) => <RangeCalendar.Cell date={date} className="p-1 text-center data-[selected=true]:bg-blue-600 data-[selected=true]:text-overlay dark:text-gray-300 rounded-lg" />}
-                </RangeCalendar.GridBody>
-              </RangeCalendar.Grid>
-            </RangeCalendar>
-          </DateRangePicker.Popover>
-        </DateRangePicker>
+              </Calendar.Header>
+              <Calendar.Grid className="w-full table-fixed border-collapse px-1">
+                <Calendar.GridHeader>
+                  {(day) => <Calendar.HeaderCell className="text-gray-500 dark:text-gray-400 font-semibold text-[11px] p-0.5 text-center">{day}</Calendar.HeaderCell>}
+                </Calendar.GridHeader>
+                <Calendar.GridBody>
+                  {(date) => <Calendar.Cell date={date} className="p-0.5 text-center text-xs font-medium data-[selected=true]:bg-blue-600 data-[selected=true]:text-white dark:text-gray-300 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" />}
+                </Calendar.GridBody>
+              </Calendar.Grid>
+              <Calendar.YearPickerGrid className="w-full mt-2">
+                <Calendar.YearPickerGridBody>
+                  {({year}) => <Calendar.YearPickerCell year={year} className="p-1.5 text-center text-xs rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-gray-300 cursor-pointer" />}
+                </Calendar.YearPickerGridBody>
+              </Calendar.YearPickerGrid>
+            </Calendar>
+          </DatePicker.Popover>
+        </DatePicker>
       </div>
 
       {isMobile && (
-  <div className="flex flex-col gap-2">
-    <div className="flex items-center gap-2 font-bold text-sm mb-1">
-      <span className="text-sm font-bold">ترتیب</span>
-    </div>
-    <Popover isOpen={isSortOpen} onOpenChange={setIsSortOpen} placement="bottom-start">
-      <Popover.Trigger>
-        <Button className="w-full bg-overlay border-none rounded-2xl h-12 px-4 flex items-center justify-between shadow-sm text-sm text-muted dark:text-gray-300 font-normal">
-          <span className="text-right w-full">{getSortLabel()}</span>
-          <span className="text-gray-400 text-xs">▼</span>
-        </Button>
-      </Popover.Trigger>
-      <Popover.Content className="bg-overlay rounded-xl shadow-lg border w-[273px] p-1">
-        <div className="flex flex-col w-full">
-          {[
-            { id: "price-desc", label: "گران‌ترین‌ها", col: "cost", type: "DESC" },
-            { id: "price-asc", label: "ارزان‌ترین‌ها", col: "cost", type: "ASC" },
-            { id: "rating", label: "بالاترین امتیاز", col: "courseRate", type: "DESC" },
-            { id: "popularity", label: "محبوب‌ترین‌ها", col: "capacity", type: "DESC" }
-          ].map((item) => {
-            const isAct = currentSortingCol === item.col && currentSortType === item.type;
-            return (
-              <div
-                key={item.id}
-                onClick={() => {
-                  if (isAct) {
-                    onSortChange(null, null);
-                  } else {
-                    onSortChange(item.col, item.type);
-                  }
-                  setIsSortOpen(false);
-                }}
-                className={`flex items-center justify-between p-2.5 my-0.5 text-xs rounded-lg cursor-pointer transition-colors text-muted dark:text-gray-300 select-none
-                  ${isAct ? "bg-accent-soft text-accent font-medium" : "hover:bg-gray-50 dark:hover:bg-gray-700"}`}
-              >
-                <span>{item.label}</span>
-                {isAct && <span className="text-blue-600 font-bold">✓</span>}
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2 font-bold text-sm mb-1">
+            <span className="text-sm font-bold">ترتیب</span>
+          </div>
+          <Popover isOpen={isSortOpen} onOpenChange={setIsSortOpen} placement="bottom-start">
+            <Popover.Trigger>
+              <Button className="w-full bg-overlay border-none rounded-2xl h-12 px-4 flex items-center justify-between shadow-sm text-sm text-muted dark:text-gray-300 font-normal">
+                <span className="text-right w-full">{getSortLabel()}</span>
+                <span className="text-gray-400 text-xs">▼</span>
+              </Button>
+            </Popover.Trigger>
+            <Popover.Content className="bg-overlay rounded-xl shadow-lg border w-[273px] p-1">
+              <div className="flex flex-col w-full">
+                {[
+                  { id: "price-desc", label: "گران‌ترین‌ها", col: "cost", type: "DESC" },
+                  { id: "price-asc", label: "ارزان‌ترین‌ها", col: "cost", type: "ASC" },
+                  { id: "rating", label: "بالاترین امتیاز", col: "courseRate", type: "DESC" },
+                  { id: "popularity", label: "محبوب‌ترین‌ها", col: "capacity", type: "DESC" }
+                ].map((item) => {
+                  const isAct = currentSortingCol === item.col && currentSortType === item.type;
+                  return (
+                    <div
+                      key={item.id}
+                      onClick={() => {
+                        if (isAct) {
+                          onSortChange(null, null);
+                        } else {
+                          onSortChange(item.col, item.type);
+                        }
+                        setIsSortOpen(false);
+                      }}
+                      className={`flex items-center justify-between p-2.5 my-0.5 text-xs rounded-lg cursor-pointer transition-colors text-muted dark:text-gray-300 select-none
+                        ${isAct ? "bg-accent-soft text-accent font-medium" : "hover:bg-gray-50 dark:hover:bg-gray-700"}`}
+                    >
+                      <span>{item.label}</span>
+                      {isAct && <span className="text-blue-600 font-bold">✓</span>}
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
+            </Popover.Content>
+          </Popover>
         </div>
-      </Popover.Content>
-    </Popover>
-  </div>
-)}
-    </>
+      )}
+    </I18nProvider>
   );
 
   if (isMobile) {

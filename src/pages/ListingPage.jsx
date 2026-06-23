@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import apiClient from '../core/interceptor/interceptor';
 import { Spinner } from '@heroui/react';
+import { motion } from 'framer-motion'; 
 import NavbarHeader from './components/landing/NavbarHeader';
 import Footer from './components/landing/Footer';
 import CourseFilters from '../components/coursesList/CourseFilters';
@@ -13,6 +14,46 @@ import {
   ViewAgendaIcon,
   FilterIcon,
 } from "@hugeicons/core-free-icons";
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    y: 20
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 1, 0.5, 1]
+    }
+  }
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 30,
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.25, 1, 0.5, 1],
+    },
+  },
+};
 
 const ListingPage = () => {
   const [courses, setCourses] = useState([]);
@@ -37,6 +78,20 @@ const ListingPage = () => {
     EndDate: null,
     TeacherId: null
   });
+
+  const convertToPersianDate = (dateString) => {
+    if (!dateString) return "مدرس دوره";
+    try {
+      const date = new Date(dateString);
+      return new Intl.DateTimeFormat('fa-IR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }).format(date);
+    } catch (error) {
+      return dateString;
+    }
+  };
 
   const fetchCoursesData = async () => {
     setLoading(true);
@@ -81,9 +136,13 @@ const ListingPage = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col justify-between" style={{ direction: 'rtl' }}>
-      <div>
-        <NavbarHeader />
-        
+      <NavbarHeader />
+      
+      <motion.div
+        variants={pageVariants}
+        initial="initial"
+        animate="animate"
+      >
         <div className="max-w-[1380px] w-full min-h-[500px] pb-[60px] rounded-[24px] md:rounded-[40px] dark:bg-surface-secondary border-4 overflow-hidden mx-auto my-6 md:my-10 p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 relative">
           
           <div className="col-span-1 lg:col-span-9 flex flex-col justify-between order-last lg:order-first">
@@ -91,13 +150,13 @@ const ListingPage = () => {
               
               <div className="flex flex-row justify-end sm:justify-between items-center gap-4 w-full">
   
-              <button 
-              onClick={() => setIsFilterOpen(true)}
-              className="lg:hidden flex items-center gap-2 bg-blue-600 text-white px-4 h-10 rounded-xl font-bold text-sm shadow-sm cursor-pointer transition-all active:scale-[0.98]"
-  >
-              <span>ترتیب و فیلتر</span>
-              <HugeiconsIcon icon={FilterIcon} className="w-4 h-4" />
-              </button>
+                <button 
+                  onClick={() => setIsFilterOpen(true)}
+                  className="lg:hidden flex items-center gap-2 bg-blue-600 text-white px-4 h-10 rounded-xl font-bold text-sm shadow-sm cursor-pointer transition-all active:scale-[0.98]"
+                >
+                  <span>ترتیب و فیلتر</span>
+                  <HugeiconsIcon icon={FilterIcon} className="w-4 h-4" />
+                </button>
 
                 <div className="hidden lg:block w-full sm:flex-1">
                   <CourseSorting 
@@ -125,16 +184,26 @@ const ListingPage = () => {
                 ) : courses.length === 0 ? (
                   <div className="w-full text-center py-20 text-gray-400 font-medium">دوره‌ای با فیلترهای انتخاب شده یافت نشد.</div>
                 ) : (
-                  <div className={viewMode === 'grid' ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center" : "flex flex-col gap-6 w-full"}>
+                  <motion.div 
+                    className={viewMode === 'grid' ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center" : "flex flex-col gap-6 w-full"}
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                  >
                     {courses.map((course, index) => (
-                      <div key={course.id || course.courseId || index} className={viewMode === 'grid' ? "w-full flex justify-center" : "relative w-full min-h-[288px]"}>
+                      <motion.div 
+                        key={course.id || course.courseId || index} 
+                        className={viewMode === 'grid' ? "w-full flex justify-center" : "relative w-full min-h-[288px]"}
+                        variants={cardVariants}
+                        viewport={{ once: true, amount: 0.1 }}
+                      >
                         <CourseCard
                           viewMode={viewMode}
                           imageURL={course.tumbImageAddress || course.imageAddress || "https://via.placeholder.com/315x225"}
                           title={course.title || course.courseName || ""}
                           discribtion={course.describe || course.shortDescribe || ""}
                           teacher={course.teacherName || "مدرس دوره"}
-                          date={course.lastUpdate || course.startDate || ""}
+                          date={convertToPersianDate(course.lastUpdate || course.startDate)}
                           number={course.capacity || 0}
                           price={course.cost?.toLocaleString() || "0"}
                           id={course.courseId}
@@ -148,9 +217,9 @@ const ListingPage = () => {
                           isUserFavorite={course.isUserFavorite}
                           onUpdate={fetchCoursesData}
                         />
-                      </div>
+                      </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 )}
               </div>
             </div>
@@ -169,11 +238,18 @@ const ListingPage = () => {
           </div>
           
           <div className="hidden lg:block col-span-1 lg:col-span-3 w-full lg:max-w-[321px] mx-auto">
-            <CourseFilters filters={filters} setFilters={setFilters} isMobile={false} />
+            <CourseFilters 
+              filters={filters} 
+              setFilters={setFilters} 
+              isMobile={false} 
+              currentSortingCol={filters.SortingCol}
+              currentSortType={filters.SortType}
+              onSortChange={handleSortChange} 
+            />
           </div>
 
         </div>
-      </div>
+      </motion.div>
 
       <CourseFilters 
         filters={filters} 

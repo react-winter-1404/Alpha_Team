@@ -1,5 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import quillIcon from "../../assets/News/quill-write-02-stroke-rounded 1.png";
+import viewIcon from "../../assets/News/view-stroke-rounded (1) 1.png";
+import calendarIcon from "../../assets/News/calendar-03-stroke-rounded 1.png";
+import thumbsUpIcon from "../../assets/News/thumbs-up-stroke-rounded 1.png";
+import thumbsDownIcon from "../../assets/News/thumbs-down-stroke-rounded 1.png";
 
 const newsCard = ({
   imageURL,
@@ -33,7 +38,7 @@ const newsCard = ({
         <div className="flex items-center gap-6 text-xs text-gray-500 my-4">
           <div className="flex items-center gap-1">
             <img
-              src="../../assets/News/quill-write-02-stroke-rounded 1.png"
+              src={quillIcon}
               alt=""
               className="w-4 h-4"
             />
@@ -41,7 +46,7 @@ const newsCard = ({
           </div>
           <div className="flex items-center gap-1">
             <img
-              src="../../assets/News/view-stroke-rounded (1) 1.png"
+              src={viewIcon}
               alt=""
               className="w-4 h-4"
             />
@@ -49,7 +54,7 @@ const newsCard = ({
           </div>
           <div className="flex items-center gap-1">
             <img
-              src="../../assets/News/calendar-03-stroke-rounded 1.png"
+              src={calendarIcon}
               alt=""
               className="w-4 h-4"
             />
@@ -58,7 +63,7 @@ const newsCard = ({
           <div className="flex items-center gap-3 border-r pr-4 border-gray-200">
             <div className="flex items-center gap-1">
               <img
-                src="../../assets/News/thumbs-up-stroke-rounded 1.png"
+                src={thumbsUpIcon}
                 alt=""
                 className="w-4 h-4"
               />
@@ -66,7 +71,7 @@ const newsCard = ({
             </div>
             <div className="flex items-center gap-1">
               <img
-                src="../../assets/News/thumbs-down-stroke-rounded 1.png"
+                src={thumbsDownIcon}
                 alt=""
                 className="w-4 h-4"
               />

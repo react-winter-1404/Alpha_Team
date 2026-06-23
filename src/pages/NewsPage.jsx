@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Spinner } from "@heroui/react";
+import { motion } from "framer-motion";
 import NavbarHeader  from "./components/landing/NavbarHeader";
 import Footer from "./components/landing/Footer";
 import NewsFilter from "../components/newsList/NewsFilter";
@@ -11,6 +12,46 @@ import NewsCard from "../components/newsList/newsCard";
 import NewsPagination from "../components/newsList/NewsPagination";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { FilterIcon } from "@hugeicons/core-free-icons";
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    y: 20
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 1, 0.5, 1]
+    }
+  }
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 30,
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.25, 1, 0.5, 1],
+    },
+  },
+};
 
 const NewsPage = () => {
   const [newsList, setNewsList] = useState([]);
@@ -112,9 +153,13 @@ const NewsPage = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col justify-between" style={{ direction: 'rtl' }}>
-      <div>
-        <NavbarHeader />
-        
+      <NavbarHeader />
+      
+      <motion.div 
+        variants={pageVariants}
+        initial="initial"
+        animate="animate"
+      >
         <div className="max-w-[1380px] w-full min-h-[500px] pb-[60px] rounded-[24px] md:rounded-[40px] dark:bg-surface-secondary border-4 overflow-hidden mx-auto my-6 md:my-10 p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 relative">
           
           <div className="col-span-1 lg:col-span-9 flex flex-col justify-between order-last lg:order-first">
@@ -140,9 +185,19 @@ const NewsPage = () => {
                     <Spinner size="lg" color="primary" />
                   </div>
                 ) : newsList.length > 0 ? (
-                  <div className="flex flex-col gap-6 w-full">
+                  <motion.div 
+                    className="flex flex-col gap-6 w-full"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                  >
                     {newsList.map((news) => (
-                      <div key={news.id} className="relative w-full min-h-[288px]">
+                      <motion.div 
+                        key={news.id} 
+                        className="relative w-full min-h-[288px]"
+                        variants={cardVariants}
+                        viewport={{ once: true, amount: 0.1 }}
+                      >
                         <NewsCard
                           imageURL={news.currentImageAddress || news.currentImageAddressTumb || "https://via.placeholder.com/427x287"}
                           title={news.title}
@@ -154,9 +209,9 @@ const NewsPage = () => {
                           dislike={news.currentDissLikeCount}
                           id={news.id}
                         />
-                      </div>
+                      </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 ) : (
                   <div className="w-full text-center py-20 text-gray-400 dark:text-gray-500 font-medium">
                     خبری با فیلترهای انتخاب شده پیدا نشد.
@@ -187,7 +242,7 @@ const NewsPage = () => {
           </div>
 
         </div>
-      </div>
+      </motion.div>
 
       <NewsFilter 
         currentFilters={currentFilters} 
