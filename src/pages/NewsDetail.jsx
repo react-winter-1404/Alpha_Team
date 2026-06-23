@@ -12,16 +12,15 @@ const NewsDetailPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const [newsDetail, setNewsDetail] = useState([]);
-  const [newsRate, setNewsRate] = useState([]);
+  const [newsDetail, setNewsDetail] = useState(null);
+  const [newsRate, setNewsRate] = useState(0);
 
   const fetchNewsDetail = async () => {
     setIsLoading(true);
     try {
       const response = await getNewsDetails({ Id: Params.id });
       setNewsDetail(response.data.detailsNewsDto);
-      setNewsRate(response.data.detailsNewsDto.newsRate.avg);
-      console.log(response.data.detailsNewsDto);
+      setNewsRate(response.data.detailsNewsDto.newsRate?.avg || 0);
     } catch (error) {
       console.error(error);
       setIsError(error);
@@ -29,7 +28,6 @@ const NewsDetailPage = () => {
       setIsLoading(false);
     }
   };
-  
 
   useEffect(() => {
     fetchNewsDetail();
@@ -47,7 +45,7 @@ const NewsDetailPage = () => {
     );
   }
 
-  if (isError) {
+  if (isError || !newsDetail) {
     return (
       <div className="w-full flex flex-col items-center">
         <NavbarHeader />
@@ -58,32 +56,36 @@ const NewsDetailPage = () => {
       </div>
     );
   }
-  if (!isLoading && !isError) {
-    return (
-      <div className=" w-full  flex flex-col items-center  ">
-        <NavbarHeader />
-        <div className=" border border-black flex flex-col lg:flex-row items-start w-[90.5%] gap-10 lg:gap-[4.75%] pt-16 ">
-          <NewsInfoBox
-            title={newsDetail.title}
-            insertDate={newsDetail.insertDate}
-            newsCatregoryName={newsDetail.newsCatregoryName}
-            currentView={newsDetail.currentView}
-            addUserFullName={newsDetail.addUserFullName}
-            addUserProfileImage={newsDetail.addUserProfileImage}
-            newsRate={newsRate}
-          />
-          <NewsDetailSection
-            newsId={Params.id}
-            imageAddress={newsDetail.currentImageAddress}
-            miniDescribe={newsDetail.miniDescribe}
-            describe={newsDetail.describe}
-            newsTitle={newsDetail.title}
-          />
-        </div>
-        <Footer />
+
+  return (
+    <div className="w-full flex flex-col items-center">
+      <NavbarHeader />
+      <div className=" flex flex-col lg:flex-row items-start w-[90.5%] gap-10 lg:gap-[4.75%] pt-16">
+        <NewsInfoBox
+          newsId={Params.id}
+          title={newsDetail.title}
+          insertDate={newsDetail.insertDate}
+          newsCatregoryName={newsDetail.newsCatregoryName}
+          currentView={newsDetail.currentView}
+          addUserFullName={newsDetail.addUserFullName}
+          addUserProfileImage={newsDetail.addUserProfileImage}
+          newsRate={newsRate}
+          isFavorite={false}
+          userIsLiked={newsDetail.currentUserIsLike}
+          currentUserDissLike={newsDetail.currentUserIsDissLike}
+        />
+        <NewsDetailSection
+          newsId={Params.id}
+          imageAddress={newsDetail.currentImageAddress}
+          miniDescribe={newsDetail.miniDescribe}
+          describe={newsDetail.describe}
+          newsTitle={newsDetail.title}
+          
+        />
       </div>
-    );
-  }
+      <Footer />
+    </div>
+  );
 };
 
 export default NewsDetailPage;

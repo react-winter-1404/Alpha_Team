@@ -55,7 +55,7 @@ const DetailSection = ({
 
 
   return (
-    <div className="border border-black w-full lg:w-[54.5%] flex flex-col">
+    <div className=" w-full lg:w-[54.5%] flex flex-col">
       <img
         src={imageAddress}
         alt={title}
@@ -86,7 +86,7 @@ const DetailSection = ({
           <div className="lg:text-xl">{describe}</div>
         </div>
 
-        <div className="h-10 border border-black mt-5 flex items-center gap-1.5 lg:gap-3 rounded-lg px-3">
+        <div className="h-10  mt-5 flex items-center gap-1.5 lg:gap-3 rounded-lg px-3">
           <HugeiconsIcon
             icon={StarCircleIcon}
             className="text-accent w-5 h-5 lg:w-6 lg:h-6"

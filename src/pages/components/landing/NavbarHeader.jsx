@@ -11,7 +11,7 @@ import {
   FlipPhoneIcon,
 } from "@hugeicons/core-free-icons";
 import { Button } from "@heroui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CloseButton } from "@heroui/react";
 import { AnimatePresence } from "framer-motion";
@@ -22,6 +22,12 @@ export default function NavbarHeader() {
   // const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme("system");
+  const [isLoged,setIsLoged]=useState(false);
+
+    useEffect(()=>{
+        setIsLoged(JSON.parse(localStorage.getItem('isLogin')));
+
+    },[localStorage.getItem('token')])
 
   // const toggleTheme = () => {
   //   setIsDarkMode(!isDarkMode);
@@ -111,12 +117,12 @@ export default function NavbarHeader() {
 
           <Button
             disableRipple
-            color="primary"
             
-            className=" bg-blue-500 text-white rounded-3xl flex items-center justify-center "
+            className={`${isLoged  ? ' bg-overlay border dark:border-0 hover:bg-field-hover dark:hover:bg-gray-900 ':' bg-accent text-accent-foreground '} rounded-3xl flex items-center justify-center `}
           >
-            <Link to={"/Auth/Login"} className=" text-sm mb-1 md:text-[16px] ">
-              ورود یا ثبت نام
+            <Link to={isLoged  ? '/panel':'/Auth/Login'} className=" text-sm mb-1 md:text-[16px] ">
+            {isLoged  ? 'حساب کاربری':' ورود یا ثبت نام'}
+             
             </Link>
           </Button>
 

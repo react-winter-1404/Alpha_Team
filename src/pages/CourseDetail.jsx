@@ -14,7 +14,6 @@ import {
 const CourseDetailPage = () => {
   const Params = useParams();
 
-
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -138,7 +137,7 @@ const CourseDetailPage = () => {
     return (
       <div className=" w-full  flex flex-col items-center  ">
         <NavbarHeader />
-        <div className=" border border-black flex flex-col lg:flex-row items-start w-[90.5%] gap-10 lg:gap-[4.75%] pt-16 ">
+        <div className="  flex flex-col lg:flex-row items-start w-[90.5%] gap-10 lg:gap-[4.75%] pt-16 ">
           <InfoBox
             title={courseDetail.title}
             courseLevelName={courseDetail.courseLevelName}
@@ -151,6 +150,8 @@ const CourseDetailPage = () => {
             courseTech={[...techsList]}
             courseId={courseDetail.courseId}
             isFavorite={courseDetail.isUserFavorite}
+            userIsLiked={courseDetail.userIsLiked}
+            currentUserDissLike={courseDetail.currentUserDissLike}
           />
           <DetailSection
             title={courseDetail.title}
@@ -160,7 +161,6 @@ const CourseDetailPage = () => {
             teacherName={courseDetail.teacherName}
             miniDescribe={courseDetail.miniDescribe}
             describe={courseDetail.describe}
-            
           />
         </div>
         {courses.length >= 1 && (
