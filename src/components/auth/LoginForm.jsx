@@ -53,7 +53,7 @@ const LoginForm = ({ submitFunction }) => {
   });
 
   return (
-    <div className="border border-red-600 w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
+    <div className=" w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
       <div className="w-full flex flex-col gap-4 sm:gap-6">
         <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold">
           <div className="">خوش برگشتی! </div>
@@ -70,7 +70,7 @@ const LoginForm = ({ submitFunction }) => {
         initialValues={{ phoneOrGmail: "", password: "", rememberMe: false }}
         validationSchema={validationSchema}
       >
-        <Form className="border border-black w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
+        <Form className=" w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
           <div className="flex flex-col gap-3 sm:gap-5">
             <div className="w-full flex flex-col gap-1 sm:gap-1.5">
               <label

@@ -5,6 +5,7 @@ import { useTheme } from "@heroui/use-theme";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons";
 import { Button } from "@heroui/button";
+import { Link, useNavigate } from "react-router-dom";
 
 const Panel = () => {
   const [dashboard, setDashboard] = useState(true);
@@ -14,7 +15,7 @@ const Panel = () => {
   const [favMag, setFavMag] = useState(false);
   const [profile, setProfile] = useState(false);
   const { theme, setTheme } = useTheme("system");
-  const [profilePic, setProfilePic] = useState("")
+  const [profilePic, setProfilePic] = useState("");
 
   const [smallMenu, setSmallMenu] = useState(false);
 
@@ -27,7 +28,7 @@ const Panel = () => {
     try {
       const response = await getUserProfile();
       setUserProfile(response.data);
-      setProfilePic(response.data.currentPictureAddress || "")
+      setProfilePic(response.data.currentPictureAddress || "");
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -41,10 +42,15 @@ const Panel = () => {
     setUserRoles(JSON.parse(localStorage.getItem("roles")));
   }, []);
 
+  const navigate = useNavigate();
+
   return (
-    <div className="fixed inset-0 w-screen min-h-screen p-3 md:p-5 flex flex-col md:flex-row gap-3 bg-[#f0f0f0] overflow-auto">
-      <div className="hidden md:block md:w-[276px] md:h-[950px] p-4 rounded-[16px] bg-[#fefdff]">
-        <div className=" w-full h-[60px] flex justify-center items-center">
+    <div className="fixed inset-0 w-screen min-h-screen p-3 md:p-5 flex flex-col md:flex-row gap-3 bg-default overflow-auto">
+      <div className="hidden md:block md:w-[276px] md:h-[950px] p-4 rounded-[16px] bg-overlay">
+        <Link
+          to={"/"}
+          className=" w-full h-[60px] flex justify-center items-center"
+        >
           <img
             src="/public/icons/Untitled-1 2.png"
             alt=""
@@ -55,7 +61,7 @@ const Panel = () => {
             alt=""
             className="mt-4 w-[189.1px] h-[37.69px]"
           />
-        </div>
+        </Link>
 
         <div className="flex flex-col  items-start mt-10">
           <div>
@@ -70,16 +76,14 @@ const Panel = () => {
                   setFavMag(false);
                   setProfile(false);
                 }}
-                className="mb-[10px] w-[228px] h-[53px] rounded-[38px] bg-[#3772ff] text-right flex justify-start items-center cursor-pointer"
+                className={` ${dashboard ? "bg-accent text-accent-foreground " : "bg-default text-muted "} mb-[10px] w-[228px] h-[53px] rounded-[38px]  text-right flex justify-start items-center cursor-pointer`}
               >
                 <img
                   src="/public/icons/dashboard-circle-stroke-rounded 1.png"
                   alt=""
                   className="h-[24px] w-[24px] mr-3"
                 />
-                <span className="text-[18px] indent-4 text-[#fefdff]">
-                  داشبورد
-                </span>
+                <span className="text-[18px] indent-4 ">داشبورد</span>
               </li>
 
               <li
@@ -91,16 +95,14 @@ const Panel = () => {
                   setFavMag(false);
                   setProfile(false);
                 }}
-                className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center text-[#272727] bg-[#ecebec] cursor-pointer"
+                className={` ${myCourse ? "bg-accent text-accent-foreground " : "bg-default text-muted "} mb-[10px] w-[228px] h-[53px] rounded-[38px]  text-right flex justify-start items-center cursor-pointer`}
               >
                 <img
                   src="/public/icons/book-02-stroke-rounded 1.png"
                   alt=""
                   className="h-[24px] w-[24px] mr-3"
                 />
-                <span className="text-[18px] text-[#272727] indent-4">
-                  دوره من
-                </span>
+                <span className="text-[18px]  indent-4">دوره من</span>
               </li>
 
               <li
@@ -112,16 +114,14 @@ const Panel = () => {
                   setFavMag(false);
                   setProfile(false);
                 }}
-                className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center bg-[#ecebec] cursor-pointer"
+                className={` ${myReserve ? "bg-accent text-accent-foreground " : "bg-default text-muted "} mb-[10px] w-[228px] h-[53px] rounded-[38px]  text-right flex justify-start items-center cursor-pointer`}
               >
                 <img
                   src="/public/icons/time-setting-03-stroke-rounded 1.png"
                   alt=""
                   className="h-[24px] w-[24px] mr-3"
                 />
-                <span className="text-[18px] text-[#272727]  indent-4">
-                  رزرو من
-                </span>
+                <span className="text-[18px]   indent-4">رزرو من</span>
               </li>
 
               <li
@@ -133,16 +133,14 @@ const Panel = () => {
                   setFavMag(false);
                   setProfile(false);
                 }}
-                className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center bg-[#ecebec] cursor-pointer"
+                className={` ${favCourses ? "bg-accent text-accent-foreground " : "bg-default text-muted "} mb-[10px] w-[228px] h-[53px] rounded-[38px]  text-right flex justify-start items-center cursor-pointer`}
               >
                 <img
                   src="/public/icons/book-bookmark-02-stroke-rounded 1.png"
                   alt=""
                   className="h-[24px] w-[24px] mr-3"
                 />
-                <span className="text-[18px] text-[#272727] indent-4">
-                  علاقه مندی دوره
-                </span>
+                <span className="text-[18px]  indent-4">علاقه مندی دوره</span>
               </li>
 
               <li
@@ -154,16 +152,14 @@ const Panel = () => {
                   setFavMag(true);
                   setProfile(false);
                 }}
-                className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center bg-[#ecebec] cursor-pointer"
+                className={` ${favMag ? "bg-accent text-accent-foreground " : "bg-default text-muted "} mb-[10px] w-[228px] h-[53px] rounded-[38px]  text-right flex justify-start items-center cursor-pointer`}
               >
                 <img
                   src="/public/icons/file-bookmark-stroke-rounded 1.png"
                   alt=""
                   className="h-[24px] w-[24px] mr-3"
                 />
-                <span className="text-[18px] text-[#272727] indent-4">
-                  علاقه مندی مقالات
-                </span>
+                <span className="text-[18px]  indent-4">علاقه مندی مقالات</span>
               </li>
 
               <li
@@ -175,16 +171,14 @@ const Panel = () => {
                   setFavMag(false);
                   setProfile(true);
                 }}
-                className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center bg-[#ecebec] cursor-pointer"
+                className={` ${profile ? "bg-accent text-accent-foreground " : "bg-default text-muted "} mb-[10px] w-[228px] h-[53px] rounded-[38px]  text-right flex justify-start items-center cursor-pointer`}
               >
                 <img
                   src="/public/icons/user-edit-01-stroke-rounded 1.png"
                   alt=""
                   className="h-[24px] w-[24px] mr-3"
                 />
-                <span className="text-[18px] text-[#272727] indent-4">
-                  پروفایل
-                </span>
+                <span className="text-[18px]  indent-4">پروفایل</span>
               </li>
             </ul>
           </div>
@@ -192,33 +186,29 @@ const Panel = () => {
           <div className="mt-4">
             <h4 className="text-[16px] mb-2.5 text-[#787878]">مالی</h4>
 
-            <div className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center bg-[#ecebec] cursor-pointer">
+            <div className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center bg-default text-muted cursor-pointer">
               <img
                 src="/public/icons/money-send-02-stroke-rounded 1.png"
                 alt=""
                 className="h-[24px] w-[24px] mr-3"
               />
-              <span className="text-[18px] indent-4 text-[#272727]">
-                پرداخت ها
-              </span>
+              <span className="text-[18px] indent-4 ">پرداخت ها</span>
             </div>
           </div>
         </div>
 
         <div className="mt-40">
           <ul>
-            <li className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center text-[#272727] bg-[#ecebec] cursor-pointer">
+            <li className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center text-muted bg-default cursor-pointer">
               <img
                 src="/public/icons/user-settings-01-stroke-rounded 1.png"
                 alt=""
                 className="h-[24px] w-[24px] mr-3"
               />
-              <span className="text-[18px] text-[#272727] indent-4">
-                حساب های کاربری
-              </span>
+              <span className="text-[18px]  indent-4">حساب های کاربری</span>
             </li>
 
-            <li className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center text-[#272727] bg-[#ecebec] cursor-pointer">
+            <li className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center  bg-default cursor-pointer">
               <img
                 src="/public/icons/logout-03-stroke-rounded 1.png"
                 alt=""
@@ -234,7 +224,6 @@ const Panel = () => {
 
       <div className="flex-1 w-full rounded-[16px]">
         <div className="w-full p-2.5 rounded-[16px] md:bg-[#fefdff] flex sm:flex-row justify-between items-center gap-3">
-          
           <div className="hidden w-[200px] h-full md:flex justify-center items-center gap-3">
             <img
               src={profilePic || userProfile.currentPictureAddress}
@@ -243,11 +232,11 @@ const Panel = () => {
             />
 
             <div>
-              <span className="text-[20px] text-[#272727] flex">
+              <span className="text-[20px]  flex">
                 {userProfile.fName + " " + userProfile.lName}
               </span>
 
-              <span className="text-[16px] text-[#272727] block">
+              <span className="text-[16px]  block">
                 {userRoles &&
                   userRoles.map((role, index) => (
                     <span key={index}>
@@ -259,8 +248,12 @@ const Panel = () => {
             </div>
           </div>
 
-
-          <img src="/public/icons/Untitled-1 2.png" alt="" className="h-[40px] w-[40px] md:hidden"/>
+          <img
+            onClick={() => navigate("/")}
+            src="/public/icons/Untitled-1 2.png"
+            alt=""
+            className="h-[40px] w-[40px] md:hidden cursor-pointer"
+          />
 
           <div className="flex justify-between items-center w-[120px] h-full">
             <button className="relative w-[56px] h-[56px] border-solid border dark:border-gray-600 rounded-full border-gray-200 text-center">
@@ -303,114 +296,160 @@ const Panel = () => {
 
       <div className="md:hidden w-full h-[60px] rounded-[30px] bg-[#fefdff] border-1 border-[#f0f0f0] flex justify-between items-center">
         <div
-        onClick={() => {
-                  setDashboard(true);
-                  setMyCourse(false);
-                  setMyReserve(false);
-                  setFavCourses(false);
-                  setFavMag(false);
-                  setProfile(false);
-                }}
-
-         className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center">
-          <img src="/public/icons/dashboard-circle-stroke-rounded 1.png" alt="" className="w-[32px] h-[32px] m-auto"/>
+          onClick={() => {
+            setDashboard(true);
+            setMyCourse(false);
+            setMyReserve(false);
+            setFavCourses(false);
+            setFavMag(false);
+            setProfile(false);
+          }}
+          className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center"
+        >
+          <img
+            src="/public/icons/dashboard-circle-stroke-rounded 1.png"
+            alt=""
+            className="w-[32px] h-[32px] m-auto"
+          />
         </div>
 
         <div
-        onClick={() => {
-                  setDashboard(false);
-                  setMyCourse(true);
-                  setMyReserve(false);
-                  setFavCourses(false);
-                  setFavMag(false);
-                  setProfile(false);
-                }}
-         className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-[#ecebec]">
-          <img src="/public/icons/book-02-stroke-rounded 1.png" alt="" className="w-[32px] h-[32px] m-auto"/>
+          onClick={() => {
+            setDashboard(false);
+            setMyCourse(true);
+            setMyReserve(false);
+            setFavCourses(false);
+            setFavMag(false);
+            setProfile(false);
+          }}
+          className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-default"
+        >
+          <img
+            src="/public/icons/book-02-stroke-rounded 1.png"
+            alt=""
+            className="w-[32px] h-[32px] m-auto"
+          />
         </div>
 
         <div
-        onClick={() => {
-                  setDashboard(false);
-                  setMyCourse(false);
-                  setMyReserve(true);
-                  setFavCourses(false);
-                  setFavMag(false);
-                  setProfile(false);
-                }}
-         className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-[#ecebec]">
-          <img src="/public/icons/time-setting-03-stroke-rounded 1.png" alt="" className="w-[32px] h-[32px] m-auto"/>
+          onClick={() => {
+            setDashboard(false);
+            setMyCourse(false);
+            setMyReserve(true);
+            setFavCourses(false);
+            setFavMag(false);
+            setProfile(false);
+          }}
+          className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-default"
+        >
+          <img
+            src="/public/icons/time-setting-03-stroke-rounded 1.png"
+            alt=""
+            className="w-[32px] h-[32px] m-auto"
+          />
         </div>
 
         <div
-        onClick={() => {
-                  setDashboard(false);
-                  setMyCourse(false);
-                  setMyReserve(false);
-                  setFavCourses(false);
-                  setFavMag(false);
-                  setProfile(true);
-                }}
-         className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-[#ecebec]">
-          <img src="/public/icons/dashboard-circle-stroke-rounded 1.png" alt="" className="w-[32px] h-[32px] m-auto"/>
+          onClick={() => {
+            setDashboard(false);
+            setMyCourse(false);
+            setMyReserve(false);
+            setFavCourses(false);
+            setFavMag(false);
+            setProfile(true);
+          }}
+          className="w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-default"
+        >
+          <img
+            src="/public/icons/dashboard-circle-stroke-rounded 1.png"
+            alt=""
+            className="w-[32px] h-[32px] m-auto"
+          />
         </div>
 
-        <div onClick={() => setSmallMenu(!smallMenu)} className="relative w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-[#ecebec]">
-          <img src="/public/icons/more-vertical-circle-01-stroke-rounded 1.png" alt="" className="w-[32px] h-[32px] m-auto"/>
+        <div
+          onClick={() => setSmallMenu(!smallMenu)}
+          className="relative w-[50px] h-[50px] rounded-[38px] bg-[#3772ff] flex items-center bg-default"
+        >
+          <img
+            src="/public/icons/more-vertical-circle-01-stroke-rounded 1.png"
+            alt=""
+            className="w-[32px] h-[32px] m-auto"
+          />
 
-          {
-            smallMenu && 
+          {smallMenu && (
             <div className="absolute top-[-250px] left-2 w-[221px] h-[248px] rounded-[16px] bg-[#ffff] flex flex-col justify-center items-center">
               <ul className="m-0 p-0">
-                <li 
-                onClick={() => {
-                  setDashboard(false);
-                  setMyCourse(false);
-                  setMyReserve(false);
-                  setFavCourses(true);
-                  setFavMag(false);
-                  setProfile(false);
-                }}
-                className="flex justify-start items-center gap-3 p-2">
-                  <img src="/public/icons/book-bookmark-02-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px] "/>
-                  <span className="text-[16px] text-[#272727]">علاقه‌مندی دوره</span>
+                <li
+                  onClick={() => {
+                    setDashboard(false);
+                    setMyCourse(false);
+                    setMyReserve(false);
+                    setFavCourses(true);
+                    setFavMag(false);
+                    setProfile(false);
+                  }}
+                  className="flex justify-start items-center gap-3 p-2"
+                >
+                  <img
+                    src="/public/icons/book-bookmark-02-stroke-rounded 1.png"
+                    alt=""
+                    className="w-[24px] h-[24px] "
+                  />
+                  <span className="text-[16px] ">علاقه‌مندی دوره</span>
                 </li>
 
-                <li 
-                onClick={() => {
-                  setDashboard(false);
-                  setMyCourse(false);
-                  setMyReserve(false);
-                  setFavCourses(false);
-                  setFavMag(true);
-                  setProfile(false);
-                }}
-                className="flex justify-start items-center gap-3 p-2">
-                  <img src="/public/icons/file-bookmark-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px] "/>
-                  <span className="text-[16px] text-[#272727]">علاقه‌مندی مقاله</span>
+                <li
+                  onClick={() => {
+                    setDashboard(false);
+                    setMyCourse(false);
+                    setMyReserve(false);
+                    setFavCourses(false);
+                    setFavMag(true);
+                    setProfile(false);
+                  }}
+                  className="flex justify-start items-center gap-3 p-2"
+                >
+                  <img
+                    src="/public/icons/file-bookmark-stroke-rounded 1.png"
+                    alt=""
+                    className="w-[24px] h-[24px] "
+                  />
+                  <span className="text-[16px] ">علاقه‌مندی مقاله</span>
                 </li>
 
                 <li className="flex justify-start items-center gap-3 p-2">
-                  <img src="/public/icons/money-send-02-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px] "/>
-                  <span className="text-[16px] text-[#272727]">پرداخت ها</span>
+                  <img
+                    src="/public/icons/money-send-02-stroke-rounded 1.png"
+                    alt=""
+                    className="w-[24px] h-[24px] "
+                  />
+                  <span className="text-[16px] text-muted ">پرداخت ها</span>
                 </li>
 
                 <li className="flex justify-start items-center gap-3 p-2">
-                  <img src={userProfile.currentPictureAddress} alt="" className="w-[24px] h-[24px] "/>
-                  <span className="text-[16px] text-[#272727]">حساب‌های کاربری</span>
+                  <img
+                    src={userProfile.currentPictureAddress}
+                    alt=""
+                    className="w-[24px] h-[24px] "
+                  />
+                  <span className="text-[16px] ">حساب‌های کاربری</span>
                 </li>
 
                 <li className="flex justify-start items-center gap-3 p-2">
-                  <img src="/public/icons/logout-03-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px] "/>
-                  <span className="text-[16px] text-[#ff5454]">خروج از حساب</span>
+                  <img
+                    src="/public/icons/logout-03-stroke-rounded 1.png"
+                    alt=""
+                    className="w-[24px] h-[24px] "
+                  />
+                  <span className="text-[16px] text-[#ff5454]">
+                    خروج از حساب
+                  </span>
                 </li>
               </ul>
             </div>
-          }
+          )}
         </div>
-
-        
-        
       </div>
     </div>
   );
