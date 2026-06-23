@@ -216,6 +216,33 @@ const FavCourses = () => {
           <h3 className="text-[32px] text-[#272727]">علاقه‌مندی دوره</h3>
           <button className="w-[83px] h-[41px] rounded-[64px] bg-[#3772ff] text-[16px] text-[#fefdff]">فیلتر</button>
         </div>
+
+        <div className="mt-10 w-full p-3 rounded-[16px] bg-[#fefdff] flex flex-col items-center justify-center gap-2">
+          {
+            isLoading ? (
+              <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+                <Spinner />
+              </div>
+            ) : filteredCourses.length === 0 ? (
+              <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+                {searchTerm || dateRange.start || dateRange.end
+                  ? "دوره‌ای با شرایط انتخابی یافت نشد"
+                  : "دوره‌ای در لیست علاقه‌مندی‌ها یافت نشد"}
+              </div>
+            ) : (
+            myFavoriteCourses.map((course) => (
+              <div key={course.id}  className="w-full h-[90px] p-3 flex justify-between items-center">
+                <img src={course.imageAddress} alt="" className="w-[115px] h-[82px] rounded-[8px] bg-[#d9d9d9]"/>
+                <Link to={`/courses/${course.courseId}`}>
+                  <span className="block text-[16px] text-[#272727]">{course.courseTitle}</span>
+                  <span className="block text-[16px] text-[#787878]">{course.teacheName}</span>
+                  <span className="block text-[16px] text-[#787878]"></span>
+                </Link>
+              </div>
+            ))
+          )}
+        </div>
+
       </div>
     </>
   );

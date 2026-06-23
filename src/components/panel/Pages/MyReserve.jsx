@@ -6,6 +6,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Calendar02Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
 import { DateRangePicker, DateField, RangeCalendar } from "@heroui/react";
 import { I18nProvider } from "@heroui/react";
+import { Link } from "react-router-dom";
 
 const MyReserve = () => {
   const [myCoursesReserve, setMyCoursesReserve] = useState([]);
@@ -92,7 +93,7 @@ const MyReserve = () => {
           </div>
         </div>
 
-        {/* فیلتر تاریخ */}
+        
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 font-bold text-sm mb-1">
@@ -163,7 +164,7 @@ const MyReserve = () => {
           </div>
         </div>
 
-        {/* فیلتر وضعیت (ترتیب) */}
+        
         <div className="flex justify-center items-center gap-2 mt-8">
           <label className="font-bold text-sm">فیلتر بر اساس :</label>
           <div className="flex justify-center items-center gap-2">
@@ -229,6 +230,32 @@ const MyReserve = () => {
         <h3 className="text-[32px] text-[#272727]">رزرو من</h3>
 
         <button className="w-[83px] h-[41px] rounded-[64px] bg-[#3772ff] text-[16px] text-[#fefdff]">فیلتر</button>
+      </div>
+
+      <div className="mt-10 w-full p-3 rounded-[16px] bg-[#fefdff] flex flex-col items-center justify-center gap-2">
+                {
+                  isLoading ? (
+                    <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+                      <Spinner />
+                    </div>
+                  ) : filteredCourses.length === 0 ? (
+                    <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+                      {searchTerm || dateRange.start || dateRange.end
+                        ? "دوره‌ای با شرایط انتخابی یافت نشد"
+                        : "دوره‌ای در لیست علاقه‌مندی‌ها یافت نشد"}
+                    </div>
+                  ) : (
+                  myCoursesReserve.map((course) => (
+                    <div key={course.id}  className="w-full h-[90px] p-3 flex justify-between items-center">
+                      <img src={course.imageAddress} alt="" className="w-[115px] h-[82px] rounded-[8px] bg-[#d9d9d9]"/>
+                      <Link to={`/courses/${course.courseId}`}>
+                        <span className="block text-[16px] text-[#272727]">{course.courseTitle}</span>
+                        <span className="block text-[16px] text-[#787878]">{course.teacheName}</span>
+                        <span className="block text-[16px] text-[#787878]"></span>
+                      </Link>
+                    </div>
+                  ))
+                )}
       </div>
 
     </div>

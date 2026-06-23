@@ -12,7 +12,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { Button } from "@heroui/button";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CloseButton } from "@heroui/react";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
@@ -37,6 +37,9 @@ export default function NavbarHeader() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const navigate = useNavigate()
+
   return (
     <>
       <ScrollProgressBar />
@@ -46,7 +49,7 @@ export default function NavbarHeader() {
       >
         <NavbarContent>
           <NavbarBrand className="gap-3">
-            <div className=" w-full overflow-hidden  h-11.75 flex items-center gap-1.5 px-1 ">
+            <div onClick={() => navigate("/")} className="cursor-pointer w-full overflow-hidden  h-11.75 flex items-center gap-1.5 px-1 ">
               <img
                 src="/public/images/imageLogo.png"
                 alt=""

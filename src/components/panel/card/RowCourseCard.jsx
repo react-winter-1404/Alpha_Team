@@ -51,7 +51,7 @@ const RowCourseCard = ({ course }) => {
       </div>
 
       <div className=" w-[15%] flex justify-center ">
-        {/* {`${course.accept}`} */}
+        
         <Chip
           variant="soft"
           color={course.accept ? "success" : "danger"}

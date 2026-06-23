@@ -13,7 +13,7 @@ const MyCourses = () => {
           </div>
 
           <div className="relative mt-3">
-            <input type="text" placeholder="جستجو کنید ..." className="w-[289px] h-[48px] bg-[#bebebe] text-[14px] text-[#787878] indent-3"/>
+            <input type="text" placeholder="جستجو کنید ..." className="rounded-[16px] w-[289px] h-[48px] bg-[#bebebe] text-[14px] text-[#787878] indent-3"/>
             <div className="absolute top-[-1px] left-0 cursor-pointer w-[48px] h-[48px] rounded-[16px] bg-[#3772ff] flex justify-center items-center">
               <img src="/public/icons/search-01-stroke-rounded 2.png" alt="" className="h-[24px] w-[24px]"/>
             </div>
@@ -27,7 +27,7 @@ const MyCourses = () => {
           </div>
 
           <div dir="ltr"  className="relative mt-3">
-            <input type="text" placeholder="1403/5/20 - 1403/6/20" className="w-[289px] h-[48px] bg-[#bebebe] text-[14px] text-[#787878] indent-3 text-left"/>
+            <input type="text" placeholder="1403/5/20 - 1403/6/20" className="rounded-[16px] w-[289px] h-[48px] bg-[#bebebe] text-[14px] text-[#787878] indent-3 text-left"/>
           </div>
         </div>
       </div>
