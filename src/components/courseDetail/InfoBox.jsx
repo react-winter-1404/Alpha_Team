@@ -4,7 +4,7 @@ import {
   StudentsIcon,
   Calendar03Icon,
   StarIcon,
-  BookmarkAdd02Icon,
+  HeartIcon,
   ThumbsUpIcon,
   ThumbsDownIcon,
   CheckmarkCircle03Icon,
@@ -12,6 +12,8 @@ import {
   ProfileIcon,
 } from "@hugeicons/core-free-icons";
 import { useState } from "react";
+import { postAddCourseFavorite } from "../../core/services/Course/post";
+import toast from "react-hot-toast";
 
 const InfoBox = ({
   title,
@@ -23,111 +25,124 @@ const InfoBox = ({
   isActive,
   courseRate,
   courseTech,
+  courseId,
+  isFavorite
 }) => {
-  const [isShowReserveCourseModal, setIsShowReserveCourseModal] =
-    useState(false);
-  const [courseTechs, setCourseTechs] = useState(courseTech);
-  console.log(courseTechs);
-  useState(() => {
-    setCourseTechs(courseTech);
-  });
+  const [isShowReserveCourseModal, setIsShowReserveCourseModal] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(isFavorite);
+  const [like, setLike] = useState(false);
+  const [dislike, setDislike] = useState(false);
+
+  const [courseTechs] = useState(courseTech);
+
   const start = new Date(startTime).toLocaleDateString("fa-IR");
   const end = new Date(endTime).toLocaleDateString("fa-IR");
 
+  const fetchAddCourseFavorite = async () => {
+    try {
+      const response = await postAddCourseFavorite(courseId);
+      console.log(response.data);
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setIsFavorited(true);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      if (error.response?.status === 401) {
+        toast.error("ابتدا باید وارد حساب کاربری خود شوید", { duration: 4000 });
+      }
+      if (error.response?.status === 400) {
+        toast.error("علاقه مندی شما قبلا ثبت شده است", { duration: 4000 });
+      }
+    }
+  };
+
+  const toggleFavorite = () => {
+    if (isFavorited) {
+      ''
+    } else {
+      fetchAddCourseFavorite();
+    }
+  };
+
   return (
-    <div className=" border-4 max-h-screen w-full mx-auto max-w-120 lg:max-w-none lg:w-[40.75%] lg:sticky top-29 bg-overlay flex flex-col rounded-3xl px-5 pt-3.25 pb-5 ">
+    <div className="border-4 max-h-screen w-full mx-auto max-w-120 lg:max-w-none lg:w-[40.75%] lg:sticky top-29 bg-overlay flex flex-col rounded-3xl px-5 pt-3.25 pb-5">
       {isActive && (
         <Chip
           variant="danger-soft"
-          className=" h-6 w-27.5 bg-danger-soft text-danger flex justify-center items-center gap-2 text-center p-0 pb-1 font-semibold  "
+          className="h-6 w-27.5 bg-danger-soft text-danger flex justify-center items-center gap-2 text-center p-0 pb-1 font-semibold"
         >
-          <span className=" w-2 h-2 bg-danger rounded-full mt-1 "></span>
+          <span className="w-2 h-2 bg-danger rounded-full mt-1"></span>
           درحال برگزاری
         </Chip>
       )}
-      <div className=" flex items-start mt-4 ">
-        <div className=" text-2xl lg:text-3xl xl:text-[42px] font-semibold ">{title}</div>
-        <div className="  lg:text-xl flex items-center gap-1 ">
+
+      <div className="flex items-start mt-4">
+        <div className="text-2xl lg:text-3xl xl:text-[42px] font-semibold">
+          {title}
+        </div>
+        <div className="lg:text-xl flex items-center gap-1">
           ({Number(courseRate).toFixed(1)}{" "}
-          <HugeiconsIcon
-            icon={StarIcon}
-            size={16}
-            color="yellow"
-            fill="yellow"
-          />{" "}
-          )
+          <HugeiconsIcon icon={StarIcon} size={16} color="yellow" fill="yellow" />)
         </div>
       </div>
-      <div className=" flex flex-wrap mt-2 lg:mt-4 text-lg gap-2 ">
-        {courseTechs.map((tech, index) => {
-          return (
-            <Chip
-              key={index}
-              variant="primary"
-              color="accent"
-              className=" h-7 px-1.25 lg:text-[15px] lg:h-8 lg:px-2.5 pb-1.5 "
-            >
-              {tech}
-            </Chip>
-          );
-        })}
 
+      <div className="flex flex-wrap mt-2 lg:mt-4 text-lg gap-2">
+        {courseTechs?.map((tech, index) => (
+          <Chip
+            key={index}
+            variant="primary"
+            color="accent"
+            className="h-7 px-1.25 lg:text-[15px] lg:h-8 lg:px-2.5 pb-1.5"
+          >
+            {tech}
+          </Chip>
+        ))}
         <Chip
           variant="primary"
           color="accent"
-          className=" h-7 px-1.25 lg:text-[15px] lg:h-8 lg:px-2.5 pb-1.5 "
+          className="h-7 px-1.25 lg:text-[15px] lg:h-8 lg:px-2.5 pb-1.5"
         >
           {courseLevelName}
         </Chip>
       </div>
-      <div className=" flex flex-col gap-2 lg:gap-4 lg:text-xl my-3.5 lg:my-7 ">
-        <div className=" flex gap-4 items-center  ">
-          <HugeiconsIcon icon={StudentsIcon} className=" lg:w-6.5 lg:h-6.5 " />
-          <div className="">{capacity} دانشجو</div>
+
+      <div className="flex flex-col gap-2 lg:gap-4 lg:text-xl my-3.5 lg:my-7">
+        <div className="flex gap-4 items-center">
+          <HugeiconsIcon icon={StudentsIcon} className="lg:w-6.5 lg:h-6.5" />
+          <div>{capacity} دانشجو</div>
         </div>
-        <div className=" flex gap-4 items-center  ">
-          <HugeiconsIcon
-            icon={Calendar03Icon}
-            className=" lg:w-6.5 lg:h-6.5 "
-          />
-          <div className="">
-            {start}
-            <span className=" text-muted lg:text-lg font-medium ">
-              {" "}
-              (شروع){" "}
-            </span>
+        <div className="flex gap-4 items-center">
+          <HugeiconsIcon icon={Calendar03Icon} className="lg:w-6.5 lg:h-6.5" />
+          <div>
+            {start} <span className="text-muted lg:text-lg font-medium">(شروع)</span>
           </div>
         </div>
-        <div className=" flex gap-4 items-center  ">
-          <HugeiconsIcon
-            icon={Calendar03Icon}
-            className=" lg:w-6.5 lg:h-6.5 "
-          />
-          <div className="">
-            {end}
-            <span className=" text-muted lg:text-lg font-medium ">
-              {" "}
-              (پایان){" "}
-            </span>
+        <div className="flex gap-4 items-center">
+          <HugeiconsIcon icon={Calendar03Icon} className="lg:w-6.5 lg:h-6.5" />
+          <div>
+            {end} <span className="text-muted lg:text-lg font-medium">(پایان)</span>
           </div>
         </div>
       </div>
-      <div className=" font-semibold flex gap-1.5 items-end ">
-        <span className=" text-xl lg:text-[28px] ">
+
+      <div className="font-semibold flex gap-1.5 items-end">
+        <span className="text-xl lg:text-[28px]">
           {cost && cost.toLocaleString("fa-IR")}
         </span>
-        <span className=" text-accent text-sm lg:text-md ">تومان</span>
+        <span className="text-accent text-sm lg:text-md">تومان</span>
       </div>
-      <div className=" flex justify-between gap-3 items-center mt-4 lg:mt-7.5 ">
+
+      <div className="flex justify-between gap-3 items-center mt-4 lg:mt-7.5">
         <AlertDialog
           isOpen={isShowReserveCourseModal}
           onOpenChange={setIsShowReserveCourseModal}
         >
           <Button
-            onClick={() => {
-              setIsShowReserveCourseModal(true);
-            }}
-            className=" w-[56%] h-10 lg:h-14 rounded-full font-bold text-lg lg:text-xl pb-2 "
+            onClick={() => setIsShowReserveCourseModal(true)}
+            className="w-[56%] h-10 lg:h-14 rounded-full font-bold text-lg lg:text-xl pb-2"
           >
             رزرو دوره
           </Button>
@@ -249,33 +264,34 @@ const InfoBox = ({
         </AlertDialog>
 
         <Button
+          onClick={toggleFavorite}
           variant="outline"
-          className=" w-10 h-10 lg:h-14 lg:w-14 rounded-full p-0 text-2xl  "
+          className={`w-10 h-10 lg:h-14 lg:w-14 rounded-full p-0 text-2xl transition-all duration-300 ${
+            isFavorited
+              ? "bg-danger border-danger text-white hover:bg-danger-hover"
+              : "hover:bg-gray-100"
+          }`}
         >
           <HugeiconsIcon
-            icon={BookmarkAdd02Icon}
-            className=" w-4 h-4 lg:h-6 lg:w-6 "
+            icon={HeartIcon}
+            className={`w-5 h-5 lg:w-6 lg:h-6 transition-all ${isFavorited ? "fill-current" : ""}`}
           />
         </Button>
+
         <Button
-          isIconOnly
-          variant="outline"
-          className=" w-10 h-10 lg:h-14 lg:w-14 rounded-full p-0 text-2xl  "
+          onClick={() => setLike(!like)}
+          variant={like ? "primary" : "outline"}
+          className="w-10 h-10 lg:h-14 lg:w-14 rounded-full p-0 text-2xl transition-all duration-300"
         >
-          <HugeiconsIcon
-            icon={ThumbsUpIcon}
-            className=" w-4 h-4 lg:h-6 lg:w-6 "
-          />
+          <HugeiconsIcon icon={ThumbsUpIcon} className="w-5 h-5 lg:w-6 lg:h-6" />
         </Button>
+
         <Button
-          isIconOnly
-          variant="outline"
-          className=" w-10 h-10 lg:h-14 lg:w-14 rounded-full p-0 text-2xl  "
+          onClick={() => setDislike(!dislike)}
+          variant={dislike ? "primary" : "outline"}
+          className="w-10 h-10 lg:h-14 lg:w-14 rounded-full p-0 text-2xl transition-all duration-300"
         >
-          <HugeiconsIcon
-            icon={ThumbsDownIcon}
-            className=" w-4 h-4 lg:h-6 lg:w-6 "
-          />
+          <HugeiconsIcon icon={ThumbsDownIcon} className="w-5 h-5 lg:w-6 lg:h-6" />
         </Button>
       </div>
     </div>

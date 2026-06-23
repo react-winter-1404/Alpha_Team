@@ -10,6 +10,12 @@ export const postCourseComment = (values) =>{
 export const postAddReplyCourseComment = (values) =>{
     return apiClient.post(`/Course/AddReplyCourseComment`, values);
 }
+export const postAddCourseFavorite = (values) =>{
+    return apiClient.post(`/Course/AddCourseFavorite`, {courseId:values});
+}
+export const postAddCourseRate = (courseId,count) =>{
+    return apiClient.post(`/Course/AddCourseLike?CourseId=${courseId}&RateNumber=${count}`);
+}
 
 export const addCourseLike = async (courseId) => {
   const response = await apiClient.post(`/Course/AddCourseLike?CourseId=${courseId}`);

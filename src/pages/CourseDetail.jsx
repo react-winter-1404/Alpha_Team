@@ -149,6 +149,8 @@ const CourseDetailPage = () => {
             isActive={courseDetail.isActive}
             courseRate={courseDetail.courseRate}
             courseTech={[...techsList]}
+            courseId={courseDetail.courseId}
+            isFavorite={courseDetail.isUserFavorite}
           />
           <DetailSection
             title={courseDetail.title}
@@ -158,6 +160,7 @@ const CourseDetailPage = () => {
             teacherName={courseDetail.teacherName}
             miniDescribe={courseDetail.miniDescribe}
             describe={courseDetail.describe}
+            
           />
         </div>
         {courses.length >= 1 && (
