@@ -23,16 +23,14 @@ const LocationMarker = ({ position, setPosition }) => {
       setPosition([e.latlng.lat, e.latlng.lng]);
     },
   });
-
   return position ? <Marker position={position} /> : null;
 };
 
 const AddressProfile = () => {
   const [position, setPosition] = useState([35.6997, 51.3376]);
-  const mapRef = useRef(null);
-
   const [userProfile, setUserProfile] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showMap, setShowMap] = useState(false);
 
   const fetchUserProfile = async () => {
     setIsLoading(true);
@@ -40,21 +38,22 @@ const AddressProfile = () => {
       const response = await getUserProfile();
       setUserProfile(response.data);
       if (response.data.latitude && response.data.longitude) {
-        setPosition([response.data.latitude, response.data.longitude]);
+        setPosition([Number(response.data.latitude), Number(response.data.longitude)]);
       }
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
+      setTimeout(() => setShowMap(true), 100);
     }
   };
+
   useEffect(() => {
     fetchUserProfile();
   }, []);
 
   const onSubmit = async () => {
     const formData = new FormData();
-
     formData.append("Latitude", Number(position[0]).toFixed(6) || "");
     formData.append("Longitude", Number(position[1]).toFixed(6) || "");
     formData.append("BirthDay", new Date(userProfile.birthDay).toISOString());
@@ -71,18 +70,6 @@ const AddressProfile = () => {
     }
   };
 
-  const handlePositionChange = (newPos) => {
-    setPosition(newPos);
-  };
-
-  useEffect(() => {
-    if (mapRef.current) {
-      setTimeout(() => {
-        mapRef.current.invalidateSize();
-      }, 300);
-    }
-  }, [isLoading]);
-
   return (
     <div className="w-full h-[520px] p-5 flex flex-col justify-start items-start gap-6">
       {isLoading ? (
@@ -97,30 +84,25 @@ const AddressProfile = () => {
             داخل نقشه موقعیت مکانی محل سکونت خود را انتخاب کنید
           </h2>
 
-          <div className="w-full h-[380px] rounded-[16px] overflow-hidden border border-gray-300 shadow-md">
-            <MapContainer
-              ref={mapRef}
-              center={position}
-              zoom={13}
-              style={{ height: "100%", width: "100%" }}
-              zoomControl={true}
-              scrollWheelZoom={true}
-            >
-              <TileLayer
-                attribution="&copy; OpenStreetMap"
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <LocationMarker
-                position={position}
-                setPosition={handlePositionChange}
-              />
-            </MapContainer>
+          <div className="w-full h-[380px] rounded-[16px] overflow-hidden border border-gray-300 shadow-md" style={{ zIndex: 0 }}>
+            {showMap && (
+              <MapContainer
+                center={position}
+                zoom={13}
+                style={{ height: "100%", width: "100%" }}
+                zoomControl={true}
+                scrollWheelZoom={true}
+              >
+                <TileLayer
+                  attribution="&copy; OpenStreetMap"
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <LocationMarker position={position} setPosition={setPosition} />
+              </MapContainer>
+            )}
           </div>
           <Button
-            onClick={() => {
-              console.log(userProfile.birthDay);
-              onSubmit();
-            }}
+            onClick={onSubmit}
             variant="primary"
             className="font-bold h-11 my-0"
           >

@@ -23,3 +23,9 @@ export const getUserFavoriteCourses =()=>{
 export const getUserFavoriteNews =()=>{
     return apiClient.get(`/SharePanel/GetMyFavoriteNews`);
 }
+export const getUserCoursesComments =()=>{
+    return apiClient.get(`/SharePanel/GetMyCoursesComments`);
+}
+export const getUserNewsComments =()=>{
+    return apiClient.get(`/SharePanel/GetMyNewsComments`);
+}

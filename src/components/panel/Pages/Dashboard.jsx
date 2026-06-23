@@ -3,30 +3,34 @@ import { Calendar } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { Courses } from "../../../core/services/get";
-import { getUserProfile } from "../../../core/services/userPanel/get";
+import {
+  getUserCoursesComments,
+  getUserNewsComments,
+  getUserProfile,
+} from "../../../core/services/userPanel/get";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+import CommentCard from "../card/CommentCard";
 
 const Dashboard = () => {
   const [value, setValue] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [course, setCourse] = useState([]);
   const [userProfile, setUserProfile] = useState([]);
+  const [userCoursesComments, setUserCoursesComments] = useState([]);
+  const [userNewsComments, setUserNewsComments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-   const [submittedPercent, setSubmittedPercent] = useState(0);
+  const [submittedPercent, setSubmittedPercent] = useState(0);
 
-   const getProgressInfo = (c) => {
+  const getProgressInfo = (c) => {
     if (c < 50) return { clr: "#ffc619", p: "اطلاعات کاربری شما تکمیل نیست!" };
     if (c < 100) return { clr: "#3E98C7", p: "اطلاعات کاربری شما تکمیل نیست!" };
     return { clr: "#47C724", p: "اطلاعات کاربری شما تکمیل شد" };
   };
-     const pc = getProgressInfo( submittedPercent);
-
-
+  const pc = getProgressInfo(submittedPercent);
 
   useEffect(() => {
     const fetchCourses = async () => {
       setIsLoading(true);
-
       try {
         const response = await Courses({ pageNumber: 1, rowsOfPage: 4 });
         setCourse(response.data.courseDtos);
@@ -46,7 +50,31 @@ const Dashboard = () => {
       const response = await getUserProfile();
       setUserProfile(response.data);
       console.log(response.data);
-      setSubmittedPercent(response.data.profileCompletionPercentage)
+      setSubmittedPercent(response.data.profileCompletionPercentage);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const fetchUserCoursesComments = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getUserCoursesComments();
+      setUserCoursesComments(response.data.myCommentsDtos);
+      // console.log(response.data.myCommentsDtos);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const fetchUserNewsComments = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getUserNewsComments();
+      setUserNewsComments(response.data.myNewsCommetDtos);
+      console.log(response.data.myNewsCommetDtos);
     } catch (error) {
       console.error(error);
     } finally {
@@ -55,12 +83,13 @@ const Dashboard = () => {
   };
   useEffect(() => {
     fetchUserProfile();
+    fetchUserCoursesComments();
+    fetchUserNewsComments();
   }, []);
 
   const formatPersianDate = (isoString) => {
     if (!isoString) return "—";
     const date = new Date(isoString);
-
     return new Intl.DateTimeFormat("fa-IR-u-ca-persian", {
       year: "numeric",
       month: "long",
@@ -72,12 +101,11 @@ const Dashboard = () => {
     const timer = setInterval(() => {
       setTime(new Date());
     }, 1000);
-
     return () => clearInterval(timer);
   }, []);
+
   const getGreeting = () => {
     const hour = time.getHours();
-
     if (hour >= 5 && hour < 12) return "صبح بخیر";
     if (hour >= 12 && hour < 15) return "ظهر بخیر";
     if (hour >= 15 && hour < 19) return "عصر بخیر";
@@ -92,19 +120,24 @@ const Dashboard = () => {
 
   return (
     <div className="w-full p-3 md:p-5 flex flex-col gap-4">
-      <div className="w-[80%]  flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
-        <h2 className="text-[32px] md:text-[32px] text-[#272727] w-[500px]">
+      <div className="w-[80%] flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
+        <div className="text-[20px] md:text-[32px] text-[#272727] w-[500px]">
           سلام، {getGreeting()} {userProfile.fName} 😍
-        </h2>
+        </div>
 
         <div className="w-[300px] flex justify-between items-center gap-3 text-sm md:text-base text-[#787878]">
           <div className="flex justify-center items-center gap-3">
             <div className="w-[48px] h-[48px] rounded-full bg-[#fefdff] flex items-center justify-center">
-              <img src="/public/icons/clock-01-stroke-rounded 2.png" alt="" className="w-[24px] h-[24px] m-auto"/>
+              <img
+                src="/public/icons/clock-01-stroke-rounded 2.png"
+                alt=""
+                className="w-[24px] h-[24px] m-auto"
+              />
             </div>
-
             <div>
-              <span className="block text-[14px] md:text-[16px] text-[#787878]">ساعت</span>
+              <span className="block text-[14px] md:text-[16px] text-[#787878]">
+                ساعت
+              </span>
               <span className="block text-[16px] text-[#272727]">
                 {time.toLocaleTimeString("fa-IR", {
                   hour: "2-digit",
@@ -116,30 +149,67 @@ const Dashboard = () => {
 
           <div className="flex justify-center items-center gap-3">
             <div className="w-[48px] h-[48px] rounded-full bg-[#fefdff] flex items-center justify-center">
-              <img src="/public/icons/calendar-03-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px] m-auto"/>
+              <img
+                src="/public/icons/calendar-03-stroke-rounded 1.png"
+                alt=""
+                className="w-[24px] h-[24px] m-auto"
+              />
             </div>
-
             <div>
-              <span className="block text-[14px] md:text-[16px] text-[#787878]">تاریخ</span>
+              <span className="block text-[14px] md:text-[16px] text-[#787878]">
+                تاریخ
+              </span>
               <span className="block text-[16px] text-[#272727]">
                 {fullDate}
               </span>
             </div>
-
           </div>
         </div>
       </div>
 
-      <div className="hidden w-full mt-10 md:flex flex-wrap justify-center items-center gap-5">
-        <div className="w-full md:w-[40%] h-[287px] bg-[#fefdff] rounded-[16px] p-3">
+      <div className="hidden w-full mt-10 md:flex flex-wrap justify-center items-center gap-5  ">
+        <div className="w-full md:w-[40%] h-[287px] bg-[#fefdff] rounded-[16px] p-3  ">
           <div className="h-[30px] w-full flex justify-between items-center">
             <h3 className="text-[16px] text-[#272727]">نظرات‌ شما</h3>
-            <span className="text-[14px] text-[#3772ff] cursor-pointer">
-              مشاهده همه {">"}
-            </span>
           </div>
-
-          <div></div>
+          <div className=" flex gap-2  overflow-y-auto">
+            <div className=" w-full mr-2 my-1   ">دوره ها</div>
+            <div className=" w-full mr-2 my-1 ">اخبار و مقالات</div>
+          </div>
+          <div className=" flex gap-2 h-52 overflow-y-auto">
+            <div className=" w-[49%] flex flex-col gap-2 h-auto ">
+              {userCoursesComments &&
+                userCoursesComments.map((comment) => {
+                  return (
+                    <CommentCard
+                      image={userProfile.currentPictureAddress}
+                      author={`${userProfile.fName} ${userProfile.lName}`}
+                      insertDate={new Date(
+                        comment.insertDate,
+                      ).toLocaleDateString("fa-IR")}
+                      title={comment.title}
+                      describe={comment.describe}
+                    />
+                  );
+                })}
+            </div>
+            <div className=" w-[49%] flex flex-col gap-2 h-auto ">
+              {userNewsComments &&
+                userNewsComments.map((comment) => {
+                  return (
+                    <CommentCard
+                      image={userProfile.currentPictureAddress}
+                      author={`${userProfile.fName} ${userProfile.lName}`}
+                      insertDate={new Date(
+                        comment.inserDate,
+                      ).toLocaleDateString("fa-IR")}
+                      title={comment.title}
+                      describe={comment.describe}
+                    />
+                  );
+                })}
+            </div>
+          </div>
         </div>
 
         <div className="w-full md:w-[30%] h-[287px] bg-[#fefdff] rounded-[16px] overflow-hidden">
@@ -149,36 +219,31 @@ const Dashboard = () => {
             calendar={persian}
             locale={persian_fa}
             className="dashboard-calendar"
-            
           />
         </div>
 
-<<<<<<< HEAD
-        <div className="w-[30%] h-[287px] bg-[#fefdff] rounded-[16px] flex flex-col ">
-          <h3 className="text-[16px] text-[#272727] mt-3 mr-2 ">وضعیت اطلاعات حساب</h3>
-        <div className="m-auto mt-[40px] h-[130px] w-[136px]">
-          <CircularProgressbar
-            value={ submittedPercent}
-            text={`${ submittedPercent}%`}
-            styles={buildStyles({
-              pathColor: pc.clr,
-              textColor: pc.clr,
-              trailColor: "#f0f0f0",
-              strokeLinecap: "round",
-              textSize: "34px",
-              pathTransitionDuration: 0.5,
-            })}
-          />
+        <div className="hidden md:flex w-[25%] h-[287px] bg-[#fefdff] rounded-[16px] p-3 flex-col items-center justify-center">
+          <h3 className="text-[16px] text-[#272727] mb-4">
+            وضعیت اطلاعات حساب
+          </h3>
+          <div className="w-[130px] h-[130px]">
+            <CircularProgressbar
+              value={submittedPercent}
+              text={`${submittedPercent}%`}
+              styles={buildStyles({
+                pathColor: pc.clr,
+                textColor: pc.clr,
+                trailColor: "#f0f0f0",
+                strokeLinecap: "round",
+                textSize: "28px",
+                pathTransitionDuration: 0.5,
+              })}
+            />
+          </div>
+          <p className="text-[14px] mt-4 text-center" style={{ color: pc.clr }}>
+            {pc.p}
+          </p>
         </div>
-        <p
-          className="text-[14px] mt-[20px] text-center mb-7 "
-          style={{ color: pc.clr }}
-        >
-          {pc.p}
-        </p>
-        </div>
-=======
-        <div className="hidden md:flex w-[25%] h-[287px] bg-[#fefdff] rounded-[16px]"></div>
       </div>
 
       <div className="md:hidden w-full mt-10 flex flex-wrap justify-center items-center gap-5">
@@ -189,22 +254,52 @@ const Dashboard = () => {
             calendar={persian}
             locale={persian_fa}
             className="dashboard-calendar"
-            
           />
         </div>
 
         <div className="w-full md:w-[40%] h-[287px] bg-[#fefdff] rounded-[16px] p-3">
           <div className="h-[30px] w-full flex justify-between items-center">
             <h3 className="text-[16px] text-[#272727]">نظرات‌ شما</h3>
-            <span className="text-[14px] text-[#3772ff] cursor-pointer">
-              مشاهده همه {">"}
-            </span>
           </div>
-
-          <div></div>
+          <div className=" flex gap-2  overflow-y-auto">
+            <div className=" w-full mr-2 my-1   ">دوره ها</div>
+            <div className=" w-full mr-2 my-1 ">اخبار و مقالات</div>
+          </div>
+          <div className=" flex gap-2 h-52 overflow-y-auto">
+            <div className=" w-[49%] flex flex-col gap-2 h-auto ">
+              {userCoursesComments &&
+                userCoursesComments.map((comment) => {
+                  return (
+                    <CommentCard
+                      image={userProfile.currentPictureAddress}
+                      author={`${userProfile.fName} ${userProfile.lName}`}
+                      insertDate={new Date(
+                        comment.insertDate,
+                      ).toLocaleDateString("fa-IR")}
+                      title={comment.title}
+                      describe={comment.describe}
+                    />
+                  );
+                })}
+            </div>
+            <div className=" w-[49%] flex flex-col gap-2 h-auto ">
+              {userNewsComments &&
+                userNewsComments.map((comment) => {
+                  return (
+                    <CommentCard
+                      image={userProfile.currentPictureAddress}
+                      author={`${userProfile.fName} ${userProfile.lName}`}
+                      insertDate={new Date(
+                        comment.inserDate,
+                      ).toLocaleDateString("fa-IR")}
+                      title={comment.title}
+                      describe={comment.describe}
+                    />
+                  );
+                })}
+            </div>
+          </div>
         </div>
-
->>>>>>> 376d1c5428580b5ecc2899e2804fa1abc5dc13c7
       </div>
 
       <div className="w-full h-[470px] flex flex-col justify-start items-center gap-3 mt-3 p-3 bg-[#fefdff] rounded-[16px]">
@@ -243,32 +338,28 @@ const Dashboard = () => {
                 <span className="text-[20px] text-[#272727] w-[300px]">
                   {c.title}
                 </span>
-
                 <span className="hidden md:block text-[16px] text-[#272727] cursor-pointer w-[100px]">
                   ...
                 </span>
-
                 <span className="hidden md:block text-[16px] text-[#272727] cursor-pointer w-[85px]">
                   ...
                 </span>
-
                 <span className="hidden md:block text-[16px] text-[#272727] w-[150px]">
                   {formatPersianDate(c.startTime)}
                 </span>
-
                 <span className="hidden md:block text-[20px] text-[#272727] w-[150px]">
-                  {c.cost}
-                  <span>تومان</span>
+                  {c.cost} <span>تومان</span>
                 </span>
-
-                <img src="/public/icons/view-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px] cursor-pointer"/>
+                <img
+                  src="/public/icons/view-stroke-rounded 1.png"
+                  alt=""
+                  className="w-[24px] h-[24px] cursor-pointer"
+                />
               </div>
             ))
           )}
         </div>
       </div>
-
-      
     </div>
   );
 };

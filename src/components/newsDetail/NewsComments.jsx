@@ -34,8 +34,8 @@ const NewsComments = ({ newsId, newsTitle }) => {
 
 
   const validitionSchema = Yup.object({
-    Title: Yup.string().trim().required("عنوان نظر نباید خالی باشه"),
-    Describe: Yup.string().trim().required("متن نظر نباید خالی باشه"),
+    title: Yup.string().trim().required("عنوان نظر نباید خالی باشه"),
+    describe: Yup.string().trim().required("متن نظر نباید خالی باشه"),
   });
   const getIP = async () => {
     const res = await fetch("https://api.ipify.org?format=json");
@@ -85,14 +85,14 @@ const NewsComments = ({ newsId, newsTitle }) => {
     };
     const fetchAddReplyNewsComment = async (values) => {
       try {
-        const payload = new FormData();
-        payload.append("newsId", values.newsId);
-        payload.append("userIpAddress", values.userIpAddress);
-        payload.append("userId", values.userId);
-        payload.append("parentId", values.parentId);
-        payload.append("Title", values.Title);
-        payload.append("Describe", values.Describe);
-        const response = await postAddReplyNewsComment(payload);
+        // const payload = new FormData();
+        // payload.append("newsId", values.newsId);
+        // payload.append("userIpAddress", values.userIpAddress);
+        // payload.append("userId", values.userId);
+        // payload.append("parentId", values.parentId);
+        // payload.append("Title", values.Title);
+        // payload.append("Describe", values.Describe);
+        const response = await postAddReplyNewsComment(values);
         console.log("Status:", response);
         console.log(response.data);
 
@@ -205,7 +205,7 @@ const NewsComments = ({ newsId, newsTitle }) => {
                 </AlertDialog.Body>
                 <AlertDialog.Footer className=" bg-segment z-10 border-2 border-accent flex justify-between gap-3 px-2  absolute bottom-8 left-10 right-6 rounded-3xl h-18 lg:h-22 duration-300 ">
                   <Formik
-                    initialValues={{ Title: "", Describe: "" }}
+                    initialValues={{ title: "", describe: "" }}
                     onSubmit={(values, { resetForm }) => {
                       if (isAddReplyComment) {
                         const datas = { newsId:newsId,userIpAddress:userIp,userId:userId,parentId:parentId, ...values };
@@ -254,12 +254,12 @@ const NewsComments = ({ newsId, newsTitle }) => {
                                 console.log(emoji.emoji);
                                 if (focusCount == 0) {
                                   setFieldValue(
-                                    "Title",
+                                    "title",
                                     (prevValue) => prevValue + emoji.emoji,
                                   );
                                 } else if (focusCount == 1) {
                                   (setFieldValue(
-                                    "Describe",
+                                    "describe",
                                     (prevValue) => prevValue + emoji.emoji,
                                   ),
                                     setShowPicker(false));
@@ -285,8 +285,8 @@ const NewsComments = ({ newsId, newsTitle }) => {
                         <div className=" relative flex flex-col w-full mr-1 ml-2 h-full text-sm font-semibold ">
                           <Field
                             type="text"
-                            name="Title"
-                            id="Title"
+                            name="title"
+                            id="title"
                             onFocus={() => {
                               setFocusCount(0);
                             }}
@@ -294,16 +294,16 @@ const NewsComments = ({ newsId, newsTitle }) => {
                             className="text-xs lg:text-[16px] h-full outline-0 "
                           />
                           <ErrorMessage
-                            name="Title"
-                            id="Title"
+                            name="title"
+                            id="title"
                             component={"span"}
                             className=" absolute  h-[40%] top-1 text-danger left-0 flex flex-row-reverse items-center text-[10px] lg:text-sm "
                           />
                           <div className=" border w-full "></div>
                           <Field
                             type="text"
-                            name="Describe"
-                            id="Describe"
+                            name="describe"
+                            id="describe"
                             onFocus={() => {
                               setFocusCount(1);
                             }}
@@ -311,8 +311,8 @@ const NewsComments = ({ newsId, newsTitle }) => {
                             className="text-xs lg:text-[16px] h-full outline-0 "
                           />
                           <ErrorMessage
-                            name="Describe"
-                            id="Describe"
+                            name="describe"
+                            id="describe"
                             component={"span"}
                             className=" absolute  h-[40%] bottom-1 text-danger left-0 flex flex-row-reverse items-center text-[10px] lg:text-sm "
                           />
