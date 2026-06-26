@@ -18,11 +18,11 @@ const Hero = () => {
           isIconOnly
           disableRipple
           variant="flat"
-          className="hidden text-xl w-12 h-12 rounded-full flex justify-center items-center text-center shadow-xl"
+          className="hidden text-xl w-12 h-12 rounded-full md:flex justify-center items-center text-center shadow-xl hidden"
         >
           <HugeiconsIcon
             icon={ThirdBracketCircleIcon}
-            className="m-0 w-8 h-8 text-muted"
+            className="m-0 w-8 h-8 text-muted "
           />
         </Chip>
         <p>کدنویسی؛</p>

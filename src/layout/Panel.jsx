@@ -436,7 +436,7 @@ const Panel = () => {
                   <span className="text-[16px] ">حساب‌های کاربری</span>
                 </li>
 
-                <li className="flex justify-start items-center gap-3 p-2">
+                <Link to={"/"} onClick={()=>{localStorage.removeItem('token');localStorage.setItem('isLogin',false);console.log('hi')}} className="flex justify-start items-center gap-3 p-2">
                   <img
                     src="/public/icons/logout-03-stroke-rounded 1.png"
                     alt=""
@@ -445,7 +445,7 @@ const Panel = () => {
                   <span className="text-[16px] text-[#ff5454]">
                     خروج از حساب
                   </span>
-                </li>
+                </Link>
               </ul>
             </div>
           )}

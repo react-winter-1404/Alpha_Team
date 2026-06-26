@@ -2,7 +2,7 @@ import LoginForm from "../components/auth/LoginForm";
 import Steps from "../components/auth/Steps";
 import { motion } from "framer-motion";
 import { postLogin } from "../core/services/Auth/post";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const LoginPage = () => {
@@ -30,14 +30,17 @@ const LoginPage = () => {
   return (
     <div className="   w-full h-full flex flex-col-reverse sm:flex-row gap-5 sm:gap-0 ">
       <div className="  h-full w-full sm:w-[41.5%] flex flex-col justify-center sm:justify-start gap-10.75 lg:px-11.5 md:px-5 sm:px-0  sm:py-20.25 bg-surface-secondary ">
-        <link className=" absolute top-6 right-3 sm:top-0 sm:right-0 sm:relative border w-15 overflow-hidden sm:w-full h-11.75 flex items-center gap-1.5 px-1 ">
+        <div className=" absolute top-6 right-3 sm:top-0 sm:right-0 sm:relative w-15 overflow-hidden sm:w-full h-11.75 flex items-center gap-1.5 px-1 ">
+          <Link to={'/'} className=" h-full " >
           <img src="/public/images/imageLogo.png" alt="" className=" h-full " />
+          </Link>
+          
           <img
             src="/public/images/textLogo.png"
             alt=""
             className=" h-[65%] mt-0.75 w-38 "
           />
-        </link>
+        </div>
         <motion.div
           className=" w-full  flex "
           initial={{ opacity: 0, scale: 0.9, y: -20 }}
