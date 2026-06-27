@@ -1,6 +1,75 @@
 import { useEffect, useState } from "react";
 import { News } from "../../core/services/landing/get";
 import { Button } from "@heroui/button";
+import { Skeleton } from "@heroui/react";
+
+const BasicSkeleton = () => {
+  return (
+    <div className="shadow-panel w-full md:w-[22%] h-[530px] space-y-5 rounded-[20px] bg-[#ece8e8] dark:bg-[#585757] p-4 flex flex-col justify-between">
+      <Skeleton className="h-[35%] rounded-lg" />
+      <div className="space-y-3 flex-1 mt-4">
+        <Skeleton className="h-6 w-3/5 rounded-lg" />
+        <Skeleton className="h-4 w-4/5 rounded-lg" />
+        <Skeleton className="h-4 w-2/5 rounded-lg" />
+      </div>
+      <div className="flex justify-between items-center mt-auto">
+        <Skeleton className="h-6 w-1/3 rounded-lg" />
+        <Skeleton className="h-10 w-2/5 rounded-[65px]" />
+      </div>
+    </div>
+  );
+};
+
+const NewsCard = ({ e }) => (
+  <div className="relative text-[#272727] bg-[#ece8e8] dark:bg-[#585757] dark:text-[#ece8e8] h-[530px] w-[90%] md:w-[22%] flex flex-col gap-2 rounded-[20px] text-right">
+    <img
+      src={e.currentImageAddress}
+      alt=""
+      className="p-0 bg-pink-500 rounded-[20px] w-full h-[35%]"
+    />
+
+    <div className="p-2 flex flex-col gap-4">
+      <h3 className="text-[20px] md:text-[24px]">{e.title}</h3>
+
+      <p className="text-[14px] md:text-[16px] w-[80%] h-[45px] text-[#787878] dark:text-[#bdbbbb] overflow-hidden">
+        {e.describe}
+      </p>
+
+      <div className="text-[16px] mb-2 flex justify-start items-center gap-3">
+        <img src="/public/icons/quill-write-02-stroke-rounded 1.png" alt="" className="h-6 w-6" />
+        <span className="text-[16px]">{e.addUserFullName}</span>
+      </div>
+
+      <div className="text-[16px] mb-2 flex justify-start items-center gap-3">
+        <img src="/public/icons/view-stroke-rounded (1) 1.png" alt="" className="h-6 w-6" />
+        <span className="text-[16px]">{e.currentView}</span>
+      </div>
+
+      <div className="flex justify-between align-middle">
+        <div className="w-[120px] flex justify-between align-middle pt-2">
+          <div className="w-[50px] flex justify-between align-middle">
+            <img src="/public/icons/thumbs-up-stroke-rounded 1.png" alt="" className="h-6 w-6" />
+            <span className="text-[16px]">{e.currentLikeCount}</span>
+          </div>
+
+          <div className="w-[50px] flex justify-between align-middle">
+            <img src="/public/icons/thumbs-down-stroke-rounded 2.png" alt="" className="h-6 w-6" />
+            <span className="text-[16px]">{e.currentDissLikeCount}</span>
+          </div>
+        </div>
+
+        <button className="w-[40%] h-[40px] bg-[#3772ff] rounded-[65px] text-[14px] md:text-[16px] text-[#fefdff]">
+          بیشتر بخوانید
+        </button>
+      </div>
+    </div>
+
+    <div className="absolute top-1 right-5 text-[12px] md:text-[14px] text-[#ffffff] bg-[#5a7eff] h-[31px] w-[94px] flex items-center justify-center rounded-[64px] shadow-sm"></div>
+    <div className="absolute top-1 right-30 text-[12px] md:text-[14px] text-[#ffffff] bg-[#5a7eff] h-[31px] w-[57px] flex items-center justify-center rounded-[64px] shadow-sm">
+      {e.newsCatregoryName}
+    </div>
+  </div>
+);
 
 const NewsBar = () => {
   const [course, setCourse] = useState([]);
@@ -9,11 +78,9 @@ const NewsBar = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       setIsLoading(true);
-
       try {
         const response = await News({ pageNumber: 1, rowsOfPage: 4 });
         setCourse(response.data.news);
-        console.log("دیتای دریافتی از سمت سرور", response.data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -26,167 +93,25 @@ const NewsBar = () => {
   return (
     <div className="m-auto mt-[60px] w-[95%]">
       <div className="m-auto w-full text-center mb-7.5">
-        <span className="block text-[28px] md:text-[40px]">
-          اخبار و مقالات هفته
-        </span>
+        <span className="block text-[28px] md:text-[40px]">اخبار و مقالات هفته</span>
         <span className="block text-[14px] md:text-[20px]">
           خبر ها و مقاله هایی که در این هفته منتشر شدند
         </span>
       </div>
 
-      <div className="hidden w-full h-full md:flex flex-wrap justify-center align-middle gap-4 ">
+      <div className="hidden w-full h-full md:flex flex-wrap justify-center align-middle gap-4">
         {isLoading ? (
-          <p>در حال فراخوانی...</p>
+          Array(4).fill(0).map((_, index) => <BasicSkeleton key={index} />)
         ) : (
-          course.map((e) => (
-            <div
-              key={e.id}
-              className="relative text-[#272727] bg-[#ece8e8] dark:bg-[#585757] dark:text-[#ece8e8] h-[530px] w-[90%] md:w-[22%] flex flex-col gap-2 rounded-[20px] text-right"
-            >
-              <img
-                src={e.currentImageAddress}
-                alt=""
-                className="p-0 bg-pink-500 rounded-[20px] w-full h-[35%]"
-              />
-
-              <div className="p-2 flex flex-col gap-4">
-                <h3 className="text-[20px] md:text-[24px]">{e.title}</h3>
-
-                <p className="text-[14px] md:text-[16px] w-[80%] h-[45px] text-[#787878] dark:text-[#bdbbbb] overflow-hidden">
-                  {e.describe}
-                </p>
-
-                <div className="text-[16px] mb-2 flex justify-start items-center gap-3">
-                  <img
-                    src="/public/icons/quill-write-02-stroke-rounded 1.png"
-                    alt=""
-                    className="h-6 w-6"
-                  />
-                  <span className="text-[16px]">{e.addUserFullName}</span>
-                </div>
-
-                <div className="text-[16px] mb-2 flex justify-start items-center gap-3">
-                  <img
-                    src="/public/icons/view-stroke-rounded (1) 1.png"
-                    alt=""
-                    className="h-6 w-6"
-                  />
-                  <span className="text-[16px]">{e.currentView}</span>
-                </div>
-
-                <div className="flex justify-between align-middle">
-                  <div className="w-[120px] flex justify-between align-middle pt-2">
-                    <div className="w-[50px] flex justify-between align-middle">
-                      <img
-                        src="/public/icons/thumbs-up-stroke-rounded 1.png"
-                        alt=""
-                        className="h-6 w-6"
-                      />
-                      <span className="text-[16px]">{e.currentLikeCount}</span>
-                    </div>
-
-                    <div className="w-[50px] flex justify-between align-middle">
-                      <img
-                        src="/public/icons/thumbs-down-stroke-rounded 2.png"
-                        alt=""
-                        className="h-6 w-6"
-                      />
-                      <span span className="text-[16px]">
-                        {e.currentDissLikeCount}
-                      </span>
-                    </div>
-                  </div>
-
-                  <button className="w-[40%] h-[40px] bg-[#3772ff] rounded-[65px] text-[14px] md:text-[16px] text-[#fefdff]">
-                    بیشتر بخوانید
-                  </button>
-                </div>
-              </div>
-
-              <div className="absolute top-1 right-5 text-[12px] md:text-[14px] text-[#ffffff] bg-[#5a7eff] h-[31px] w-[94px] flex items-center justify-center rounded-[64px] shadow-[0px_1px_2px_rgba(107,107,107,0.1),_0px_4px_4px_rgba(107,107,107,0.09),_0px_8px_5px_rgba(107,107,107,0.05)]"></div>
-              <div className="absolute top-1 right-30 text-[12px] md:text-[14px] text-[#ffffff] bg-[#5a7eff] h-[31px] w-[57px] flex items-center justify-center rounded-[64px] shadow-[0px_1px_2px_rgba(107,107,107,0.1),_0px_4px_4px_rgba(107,107,107,0.09),_0px_8px_5px_rgba(107,107,107,0.05)]">
-                {e.newsCatregoryName}
-              </div>
-            </div>
-          ))
+          course.map((e) => <NewsCard key={e.id} e={e} />)
         )}
       </div>
 
-      <div className="md:hidden w-full h-full flex flex-wrap justify-center align-middle gap-4 ">
+      <div className="md:hidden w-full h-full flex flex-wrap justify-center align-middle gap-4">
         {isLoading ? (
-          <p>در حال فراخوانی...</p>
+          Array(2).fill(0).map((_, index) => <BasicSkeleton key={index} />)
         ) : (
-          course.slice(0, 2).map((e) => (
-            <div
-              key={e.id}
-              className="relative text-[#272727] dark:bg-[#585757] dark:text-[#ece8e8] bg-[#ece8e8] h-[530px] w-[90%] md:w-[22%] flex flex-col gap-2 rounded-[20px] text-right"
-            >
-              <img
-                src={e.currentImageAddress}
-                alt=""
-                className="p-0 bg-pink-500 rounded-[20px] w-full h-[35%]"
-              />
-
-              <div className="p-2 flex flex-col gap-4">
-                <h3 className="text-[20px] md:text-[24px]">{e.title}</h3>
-
-                <p className="text-[14px] md:text-[16px] w-[80%] h-[45px] text-[#787878] dark:text-[#bdbbbb] overflow-hidden">
-                  {e.describe}
-                </p>
-
-                <div className="text-[16px] mb-2 flex justify-start items-center gap-3">
-                  <img
-                    src="/public/icons/quill-write-02-stroke-rounded 1.png"
-                    alt=""
-                    className="h-6 w-6"
-                  />
-                  <span className="text-[16px]">{e.addUserFullName}</span>
-                </div>
-
-                <div className="text-[16px] mb-2 flex justify-start items-center gap-3">
-                  <img
-                    src="/public/icons/view-stroke-rounded (1) 1.png"
-                    alt=""
-                    className="h-6 w-6"
-                  />
-                  <span className="text-[16px]">{e.currentView}</span>
-                </div>
-
-                <div className="flex justify-between align-middle">
-                  <div className="w-[120px] flex justify-between align-middle pt-2">
-                    <div className="w-[50px] flex justify-between align-middle">
-                      <img
-                        src="/public/icons/thumbs-up-stroke-rounded 1.png"
-                        alt=""
-                        className="h-6 w-6"
-                      />
-                      <span className="text-[16px]">{e.currentLikeCount}</span>
-                    </div>
-
-                    <div className="w-[50px] flex justify-between align-middle">
-                      <img
-                        src="/public/icons/thumbs-down-stroke-rounded 2.png"
-                        alt=""
-                        className="h-6 w-6"
-                      />
-                      <span span className="text-[16px]">
-                        {e.currentDissLikeCount}
-                      </span>
-                    </div>
-                  </div>
-
-                  <button className="w-[40%] h-[40px] bg-[#3772ff] rounded-[65px] text-[14px] md:text-[16px] text-[#fefdff]">
-                    بیشتر بخوانید
-                  </button>
-                </div>
-              </div>
-
-              <div className="absolute top-1 right-5 text-[12px] md:text-[14px] text-[#ffffff] bg-[#5a7eff] h-[31px] w-[94px] flex items-center justify-center rounded-[64px] shadow-[0px_1px_2px_rgba(107,107,107,0.1),_0px_4px_4px_rgba(107,107,107,0.09),_0px_8px_5px_rgba(107,107,107,0.05)]"></div>
-              <div className="absolute top-1 right-30 text-[12px] md:text-[14px] text-[#ffffff] bg-[#5a7eff] h-[31px] w-[57px] flex items-center justify-center rounded-[64px] shadow-[0px_1px_2px_rgba(107,107,107,0.1),_0px_4px_4px_rgba(107,107,107,0.09),_0px_8px_5px_rgba(107,107,107,0.05)]">
-                {e.newsCatregoryName}
-              </div>
-            </div>
-          ))
+          course.slice(0, 2).map((e) => <NewsCard key={e.id} e={e} />)
         )}
 
         <Button
@@ -194,7 +119,7 @@ const NewsBar = () => {
           radius="full"
           size="lg"
           disableRipple
-          className="my-5 px-2 cursor-pointer text-[16px] md:text-[20px] bg-blue-500  text-white w-[140px] h-[40px] md:w-43 md:h-14 rounded-4xl"
+          className="my-5 px-2 cursor-pointer text-[16px] md:text-[20px] bg-blue-500 text-white w-[140px] h-[40px] md:w-43 md:h-14 rounded-4xl mx-auto"
         >
           نمایش بیشتر
         </Button>
