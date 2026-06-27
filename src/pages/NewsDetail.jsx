@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Footer from "./components/landing/Footer";
-import NavbarHeader from "./components/landing/NavbarHeader";
+import Footer from "../components/landing/Footer";
+import NavbarHeader from "../components/landing/NavbarHeader";
 import { useParams } from "react-router-dom";
 import NewsInfoBox from "../components/newsDetail/NewsInfoBox";
 import { getNewsDetails } from "../core/services/News/get";
@@ -80,7 +80,6 @@ const NewsDetailPage = () => {
           miniDescribe={newsDetail.miniDescribe}
           describe={newsDetail.describe}
           newsTitle={newsDetail.title}
-          
         />
       </div>
       <Footer />

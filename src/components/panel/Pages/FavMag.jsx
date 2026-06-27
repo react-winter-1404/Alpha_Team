@@ -68,7 +68,11 @@ const FavMag = () => {
         <div className="flex justify-start items-center gap-5 mt-7">
           <div>
             <div className="flex justify-start items-center gap-2">
-              <img src="/public/icons/search-01-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px]" />
+              <img
+                src="/public/icons/search-01-stroke-rounded 1.png"
+                alt=""
+                className="w-[24px] h-[24px]"
+              />
               <span className="text-[16px] text-[#272727]">جستجوِی مقاله</span>
             </div>
 
@@ -81,7 +85,11 @@ const FavMag = () => {
                 className="w-[289px] h-[48px] bg-[#bebebe] text-[14px] text-[#787878] indent-3 rounded-[16px] focus:outline-none focus:ring-2 focus:ring-[#3772ff]"
               />
               <div className="absolute top-[-1px] left-0 cursor-pointer w-[48px] h-[48px] rounded-[16px] bg-[#3772ff] flex justify-center items-center">
-                <img src="/public/icons/search-01-stroke-rounded 2.png" alt="" className="h-[24px] w-[24px]" />
+                <img
+                  src="/public/icons/search-01-stroke-rounded 2.png"
+                  alt=""
+                  className="h-[24px] w-[24px]"
+                />
               </div>
             </div>
           </div>
@@ -89,12 +97,20 @@ const FavMag = () => {
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 font-bold text-sm mb-1">
-                <span><HugeiconsIcon icon={Calendar02Icon} className="m-0 w-5 h-5" /></span>
+                <span>
+                  <HugeiconsIcon
+                    icon={Calendar02Icon}
+                    className="m-0 w-5 h-5"
+                  />
+                </span>
                 <span>تاریخ انتشار</span>
               </div>
 
               {(dateRange.start || dateRange.end) && (
-                <button onClick={clearDateFilter} className="w-7 h-7 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors">
+                <button
+                  onClick={clearDateFilter}
+                  className="w-7 h-7 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors"
+                >
                   <HugeiconsIcon icon={Cancel01Icon} className="w-4 h-4" />
                 </button>
               )}
@@ -102,13 +118,28 @@ const FavMag = () => {
 
             <div className="flex items-center gap-2">
               <I18nProvider locale="fa-IR">
-                <DateRangePicker aria-label="بازه تاریخی انتشار" className="w-full" endName="endDate" startName="startDate" onChange={handleDateChange}>
-                  <DateField.Group fullWidth className="bg-[#bebebe] rounded-2xl h-12 flex items-center justify-between px-3 border-none text-sm text-[#787878]">
-                    <DateField.Input slot="start" className="outline-none bg-transparent">
+                <DateRangePicker
+                  aria-label="بازه تاریخی انتشار"
+                  className="w-full"
+                  endName="endDate"
+                  startName="startDate"
+                  onChange={handleDateChange}
+                >
+                  <DateField.Group
+                    fullWidth
+                    className="bg-[#bebebe] rounded-2xl h-12 flex items-center justify-between px-3 border-none text-sm text-[#787878]"
+                  >
+                    <DateField.Input
+                      slot="start"
+                      className="outline-none bg-transparent"
+                    >
                       {(segment) => <DateField.Segment segment={segment} />}
                     </DateField.Input>
                     <DateRangePicker.RangeSeparator className="mx-2 text-gray-400" />
-                    <DateField.Input slot="end" className="outline-none bg-transparent">
+                    <DateField.Input
+                      slot="end"
+                      className="outline-none bg-transparent"
+                    >
                       {(segment) => <DateField.Segment segment={segment} />}
                     </DateField.Input>
                     <DateField.Suffix className="mr-auto">
@@ -126,16 +157,31 @@ const FavMag = () => {
                           <RangeCalendar.YearPickerTriggerIndicator />
                         </RangeCalendar.YearPickerTrigger>
                         <div className="flex gap-1">
-                          <RangeCalendar.NavButton slot="previous" className="p-1 rounded-lg hover:bg-gray-100" />
-                          <RangeCalendar.NavButton slot="next" className="p-1 rounded-lg hover:bg-gray-100" />
+                          <RangeCalendar.NavButton
+                            slot="previous"
+                            className="p-1 rounded-lg hover:bg-gray-100"
+                          />
+                          <RangeCalendar.NavButton
+                            slot="next"
+                            className="p-1 rounded-lg hover:bg-gray-100"
+                          />
                         </div>
                       </RangeCalendar.Header>
                       <RangeCalendar.Grid>
                         <RangeCalendar.GridHeader>
-                          {(day) => <RangeCalendar.HeaderCell className="text-gray-400 font-normal p-1">{day}</RangeCalendar.HeaderCell>}
+                          {(day) => (
+                            <RangeCalendar.HeaderCell className="text-gray-400 font-normal p-1">
+                              {day}
+                            </RangeCalendar.HeaderCell>
+                          )}
                         </RangeCalendar.GridHeader>
                         <RangeCalendar.GridBody>
-                          {(date) => <RangeCalendar.Cell date={date} className="p-1 text-center data-[selected=true]:bg-blue-600 data-[selected=true]:text-white rounded-lg" />}
+                          {(date) => (
+                            <RangeCalendar.Cell
+                              date={date}
+                              className="p-1 text-center data-[selected=true]:bg-blue-600 data-[selected=true]:text-white rounded-lg"
+                            />
+                          )}
                         </RangeCalendar.GridBody>
                       </RangeCalendar.Grid>
                     </RangeCalendar>
@@ -158,23 +204,47 @@ const FavMag = () => {
 
           <div className="border-black flex flex-col gap-4 w-full h-full py-4 px-3 overflow-auto">
             {isLoading ? (
-              <div className="flex justify-center items-center h-full text-[#787878] text-lg"><Spinner /></div>
+              <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+                <Spinner />
+              </div>
             ) : filteredNews.length === 0 ? (
               <div className="flex justify-center items-center h-full text-[#787878] text-lg">
-                {searchTerm || dateRange.start || dateRange.end ? "مقاله‌ای با شرایط انتخابی یافت نشد" : "مقاله‌ای در لیست علاقه‌مندی‌ها یافت نشد"}
+                {searchTerm || dateRange.start || dateRange.end
+                  ? "مقاله‌ای با شرایط انتخابی یافت نشد"
+                  : "مقاله‌ای در لیست علاقه‌مندی‌ها یافت نشد"}
               </div>
             ) : (
               filteredNews.map((news) => (
-                <div key={news.id} className="w-full h-25 flex items-center justify-between">
-                  <img src={news.currentImageAddressTumb} className="w-[15%] h-full flex justify-center bg-muted rounded-2xl object-cover" />
-                  <div className="w-[15%] text-lg overflow-hidden whitespace-nowrap text-ellipsis">{news.title}</div>
-                  <div className="w-[15%] flex justify-center">{news.auther}</div>
-                  <div className="w-[15%] overflow-hidden whitespace-nowrap text-ellipsis">{news.news.miniDescribe}</div>
+                <div
+                  key={news.id}
+                  className="w-full h-25 flex items-center justify-between"
+                >
+                  <img
+                    src={news.currentImageAddressTumb}
+                    className="w-[15%] h-full flex justify-center bg-muted rounded-2xl object-cover"
+                  />
+                  <div className="w-[15%] text-lg overflow-hidden whitespace-nowrap text-ellipsis">
+                    {news.title}
+                  </div>
                   <div className="w-[15%] flex justify-center">
-                    {new Date(news.news.insertDate).toLocaleDateString("fa-IR", { day: "numeric", month: "long", year: "numeric" })}
+                    {news.auther}
+                  </div>
+                  <div className="w-[15%] overflow-hidden whitespace-nowrap text-ellipsis">
+                    {news.news.miniDescribe}
+                  </div>
+                  <div className="w-[15%] flex justify-center">
+                    {new Date(news.news.insertDate).toLocaleDateString(
+                      "fa-IR",
+                      { day: "numeric", month: "long", year: "numeric" },
+                    )}
                   </div>
                   <div className="w-[10%] flex justify-center">
-                    <Link to={`/news/${news.newsId}`}><HugeiconsIcon className="cursor-pointer" icon={ViewIcon} /></Link>
+                    <Link to={`/news/${news.newsId}`}>
+                      <HugeiconsIcon
+                        className="cursor-pointer"
+                        icon={ViewIcon}
+                      />
+                    </Link>
                   </div>
                 </div>
               ))
@@ -186,28 +256,40 @@ const FavMag = () => {
       <div className="block md:hidden">
         <div className="flex justify-between items-center">
           <h3 className="text-[32px] text-[#272727]">علاقه‌مندی مقاله</h3>
-          <button className="w-[83px] h-[41px] rounded-[64px] bg-[#3772ff] text-[16px] text-[#fefdff]">فیلتر</button>
+          <button className="w-[83px] h-[41px] rounded-[64px] bg-[#3772ff] text-[16px] text-[#fefdff]">
+            فیلتر
+          </button>
         </div>
 
         <div className="mt-10 w-full p-3 rounded-[16px] bg-[#fefdff] flex flex-col items-center justify-center gap-2">
-          {
-            isLoading ? (
-              <div className="flex justify-center items-center h-full text-[#787878] text-lg">
-                <Spinner />
-              </div>
-            ) : filteredNews.length === 0 ? (
-              <div className="flex justify-center items-center h-full text-[#787878] text-lg">
-                {searchTerm || dateRange.start || dateRange.end
-                  ? "دوره‌ای با شرایط انتخابی یافت نشد"
-                  : "دوره‌ای در لیست علاقه‌مندی‌ها یافت نشد"}
-              </div>
-            ) : (
+          {isLoading ? (
+            <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+              <Spinner />
+            </div>
+          ) : filteredNews.length === 0 ? (
+            <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+              {searchTerm || dateRange.start || dateRange.end
+                ? "دوره‌ای با شرایط انتخابی یافت نشد"
+                : "دوره‌ای در لیست علاقه‌مندی‌ها یافت نشد"}
+            </div>
+          ) : (
             myFavoriteNews.map((news) => (
-              <div key={news.id}  className="w-full h-[90px] p-3 flex justify-between items-center">
-                <img src={news.currentImageAddressTumb} alt="" className="w-[115px] h-[82px] rounded-[8px] bg-[#d9d9d9]"/>
+              <div
+                key={news.id}
+                className="w-full h-[90px] p-3 flex justify-between items-center"
+              >
+                <img
+                  src={news.currentImageAddressTumb}
+                  alt=""
+                  className="w-[115px] h-[82px] rounded-[8px] bg-[#d9d9d9]"
+                />
                 <Link to={`/news/${news.newsId}`}>
-                  <span className="block text-[16px] text-[#272727]">{news.title}</span>
-                  <span className="block text-[16px] text-[#787878]">{news.auther}</span>
+                  <span className="block text-[16px] text-[#272727]">
+                    {news.title}
+                  </span>
+                  <span className="block text-[16px] text-[#787878]">
+                    {news.auther}
+                  </span>
                   <span className="block text-[16px] text-[#787878]"></span>
                 </Link>
               </div>

@@ -4,8 +4,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Spinner } from "@heroui/react";
 import { motion } from "framer-motion";
-import NavbarHeader  from "./components/landing/NavbarHeader";
-import Footer from "./components/landing/Footer";
+import NavbarHeader from "../components/landing/NavbarHeader";
+import Footer from "../components/landing/Footer";
 import NewsFilter from "../components/newsList/NewsFilter";
 import NewsSort from "../components/newsList/NewsSort";
 import NewsCard from "../components/newsList/newsCard";
@@ -16,16 +16,16 @@ import { FilterIcon } from "@hugeicons/core-free-icons";
 const pageVariants = {
   initial: {
     opacity: 0,
-    y: 20
+    y: 20,
   },
   animate: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.25, 1, 0.5, 1]
-    }
-  }
+      ease: [0.25, 1, 0.5, 1],
+    },
+  },
 };
 
 const containerVariants = {
@@ -39,12 +39,12 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { 
-    opacity: 0, 
+  hidden: {
+    opacity: 0,
     y: 30,
   },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: {
       duration: 0.5,
@@ -108,7 +108,10 @@ const NewsPage = () => {
           filteredData = filteredData.filter((item) => {
             const itemDate = new Date(item.insertDate).getTime();
             if (filters.startDate && filters.endDate) {
-              return itemDate >= new Date(filters.startDate).getTime() && itemDate <= new Date(filters.endDate).getTime();
+              return (
+                itemDate >= new Date(filters.startDate).getTime() &&
+                itemDate <= new Date(filters.endDate).getTime()
+              );
             }
             if (filters.startDate) {
               return itemDate >= new Date(filters.startDate).getTime();
@@ -152,21 +155,18 @@ const NewsPage = () => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (
-    <div className="w-full min-h-screen flex flex-col justify-between" style={{ direction: 'rtl' }}>
+    <div
+      className="w-full min-h-screen flex flex-col justify-between"
+      style={{ direction: "rtl" }}
+    >
       <NavbarHeader />
-      
-      <motion.div 
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-      >
+
+      <motion.div variants={pageVariants} initial="initial" animate="animate">
         <div className="max-w-[1380px] w-full min-h-[500px] pb-[60px] rounded-[24px] md:rounded-[40px] dark:bg-surface-secondary border-4 overflow-hidden mx-auto my-6 md:my-10 p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 relative">
-          
           <div className="col-span-1 lg:col-span-9 flex flex-col justify-between order-last lg:order-first">
             <div className="flex flex-col gap-4">
-              
               <div className="flex flex-row justify-end lg:justify-between items-center gap-4 w-full">
-                <button 
+                <button
                   onClick={() => setIsFilterOpen(true)}
                   className="lg:hidden flex items-center gap-2 bg-blue-600 text-white px-4 h-10 rounded-xl font-bold text-sm shadow-sm cursor-pointer transition-all active:scale-[0.98]"
                 >
@@ -175,36 +175,45 @@ const NewsPage = () => {
                 </button>
 
                 <div className="hidden lg:block w-full">
-                  <NewsSort currentSort={currentSort} onSortChange={handleSortChange} />
+                  <NewsSort
+                    currentSort={currentSort}
+                    onSortChange={handleSortChange}
+                  />
                 </div>
               </div>
-              
+
               <div className="flex flex-col gap-6 mt-2 min-h-[400px] justify-start">
                 {isLoading ? (
                   <div className="w-full flex justify-center py-40">
                     <Spinner size="lg" color="primary" />
                   </div>
                 ) : newsList.length > 0 ? (
-                  <motion.div 
+                  <motion.div
                     className="flex flex-col gap-6 w-full"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
                   >
                     {newsList.map((news) => (
-                      <motion.div 
-                        key={news.id} 
+                      <motion.div
+                        key={news.id}
                         className="relative w-full min-h-[288px]"
                         variants={cardVariants}
                         viewport={{ once: true, amount: 0.1 }}
                       >
                         <NewsCard
-                          imageURL={news.currentImageAddress || news.currentImageAddressTumb || "https://via.placeholder.com/427x287"}
+                          imageURL={
+                            news.currentImageAddress ||
+                            news.currentImageAddressTumb ||
+                            "https://via.placeholder.com/427x287"
+                          }
                           title={news.title}
                           discribtion={news.miniDescribe}
                           publisher={news.addUserFullName}
                           number={news.currentView}
-                          date={new Date(news.insertDate).toLocaleDateString("fa-IR")}
+                          date={new Date(news.insertDate).toLocaleDateString(
+                            "fa-IR",
+                          )}
                           like={news.currentLikeCount}
                           dislike={news.currentDissLikeCount}
                           id={news.id}
@@ -234,21 +243,20 @@ const NewsPage = () => {
           </div>
 
           <div className="hidden lg:block col-span-1 lg:col-span-3 w-full lg:max-w-[321px] mx-auto">
-            <NewsFilter 
-              currentFilters={currentFilters} 
-              onFilterChange={handleFilterChange} 
-              isMobile={false} 
+            <NewsFilter
+              currentFilters={currentFilters}
+              onFilterChange={handleFilterChange}
+              isMobile={false}
             />
           </div>
-
         </div>
       </motion.div>
 
-      <NewsFilter 
-        currentFilters={currentFilters} 
-        onFilterChange={handleFilterChange} 
-        isMobile={true} 
-        isOpen={isFilterOpen} 
+      <NewsFilter
+        currentFilters={currentFilters}
+        onFilterChange={handleFilterChange}
+        isMobile={true}
+        isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
         currentSort={currentSort}
         onSortChange={handleSortChange}

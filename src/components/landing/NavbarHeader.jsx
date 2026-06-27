@@ -16,7 +16,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { CloseButton } from "@heroui/react";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
-import ScrollProgressBar from "../../../layout/ScrollProgressBar";
+import ScrollProgressBar from "../../layout/ScrollProgressBar";
+
 
 export default function NavbarHeader() {
   // const [isDarkMode, setIsDarkMode] = useState(false);
@@ -42,7 +43,7 @@ export default function NavbarHeader() {
 
   return (
     <>
-      <ScrollProgressBar />
+      <ScrollProgressBar/>
       <Navbar
         maxWidth="full"
         className=" relative mx-auto w-full sm:w-[95%] flex items-center justify-between p-1.5 font-extralight bg-white dark:bg-[rgb(28,27,34)] "

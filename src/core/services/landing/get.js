@@ -1,4 +1,4 @@
-import apiClient from "../interceptor/interceptor";
+import apiClient from "../../interceptor/interceptor";
 
 export const BestCourses = ({count}) => {
     return apiClient.get("Home/GetCoursesTop", {

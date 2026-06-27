@@ -1,5 +1,5 @@
-import Footer from "./components/landing/Footer";
-import NavbarHeader from "./components/landing/NavbarHeader";
+import Footer from "../components/landing/Footer";
+import NavbarHeader from "../components/landing/NavbarHeader";
 
 const AboutUsPage = () => {
   return (
@@ -139,7 +139,7 @@ const AboutUsPage = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

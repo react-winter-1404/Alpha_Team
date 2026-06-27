@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import apiClient from '../core/interceptor/interceptor';
-import { Spinner } from '@heroui/react';
-import { motion } from 'framer-motion'; 
-import NavbarHeader from './components/landing/NavbarHeader';
-import Footer from './components/landing/Footer';
-import CourseFilters from '../components/coursesList/CourseFilters';
-import CourseCard from '../components/coursesList/CourseCard';
-import CoursePagination from '../components/coursesList/CoursePagination';
-import CourseSorting from '../components/coursesList/CourseSorting';
+import { useState, useEffect } from "react";
+import apiClient from "../core/interceptor/interceptor";
+import { Spinner } from "@heroui/react";
+import { motion } from "framer-motion";
+import NavbarHeader from "../components/landing/NavbarHeader";
+import Footer from "../components/landing/Footer";
+import CourseFilters from "../components/coursesList/CourseFilters";
+import CourseCard from "../components/coursesList/CourseCard";
+import CoursePagination from "../components/coursesList/CoursePagination";
+import CourseSorting from "../components/coursesList/CourseSorting";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   GridViewIcon,
@@ -18,16 +18,16 @@ import {
 const pageVariants = {
   initial: {
     opacity: 0,
-    y: 20
+    y: 20,
   },
   animate: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.25, 1, 0.5, 1]
-    }
-  }
+      ease: [0.25, 1, 0.5, 1],
+    },
+  },
 };
 
 const containerVariants = {
@@ -41,12 +41,12 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { 
-    opacity: 0, 
+  hidden: {
+    opacity: 0,
     y: 30,
   },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: {
       duration: 0.5,
@@ -59,9 +59,9 @@ const ListingPage = () => {
   const [courses, setCourses] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [viewMode, setViewMode] = useState('grid');
+  const [viewMode, setViewMode] = useState("grid");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  
+
   const [filters, setFilters] = useState({
     PageNumber: 1,
     RowsOfPage: 9,
@@ -76,17 +76,17 @@ const ListingPage = () => {
     CourseTypeId: null,
     StartDate: null,
     EndDate: null,
-    TeacherId: null
+    TeacherId: null,
   });
 
   const convertToPersianDate = (dateString) => {
     if (!dateString) return "مدرس دوره";
     try {
       const date = new Date(dateString);
-      return new Intl.DateTimeFormat('fa-IR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+      return new Intl.DateTimeFormat("fa-IR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       }).format(date);
     } catch (error) {
       return dateString;
@@ -98,14 +98,18 @@ const ListingPage = () => {
     try {
       const cleanedParams = {};
       Object.entries(filters).forEach(([key, value]) => {
-        if (value !== '' && value !== null && value !== undefined) {
-          if (key === 'CostDown' && (value === 10000 || value === 1000000)) return;
-          if (key === 'CostUp' && (value === 4960000 || value === 1000000)) return;
+        if (value !== "" && value !== null && value !== undefined) {
+          if (key === "CostDown" && (value === 10000 || value === 1000000))
+            return;
+          if (key === "CostUp" && (value === 4960000 || value === 1000000))
+            return;
           cleanedParams[key] = value;
         }
       });
 
-      const response = await apiClient.get('/Home/GetCoursesWithPagination', { params: cleanedParams });
+      const response = await apiClient.get("/Home/GetCoursesWithPagination", {
+        params: cleanedParams,
+      });
       if (response.data) {
         const courseList = response.data.courseFilterDtos || [];
         const total = response.data.totalCount || courseList.length || 0;
@@ -124,33 +128,34 @@ const ListingPage = () => {
   }, [filters]);
 
   const handlePageChange = (page) => {
-    setFilters(prev => ({ ...prev, PageNumber: page }));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setFilters((prev) => ({ ...prev, PageNumber: page }));
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSortChange = (sortingCol, sortType) => {
-    setFilters(prev => ({ ...prev, SortingCol: sortingCol, SortType: sortType, PageNumber: 1 }));
+    setFilters((prev) => ({
+      ...prev,
+      SortingCol: sortingCol,
+      SortType: sortType,
+      PageNumber: 1,
+    }));
   };
 
   const totalPages = Math.ceil(totalCount / filters.RowsOfPage) || 1;
 
   return (
-    <div className="w-full min-h-screen flex flex-col justify-between" style={{ direction: 'rtl' }}>
+    <div
+      className="w-full min-h-screen flex flex-col justify-between"
+      style={{ direction: "rtl" }}
+    >
       <NavbarHeader />
-      
-      <motion.div
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-      >
+
+      <motion.div variants={pageVariants} initial="initial" animate="animate">
         <div className="max-w-[1380px] w-full min-h-[500px] pb-[60px] rounded-[24px] md:rounded-[40px] dark:bg-surface-secondary border-4 overflow-hidden mx-auto my-6 md:my-10 p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 relative">
-          
           <div className="col-span-1 lg:col-span-9 flex flex-col justify-between order-last lg:order-first">
             <div className="flex flex-col gap-4">
-              
               <div className="flex flex-row justify-end sm:justify-between items-center gap-4 w-full">
-  
-                <button 
+                <button
                   onClick={() => setIsFilterOpen(true)}
                   className="lg:hidden flex items-center gap-2 bg-blue-600 text-white px-4 h-10 rounded-xl font-bold text-sm shadow-sm cursor-pointer transition-all active:scale-[0.98]"
                 >
@@ -159,19 +164,31 @@ const ListingPage = () => {
                 </button>
 
                 <div className="hidden lg:block w-full sm:flex-1">
-                  <CourseSorting 
+                  <CourseSorting
                     currentSortingCol={filters.SortingCol}
                     currentSortType={filters.SortType}
                     onSortChange={handleSortChange}
                   />
                 </div>
-                
+
                 <div className="hidden sm:flex items-center gap-2 border-r border-gray-500 pr-4 mr-4">
-                  <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === 'grid' ? 'bg-accent shadow-sm text-accent-foreground ' : 'opacity-50'}`}>
-                    <HugeiconsIcon icon={GridViewIcon} className="m-0 w-5 h-5" />
+                  <button
+                    onClick={() => setViewMode("grid")}
+                    className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === "grid" ? "bg-accent shadow-sm text-accent-foreground " : "opacity-50"}`}
+                  >
+                    <HugeiconsIcon
+                      icon={GridViewIcon}
+                      className="m-0 w-5 h-5"
+                    />
                   </button>
-                  <button onClick={() => setViewMode('row')} className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === 'row' ? 'bg-accent shadow-sm text-accent-foreground ' : 'opacity-50'}`}>
-                    <HugeiconsIcon icon={ViewAgendaIcon} className="m-0 w-5 h-5" />
+                  <button
+                    onClick={() => setViewMode("row")}
+                    className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === "row" ? "bg-accent shadow-sm text-accent-foreground " : "opacity-50"}`}
+                  >
+                    <HugeiconsIcon
+                      icon={ViewAgendaIcon}
+                      className="m-0 w-5 h-5"
+                    />
                   </button>
                 </div>
               </div>
@@ -182,28 +199,46 @@ const ListingPage = () => {
                     <Spinner size="lg" color="primary" />
                   </div>
                 ) : courses.length === 0 ? (
-                  <div className="w-full text-center py-20 text-gray-400 font-medium">دوره‌ای با فیلترهای انتخاب شده یافت نشد.</div>
+                  <div className="w-full text-center py-20 text-gray-400 font-medium">
+                    دوره‌ای با فیلترهای انتخاب شده یافت نشد.
+                  </div>
                 ) : (
-                  <motion.div 
-                    className={viewMode === 'grid' ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center" : "flex flex-col gap-6 w-full"}
+                  <motion.div
+                    className={
+                      viewMode === "grid"
+                        ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center"
+                        : "flex flex-col gap-6 w-full"
+                    }
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
                   >
                     {courses.map((course, index) => (
-                      <motion.div 
-                        key={course.id || course.courseId || index} 
-                        className={viewMode === 'grid' ? "w-full flex justify-center" : "relative w-full min-h-[288px]"}
+                      <motion.div
+                        key={course.id || course.courseId || index}
+                        className={
+                          viewMode === "grid"
+                            ? "w-full flex justify-center"
+                            : "relative w-full min-h-[288px]"
+                        }
                         variants={cardVariants}
                         viewport={{ once: true, amount: 0.1 }}
                       >
                         <CourseCard
                           viewMode={viewMode}
-                          imageURL={course.tumbImageAddress || course.imageAddress || "https://via.placeholder.com/315x225"}
+                          imageURL={
+                            course.tumbImageAddress ||
+                            course.imageAddress ||
+                            "https://via.placeholder.com/315x225"
+                          }
                           title={course.title || course.courseName || ""}
-                          discribtion={course.describe || course.shortDescribe || ""}
+                          discribtion={
+                            course.describe || course.shortDescribe || ""
+                          }
                           teacher={course.teacherName || "مدرس دوره"}
-                          date={convertToPersianDate(course.lastUpdate || course.startDate)}
+                          date={convertToPersianDate(
+                            course.lastUpdate || course.startDate,
+                          )}
                           number={course.capacity || 0}
                           price={course.cost?.toLocaleString() || "0"}
                           id={course.courseId}
@@ -223,7 +258,7 @@ const ListingPage = () => {
                 )}
               </div>
             </div>
-            
+
             <div className="w-full flex justify-center mt-12 overflow-x-auto">
               {!loading && totalPages > 1 && (
                 <CoursePagination
@@ -236,27 +271,26 @@ const ListingPage = () => {
               )}
             </div>
           </div>
-          
+
           <div className="hidden lg:block col-span-1 lg:col-span-3 w-full lg:max-w-[321px] mx-auto">
-            <CourseFilters 
-              filters={filters} 
-              setFilters={setFilters} 
-              isMobile={false} 
+            <CourseFilters
+              filters={filters}
+              setFilters={setFilters}
+              isMobile={false}
               currentSortingCol={filters.SortingCol}
               currentSortType={filters.SortType}
-              onSortChange={handleSortChange} 
+              onSortChange={handleSortChange}
             />
           </div>
-
         </div>
       </motion.div>
 
-      <CourseFilters 
-        filters={filters} 
-        setFilters={setFilters} 
-        isMobile={true} 
-        isOpen={isFilterOpen} 
-        onClose={() => setIsFilterOpen(false)} 
+      <CourseFilters
+        filters={filters}
+        setFilters={setFilters}
+        isMobile={true}
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
         currentSortingCol={filters.SortingCol}
         currentSortType={filters.SortType}
         onSortChange={handleSortChange}

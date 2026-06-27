@@ -1,5 +1,5 @@
-import NavbarHeader from "./components/landing/NavbarHeader";
-import Footer from "./components/landing/Footer";
+import NavbarHeader from "../components/landing/NavbarHeader";
+import Footer from "../components/landing/Footer";
 import CourseCard from "../components/coursesList/CourseCard";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
