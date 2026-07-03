@@ -5,11 +5,39 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import InfoBox from "../components/courseDetail/InfoBox";
 import DetailSection from "../components/courseDetail/DetailSection";
+import { Skeleton } from "@heroui/react";
 import {
   getAllTechs,
   getCourseDetails,
   getCoursesWithPagination,
 } from "../core/services/Course/get";
+
+const DetailPageSkeleton = () => {
+  return (
+    <div className="w-[90.5%] flex flex-col lg:flex-row items-start gap-10 lg:gap-[4.75%] pt-16">
+      <div className="w-full lg:w-[35%] space-y-6 p-6 rounded-2xl bg-[#ece8e8] dark:bg-[#585757]">
+        <Skeleton className="h-8 w-3/4 rounded-lg" />
+        <Skeleton className="h-5 w-1/2 rounded-lg" />
+        <div className="space-y-3 pt-4">
+          <Skeleton className="h-4 w-full rounded-lg" />
+          <Skeleton className="h-4 w-full rounded-lg" />
+          <Skeleton className="h-4 w-2/3 rounded-lg" />
+        </div>
+        <Skeleton className="h-12 w-full rounded-xl mt-6" />
+      </div>
+
+      <div className="w-full lg:w-[60%] space-y-6 p-6 rounded-2xl bg-[#ece8e8] dark:bg-[#585757]">
+        <Skeleton className="h-[300px] w-full rounded-2xl" />
+        <Skeleton className="h-8 w-2/4 rounded-lg" />
+        <div className="space-y-3">
+          <Skeleton className="h-4 w-full rounded-lg" />
+          <Skeleton className="h-4 w-full rounded-lg" />
+          <Skeleton className="h-4 w-4/5 rounded-lg" />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const CourseDetailPage = () => {
   const Params = useParams();
@@ -34,12 +62,10 @@ const CourseDetailPage = () => {
     }
   };
 
-  console.log(courseDetail.courseTech);
   if (courseDetail.courseTech) {
     for (let i of courseDetail.courseTech) {
       techsList.push(i.tech.techName);
     }
-    // console.log(techsList)
   }
 
   const [techIdList, setTechIdList] = useState([]);
@@ -50,21 +76,18 @@ const CourseDetailPage = () => {
     try {
       const response = await getAllTechs();
       setTechs(response.data);
-      // console.log(response.data);
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
     }
   };
+
   function addTechId() {
     let technologysList = [];
     if (techs) {
-      // console.log(techs)
       for (let i of techs) {
-        // console.log(i.techName)
         for (let j of techsList) {
-          // console.log(j)
           if (i.techName == j) {
             technologysList.push(i.id);
           }
@@ -73,7 +96,6 @@ const CourseDetailPage = () => {
     }
     setTechIdList(technologysList.join(","));
   }
-  // console.log(techIdList)
 
   const fetchCourse = async () => {
     if (techIdList != "") {
@@ -86,7 +108,6 @@ const CourseDetailPage = () => {
           listTech: techIdList,
         });
         setCourses(response.data.courseFilterDtos);
-        // console.log(response.data)
       } catch (error) {
         console.error(error);
         setIsError(error);
@@ -99,28 +120,18 @@ const CourseDetailPage = () => {
   useEffect(() => {
     fetchCourseDetail();
   }, [Params.id]);
+
   useEffect(() => {
     fetchTechs();
   }, []);
+
   useEffect(() => {
     addTechId();
   }, [techsList]);
+
   useEffect(() => {
     fetchCourse();
   }, [techIdList]);
-  // console.log(courses)
-
-  if (isLoading) {
-    return (
-      <div className="w-full flex flex-col items-center">
-        <NavbarHeader />
-        <div className="flex justify-center items-center h-screen">
-          <div className="text-2xl">در حال بارگذاری...</div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
 
   if (isError) {
     return (
@@ -133,71 +144,88 @@ const CourseDetailPage = () => {
       </div>
     );
   }
-  if (!isLoading && !isError) {
-    return (
-      <div className=" w-full  flex flex-col items-center  ">
-        <NavbarHeader />
-        <div className="  flex flex-col lg:flex-row items-start w-[90.5%] gap-10 lg:gap-[4.75%] pt-16 ">
-          <InfoBox
-            title={courseDetail.title}
-            courseLevelName={courseDetail.courseLevelName}
-            capacity={courseDetail.capacity}
-            startTime={courseDetail.startTime}
-            endTime={courseDetail.endTime}
-            cost={courseDetail.cost}
-            isActive={courseDetail.isActive}
-            courseRate={courseDetail.courseRate}
-            courseTech={[...techsList]}
-            courseId={courseDetail.courseId}
-            isFavorite={courseDetail.isUserFavorite}
-            userIsLiked={courseDetail.userIsLiked}
-            currentUserDissLike={courseDetail.currentUserDissLike}
-          />
-          <DetailSection
-            title={courseDetail.title}
-            courseId={courseDetail.courseId}
-            imageAddress={courseDetail.imageAddress}
-            teacherId={courseDetail.teacherId}
-            teacherName={courseDetail.teacherName}
-            miniDescribe={courseDetail.miniDescribe}
-            describe={courseDetail.describe}
-          />
-        </div>
-        {courses.length >= 1 && (
-          <div className=" mt-10  flex flex-col  w-[90.5%] gap-10 lg:gap-15 pt-16 px-5 ">
-            <div className=" text-5xl ">دوره های دیگر</div>
-            <div className="  flex flex-wrap gap-5.75 justify-center  ">
-              {courses.map((course, index) => (
-                <CourseCard
-                  key={course.id || course.courseId || index}
-                  viewMode={"gird"}
-                  imageURL={
-                    course.tumbImageAddress ||
-                    course.imageAddress ||
-                    "https://via.placeholder.com/315x225"
-                  }
-                  title={course.title || course.courseName || ""}
-                  discribtion={course.describe || course.shortDescribe || ""}
-                  teacher={course.teacherName || "مدرس دوره"}
-                  date={course.lastUpdate || course.startDate || ""}
-                  number={course.capacity || 0}
-                  price={
-                    course.cost !== undefined && course.cost !== null
-                      ? course.cost.toLocaleString()
-                      : "0"
-                  }
-                  rating={course.courseRate?.avg || 0}
-                  id={course.courseId}
-                />
-              ))}
-            </div>
-          </div>
-        )}
 
-        <Footer />
-      </div>
-    );
-  }
+  return (
+    <div className="w-full flex flex-col items-center">
+      <NavbarHeader />
+
+      {isLoading ? (
+        <DetailPageSkeleton />
+      ) : (
+        <div className="w-full flex flex-col items-center transition-opacity duration-700 ease-in-out opacity-100 dynamic-fade-in">
+          <div className="flex flex-col lg:flex-row items-start w-[90.5%] gap-10 lg:gap-[4.75%] pt-16">
+            <InfoBox
+              title={courseDetail.title}
+              courseLevelName={courseDetail.courseLevelName}
+              capacity={courseDetail.capacity}
+              startTime={courseDetail.startTime}
+              endTime={courseDetail.endTime}
+              cost={courseDetail.cost}
+              isActive={courseDetail.isActive}
+              courseRate={courseDetail.courseRate}
+              courseTech={[...techsList]}
+              courseId={courseDetail.courseId}
+              isFavorite={courseDetail.isUserFavorite}
+              userIsLiked={courseDetail.userIsLiked}
+              currentUserDissLike={courseDetail.currentUserDissLike}
+            />
+            <DetailSection
+              title={courseDetail.title}
+              courseId={courseDetail.courseId}
+              imageAddress={courseDetail.imageAddress}
+              teacherId={courseDetail.teacherId}
+              teacherName={courseDetail.teacherName}
+              miniDescribe={courseDetail.miniDescribe}
+              describe={courseDetail.describe}
+            />
+          </div>
+
+          {courses.length >= 1 && (
+            <div className="mt-10 flex flex-col w-[90.5%] gap-10 lg:gap-15 pt-16 px-5">
+              <div className="text-5xl">دوره های دیگر</div>
+              <div className="flex flex-wrap gap-5.75 justify-center">
+                {courses.map((course, index) => (
+                  <CourseCard
+                    key={course.id || course.courseId || index}
+                    viewMode={"gird"}
+                    imageURL={
+                      course.tumbImageAddress ||
+                      course.imageAddress ||
+                      "https://via.placeholder.com/315x225"
+                    }
+                    title={course.title || course.courseName || ""}
+                    discribtion={course.describe || course.shortDescribe || ""}
+                    teacher={course.teacherName || "مدرس دوره"}
+                    date={course.lastUpdate || course.startDate || ""}
+                    number={course.capacity || 0}
+                    price={
+                      course.cost !== undefined && course.cost !== null
+                        ? course.cost.toLocaleString()
+                        : "0"
+                    }
+                    rating={course.courseRate?.avg || 0}
+                    id={course.courseId}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      <Footer />
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .dynamic-fade-in {
+          animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+      `}</style>
+    </div>
+  );
 };
 
 export default CourseDetailPage;
