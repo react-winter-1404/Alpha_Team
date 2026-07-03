@@ -70,7 +70,7 @@ const PersonalProfile = ({progressPercent}) => {
   const isError = (field) => isSubmitted && errors[field];
 
   return (
-    <div className="w-full h-full bg-[#fefdff] p-[30px] rounded-b-[16px] flex justify-center items-start">
+    <div className="w-full h-full bg-overlay p-[30px] rounded-b-[16px] flex justify-center items-start">
       {isLoading ? (
         <div className="w-[70%] h-full flex flex-wrap gap-8">
           <div className="flex flex-col gap-2 w-[40%]">
@@ -117,7 +117,7 @@ const PersonalProfile = ({progressPercent}) => {
         <div className="flex flex-col justify-center items-center">
 
         <div className="w-full h-[35%] border p-3 block md:hidden">
-        <h3 className="text-[16px] text-[#272727]">وضعیت اطلاعات حساب</h3>
+        <h3 className="text-[16px] ">وضعیت اطلاعات حساب</h3>
         <div className="m-auto mt-[40px] h-[130px] w-[136px]">
           <CircularProgressbar
             value={submittedPercent}
@@ -125,7 +125,7 @@ const PersonalProfile = ({progressPercent}) => {
             styles={buildStyles({
               pathColor: pc.clr,
               textColor: pc.clr,
-              trailColor: "#f0f0f0",
+              trailColor: "transparent",
               strokeLinecap: "round",
               textSize: "34px",
               pathTransitionDuration: 0.5,
@@ -167,7 +167,7 @@ const PersonalProfile = ({progressPercent}) => {
               defaultValue={userProfile.fName}
               id="n"
               placeholder="نام خود را وارد کنید"
-              className={`w-full h-[48px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 transition-all outline-0 ${isError("name") ? "border-2 border-red-500" : ""}`}
+              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("name") ? "border-2 border-red-500" : ""}`}
             />
           </div>
 
@@ -193,7 +193,7 @@ const PersonalProfile = ({progressPercent}) => {
               defaultValue={userProfile.lName}
               id="f"
               placeholder="نام خانوادگی خود را وارد کنید"
-              className={`w-full h-[48px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 transition-all outline-0 ${isError("lastName") ? "border-2 border-red-500" : ""}`}
+              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("lastName") ? "border-2 border-red-500" : ""}`}
             />
           </div>
 
@@ -220,7 +220,7 @@ const PersonalProfile = ({progressPercent}) => {
               defaultValue={userProfile.userAbout}
               id="a"
               placeholder="یک متن درباره خود بنویسید"
-              className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 text-right resize-none transition-all outline-0 ${isError("aboutMe") ? "border-2 border-red-500" : ""}`}
+              className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-default text-[14px]  p-3 text-right resize-none transition-all outline-0 ${isError("aboutMe") ? "border-2 border-red-500" : ""}`}
               dir="rtl"
             />
           </div>
@@ -250,7 +250,7 @@ const PersonalProfile = ({progressPercent}) => {
               defaultValue={userProfile.phoneNumber}
               id="p"
               placeholder="شماره همراه خود را وارد کنید"
-              className={`w-full h-[48px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 transition-all outline-0 ${isError("phone") ? "border-2 border-red-500" : ""}`}
+              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("phone") ? "border-2 border-red-500" : ""}`}
             />
           </div>
 
@@ -280,7 +280,7 @@ const PersonalProfile = ({progressPercent}) => {
               defaultValue={userProfile.nationalCode}
               id="c"
               placeholder="کد ملی خود را وارد کنید"
-              className={`w-full h-[48px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 transition-all outline-0 ${isError("code") ? "border-2 border-red-500" : ""}`}
+              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("code") ? "border-2 border-red-500" : ""}`}
             />
           </div>
 
@@ -304,7 +304,7 @@ const PersonalProfile = ({progressPercent}) => {
               type="date"
               {...register("birthday", { required: "تاریخ تولد الزامی است" })}
               id="b"
-              className={`w-full h-[48px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 transition-all outline-0 ${isError("birthday") ? "border-2 border-red-500" : ""}`}
+              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("birthday") ? "border-2 border-red-500" : ""}`}
             />
           </div>
 
@@ -329,6 +329,7 @@ const PersonalProfile = ({progressPercent}) => {
                   defaultChecked={userProfile.gender === true}
                   type="radio"
                   value="male"
+                  className="appearance-none w-3 h-3 rounded-full border-2 border-gray-400 checked:border-overlay checked:bg-accent checked:ring-2 checked:ring-offset-2 checked:ring-overlay/30 transition-all cursor-pointer"
                 />
                 مرد
               </label>
@@ -338,6 +339,7 @@ const PersonalProfile = ({progressPercent}) => {
                   defaultChecked={userProfile.gender === false}
                   type="radio"
                   value="female"
+                  className="appearance-none w-3 h-3 rounded-full border-2 border-gray-400 checked:border-overlay checked:bg-accent checked:ring-2 checked:ring-offset-2 checked:ring-overlay/30 transition-all cursor-pointer"
                 />
                 زن
               </label>
@@ -368,7 +370,7 @@ const PersonalProfile = ({progressPercent}) => {
               defaultValue={userProfile.gmail}
               id="e"
               placeholder="ایمیل خود را وارد کنید"
-              className={`w-full md:w-[86%] h-[48px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 transition-all outline-0 ${isError("email") ? "border-2 border-red-500" : ""}`}
+              className={`w-full md:w-[86%] h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("email") ? "border-2 border-red-500" : ""}`}
             />
           </div>
 
@@ -395,14 +397,14 @@ const PersonalProfile = ({progressPercent}) => {
               defaultValue={userProfile.homeAdderess}
               id="ad"
               placeholder="آدرس سکونت خود را وارد کنید"
-              className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 text-right resize-none transition-all outline-0 ${isError("address") ? "border-2 border-red-500" : ""}`}
+              className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-default text-[14px]  p-3 text-right resize-none transition-all outline-0 ${isError("address") ? "border-2 border-red-500" : ""}`}
               dir="rtl"
             />
           </div>
 
           <button
             type="submit"
-            className="w-[145px] md:w-[169px] h-[41px] md:h-[56px] rounded-[64px] bg-[#3772ff] text-[16px] md:text-[20px] text-[#fefdff] cursor-pointer hover:bg-[#2a5fd8] transition-colors"
+            className="w-[145px] md:w-[169px] h-[41px] md:h-[56px] text-accent-foreground rounded-[64px] bg-[#3772ff] text-[16px] md:text-[20px] text-overlabg-overlay cursor-pointer hover:bg-[#2a5fd8] transition-colors"
           >
             اعمال تغییرات
           </button>
@@ -413,7 +415,7 @@ const PersonalProfile = ({progressPercent}) => {
 
       
       <div className="w-[60%] h-[35%] border p-3 hidden md:block">
-        <h3 className="text-[16px] text-[#272727]">وضعیت اطلاعات حساب</h3>
+        <h3 className="text-[16px] ">وضعیت اطلاعات حساب</h3>
         <div className="m-auto mt-[40px] h-[130px] w-[136px]">
           <CircularProgressbar
             value={progressPercent || submittedPercent}
@@ -421,7 +423,7 @@ const PersonalProfile = ({progressPercent}) => {
             styles={buildStyles({
               pathColor: pc.clr,
               textColor: pc.clr,
-              trailColor: "#f0f0f0",
+              trailColor: "transparent",
               strokeLinecap: "round",
               textSize: "34px",
               pathTransitionDuration: 0.5,

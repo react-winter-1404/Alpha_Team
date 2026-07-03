@@ -181,6 +181,7 @@ body {
   border: none !important;
   box-shadow: none !important;
   border-radius: 16px !important;
+  background: var(--overlay) !important;
 }
 
 .dashboard-calendar .rmdp-wrapper {
@@ -240,7 +241,7 @@ body {
 
 .dashboard-calendar .rmdp-month-picker,
 .dashboard-calendar .rmdp-year-picker {
-  background: #fff !important;
+  background: var(--overlay) !important;
 }
 
 .dashboard-calendar .rmdp-day-picker {
@@ -249,6 +250,7 @@ body {
   padding: 10px 14px 12px !important;
   box-sizing: border-box !important;
   display: block !important;
+  background: var(--overlay) !important;
 }
 
 .dashboard-calendar .rmdp-week {
@@ -283,6 +285,7 @@ body {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  background: var(--overlay) !important;
 }
 
 .dashboard-calendar .rmdp-day span {
@@ -296,7 +299,7 @@ body {
   border-radius: 999px !important;
   font-size: 13px !important;
   font-weight: 600 !important;
-  color: #272727 !important;
+  color: var(--foreground) !important;
 }
 
 .dashboard-calendar .rmdp-selected span {

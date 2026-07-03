@@ -4,7 +4,7 @@ import { Spinner } from "@heroui/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ViewIcon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
-import { Calendar02Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { Calendar02Icon, Cancel01Icon, Search01Icon } from "@hugeicons/core-free-icons";
 import { DateRangePicker, DateField, RangeCalendar } from "@heroui/react";
 import { I18nProvider } from "@heroui/react";
 
@@ -62,17 +62,13 @@ const FavCourses = () => {
   return (
     <>
       <div className="hidden md:block">
-        <h3 className="text-[32px] text-[#272727] mt-5">علاقه‌مندی دوره</h3>
+        <h3 className="text-[32px]  mt-5">علاقه‌مندی دوره</h3>
 
         <div className="flex justify-start items-center gap-5 mt-7">
           <div>
             <div className="flex justify-start items-center gap-2">
-              <img
-                src="/public/icons/search-01-stroke-rounded 1.png"
-                alt=""
-                className="w-[24px] h-[24px]"
-              />
-              <span className="text-[16px] text-[#272727]">جستجوِی دوره</span>
+              <HugeiconsIcon icon={Search01Icon} className="m-0 w-5 h-5" />
+              <span className="text-[16px] ">جستجوِی دوره</span>
             </div>
 
             <div className="relative mt-3">
@@ -81,14 +77,10 @@ const FavCourses = () => {
                 placeholder="جستجو کنید ..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-[289px] h-[48px] bg-[#bebebe] text-[14px] text-[#787878] indent-3 rounded-[16px] focus:outline-none focus:ring-2 focus:ring-[#3772ff]"
+                className="w-[289px] h-[48px] bg-[#bebebe] dark:bg-segment text-[14px] text-muted indent-3 rounded-[16px] focus:outline-none focus:ring-2 focus:ring-[#3772ff]"
               />
               <div className="absolute top-[-1px] left-0 cursor-pointer w-[48px] h-[48px] rounded-[16px] bg-[#3772ff] flex justify-center items-center">
-                <img
-                  src="/public/icons/search-01-stroke-rounded 2.png"
-                  alt=""
-                  className="h-[24px] w-[24px]"
-                />
+                <HugeiconsIcon icon={Search01Icon} className="m-0 w-5 h-5 text-white" />
               </div>
             </div>
           </div>
@@ -97,10 +89,7 @@ const FavCourses = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 font-bold text-sm mb-1">
                 <span>
-                  <HugeiconsIcon
-                    icon={Calendar02Icon}
-                    className="m-0 w-5 h-5"
-                  />
+                  <HugeiconsIcon icon={Calendar02Icon} className="m-0 w-5 h-5" />
                 </span>
                 <span>تاریخ برگزاری</span>
               </div>
@@ -126,19 +115,13 @@ const FavCourses = () => {
                 >
                   <DateField.Group
                     fullWidth
-                    className="bg-[#bebebe] rounded-2xl h-12 flex items-center justify-between px-3 border-none text-sm text-[#787878]"
+                    className="bg-[#bebebe] dark:bg-segment rounded-2xl h-12 flex items-center justify-between px-3 border-none text-sm text-muted"
                   >
-                    <DateField.Input
-                      slot="start"
-                      className="outline-none bg-transparent"
-                    >
+                    <DateField.Input slot="start" className="outline-none bg-transparent">
                       {(segment) => <DateField.Segment segment={segment} />}
                     </DateField.Input>
                     <DateRangePicker.RangeSeparator className="mx-2 text-gray-400" />
-                    <DateField.Input
-                      slot="end"
-                      className="outline-none bg-transparent"
-                    >
+                    <DateField.Input slot="end" className="outline-none bg-transparent">
                       {(segment) => <DateField.Segment segment={segment} />}
                     </DateField.Input>
                     <DateField.Suffix className="mr-auto">
@@ -156,31 +139,16 @@ const FavCourses = () => {
                           <RangeCalendar.YearPickerTriggerIndicator />
                         </RangeCalendar.YearPickerTrigger>
                         <div className="flex gap-1">
-                          <RangeCalendar.NavButton
-                            slot="previous"
-                            className="p-1 rounded-lg hover:bg-gray-100"
-                          />
-                          <RangeCalendar.NavButton
-                            slot="next"
-                            className="p-1 rounded-lg hover:bg-gray-100"
-                          />
+                          <RangeCalendar.NavButton slot="previous" className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" />
+                          <RangeCalendar.NavButton slot="next" className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" />
                         </div>
                       </RangeCalendar.Header>
                       <RangeCalendar.Grid>
                         <RangeCalendar.GridHeader>
-                          {(day) => (
-                            <RangeCalendar.HeaderCell className="text-gray-400 font-normal p-1">
-                              {day}
-                            </RangeCalendar.HeaderCell>
-                          )}
+                          {(day) => <RangeCalendar.HeaderCell className="text-gray-400 font-normal p-1">{day}</RangeCalendar.HeaderCell>}
                         </RangeCalendar.GridHeader>
                         <RangeCalendar.GridBody>
-                          {(date) => (
-                            <RangeCalendar.Cell
-                              date={date}
-                              className="p-1 text-center data-[selected=true]:bg-blue-600 data-[selected=true]:text-white rounded-lg"
-                            />
-                          )}
+                          {(date) => <RangeCalendar.Cell date={date} className="p-1 text-center data-[selected=true]:bg-blue-600 data-[selected=true]:text-white rounded-lg" />}
                         </RangeCalendar.GridBody>
                       </RangeCalendar.Grid>
                     </RangeCalendar>
@@ -191,8 +159,8 @@ const FavCourses = () => {
           </div>
         </div>
 
-        <div className="mt-5 w-full h-[681px] rounded-[16px] bg-[#fefdff] p-3 flex flex-col justify-start items-center">
-          <div className="w-full h-[48px] text-muted bg-[#f0f0f0] rounded-[16px] flex justify-between items-center p-3">
+        <div className="mt-5 w-full h-[681px] rounded-[16px] bg-overlay p-3 flex flex-col justify-start items-center">
+          <div className="w-full h-[48px] text-muted bg-default rounded-[16px] flex justify-between items-center p-3">
             <span className="w-[15%] flex justify-center">#</span>
             <span className="w-[15%] flex justify-center">نام دوره</span>
             <span className="w-[15%] flex justify-center">استاد دوره</span>
@@ -203,11 +171,11 @@ const FavCourses = () => {
 
           <div className="border-black flex flex-col gap-4 w-full h-full py-4 px-3 overflow-auto">
             {isLoading ? (
-              <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+              <div className="flex justify-center items-center h-full text-muted text-lg">
                 <Spinner />
               </div>
             ) : filteredCourses.length === 0 ? (
-              <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+              <div className="flex justify-center items-center h-full text-muted text-lg">
                 {searchTerm || dateRange.start || dateRange.end
                   ? "دوره‌ای با شرایط انتخابی یافت نشد"
                   : "دوره‌ای در لیست علاقه‌مندی‌ها یافت نشد"}
@@ -222,27 +190,21 @@ const FavCourses = () => {
                     src={course.imageAddress}
                     className="w-[15%] h-full flex justify-center bg-muted rounded-2xl object-cover"
                   />
-                  <div className="w-[15%] text-lg overflow-hidden whitespace-nowrap text-ellipsis">
+                  <div className="w-[15%] text-lg text-foreground overflow-hidden whitespace-nowrap text-ellipsis">
                     {course.courseTitle}
                   </div>
-                  <div className="w-[15%] flex justify-center">
+                  <div className="w-[15%] flex justify-center text-foreground">
                     {course.teacheName}
                   </div>
-                  <div className="w-[15%] flex justify-center">
-                    {new Date(course.course.startTime).toLocaleDateString(
-                      "fa-IR",
-                      { day: "numeric", month: "long", year: "numeric" },
-                    )}
+                  <div className="w-[15%] flex justify-center text-foreground">
+                    {new Date(course.course.startTime).toLocaleDateString("fa-IR", { day: "numeric", month: "long", year: "numeric" })}
                   </div>
-                  <div className="w-[15%] flex justify-center">
+                  <div className="w-[15%] flex justify-center text-foreground">
                     {course.cost && course.cost.toLocaleString("fa-IR")} تومان
                   </div>
                   <div className="w-[10%] flex justify-center">
                     <Link to={`/courses/${course.courseId}`}>
-                      <HugeiconsIcon
-                        className="cursor-pointer"
-                        icon={ViewIcon}
-                      />
+                      <HugeiconsIcon className="cursor-pointer" icon={ViewIcon} />
                     </Link>
                   </div>
                 </div>
@@ -254,42 +216,26 @@ const FavCourses = () => {
 
       <div className="block md:hidden">
         <div className="flex justify-between items-center">
-          <h3 className="text-[32px] text-[#272727]">علاقه‌مندی دوره</h3>
-          <button className="w-[83px] h-[41px] rounded-[64px] bg-[#3772ff] text-[16px] text-[#fefdff]">
-            فیلتر
-          </button>
+          <h3 className="text-[32px] ">علاقه‌مندی دوره</h3>
+          <button className="w-[83px] h-[41px] rounded-[64px] bg-[#3772ff] text-[16px] text-[#fefdff]">فیلتر</button>
         </div>
 
-        <div className="mt-10 w-full p-3 rounded-[16px] bg-[#fefdff] flex flex-col items-center justify-center gap-2">
+        <div className="mt-10 w-full p-3 rounded-[16px] bg-overlay flex flex-col items-center justify-center gap-2">
           {isLoading ? (
-            <div className="flex justify-center items-center h-full text-[#787878] text-lg">
-              <Spinner />
-            </div>
+            <div className="flex justify-center items-center h-full text-muted text-lg"><Spinner /></div>
           ) : filteredCourses.length === 0 ? (
-            <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+            <div className="flex justify-center items-center h-full text-muted text-lg">
               {searchTerm || dateRange.start || dateRange.end
                 ? "دوره‌ای با شرایط انتخابی یافت نشد"
                 : "دوره‌ای در لیست علاقه‌مندی‌ها یافت نشد"}
             </div>
           ) : (
             myFavoriteCourses.map((course) => (
-              <div
-                key={course.id}
-                className="w-full h-[90px] p-3 flex justify-between items-center"
-              >
-                <img
-                  src={course.imageAddress}
-                  alt=""
-                  className="w-[115px] h-[82px] rounded-[8px] bg-[#d9d9d9]"
-                />
+              <div key={course.id} className="w-full h-[90px] p-3 flex gap-3 items-center">
+                <img src={course.imageAddress} alt="" className="w-[115px] h-[82px] rounded-[8px] bg-muted" />
                 <Link to={`/courses/${course.courseId}`}>
-                  <span className="block text-[16px] text-[#272727]">
-                    {course.courseTitle}
-                  </span>
-                  <span className="block text-[16px] text-[#787878]">
-                    {course.teacheName}
-                  </span>
-                  <span className="block text-[16px] text-[#787878]"></span>
+                  <span className="block text-[16px] text-foreground">{course.courseTitle}</span>
+                  <span className="block text-[16px] text-muted">{course.teacheName}</span>
                 </Link>
               </div>
             ))

@@ -159,7 +159,7 @@ const LoginForm = ({ submitFunction }) => {
             </Button>
           </div>
 
-          {/* دکمه ورود */}
+
           <Button
             variant="primary"
             type="submit"

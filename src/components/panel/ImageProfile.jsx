@@ -6,7 +6,8 @@ import {
 } from "../../core/services/userPanel/post";
 import { getUserProfile } from "../../core/services/userPanel/get";
 import { DeleteProfileImage } from "../../core/services/userPanel/delete";
-
+import { HugeiconsIcon } from "@hugeicons/react";
+import { MoreVerticalCircle01Icon,AccountSetting03Icon,Mail02Icon,PencilEdit01Icon,MoreHorizontalCircle01Icon,Notification01Icon } from "@hugeicons/core-free-icons";
 const ImageProfile = ({onProfileChange}) => {
   const [imageList, setImageList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -137,7 +138,7 @@ const ImageProfile = ({onProfileChange}) => {
     <div className="w-full h-[580px] p-2">
       <div className="h-full w-full flex flex-wrap justify-start items-start gap-5 p-2 overflow-y-auto">
 
-        <div className="w-[148px] h-[148px] md:w-[225px] md:h-[225px] border rounded-[10px] flex flex-col justify-center items-center">
+        <div className="w-[148px] h-[148px] md:w-[225px] md:h-[225px] border rounded-[10px] flex flex-col bg-segment justify-center items-center">
           <input type="file" id="choose" onChange={(event) => fileHandler(event)} className="hidden"/>
           <label htmlFor="choose" className="flex flex-col justify-center items-center cursor-pointer">
             <img src="/public/icons/Group 148.png" alt="" className="h-[32px] w-[32px] mb-[10px]"/>
@@ -150,10 +151,13 @@ const ImageProfile = ({onProfileChange}) => {
 
         {
           imageList.map((i, index) => (
-            <div key={index} className="relative w-[148px] h-[148px] md:w-[225px] md:h-[225px] border p-3 rounded-[10px] bg-[#5865f2]">
-              <img src={i.image} alt="" className="h-full w-full "/>
+            <div key={index} className="relative w-[148px] h-[148px] md:w-[225px] md:h-[225px] border  rounded-[10px] ">
+              <img src={i.image} alt="" className="h-full w-full rounded-[10px] "/>
 
-              <img onClick={() => imageOptionsHandler(i.image)} src="/public/icons/Group 152.png" alt="" className="w-[32px] h-[32px] rounded-fulll absolute top-2 right-2 cursor-pointer"/>
+
+              <div onClick={() => imageOptionsHandler(i.image)}  className="w-[32px] h-[32px] p-0 flex items-center justify-center rounded-fulll absolute top-2 right-2 border rounded-full shadow bg-segment cursor-pointer">
+                <HugeiconsIcon icon={MoreVerticalCircle01Icon} className=" w-5 h-5 m-0 " />
+              </div>
               <img src="/public/icons/Group 155.png" alt="" className={`${i.main ? "w-[32px] h-[32px] rounded-fulll absolute top-2 right-12 cursor-pointer" : "hidden"}`} /> 
               
               <div className={`${i.option ? `w-[200px] h-[90px] md:w-[234px] md:h-[112px] rounded-[16px] bg-[#ffffff] absolute top-12 right-0 flex flex-col` : `hidden`}`}>
@@ -163,10 +167,10 @@ const ImageProfile = ({onProfileChange}) => {
                 </div>
               </div>
 
-            <div className={`${i.option ? `w-[234px] h-[112px] rounded-[16px] bg-[#ffffff] absolute top-12 right-0 flex flex-col` : `hidden`}`}>
+            <div className={`${i.option ? `w-[234px] h-[112px] rounded-[16px] bg-default shadow-lg absolute top-12 right-0 flex flex-col` : `hidden`}`}>
               <div onClick={() => mainImageHandler(i.image, i.id)} className="h-[50%] cursor-pointer border-b flex justify-start items-center gap-3 p-2">
                 <img src="/public/icons/checkmark-circle-02-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px]"/>
-                <span className="text-[16px] text-[#272727]">انتخاب عکس اصلی</span>
+                <span className="text-[16px] ">انتخاب عکس اصلی</span>
               </div>
 
               <div

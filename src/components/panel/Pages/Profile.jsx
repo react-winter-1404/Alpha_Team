@@ -4,6 +4,9 @@ import ImageProfile from "../ImageProfile";
 import AddressProfile from "../AddressProfile";
 import LinksProfile from "../LinksProfile";
 import { getUserProfile } from "../../../core/services/userPanel/get";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { SmartPhone01Icon,AccountSetting03Icon,Mail02Icon,PencilEdit01Icon,MoreHorizontalCircle01Icon,Notification01Icon } from "@hugeicons/core-free-icons";
+
 
 const ProfilePanel = ({ profilePic, setProfilePic }) => {
   const [personal, setPersonal] = useState(true);
@@ -36,20 +39,15 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
 
   return (
     <div>
-      <div className="w-full bg-[#fefdff] mt-[20px] rounded-t-[16px]">
+      <div className="w-full bg-overlay mt-[20px] rounded-t-[16px]">
         <div className="relative w-full h-[113px] rounded-[16px] bg-[#3772ff]">
-          <div className="w-[128px] h-[128px] rounded-full bg-[#427efc] border-white border-[5px] absolute top-[60px] right-[35px]">
+          <div className="w-[128px] h-[128px] rounded-full bg-[#427efc] border-overlay border-[5px] absolute top-[60px] right-[35px]">
             <img
               src={profilePic || userProfile.currentPictureAddress}
               alt=""
               className="m-auto rounded-full w-full h-full object-cover"
             />
-            <div className="w-[24px] h-[24px] bg-[#3772ff] border-[#fefdff] border[3px] rounded-full absolute top-[85px] right-1">
-              <img
-                src="/public/images/Group 148.png"
-                alt=""
-                className="m-auto"
-              />
+            <div className="w-[24px] h-[24px] bg-[#3772ff] border-overbg-overlay border[3px] rounded-full absolute top-[85px] right-1">
             </div>
           </div>
         </div>
@@ -57,7 +55,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
         <div className="p-[30px] w-full  flex flex-col md:flex-row justify-start items-start md:gap-80">
           <div className=" flex flex-col justify-start items-start">
             <div className="w-full flex justify-start items-center gap-3 mt-10">
-              <h3 className="text-[24px] md:text-[36px] text-[#272727]">
+              <h3 className="text-[24px] md:text-[36px] ">
                 {userProfile.fName + " " + userProfile.lName}
               </h3>
 
@@ -76,20 +74,12 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
 
             <div className="flex flex-col md:flex-row justify-start items-start md:items-center gap-2 mt-4">
               <div className="flex justify-center items-center gap-2">
-                <img
-                  src="/public/icons/smart-phone-01-stroke-rounded 2.png"
-                  alt=""
-                  className="w-[20px] h-[28.53px]"
-                />
+                <HugeiconsIcon icon={SmartPhone01Icon} className=" mr-3 w-6 h-6 text-muted " />
                 <span className="text-[16px]">{userProfile.phoneNumber}</span>
               </div>
 
               <div className="flex justify-center items-center gap-2">
-                <img
-                  src="/public/icons/account-setting-03-stroke-rounded 2.png"
-                  alt=""
-                  className="w-[20px] h-[28.53px]"
-                />
+                <HugeiconsIcon icon={AccountSetting03Icon} className=" mr-3 w-6 h-6 text-muted " />
                 <span className="text-[16px]">
                   {birthDay &&
                     new Date(birthDay).toLocaleDateString("fa-IR", {
@@ -101,32 +91,24 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
               </div>
 
               <div className="flex justify-center items-center gap-2">
-                <img
-                  src="/public/icons/mail-02-stroke-rounded 1.png"
-                  alt=""
-                  className="w-[20px] h-[28.53px]"
-                />
+                <HugeiconsIcon icon={Mail02Icon} className=" mr-3 w-6 h-6 text-muted " />
                 <span className="text-[16px]">{userProfile.gmail}</span>
               </div>
 
-              <img
-                src="/public/icons/pencil-edit-01-stroke-rounded 2.png"
-                alt=""
-                className="w-[24px] h-[24px]"
-              />
+              <HugeiconsIcon icon={PencilEdit01Icon} className=" mr-3 w-6 h-6 text-accent " />
             </div>
           </div>
 
           <div className="mt-10 md:mt-20">
             <span className="text-[16px] text-[#787878]">درباره من</span>
-            <p className="text-[16px] text-[#272727] mt-2">
+            <p className="text-[16px]  mt-2">
               {userProfile.userAbout}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="bg-[#fefdff] border-b px-[30px] py-[20px] h-[65px] w-full flex justify-start items-center gap-6 text-[16px] md:text-[20px] text-[#272727] overflow-x-auto whitespace-nowrap overflow-y-hidden">
+      <div className="bg-overlay border-b px-[30px] py-[20px] h-[65px] w-full flex justify-start items-center gap-6 text-[16px] md:text-[20px]  overflow-x-auto whitespace-nowrap overflow-y-hidden">
         <span
           onClick={() => {
             setPersonal(true);
@@ -196,7 +178,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
         </span>
       </div>
 
-      <div className="bg-[#fefdff] w-full rounded-b-[16px]">
+      <div className="bg-overlay w-full rounded-b-[16px]">
         <div
           className={`${personal ? "h-full w-full rounded-b-[16px]" : "hidden"}`}
         >

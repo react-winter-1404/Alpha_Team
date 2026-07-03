@@ -10,6 +10,8 @@ import {
 } from "../../../core/services/userPanel/get";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import CommentCard from "../card/CommentCard";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Clock01Icon, Calendar03Icon,DashboardCircleIcon,Book02Icon,TimeSetting03Icon,BookBookmark02Icon,FileBookmarkIcon,UserEdit01Icon,MoneySend02Icon,UserSettings01Icon,Logout01Icon,MoreHorizontalCircle01Icon,Notification01Icon } from "@hugeicons/core-free-icons";
 
 const Dashboard = () => {
   const [value, setValue] = useState(new Date());
@@ -121,24 +123,20 @@ const Dashboard = () => {
   return (
     <div className="w-full p-3 md:p-5 flex flex-col gap-4">
       <div className="w-[80%] flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
-        <div className="text-[20px] md:text-[32px] text-[#272727] w-[500px]">
+        <div className="text-[20px] md:text-[32px]  w-[500px]">
           سلام، {getGreeting()} {userProfile.fName} 😍
         </div>
 
         <div className="w-[300px] flex justify-between items-center gap-3 text-sm md:text-base text-[#787878]">
           <div className="flex justify-center items-center gap-3">
-            <div className="w-[48px] h-[48px] rounded-full bg-[#fefdff] flex items-center justify-center">
-              <img
-                src="/public/icons/clock-01-stroke-rounded 2.png"
-                alt=""
-                className="w-[24px] h-[24px] m-auto"
-              />
+            <div className="w-[48px] h-[48px] rounded-full bg-overlay flex items-center justify-center">
+              <HugeiconsIcon icon={Clock01Icon} className=" m-0 w-6 h-6 " />
             </div>
             <div>
               <span className="block text-[14px] md:text-[16px] text-[#787878]">
                 ساعت
               </span>
-              <span className="block text-[16px] text-[#272727]">
+              <span className="block text-[16px] text-foreground">
                 {time.toLocaleTimeString("fa-IR", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -148,18 +146,14 @@ const Dashboard = () => {
           </div>
 
           <div className="flex justify-center items-center gap-3">
-            <div className="w-[48px] h-[48px] rounded-full bg-[#fefdff] flex items-center justify-center">
-              <img
-                src="/public/icons/calendar-03-stroke-rounded 1.png"
-                alt=""
-                className="w-[24px] h-[24px] m-auto"
-              />
+            <div className="w-[48px] h-[48px] rounded-full bg-overlay flex items-center justify-center">
+              <HugeiconsIcon icon={Calendar03Icon} className=" m-0 w-6 h-6 " />
             </div>
             <div>
               <span className="block text-[14px] md:text-[16px] text-[#787878]">
                 تاریخ
               </span>
-              <span className="block text-[16px] text-[#272727]">
+              <span className="block text-[16px] text-foreground">
                 {fullDate}
               </span>
             </div>
@@ -168,9 +162,9 @@ const Dashboard = () => {
       </div>
 
       <div className="hidden w-full mt-10 md:flex flex-wrap justify-center items-center gap-5  ">
-        <div className="w-full md:w-[40%] h-[287px] bg-[#fefdff] rounded-[16px] p-3  ">
+        <div className="w-full md:w-[40%] h-[287px] bg-overlay rounded-[16px] p-3  ">
           <div className="h-[30px] w-full flex justify-between items-center">
-            <h3 className="text-[16px] text-[#272727]">نظرات‌ شما</h3>
+            <h3 className="text-[16px] text-muted">نظرات‌ شما</h3>
           </div>
           <div className=" flex gap-2  overflow-y-auto">
             <div className=" w-full mr-2 my-1   ">دوره ها</div>
@@ -212,18 +206,18 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="w-full md:w-[30%] h-[287px] bg-[#fefdff] rounded-[16px] overflow-hidden">
+        <div className="w-full md:w-[30%] h-[287px]  rounded-[16px] overflow-hidden">
           <Calendar
             value={value}
             onChange={setValue}
             calendar={persian}
             locale={persian_fa}
-            className="dashboard-calendar"
+            className="dashboard-calendar "
           />
         </div>
 
-        <div className="hidden md:flex w-[25%] h-[287px] bg-[#fefdff] rounded-[16px] p-3 flex-col items-center justify-center">
-          <h3 className="text-[16px] text-[#272727] mb-4">
+        <div className="hidden md:flex w-[25%] h-[287px] bg-overlay rounded-[16px] p-3 flex-col items-center justify-center">
+          <h3 className="text-[16px]  mb-4">
             وضعیت اطلاعات حساب
           </h3>
           <div className="w-[130px] h-[130px]">
@@ -233,7 +227,7 @@ const Dashboard = () => {
               styles={buildStyles({
                 pathColor: pc.clr,
                 textColor: pc.clr,
-                trailColor: "#f0f0f0",
+                trailColor: "transparent",
                 strokeLinecap: "round",
                 textSize: "28px",
                 pathTransitionDuration: 0.5,
@@ -247,19 +241,19 @@ const Dashboard = () => {
       </div>
 
       <div className="md:hidden w-full mt-10 flex flex-wrap justify-center items-center gap-5">
-        <div className="w-full md:w-[30%] h-[287px] bg-[#fefdff] rounded-[16px] overflow-hidden">
+        <div className="w-full md:w-[30%] h-[287px] bg-overlay rounded-[16px] overflow-hidden">
           <Calendar
             value={value}
             onChange={setValue}
             calendar={persian}
             locale={persian_fa}
-            className="dashboard-calendar"
+            className="dashboard-calendar "
           />
         </div>
 
-        <div className="w-full md:w-[40%] h-[287px] bg-[#fefdff] rounded-[16px] p-3">
+        <div className="w-full md:w-[40%] h-[287px] bg-overlay rounded-[16px] p-3">
           <div className="h-[30px] w-full flex justify-between items-center">
-            <h3 className="text-[16px] text-[#272727]">نظرات‌ شما</h3>
+            <h3 className="text-[16px] text-muted">نظرات‌ شما</h3>
           </div>
           <div className=" flex gap-2  overflow-y-auto">
             <div className=" w-full mr-2 my-1   ">دوره ها</div>
@@ -302,15 +296,15 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="w-full h-[470px] flex flex-col justify-start items-center gap-3 mt-3 p-3 bg-[#fefdff] rounded-[16px]">
+      <div className="w-full h-[470px] flex flex-col justify-start items-center gap-3 mt-3 p-3 bg-overlay rounded-[16px]">
         <div className="h-[30px] w-full flex justify-between items-center">
-          <h3 className="text-[16px] text-[#272727]">جدیدترین دوره ها</h3>
+          <h3 className="text-[16px] ">جدیدترین دوره ها</h3>
           <span className="text-[14px] text-[#3772ff] cursor-pointer">
             مشاهده همه {">"}
           </span>
         </div>
 
-        <div className="hidden w-full h-[48px] bg-[#f0f0f0] rounded-[16px] md:flex justify-start items-center gap-3 p-3">
+        <div className="hidden w-full h-[48px] bg-default rounded-[16px] md:flex justify-start items-center gap-3 p-3">
           <span className="text-[16px] text-[#787878] ml-[260px]">
             نام دوره
           </span>
@@ -326,7 +320,7 @@ const Dashboard = () => {
           <span className="text-[16px] text-[#787878]">قیمت دوره</span>
         </div>
 
-        <div className="w-full h-[470px] bg-[#fefdff] rounded-[16px] flex flex-col justify-start items-start">
+        <div className="w-full h-[470px] bg-overlay rounded-[16px] flex flex-col justify-start items-start">
           {isLoading ? (
             <p>در حال فراخوانی...</p>
           ) : (
@@ -335,19 +329,19 @@ const Dashboard = () => {
                 key={c.courseId}
                 className="w-full h-[30px] p-2 m-auto flex justify-start items-center gap-8"
               >
-                <span className="text-[20px] text-[#272727] w-[300px]">
+                <span className="text-[20px] w-[300px]">
                   {c.title}
                 </span>
-                <span className="hidden md:block text-[16px] text-[#272727] cursor-pointer w-[100px]">
+                <span className="hidden md:block text-[16px] cursor-pointer w-[100px]">
                   ...
                 </span>
-                <span className="hidden md:block text-[16px] text-[#272727] cursor-pointer w-[85px]">
+                <span className="hidden md:block text-[16px] cursor-pointer w-[85px]">
                   ...
                 </span>
-                <span className="hidden md:block text-[16px] text-[#272727] w-[150px]">
+                <span className="hidden md:block text-[16px] w-[150px]">
                   {formatPersianDate(c.startTime)}
                 </span>
-                <span className="hidden md:block text-[20px] text-[#272727] w-[150px]">
+                <span className="hidden md:block text-[20px] w-[150px]">
                   {c.cost} <span>تومان</span>
                 </span>
                 <img

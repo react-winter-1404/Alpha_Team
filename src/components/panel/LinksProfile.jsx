@@ -96,7 +96,7 @@ const LinksProfile = () => {
               defaultValue={userProfile.telegramLink}
               id="n"
               placeholder="لینک تلگرام خود را وارد کنید"
-              className={`w-full h-[48px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 transition-all outline-0 ${isError("tel") ? "border-2 border-red-500" : ""}`}
+              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px] p-3 transition-all outline-0 ${isError("tel") ? "border-2 border-red-500" : ""}`}
             />
           </div>
 
@@ -124,7 +124,7 @@ const LinksProfile = () => {
               defaultValue={userProfile.linkdinProfile}
               id="f"
               placeholder="لینک لینکدین خود را وارد کنید"
-              className={`w-full h-[48px] rounded-[16px] bg-[#ecebec] text-[14px] text-[#272727] p-3 transition-all outline-0 ${isError("link") ? "border-2 border-red-500" : ""}`}
+              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px] p-3 transition-all outline-0 ${isError("link") ? "border-2 border-red-500" : ""}`}
             />
           </div>
 

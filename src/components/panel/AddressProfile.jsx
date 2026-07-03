@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -9,12 +9,9 @@ import { putPersonalProfile } from "../../core/services/userPanel/put";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
 const LocationMarker = ({ position, setPosition }) => {
@@ -26,14 +23,39 @@ const LocationMarker = ({ position, setPosition }) => {
   return position ? <Marker position={position} /> : null;
 };
 
+const MapComponent = ({ position, setPosition }) => {
+  const [map, setMap] = useState(null);
+
+  useEffect(() => {
+    if (map) {
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
+    }
+  }, [map]);
+
+  return (
+    <MapContainer
+      center={position}
+      zoom={13}
+      style={{ height: "100%", width: "100%" }}
+      ref={setMap}
+    >
+      <TileLayer
+        attribution="&copy; OpenStreetMap"
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <LocationMarker position={position} setPosition={setPosition} />
+    </MapContainer>
+  );
+};
+
 const AddressProfile = () => {
   const [position, setPosition] = useState([35.6997, 51.3376]);
   const [userProfile, setUserProfile] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [showMap, setShowMap] = useState(false);
 
   const fetchUserProfile = async () => {
-    setIsLoading(true);
     try {
       const response = await getUserProfile();
       setUserProfile(response.data);
@@ -44,7 +66,6 @@ const AddressProfile = () => {
       console.error(error);
     } finally {
       setIsLoading(false);
-      setTimeout(() => setShowMap(true), 100);
     }
   };
 
@@ -57,14 +78,10 @@ const AddressProfile = () => {
     formData.append("Latitude", Number(position[0]).toFixed(6) || "");
     formData.append("Longitude", Number(position[1]).toFixed(6) || "");
     formData.append("BirthDay", new Date(userProfile.birthDay).toISOString());
-
     try {
       const response = await putPersonalProfile(formData);
-      if (response.data.success) {
-        toast.success(response.data.message);
-      } else {
-        toast.error(response.data.message || "خطا در ثبت اطلاعات");
-      }
+      if (response.data.success) toast.success(response.data.message);
+      else toast.error(response.data.message || "خطا در ثبت اطلاعات");
     } catch (error) {
       toast.error(error.response?.data?.message || "خطا در ارتباط با سرور");
     }
@@ -83,29 +100,10 @@ const AddressProfile = () => {
           <h2 className="text-[16px] text-[#3772ff] indent-8 font-medium">
             داخل نقشه موقعیت مکانی محل سکونت خود را انتخاب کنید
           </h2>
-
-          <div className="w-full h-[380px] rounded-[16px] overflow-hidden border border-gray-300 shadow-md" style={{ zIndex: 0 }}>
-            {showMap && (
-              <MapContainer
-                center={position}
-                zoom={13}
-                style={{ height: "100%", width: "100%" }}
-                zoomControl={true}
-                scrollWheelZoom={true}
-              >
-                <TileLayer
-                  attribution="&copy; OpenStreetMap"
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <LocationMarker position={position} setPosition={setPosition} />
-              </MapContainer>
-            )}
+          <div className="w-full h-[380px] rounded-[16px] overflow-hidden border border-gray-300 shadow-md">
+            <MapComponent position={position} setPosition={setPosition} />
           </div>
-          <Button
-            onClick={onSubmit}
-            variant="primary"
-            className="font-bold h-11 my-0"
-          >
+          <Button onClick={onSubmit} variant="primary" className="font-bold h-11 my-0">
             ثبت موقعیت مکانی
           </Button>
         </>
