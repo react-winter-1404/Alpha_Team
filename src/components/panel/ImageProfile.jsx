@@ -7,8 +7,9 @@ import {
 import { getUserProfile } from "../../core/services/userPanel/get";
 import { DeleteProfileImage } from "../../core/services/userPanel/delete";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { MoreVerticalCircle01Icon,AccountSetting03Icon,Mail02Icon,PencilEdit01Icon,MoreHorizontalCircle01Icon,Notification01Icon } from "@hugeicons/core-free-icons";
-const ImageProfile = ({onProfileChange}) => {
+import { MoreVerticalCircle01Icon } from "@hugeicons/core-free-icons";
+
+const ImageProfile = ({ onProfileChange }) => {
   const [imageList, setImageList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [userProfile, setUserProfile] = useState([]);
@@ -73,20 +74,20 @@ const ImageProfile = ({onProfileChange}) => {
   };
 
   const fetchDeleteProfileImage = async (id) => {
-  const formData = new FormData();
-  formData.append("DeleteEntityId", id);
-  console.log(formData)
-  try {
-    const response = await DeleteProfileImage(formData);
-    if (response.data.success) {
-      toast.success(response.data.message);
-    } else {
-      toast.error(response.data.message || "خطا در حذف عکس");
+    const formData = new FormData();
+    formData.append("DeleteEntityId", id);
+    console.log(formData);
+    try {
+      const response = await DeleteProfileImage(formData);
+      if (response.data.success) {
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message || "خطا در حذف عکس");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "خطا در ارتباط با سرور");
     }
-  } catch (error) {
-    toast.error(error.response?.data?.message || "خطا در ارتباط با سرور");
-  }
-};
+  };
 
   const fileHandler = (e) => {
     const image = e.target.files[0];
@@ -130,47 +131,37 @@ const ImageProfile = ({onProfileChange}) => {
   };
 
   const deleteImageHandler = (e, id) => {
-  setImageList((prev) => prev.filter((item) => item.image !== e));
-  if (id) fetchDeleteProfileImage(id);
-};
+    setImageList((prev) => prev.filter((item) => item.image !== e));
+    if (id) fetchDeleteProfileImage(id);
+  };
 
   return (
     <div className="w-full h-[580px] p-2">
       <div className="h-full w-full flex flex-wrap justify-start items-start gap-5 p-2 overflow-y-auto">
-
-        <div className="w-[148px] h-[148px] md:w-[225px] md:h-[225px] border rounded-[10px] flex flex-col bg-segment justify-center items-center">
-          <input type="file" id="choose" onChange={(event) => fileHandler(event)} className="hidden"/>
+        <div className="w-[148px] h-[148px] md:w-[225px] md:h-[225px] border border-border rounded-[10px] flex flex-col bg-default justify-center items-center">
+          <input type="file" id="choose" onChange={(event) => fileHandler(event)} className="hidden" />
           <label htmlFor="choose" className="flex flex-col justify-center items-center cursor-pointer">
-            <img src="/public/icons/Group 148.png" alt="" className="h-[32px] w-[32px] mb-[10px]"/>
-            <span className="block text-[16px] text-[#000000]">اضافه کردن عکس</span>
+            <img src="/public/icons/Group 148.png" alt="" className="h-[32px] w-[32px] mb-[10px]" />
+            <span className="block text-[16px] text-foreground">اضافه کردن عکس</span>
           </label>
-          <span className="block text-[14px] text-[#787878]">
+          <span className="block text-[14px] text-muted">
             اندازه فریم ( 236*236 )
           </span>
         </div>
 
-        {
-          imageList.map((i, index) => (
-            <div key={index} className="relative w-[148px] h-[148px] md:w-[225px] md:h-[225px] border  rounded-[10px] ">
-              <img src={i.image} alt="" className="h-full w-full rounded-[10px] "/>
+        {imageList.map((i, index) => (
+          <div key={index} className="relative w-[148px] h-[148px] md:w-[225px] md:h-[225px] border border-border rounded-[10px]">
+            <img src={i.image} alt="" className="h-full w-full rounded-[10px]" />
 
+            <div onClick={() => imageOptionsHandler(i.image)} className="w-[32px] h-[32px] p-0 flex items-center justify-center rounded-full absolute top-2 right-2 border border-border rounded-full shadow bg-overlay cursor-pointer">
+              <HugeiconsIcon icon={MoreVerticalCircle01Icon} className="w-5 h-5 m-0 text-foreground" />
+            </div>
+            <img src="/public/icons/Group 155.png" alt="" className={`${i.main ? "w-[32px] h-[32px] rounded-full absolute top-2 right-12 cursor-pointer" : "hidden"}`} />
 
-              <div onClick={() => imageOptionsHandler(i.image)}  className="w-[32px] h-[32px] p-0 flex items-center justify-center rounded-fulll absolute top-2 right-2 border rounded-full shadow bg-segment cursor-pointer">
-                <HugeiconsIcon icon={MoreVerticalCircle01Icon} className=" w-5 h-5 m-0 " />
-              </div>
-              <img src="/public/icons/Group 155.png" alt="" className={`${i.main ? "w-[32px] h-[32px] rounded-fulll absolute top-2 right-12 cursor-pointer" : "hidden"}`} /> 
-              
-              <div className={`${i.option ? `w-[200px] h-[90px] md:w-[234px] md:h-[112px] rounded-[16px] bg-[#ffffff] absolute top-12 right-0 flex flex-col` : `hidden`}`}>
-                <div onClick={() => mainImageHandler(i.image)}  className="h-[50%] cursor-pointer border-b flex justify-start items-center gap-3 p-2">
-                  <img src="/public/icons/checkmark-circle-02-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px]"/>
-                  <span className="text-[16px] text-[#272727]">انتخاب عکس اصلی</span>
-                </div>
-              </div>
-
-            <div className={`${i.option ? `w-[234px] h-[112px] rounded-[16px] bg-default shadow-lg absolute top-12 right-0 flex flex-col` : `hidden`}`}>
-              <div onClick={() => mainImageHandler(i.image, i.id)} className="h-[50%] cursor-pointer border-b flex justify-start items-center gap-3 p-2">
-                <img src="/public/icons/checkmark-circle-02-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px]"/>
-                <span className="text-[16px] ">انتخاب عکس اصلی</span>
+            <div className={`${i.option ? "w-[234px] h-[112px] rounded-[16px] bg-overlay shadow-lg absolute top-12 right-0 flex flex-col" : "hidden"}`}>
+              <div onClick={() => mainImageHandler(i.image, i.id)} className="h-[50%] cursor-pointer border-b border-separator flex justify-start items-center gap-3 p-2">
+                <img src="/public/icons/checkmark-circle-02-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px]" />
+                <span className="text-[16px] text-foreground">انتخاب عکس اصلی</span>
               </div>
 
               <div
@@ -184,13 +175,11 @@ const ImageProfile = ({onProfileChange}) => {
                   alt=""
                   className="w-[24px] h-[24px]"
                 />
-                <span className="text-[16px] text-[#ff5454]">حذف عکس</span>
+                <span className="text-[16px] text-danger">حذف عکس</span>
               </div>
             </div>
           </div>
-        ))
-        }
-
+        ))}
       </div>
     </div>
   );

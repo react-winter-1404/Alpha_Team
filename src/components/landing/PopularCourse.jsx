@@ -5,33 +5,33 @@ import { Skeleton } from "@heroui/react";
 
 const BasicSkeleton = () => {
   return (
-    <div className="shadow-panel w-full md:w-[22%] h-[530px] space-y-5 rounded-[20px] bg-[#ece8e8] dark:bg-[#585757] p-4 flex flex-col justify-between">
-      <Skeleton className="h-[35%] rounded-lg" />
+    <div className="shadow-panel w-full md:w-[22%] h-[530px] space-y-5 rounded-[20px] bg-overlay border border-border p-4 flex flex-col justify-between">
+      <Skeleton className="h-[35%] rounded-lg bg-default" />
       <div className="space-y-3 flex-1 mt-4">
-        <Skeleton className="h-6 w-3/5 rounded-lg" />
-        <Skeleton className="h-4 w-4/5 rounded-lg" />
-        <Skeleton className="h-4 w-2/5 rounded-lg" />
+        <Skeleton className="h-6 w-3/5 rounded-lg bg-default" />
+        <Skeleton className="h-4 w-4/5 rounded-lg bg-default" />
+        <Skeleton className="h-4 w-2/5 rounded-lg bg-default" />
       </div>
       <div className="flex justify-between items-center mt-auto">
-        <Skeleton className="h-6 w-1/4 rounded-lg" />
-        <Skeleton className="h-6 w-1/3 rounded-lg" />
+        <Skeleton className="h-6 w-1/4 rounded-lg bg-default" />
+        <Skeleton className="h-6 w-1/3 rounded-lg bg-default" />
       </div>
     </div>
   );
 };
 
 const CourseCard = ({ e, formatPersianDate }) => (
-  <div className="relative text-[#272727] bg-[#ece8e8] dark:bg-[#585757] dark:text-[#ece8e8] h-[530px] w-[90%] md:w-[22%] flex flex-col gap-2 rounded-[20px] text-right">
+  <div className="relative text-foreground bg-default border border-border h-[530px] w-[90%] md:w-[22%] flex flex-col gap-2 rounded-[20px] text-right">
     <img
       src={e.imageAddress}
       alt=""
-      className="p-0 bg-pink-500 rounded-[20px] w-full h-[35%]"
+      className="p-0 bg-accent rounded-[20px] w-full h-[35%]"
     />
 
     <div className="p-2 flex flex-col gap-4">
       <h3 className="text-[20px] md:text-[24px] h-[40px] mb-2.5">{e.title}</h3>
 
-      <p className="text-[14px] md:text-[16px] w-[80%] h-[50px] text-[#787878] dark:text-[#bdbbbb] line-clamp-2">
+      <p className="text-[14px] md:text-[16px] w-[80%] h-[50px] text-muted line-clamp-2">
         {e.describe}
       </p>
 
@@ -44,7 +44,7 @@ const CourseCard = ({ e, formatPersianDate }) => (
         <img src="/icons/calendar-03-stroke-rounded 1.png" alt="" className="h-6 w-6" />
         <span>
           {formatPersianDate(e.startTime)}{" "}
-          <span className="text-[#787878] dark:text-[#bdbbbb]">(شروع)</span>
+          <span className="text-muted">(شروع)</span>
         </span>
       </div>
 
@@ -54,9 +54,9 @@ const CourseCard = ({ e, formatPersianDate }) => (
       </div>
 
       <div className="flex justify-between align-middle">
-        <p className="text-[20px] md:text-[24px] text-[#272727] dark:text-[#bdbbbb]">
+        <p className="text-[20px] md:text-[24px] text-foreground">
           {e.cost}
-          <span className="text-[14px] md:text-[16px] text-[#3772ff] "> تومان </span>
+          <span className="text-[14px] md:text-[16px] text-accent"> تومان </span>
         </p>
         <div className="w-[120px] flex justify-between align-middle pt-2">
           <div className="w-[50px] flex justify-between align-middle">
@@ -72,10 +72,10 @@ const CourseCard = ({ e, formatPersianDate }) => (
       </div>
     </div>
 
-    <div className="absolute top-1 right-5 text-[12px] md:text-[14px] text-[#ffffff] bg-[#5a7eff] h-[31px] w-[94px] flex items-center justify-center rounded-[64px] shadow-sm">
+    <div className="absolute top-1 right-5 text-[12px] md:text-[14px] text-accent-foreground bg-accent h-[31px] w-[94px] flex items-center justify-center rounded-[64px] shadow-sm">
       {e.technologyList}
     </div>
-    <div className="absolute top-1 right-30 text-[12px] md:text-[14px] text-[#ffffff] bg-[#5a7eff] h-[31px] w-[57px] flex items-center justify-center rounded-[64px] shadow-sm">
+    <div className="absolute top-1 right-30 text-[12px] md:text-[14px] text-accent-foreground bg-accent h-[31px] w-[57px] flex items-center justify-center rounded-[64px] shadow-sm">
       {e.levelName}
     </div>
   </div>
@@ -113,8 +113,8 @@ const PopularCourse = () => {
   return (
     <div className="m-auto w-[95%] mt-15">
       <div className="m-auto w-full text-center mb-7.5">
-        <span className="block text-[28px] md:text-[40px]">محبوب ترین دوره ها</span>
-        <span className="block text-[14px] md:text-[20px]">
+        <span className="block text-[28px] md:text-[40px] text-foreground">محبوب ترین دوره ها</span>
+        <span className="block text-[14px] md:text-[20px] text-muted">
           دوره هایی که بین دانشجو های ما محبوبیت بالایی داشتند
         </span>
       </div>
@@ -143,7 +143,7 @@ const PopularCourse = () => {
           radius="full"
           size="lg"
           disableRipple
-          className="my-5 px-2 cursor-pointer text-[16px] md:text-[20px] bg-blue-500 text-white w-[140px] h-[40px] md:w-43 md:h-14 rounded-4xl mx-auto"
+          className="my-5 px-2 cursor-pointer text-[16px] md:text-[20px] bg-accent text-accent-foreground w-[140px] h-[40px] md:w-43 md:h-14 rounded-4xl mx-auto"
         >
           نمایش بیشتر
         </Button>

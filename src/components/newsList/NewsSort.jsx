@@ -19,7 +19,7 @@ const NewsSort = ({ currentSort, onSortChange }) => {
   };
 
   return (
-    <div dir="rtl" className="w-full bg-default dark:bg-surface rounded-[16px] p-2 backdrop-blur-sm flex items-center gap-4 select-none">
+    <div dir="rtl" className="w-full bg-default rounded-[16px] p-2 backdrop-blur-sm flex items-center gap-4 select-none">
       <span className="text-foreground font-medium text-xs mr-2">ترتیب</span>
       
       <div className="flex gap-2 bg-transparent rounded-xl p-0.5">
@@ -33,7 +33,7 @@ const NewsSort = ({ currentSort, onSortChange }) => {
               className={`h-8 text-xs font-medium px-4 rounded-xl transition-all duration-200 cursor-pointer outline-none border-none
                 ${isSelected 
                   ? "bg-accent text-accent-foreground shadow-sm font-bold" 
-                  : "text-foreground/60 hover:text-foreground hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
+                  : "text-muted hover:text-foreground hover:bg-default-foreground/10"
                 }`}
             >
               {tab.title}

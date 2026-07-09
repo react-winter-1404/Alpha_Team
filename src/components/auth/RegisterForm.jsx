@@ -61,10 +61,10 @@ const RegisterForm = ({
   };
 
   return (
-    <div className=" w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
+    <div className="w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
       <div className="w-full flex flex-col gap-4 sm:gap-6">
-        <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold">
-          <div className="">به آکادمی بحر خوش اومدی! </div>
+        <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold text-foreground">
+          <div>به آکادمی بحر خوش اومدی!</div>
           <div className="text-lg sm:text-[25px]">😍</div>
         </div>
         {step == 1 && (
@@ -75,9 +75,8 @@ const RegisterForm = ({
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <div className="font-light text-sm sm:text-base text-muted">
-              {" "}
               لطفا برای ثبت نام شماره همراه خود را وارد کنید تا برای شما کد
-              تایید ارسال شود{" "}
+              تایید ارسال شود
             </div>
           </motion.div>
         )}
@@ -89,12 +88,11 @@ const RegisterForm = ({
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <div className="font-light text-sm sm:text-base text-muted">
-              {" "}
               لطفا کد ارسال شده به ایمیل{" "}
-              <span className=" text-accent font-bold ">
+              <span className="text-accent font-bold">
                 {gmailInpValue}
               </span>{" "}
-              را وارد نمایید{" "}
+              را وارد نمایید
             </div>
           </motion.div>
         )}
@@ -106,7 +104,7 @@ const RegisterForm = ({
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <div className="font-light text-sm sm:text-base text-muted">
-              لطفا اطلاعات شخصی حساب کاربری خود را وارد کنید{" "}
+              لطفا اطلاعات شخصی حساب کاربری خود را وارد کنید
             </div>
           </motion.div>
         )}
@@ -143,11 +141,11 @@ const RegisterForm = ({
             }}
           >
             {() => (
-              <Form className=" w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
+              <Form className="w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
                 <div className="flex flex-col gap-3 sm:gap-5">
                   <label
                     htmlFor="gmail"
-                    className="font-bold text-sm sm:text-[16px] mr-0.5"
+                    className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                   >
                     ایمیل
                   </label>
@@ -160,14 +158,14 @@ const RegisterForm = ({
                       id="gmail"
                       name="gmail"
                       type="text"
-                      className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200"
+                      className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
                       placeholder="ایمیل خود را وارد کنید"
                     />
                   </div>
                   <ErrorMessage
                     name="gmail"
                     component="div"
-                    className="text-xs text-red-600"
+                    className="text-xs text-danger"
                   />
                 </div>
 
@@ -182,144 +180,144 @@ const RegisterForm = ({
             )}
           </Formik>
 
-          <div className="w-full flex justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold">
-            <div className="">حساب کاربری دارید؟</div>
-            <Link to={"/Auth/Login"} className="underline underline-offset-4">
+          <div className="w-full flex justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold text-foreground">
+            <div>حساب کاربری دارید؟</div>
+            <Link to={"/Auth/Login"} className="underline underline-offset-4 text-accent">
               ورود به حساب کاربری
             </Link>
           </div>
         </motion.div>
       )}
       {step == 2 && (
-  <motion.div
-    className="w-full flex flex-col gap-3 sm:gap-5"
-    initial={{ opacity: 0, scale: 0.9, y: -20 }}
-    animate={{ opacity: 1, scale: 1, y: 0 }}
-    exit={{ opacity: 0, scale: 0.95, y: -20 }}
-    transition={{ duration: 0.3, ease: "easeOut" }}
-  >
-    <Formik
-      onSubmit={(values) => {
-        console.log({
-          ...values,
-          verifyCode: Number(values.verifyCode),
-        });
-        submitFuncTwo({
-          ...values,
-          verifyCode: Number(values.verifyCode),
-        });
-      }}
-      initialValues={{
-        gmail: `${gmailInpValue}`,
-        password: "",
-        verifyCode: "",
-        phoneNumber: "",
-      }}
-      validationSchema={Yup.object({
-        verifyCode: Yup.string()
-          .required("لطفا کد تایید را وارد کنید")
-          .length(6, "کد تایید باید ۶ رقمی باشد")
-          .matches(/^[0-9]{6}$/, "کد تایید فقط باید شامل اعداد باشد"),
-      })}
-    >
-      {({ values, errors, touched, setFieldValue }) => (
-        <>
-          <Form className=" w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
-            <div className="flex flex-col gap-3 sm:gap-5">
-              <label className="font-bold text-lg">کد تایید</label>
+        <motion.div
+          className="w-full flex flex-col gap-3 sm:gap-5"
+          initial={{ opacity: 0, scale: 0.9, y: -20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: -20 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          <Formik
+            onSubmit={(values) => {
+              console.log({
+                ...values,
+                verifyCode: Number(values.verifyCode),
+              });
+              submitFuncTwo({
+                ...values,
+                verifyCode: Number(values.verifyCode),
+              });
+            }}
+            initialValues={{
+              gmail: `${gmailInpValue}`,
+              password: "",
+              verifyCode: "",
+              phoneNumber: "",
+            }}
+            validationSchema={Yup.object({
+              verifyCode: Yup.string()
+                .required("لطفا کد تایید را وارد کنید")
+                .length(6, "کد تایید باید ۶ رقمی باشد")
+                .matches(/^[0-9]{6}$/, "کد تایید فقط باید شامل اعداد باشد"),
+            })}
+          >
+            {({ values, errors, touched, setFieldValue }) => (
+              <>
+                <Form className="w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
+                  <div className="flex flex-col gap-3 sm:gap-5">
+                    <label className="font-bold text-lg text-foreground">کد تایید</label>
 
-              <InputOTP
-                className="flex-row-reverse justify-center"
-                maxLength={6}
-                isInvalid={errors.verifyCode && touched.verifyCode}
-                inputMode="numeric"
-                pattern="^[0-9]+$"
-                variant="secondary"
-                value={values.verifyCode}
-                onChange={(newValue) =>
-                  setFieldValue("verifyCode", newValue)
-                }
-                name="verifyCode"
-              >
-                <InputOTP.Group className="gap-2 flex-row-reverse">
-                  <InputOTP.Slot
-                    index={0}
-                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                  />
-                  <InputOTP.Slot
-                    index={1}
-                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                  />
-                  <InputOTP.Slot
-                    index={2}
-                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                  />
-                </InputOTP.Group>
+                    <InputOTP
+                      className="flex-row-reverse justify-center"
+                      maxLength={6}
+                      isInvalid={errors.verifyCode && touched.verifyCode}
+                      inputMode="numeric"
+                      pattern="^[0-9]+$"
+                      variant="secondary"
+                      value={values.verifyCode}
+                      onChange={(newValue) =>
+                        setFieldValue("verifyCode", newValue)
+                      }
+                      name="verifyCode"
+                    >
+                      <InputOTP.Group className="gap-2 flex-row-reverse">
+                        <InputOTP.Slot
+                          index={0}
+                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                        />
+                        <InputOTP.Slot
+                          index={1}
+                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                        />
+                        <InputOTP.Slot
+                          index={2}
+                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                        />
+                      </InputOTP.Group>
 
-                <InputOTP.Separator className="mx-2 text-xl text-muted" />
+                      <InputOTP.Separator className="mx-2 text-xl text-muted" />
 
-                <InputOTP.Group className="gap-2 flex-row-reverse">
-                  <InputOTP.Slot
-                    index={3}
-                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                  />
-                  <InputOTP.Slot
-                    index={4}
-                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                  />
-                  <InputOTP.Slot
-                    index={5}
-                    className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
-                  />
-                </InputOTP.Group>
-              </InputOTP>
+                      <InputOTP.Group className="gap-2 flex-row-reverse">
+                        <InputOTP.Slot
+                          index={3}
+                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                        />
+                        <InputOTP.Slot
+                          index={4}
+                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                        />
+                        <InputOTP.Slot
+                          index={5}
+                          className="h-12 w-12 rounded-xl border-2 border-default-200 focus:border-primary text-lg font-bold"
+                        />
+                      </InputOTP.Group>
+                    </InputOTP>
 
-              {errors.verifyCode && touched.verifyCode && (
-                <span className="text-xs text-red-600">
-                  {errors.verifyCode}
-                </span>
-              )}
-            </div>
+                    {errors.verifyCode && touched.verifyCode && (
+                      <span className="text-xs text-danger">
+                        {errors.verifyCode}
+                      </span>
+                    )}
+                  </div>
 
-            <Button
-              variant="primary"
-              type="submit"
-              className="w-full h-10 sm:h-11 font-bold text-sm sm:text-[16px]"
-            >
-              تایید
-            </Button>
-          </Form>
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="w-full h-10 sm:h-11 font-bold text-sm sm:text-[16px]"
+                  >
+                    تایید
+                  </Button>
+                </Form>
 
-          <div className="w-full flex justify-between text-xs sm:text-sm font-bold">
-            <div className="h-full flex gap-2 sm:gap-3 items-center text-accent">
-              <div className="bg-[rgba(55,114,255,0.231)] text-accent flex items-center gap-2 font-bold text-[10px] sm:text-xs px-3.5 py-1 rounded-full">
-                <HugeiconsIcon icon={TimeQuarterPassIcon} />
-                {formatTimer(timer)}
-              </div>
-              <div
-                onClick={() => {
-                  if (timer === 0) {
-                    resetTimer();
-                  }
-                }}
-                className={`underline underline-offset-4 text-xs ${timer !== 0 && "text-foreground"} ${timer == 0 && "cursor-pointer"}`}
-              >
-                ارسال مجدد کد
-              </div>
-            </div>
-            <Button
-              variant="secondary"
-              className="bg-[rgba(55,114,255,0.231)] text-accent font-bold text-[10px] sm:text-xs"
-            >
-              تغییر شماره همراه
-              <HugeiconsIcon icon={ArrowMoveUpLeftIcon} />
-            </Button>
-          </div>
-        </>
+                <div className="w-full flex justify-between text-xs sm:text-sm font-bold">
+                  <div className="h-full flex gap-2 sm:gap-3 items-center text-accent">
+                    <div className="bg-accent/20 text-accent flex items-center gap-2 font-bold text-[10px] sm:text-xs px-3.5 py-1 rounded-full">
+                      <HugeiconsIcon icon={TimeQuarterPassIcon} />
+                      {formatTimer(timer)}
+                    </div>
+                    <div
+                      onClick={() => {
+                        if (timer === 0) {
+                          resetTimer();
+                        }
+                      }}
+                      className={`underline underline-offset-4 text-xs ${timer !== 0 ? "text-foreground" : "text-accent cursor-pointer"}`}
+                    >
+                      ارسال مجدد کد
+                    </div>
+                  </div>
+                  <Button
+                    variant="secondary"
+                    className="bg-accent/20 text-accent font-bold text-[10px] sm:text-xs"
+                  >
+                    تغییر شماره همراه
+                    <HugeiconsIcon icon={ArrowMoveUpLeftIcon} />
+                  </Button>
+                </div>
+              </>
+            )}
+          </Formik>
+        </motion.div>
       )}
-    </Formik>
-  </motion.div>
-)}
       {step == 3 && (
         <motion.div
           className="w-full flex flex-col gap-3 sm:gap-5"
@@ -357,16 +355,16 @@ const RegisterForm = ({
                 ),
             })}
           >
-            <Form className=" w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
+            <Form className="w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
               <div className="flex flex-col gap-3 sm:gap-5">
                 <div className="w-full flex flex-col gap-1 sm:gap-1.5">
                   <label
                     htmlFor="phoneNumber"
-                    className="font-bold text-sm sm:text-[16px] mr-0.5"
+                    className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                   >
                     شماره همراه
                   </label>
-                  <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl ">
+                  <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                     <HugeiconsIcon
                       icon={SmartPhone02Icon}
                       className="w-4 sm:w-5 text-default-foreground"
@@ -375,24 +373,24 @@ const RegisterForm = ({
                       id="phoneNumber"
                       name="phoneNumber"
                       type="text"
-                      className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200"
+                      className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
                       placeholder="شماره همراه خود را وارد کنید"
                     />
                   </div>
                   <ErrorMessage
                     name="phoneNumber"
                     component="div"
-                    className=" text-xs text-red-600 "
+                    className="text-xs text-danger"
                   />
                 </div>
                 <div className="w-full flex flex-col gap-1 sm:gap-1.5">
                   <label
                     htmlFor="password"
-                    className="font-bold text-sm sm:text-[16px] mr-0.5"
+                    className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                   >
                     رمزعبور
                   </label>
-                  <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl ">
+                  <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                     <HugeiconsIcon
                       icon={LockPasswordIcon}
                       className="w-5 sm:w-6 text-default-foreground"
@@ -401,7 +399,7 @@ const RegisterForm = ({
                       id="password"
                       name="password"
                       type={isHidenPass ? "password" : "text"}
-                      className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200"
+                      className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
                       placeholder="رمزعبور خود را وارد کنید"
                     />
 
@@ -416,7 +414,7 @@ const RegisterForm = ({
                   <ErrorMessage
                     name="password"
                     component="div"
-                    className=" text-xs text-red-600 "
+                    className="text-xs text-danger"
                   />
                 </div>
               </div>

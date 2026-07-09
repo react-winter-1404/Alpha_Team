@@ -74,13 +74,13 @@ const MyReserve = () => {
   return (
     <>
       <div className="hidden md:block">
-        <h3 className="text-[32px] mt-5">رزرو من</h3>
+        <h3 className="text-[32px] text-foreground mt-5">رزرو من</h3>
 
         <div className="flex justify-start items-center gap-5 mt-7">
           <div>
             <div className="flex justify-start items-center gap-2">
-              <HugeiconsIcon icon={Search01Icon} className=" m-0 w-5 h-5 " />
-              <span className="text-[16px]">جستجوِی دوره</span>
+              <HugeiconsIcon icon={Search01Icon} className="m-0 w-5 h-5 text-foreground" />
+              <span className="text-[16px] text-foreground">جستجوِی دوره</span>
             </div>
 
             <div className="relative mt-3">
@@ -89,12 +89,12 @@ const MyReserve = () => {
                 placeholder="جستجو کنید ..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-[289px] h-[48px] bg-[#bebebe] dark:bg-segment text-[14px]  indent-3 rounded-[16px] focus:outline-none focus:ring-2 focus:ring-[#3772ff]"
+                className="w-[289px] h-[48px] bg-default text-[14px] text-foreground indent-3 rounded-[16px] focus:outline-none focus:ring-2 focus:ring-accent border border-border"
               />
-              <div className="absolute top-0 left-0 cursor-pointer w-[48px] h-[48px] rounded-[16px] bg-[#3772ff] flex justify-center items-center">
+              <div className="absolute top-0 left-0 cursor-pointer w-[48px] h-[48px] rounded-[16px] bg-accent flex justify-center items-center">
                 <HugeiconsIcon
                   icon={Search01Icon}
-                  className=" m-0 w-5 h-5 text-accent-foreground "
+                  className="m-0 w-5 h-5 text-accent-foreground"
                 />
               </div>
             </div>
@@ -102,11 +102,11 @@ const MyReserve = () => {
 
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 font-bold text-sm mb-1">
+              <div className="flex items-center gap-2 font-bold text-sm mb-1 text-foreground">
                 <span>
                   <HugeiconsIcon
                     icon={Calendar02Icon}
-                    className=" m-0 w-5 h-5 "
+                    className="m-0 w-5 h-5"
                   />
                 </span>
                 <span>تاریخ برگزاری</span>
@@ -115,7 +115,7 @@ const MyReserve = () => {
               {(dateRange.start || dateRange.end) && (
                 <button
                   onClick={clearDateFilter}
-                  className="w-7 h-7 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors"
+                  className="w-7 h-7 bg-danger hover:bg-danger/80 text-danger-foreground rounded-full flex items-center justify-center transition-colors"
                 >
                   <HugeiconsIcon icon={Cancel01Icon} className="w-4 h-4" />
                 </button>
@@ -133,29 +133,29 @@ const MyReserve = () => {
                 >
                   <DateField.Group
                     fullWidth
-                    className="bg-[#bebebe] dark:bg-segment rounded-2xl h-12 flex items-center justify-between px-3 border-none text-sm "
+                    className="bg-default rounded-2xl h-12 flex items-center justify-between px-3 border-none text-sm"
                   >
                     <DateField.Input
                       slot="start"
-                      className="outline-none bg-transparent"
+                      className="outline-none bg-transparent text-foreground"
                     >
                       {(segment) => <DateField.Segment segment={segment} />}
                     </DateField.Input>
-                    <DateRangePicker.RangeSeparator className="mx-2 text-gray-400" />
+                    <DateRangePicker.RangeSeparator className="mx-2 text-muted" />
                     <DateField.Input
                       slot="end"
-                      className="outline-none bg-transparent"
+                      className="outline-none bg-transparent text-foreground"
                     >
                       {(segment) => <DateField.Segment segment={segment} />}
                     </DateField.Input>
                     <DateField.Suffix className="mr-auto">
                       <DateRangePicker.Trigger>
-                        <DateRangePicker.TriggerIndicator className="text-gray-400" />
+                        <DateRangePicker.TriggerIndicator className="text-muted" />
                       </DateRangePicker.Trigger>
                     </DateField.Suffix>
                   </DateField.Group>
 
-                  <DateRangePicker.Popover className="bg-overlay rounded-2xl shadow-xl border p-2">
+                  <DateRangePicker.Popover className="bg-overlay rounded-2xl shadow-xl border border-border p-2">
                     <RangeCalendar aria-label="انتخاب تاریخ برگزاری">
                       <RangeCalendar.Header className="flex items-center justify-between pb-2">
                         <RangeCalendar.YearPickerTrigger className="flex items-center gap-1 font-medium text-muted">
@@ -165,18 +165,18 @@ const MyReserve = () => {
                         <div className="flex gap-1">
                           <RangeCalendar.NavButton
                             slot="previous"
-                            className="p-1 rounded-lg hover:bg-gray-100"
+                            className="p-1 rounded-lg hover:bg-default text-foreground"
                           />
                           <RangeCalendar.NavButton
                             slot="next"
-                            className="p-1 rounded-lg hover:bg-gray-100"
+                            className="p-1 rounded-lg hover:bg-default text-foreground"
                           />
                         </div>
                       </RangeCalendar.Header>
                       <RangeCalendar.Grid>
                         <RangeCalendar.GridHeader>
                           {(day) => (
-                            <RangeCalendar.HeaderCell className="text-gray-400 font-normal p-1">
+                            <RangeCalendar.HeaderCell className="text-muted font-normal p-1">
                               {day}
                             </RangeCalendar.HeaderCell>
                           )}
@@ -185,7 +185,7 @@ const MyReserve = () => {
                           {(date) => (
                             <RangeCalendar.Cell
                               date={date}
-                              className="p-1 text-center data-[selected=true]:bg-blue-600 data-[selected=true]:text-white rounded-lg"
+                              className="p-1 text-center data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground rounded-lg text-foreground"
                             />
                           )}
                         </RangeCalendar.GridBody>
@@ -198,14 +198,14 @@ const MyReserve = () => {
           </div>
 
           <div className="flex justify-center items-center gap-2 mt-8">
-            <label className="font-bold text-sm">فیلتر بر اساس :</label>
+            <label className="font-bold text-sm text-foreground">فیلتر بر اساس :</label>
             <div className="flex justify-center items-center gap-2">
               <div
                 onClick={() => toggleAcceptFilter("true")}
                 className={`h-[41px] w-[101px] cursor-pointer rounded-[64px] text-[16px] flex justify-center items-center transition-all ${
                   acceptFilter === "true"
-                    ? "bg-[#3772ff] text-[#fefdff]"
-                    : "  border border-gray-900"
+                    ? "bg-accent text-accent-foreground"
+                    : "border border-border text-foreground"
                 }`}
               >
                 تایید شده
@@ -215,8 +215,8 @@ const MyReserve = () => {
                 onClick={() => toggleAcceptFilter("false")}
                 className={`h-[41px] w-[101px] cursor-pointer rounded-[64px] text-[16px] flex justify-center items-center transition-all ${
                   acceptFilter === "false"
-                    ? "bg-[#3772ff] text-[#fefdff]"
-                    : "  border border-gray-900"
+                    ? "bg-accent text-accent-foreground"
+                    : "border border-border text-foreground"
                 }`}
               >
                 تایید نشده
@@ -227,22 +227,22 @@ const MyReserve = () => {
 
         <div className="mt-5 w-full h-[681px] rounded-[16px] bg-overlay p-3 flex flex-col justify-start items-center">
           <div className="w-full h-[48px] text-muted bg-default rounded-[16px] flex justify-between items-center p-3">
-            <span className="w-[13%] flex justify-center ">#</span>
-            <span className="w-[13%] flex justify-center ">نام دوره</span>
-            <span className="w-[15%] flex justify-center ">استاد دوره</span>
-            <span className="w-[15%] flex justify-center ">شروع دوره</span>
-            <span className="w-[15%] flex justify-center ">قیمت دوره</span>
-            <span className="w-[15%] flex justify-center ">وضعیت ثبت نام</span>
-            <span className="w-[10%] flex justify-center "></span>
+            <span className="w-[13%] flex justify-center">#</span>
+            <span className="w-[13%] flex justify-center">نام دوره</span>
+            <span className="w-[15%] flex justify-center">استاد دوره</span>
+            <span className="w-[15%] flex justify-center">شروع دوره</span>
+            <span className="w-[15%] flex justify-center">قیمت دوره</span>
+            <span className="w-[15%] flex justify-center">وضعیت ثبت نام</span>
+            <span className="w-[10%] flex justify-center"></span>
           </div>
 
-          <div className="border-black flex flex-col gap-4 w-full h-full py-4 px-3 overflow-auto">
+          <div className="flex flex-col gap-4 w-full h-full py-4 px-3 overflow-auto">
             {isLoading ? (
-              <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+              <div className="flex justify-center items-center h-full text-muted text-lg">
                 <Spinner />
               </div>
             ) : filteredCourses.length === 0 ? (
-              <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+              <div className="flex justify-center items-center h-full text-muted text-lg">
                 {searchTerm ||
                 dateRange.start ||
                 dateRange.end ||
@@ -260,21 +260,21 @@ const MyReserve = () => {
       </div>
 
       <div className="block md:hidden">
-        <div className="flex justify-between items-center ">
-          <h3 className="text-[32px] ">رزرو من</h3>
+        <div className="flex justify-between items-center">
+          <h3 className="text-[32px] text-foreground">رزرو من</h3>
 
-          <button className="w-[83px] h-[41px] rounded-[64px] bg-[#3772ff] text-[16px] text-[#fefdff]">
+          <button className="w-[83px] h-[41px] rounded-[64px] bg-accent text-[16px] text-accent-foreground">
             فیلتر
           </button>
         </div>
 
         <div className="mt-10 w-full p-3 rounded-[16px] bg-overlay flex flex-col items-center justify-center gap-2">
           {isLoading ? (
-            <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+            <div className="flex justify-center items-center h-full text-muted text-lg">
               <Spinner />
             </div>
           ) : filteredCourses.length === 0 ? (
-            <div className="flex justify-center items-center h-full text-[#787878] text-lg">
+            <div className="flex justify-center items-center h-full text-muted text-lg">
               {searchTerm || dateRange.start || dateRange.end
                 ? "دوره‌ای با شرایط انتخابی یافت نشد"
                 : "دوره‌ای در لیست علاقه‌مندی‌ها یافت نشد"}
@@ -283,24 +283,24 @@ const MyReserve = () => {
             myCoursesReserve.map((course) => (
               <div
                 key={course.id}
-                className="w-full h-[90px] p-3 flex  gap-3 items-center"
+                className="w-full h-[90px] p-3 flex gap-3 items-center"
               >
                 <img
                   src={course.imageAddress}
                   alt=""
-                  className="w-[27%] h-[82px] rounded-[8px] bg-[#d9d9d9]"
+                  className="w-[27%] h-[82px] rounded-[8px] bg-default"
                 />
-                <Link to={`/courses/${course.courseId}`} className=" w-[70%]   " >
-                  <span className="block text-[16px] truncate">
+                <Link to={`/courses/${course.courseId}`} className="w-[70%]">
+                  <span className="block text-[16px] text-foreground truncate">
                     {course.courseName}
                   </span>
-                  <span className="block text-[16px] truncate my-1 text-muted ">
+                  <span className="block text-[16px] truncate my-1 text-muted">
                     {course.teacher}
                   </span>
                   <Chip
                     variant="soft"
                     color={course.accept ? "success" : "danger"}
-                    className=" font-bold px-2 py-1 "
+                    className="font-bold px-2 py-1"
                   >
                     {course.accept ? "تایید شده" : "تایید نشده"}
                   </Chip>

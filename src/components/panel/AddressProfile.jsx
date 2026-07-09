@@ -97,10 +97,10 @@ const AddressProfile = () => {
         </>
       ) : (
         <>
-          <h2 className="text-[16px] text-[#3772ff] indent-8 font-medium">
+          <h2 className="text-[16px] text-accent indent-8 font-medium">
             داخل نقشه موقعیت مکانی محل سکونت خود را انتخاب کنید
           </h2>
-          <div className="w-full h-[380px] rounded-[16px] overflow-hidden border border-gray-300 shadow-md">
+          <div className="w-full h-[380px] rounded-[16px] overflow-hidden border border-border shadow-md">
             <MapComponent position={position} setPosition={setPosition} />
           </div>
           <Button onClick={onSubmit} variant="primary" className="font-bold h-11 my-0">

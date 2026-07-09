@@ -145,19 +145,19 @@ const ListingPage = () => {
 
   return (
     <div
-      className="w-full min-h-screen flex flex-col justify-between"
+      className="w-full min-h-screen flex flex-col justify-between "
       style={{ direction: "rtl" }}
     >
       <NavbarHeader />
 
       <motion.div variants={pageVariants} initial="initial" animate="animate">
-        <div className="max-w-[1380px] w-full min-h-[500px] pb-[60px] rounded-[24px] md:rounded-[40px] dark:bg-surface-secondary border-4 overflow-hidden mx-auto my-6 md:my-10 p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 relative">
+        <div className="max-w-[1380px] w-full min-h-[500px] pb-[60px] rounded-[24px] md:rounded-[40px] bg-overlay border-4 border-border overflow-hidden mx-auto my-6 md:my-10 p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 relative">
           <div className="col-span-1 lg:col-span-9 flex flex-col justify-between order-last lg:order-first">
             <div className="flex flex-col gap-4">
               <div className="flex flex-row justify-end sm:justify-between items-center gap-4 w-full">
                 <button
                   onClick={() => setIsFilterOpen(true)}
-                  className="lg:hidden flex items-center gap-2 bg-blue-600 text-white px-4 h-10 rounded-xl font-bold text-sm shadow-sm cursor-pointer transition-all active:scale-[0.98]"
+                  className="lg:hidden flex items-center gap-2 bg-accent text-accent-foreground px-4 h-10 rounded-xl font-bold text-sm shadow-sm cursor-pointer transition-all active:scale-[0.98]"
                 >
                   <span>ترتیب و فیلتر</span>
                   <HugeiconsIcon icon={FilterIcon} className="w-4 h-4" />
@@ -171,10 +171,10 @@ const ListingPage = () => {
                   />
                 </div>
 
-                <div className="hidden sm:flex items-center gap-2 border-r border-gray-500 pr-4 mr-4">
+                <div className="hidden sm:flex items-center gap-2 border-r border-separator pr-4 mr-4">
                   <button
                     onClick={() => setViewMode("grid")}
-                    className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === "grid" ? "bg-accent shadow-sm text-accent-foreground " : "opacity-50"}`}
+                    className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === "grid" ? "bg-accent shadow-sm text-accent-foreground" : "opacity-50 text-foreground"}`}
                   >
                     <HugeiconsIcon
                       icon={GridViewIcon}
@@ -183,7 +183,7 @@ const ListingPage = () => {
                   </button>
                   <button
                     onClick={() => setViewMode("row")}
-                    className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === "row" ? "bg-accent shadow-sm text-accent-foreground " : "opacity-50"}`}
+                    className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === "row" ? "bg-accent shadow-sm text-accent-foreground" : "opacity-50 text-foreground"}`}
                   >
                     <HugeiconsIcon
                       icon={ViewAgendaIcon}
@@ -199,7 +199,7 @@ const ListingPage = () => {
                     <Spinner size="lg" color="primary" />
                   </div>
                 ) : courses.length === 0 ? (
-                  <div className="w-full text-center py-20 text-gray-400 font-medium">
+                  <div className="w-full text-center py-20 text-muted font-medium">
                     دوره‌ای با فیلترهای انتخاب شده یافت نشد.
                   </div>
                 ) : (

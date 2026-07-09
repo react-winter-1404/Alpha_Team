@@ -7,12 +7,10 @@ function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
     const selectedId = Array.from(keys)[0];
     
     if (!selectedId) {
-     
       onSortChange(null, null);
       return;
     }
 
-  
     switch (selectedId) {
       case "price-desc":
         onSortChange("cost", "DESC"); 
@@ -30,8 +28,6 @@ function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
         onSortChange(null, null);
     }
   };
-  const isSelected = (id) => activeKey.includes(id);
-
 
   let activeKey = [];
   if (currentSortingCol === "cost" && currentSortType === "DESC") activeKey = ["price-desc"];
@@ -39,9 +35,11 @@ function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
   else if (currentSortingCol === "courseRate") activeKey = ["rating"];
   else if (currentSortingCol === "capacity") activeKey = ["popularity"];
 
+  const isSelected = (id) => activeKey.includes(id);
+
   return (
-    <div className="flex items-center gap-3 bg-default dark:bg-surface px-6 py-3 rounded-[20px] shadow-sm mb-6 w-full" >
-      <span className="text- font-bold text-sm shrink-0">مرتب‌سازی بر اساس:</span>
+    <div className="flex items-center gap-3 bg-default px-6 py-3 rounded-[20px] shadow-sm mb-6 w-full">
+      <span className="font-bold text-sm shrink-0 text-foreground">مرتب‌سازی بر اساس:</span>
       
       <TagGroup 
         aria-label="سورت کردن دوره‌ها" 
@@ -50,16 +48,16 @@ function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
         onSelectionChange={handleSelectionChange}
       >
         <TagGroup.List className="flex gap-2">
-          <Tag id="price-desc" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl ${isSelected("price-desc") ? ' bg-accent text-accent-foreground font-bold ':''} `}>
+          <Tag id="price-desc" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl  ${isSelected("price-desc") ? 'bg-accent text-accent-foreground font-bold' : ''}`}>
             گران‌ترین‌ها
           </Tag>
-          <Tag id="price-asc" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl ${isSelected("price-asc") ? ' bg-accent text-accent-foreground font-bold ':''} `}>
+          <Tag id="price-asc" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl  ${isSelected("price-asc") ? 'bg-accent text-accent-foreground font-bold' : ''}`}>
             ارزان‌ترین‌ها
           </Tag>
-          <Tag id="rating" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl ${isSelected("rating") ? ' bg-accent text-accent-foreground font-bold ':''} `}>
+          <Tag id="rating" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl  ${isSelected("rating") ? 'bg-accent text-accent-foreground font-bold' : ''}`}>
             بالاترین امتیاز
           </Tag>
-          <Tag id="popularity" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl ${isSelected("popularity") ? ' bg-accent text-accent-foreground font-bold ':''} `}>
+          <Tag id="popularity" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl  ${isSelected("popularity") ? 'bg-accent text-accent-foreground font-bold' : ''}`}>
             محبوب‌ترین‌ها
           </Tag>
         </TagGroup.List>

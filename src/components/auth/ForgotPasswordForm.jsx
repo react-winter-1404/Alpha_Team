@@ -15,11 +15,7 @@ import { Link } from "react-router-dom";
 const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
   const [isHidenPass, setIsHidenPass] = useState(true);
   const [isHidenAgainPass, setIsHidenAgainPass] = useState(true);
-    const [gmailInpValue, setGmailInpValue] = useState("");
-
-
-
-
+  const [gmailInpValue, setGmailInpValue] = useState("");
 
   return (
     <>
@@ -31,10 +27,10 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
           exit={{ opacity: 0, scale: 0.95, y: -20 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          <div className=" w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
+          <div className="w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
             <div className="w-full flex flex-col gap-4 sm:gap-6">
-              <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold">
-                <div className="">فراموشی رمزعبور؟</div>
+              <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold text-foreground">
+                <div>فراموشی رمزعبور؟</div>
                 <div className="text-lg sm:text-[25px]">🔐</div>
               </div>
 
@@ -51,7 +47,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                 newPassword: "",
                 newPassword1: "",
                 resetValue: "",
-                baseUrl:  `${window.location.origin}/resetpassword`,
+                baseUrl: `${window.location.origin}/resetpassword`,
               }}
               validationSchema={Yup.object({
                 email: Yup.string()
@@ -69,11 +65,11 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
               }}
             >
               {() => (
-                <Form className=" w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
+                <Form className="w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
                   <div className="flex flex-col gap-3 sm:gap-5">
                     <label
                       htmlFor="email"
-                      className="font-bold text-sm sm:text-[16px] mr-0.5"
+                      className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                     >
                       ایمیل
                     </label>
@@ -86,14 +82,14 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                         id="email"
                         name="email"
                         type="text"
-                        className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200"
+                        className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
                         placeholder="ایمیل خود را وارد کنید"
                       />
                     </div>
                     <ErrorMessage
                       name="email"
                       component="div"
-                      className="text-xs text-red-600"
+                      className="text-xs text-danger"
                     />
                   </div>
 
@@ -108,9 +104,9 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
               )}
             </Formik>
 
-            <div className="w-full flex justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold">
-              <div className="">رمزعبور خود فراموش نکردید؟</div>
-              <Link to={"/Auth/Login"} className="underline underline-offset-4">
+            <div className="w-full flex justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold text-foreground">
+              <div>رمزعبور خود فراموش نکردید؟</div>
+              <Link to={"/Auth/Login"} className="underline underline-offset-4 text-accent">
                 ورود به حساب کاربری
               </Link>
             </div>
@@ -125,10 +121,10 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
           exit={{ opacity: 0, scale: 0.95, y: -20 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
-          <div className=" w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
+          <div className="w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
             <div className="w-full flex flex-col gap-4 sm:gap-6">
-              <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold">
-                <div className="">رمزعبور جدید</div>
+              <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold text-foreground">
+                <div>رمزعبور جدید</div>
                 <div className="text-lg sm:text-[25px]">🔓</div>
               </div>
 
@@ -144,7 +140,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
               }}
               initialValues={{
                 email: "",
-                gmail:gmailInpValue,
+                gmail: gmailInpValue,
                 newPassword: "",
                 newPassword1: "",
                 resetValue: "",
@@ -175,22 +171,22 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                     "رمز عبور و تکرار آن مطابقت ندارند",
                   ),
                 resetValue: Yup.string()
-                .required("لطفا کد تایید را وارد کنید")
-                .length(6, "کد تایید باید ۶ رقمی باشد")
-                .matches(/^[0-9]{6}$/, "کد تایید فقط باید شامل اعداد باشد"),
+                  .required("لطفا کد تایید را وارد کنید")
+                  .length(6, "کد تایید باید ۶ رقمی باشد")
+                  .matches(/^[0-9]{6}$/, "کد تایید فقط باید شامل اعداد باشد"),
               })}
             >
               {({ values, errors, touched, setFieldValue }) => (
-                <Form className=" w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
+                <Form className="w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
                   <div className="flex flex-col gap-3 sm:gap-5">
                     <div className="w-full flex flex-col gap-1 sm:gap-1.5">
                       <label
                         htmlFor="newPassword1"
-                        className="font-bold text-sm sm:text-[16px] mr-0.5"
+                        className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                       >
                         رمزعبور جدید
                       </label>
-                      <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl ">
+                      <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                         <HugeiconsIcon
                           icon={LockPasswordIcon}
                           className="w-5 sm:w-6 text-default-foreground"
@@ -199,7 +195,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                           id="newPassword1"
                           name="newPassword1"
                           type={isHidenPass ? "password" : "text"}
-                          className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200"
+                          className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
                           placeholder="رمزعبور جدید خود را وارد کنید"
                         />
 
@@ -214,17 +210,17 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                       <ErrorMessage
                         name="newPassword1"
                         component="div"
-                        className=" text-xs text-red-600 "
+                        className="text-xs text-danger"
                       />
                     </div>
                     <div className="w-full flex flex-col gap-1 sm:gap-1.5">
                       <label
                         htmlFor="newPassword"
-                        className="font-bold text-sm sm:text-[16px] mr-0.5"
+                        className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                       >
                         تکرار رمزعبور
                       </label>
-                      <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl ">
+                      <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                         <HugeiconsIcon
                           icon={LockPasswordIcon}
                           className="w-5 sm:w-6 text-default-foreground"
@@ -233,7 +229,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                           id="newPassword"
                           name="newPassword"
                           type={isHidenAgainPass ? "password" : "text"}
-                          className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200"
+                          className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
                           placeholder="رمزعبور جدید خود را دوباره وارد کنید"
                         />
 
@@ -248,11 +244,11 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                       <ErrorMessage
                         name="newPassword"
                         component="div"
-                        className=" text-xs text-red-600 "
+                        className="text-xs text-danger"
                       />
                     </div>
                     <div className="flex flex-col gap-3 sm:gap-5">
-                      <label className="font-bold text-lg">کد تایید</label>
+                      <label className="font-bold text-lg text-foreground">کد تایید</label>
 
                       <InputOTP
                         className="flex-row-reverse justify-center"
@@ -299,7 +295,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                       </InputOTP>
 
                       {errors.resetValue && touched.resetValue && (
-                        <span className="text-xs text-red-600">
+                        <span className="text-xs text-danger">
                           {errors.resetValue}
                         </span>
                       )}

@@ -52,7 +52,6 @@ const CourseComments = ({ courseId, courseTitle }) => {
   useEffect(() => {
     fetchcourseComments();
   }, []);
-  //   console.log(courseComments);
 
   const fetchAddCourseComment = async (values) => {
     try {
@@ -114,20 +113,20 @@ const CourseComments = ({ courseId, courseTitle }) => {
   }, [height]);
 
   return (
-    <div className=" w-full flex flex-col gap-7 lg:gap-12.5 mt-10 lg:mt-20 relative ">
-      <div className=" text-3xl lg:text-5xl font-bold ">نظرات</div>
+    <div className="w-full flex flex-col gap-7 lg:gap-12.5 mt-10 lg:mt-20 relative">
+      <div className="text-3xl lg:text-5xl font-bold text-foreground">نظرات</div>
       <div
         ref={ref}
-        className=" border-4 w-full flex flex-col gap-4 lg:gap-6 p-3 lg:p-5 rounded-3xl  "
+        className="border-4 border-border w-full flex flex-col gap-4 lg:gap-6 p-3 lg:p-5 rounded-3xl"
       >
         <AlertDialog
           isOpen={isShowCommentModal}
           onOpenChange={setIsShowCommentModal}
         >
-          <Button className=" w-full h-10 flex gap-2.5 lg:gap-5 items-center rounded-full  lg:text-xl pb-2 ">
+          <Button className="w-full h-10 flex gap-2.5 lg:gap-5 items-center rounded-full lg:text-xl pb-2 bg-accent text-accent-foreground">
             <HugeiconsIcon
               icon={Comment01Icon}
-              className=" h-5 w-5 lg:h-6 lg:w-6 mt-2 lg:mt-3  "
+              className="h-5 w-5 lg:h-6 lg:w-6 mt-2 lg:mt-3"
             />
             نظر شما
           </Button>
@@ -135,23 +134,21 @@ const CourseComments = ({ courseId, courseTitle }) => {
             <AlertDialog.Container size="xl" className="lg:max-w-240">
               <AlertDialog.Dialog>
                 <AlertDialog.Header>
-                  <AlertDialog.Heading className=" flex justify-between mb-5 ">
-                    <div className=" flex items-center gap-2 font-bold ">
-                      <div className=" text-xl lg:text-2xl">نظرات</div>
-                      <div className=" lg:text-xl text-muted ">
+                  <AlertDialog.Heading className="flex justify-between mb-5">
+                    <div className="flex items-center gap-2 font-bold">
+                      <div className="text-xl lg:text-2xl text-foreground">نظرات</div>
+                      <div className="lg:text-xl text-muted">
                         ({courseTitle})
                       </div>
                     </div>
                     <Button
                       slot="close"
                       variant="outline"
-                      className={
-                        " h-8 w-19 lg:h-10 lg:w-22 border-danger text-danger lg:text-xl pb-2 hover:bg-danger-soft "
-                      }
+                      className="h-8 w-19 lg:h-10 lg:w-22 border-danger text-danger lg:text-xl pb-2 hover:bg-danger-soft"
                     >
                       <HugeiconsIcon
                         icon={Cancel01Icon}
-                        className="w-5 h-5 lg:w-6 lg:h-6 mt-2 "
+                        className="w-5 h-5 lg:w-6 lg:h-6 mt-2"
                       />
                       بستن
                     </Button>
@@ -160,9 +157,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                 <AlertDialog.Body>
                   {courseComments.length >= 1 ? (
                     <>
-                      <div
-                        className={` flex flex-col gap-5.5 h-auto w-full  text-foreground `}
-                      >
+                      <div className="flex flex-col gap-5.5 h-auto w-full text-foreground">
                         {courseComments.map((comment) => {
                           return (
                             <Comment
@@ -183,13 +178,13 @@ const CourseComments = ({ courseId, courseTitle }) => {
                       </div>
                     </>
                   ) : (
-                    <div className=" h-40 w-full flex justify-center items-center text-muted text-sm md:text-[16px] text-center  ">
+                    <div className="h-40 w-full flex justify-center items-center text-muted text-sm md:text-[16px] text-center">
                       هنوز نظری ثبت نشده است. اولین نفری باشید که نظر می‌دهید!
                     </div>
                   )}
-                  <div className=" h-22 lg:h-26"></div>
+                  <div className="h-22 lg:h-26"></div>
                 </AlertDialog.Body>
-                <AlertDialog.Footer className=" bg-segment z-10 border-2 border-accent flex justify-between gap-3 px-2  absolute bottom-8 left-10 right-6 rounded-3xl h-18 lg:h-22 duration-300 ">
+                <AlertDialog.Footer className="bg-segment z-10 border-2 border-accent flex justify-between gap-3 px-2 absolute bottom-8 left-10 right-6 rounded-3xl h-18 lg:h-22 duration-300">
                   <Formik
                     initialValues={{ Title: "", Describe: "" }}
                     onSubmit={(values, { resetForm }) => {
@@ -209,20 +204,20 @@ const CourseComments = ({ courseId, courseTitle }) => {
                       resetForm();
                     }}
                     validationSchema={validitionSchema}
-                    className=" flex justify-between w-full h-full"
+                    className="flex justify-between w-full h-full"
                   >
                     {({ setFieldValue }) => (
-                      <Form className=" flex justify-between w-full h-full items-center gap-3  ">
-                        <div className=" flex gap-2  ">
+                      <Form className="flex justify-between w-full h-full items-center gap-3">
+                        <div className="flex gap-2">
                           <Button
                             isIconOnly
                             variant="primary"
-                            className=" w-10 h-10 lg:h-12 lg:w-12 rounded-full p-0 text-2xl  "
+                            className="w-10 h-10 lg:h-12 lg:w-12 rounded-full p-0 text-2xl"
                             type="submit"
                           >
                             <HugeiconsIcon
                               icon={SentIcon}
-                              className=" h-5 w-5 lg:h-6 lg:w-6 "
+                              className="h-5 w-5 lg:h-6 lg:w-6"
                             />
                           </Button>
                           <Button
@@ -231,11 +226,11 @@ const CourseComments = ({ courseId, courseTitle }) => {
                               setShowPicker(!showPicker);
                             }}
                             variant="outline"
-                            className=" w-10 h-10 lg:h-12 lg:w-12 rounded-full p-0 text-2xl text-accent "
+                            className="w-10 h-10 lg:h-12 lg:w-12 rounded-full p-0 text-2xl text-accent"
                           >
                             <HugeiconsIcon
                               icon={SmileIcon}
-                              className=" h-5 w-5 lg:h-6 lg:w-6 "
+                              className="h-5 w-5 lg:h-6 lg:w-6"
                             />
                           </Button>
                           {showPicker && (
@@ -245,14 +240,14 @@ const CourseComments = ({ courseId, courseTitle }) => {
                                 if (focusCount == 0) {
                                   setFieldValue(
                                     "Title",
-                                    (prevValue) => prevValue + emoji.emoji,
+                                    (prevValue) => prevValue + emoji.emoji
                                   );
                                 } else if (focusCount == 1) {
-                                  (setFieldValue(
+                                  setFieldValue(
                                     "Describe",
-                                    (prevValue) => prevValue + emoji.emoji,
-                                  ),
-                                    setShowPicker(false));
+                                    (prevValue) => prevValue + emoji.emoji
+                                  );
+                                  setShowPicker(false);
                                 }
                               }}
                               width={320}
@@ -272,7 +267,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                           )}
                         </div>
 
-                        <div className=" relative flex flex-col w-full mr-1 ml-2 h-full text-sm font-semibold ">
+                        <div className="relative flex flex-col w-full mr-1 ml-2 h-full text-sm font-semibold">
                           <Field
                             type="text"
                             name="Title"
@@ -281,15 +276,15 @@ const CourseComments = ({ courseId, courseTitle }) => {
                               setFocusCount(0);
                             }}
                             placeholder="عنوان نظر خود را بنویسید"
-                            className="text-xs lg:text-[16px] h-full outline-0 "
+                            className="text-xs lg:text-[16px] h-full outline-0 bg-transparent text-foreground"
                           />
                           <ErrorMessage
                             name="Title"
                             id="Title"
                             component={"span"}
-                            className=" absolute  h-[40%] top-1 text-danger left-0 flex flex-row-reverse items-center text-[10px] lg:text-sm "
+                            className="absolute h-[40%] top-1 text-danger left-0 flex flex-row-reverse items-center text-[10px] lg:text-sm"
                           />
-                          <div className=" border w-full "></div>
+                          <div className="border border-separator w-full"></div>
                           <Field
                             type="text"
                             name="Describe"
@@ -298,13 +293,13 @@ const CourseComments = ({ courseId, courseTitle }) => {
                               setFocusCount(1);
                             }}
                             placeholder="متن نظر خود را بنویسید"
-                            className="text-xs lg:text-[16px] h-full outline-0 "
+                            className="text-xs lg:text-[16px] h-full outline-0 bg-transparent text-foreground"
                           />
                           <ErrorMessage
                             name="Describe"
                             id="Describe"
                             component={"span"}
-                            className=" absolute  h-[40%] bottom-1 text-danger left-0 flex flex-row-reverse items-center text-[10px] lg:text-sm "
+                            className="absolute h-[40%] bottom-1 text-danger left-0 flex flex-row-reverse items-center text-[10px] lg:text-sm"
                           />
                         </div>
                       </Form>
@@ -312,12 +307,12 @@ const CourseComments = ({ courseId, courseTitle }) => {
                   </Formik>
                 </AlertDialog.Footer>
                 <div
-                  className={`absolute ${isAddReplyComment ? " bottom-18 lg:bottom-20" : "bottom-8"} left-10 right-6 rounded-3xl h-18 lg:h-22 pt-1 lg:pt-2  px-6  bg-accent z-9 duration-300 `}
+                  className={`absolute ${isAddReplyComment ? "bottom-18 lg:bottom-20" : "bottom-8"} left-10 right-6 rounded-3xl h-18 lg:h-22 pt-1 lg:pt-2 px-6 bg-accent z-9 duration-300`}
                 >
-                  <div className=" flex justify-between text-[16px] lg:text-xl text-accent-foreground gap-3  ">
-                    <div className=" flex gap-3 pt-1 lg:pt-0 ">
+                  <div className="flex justify-between text-[16px] lg:text-xl text-accent-foreground gap-3">
+                    <div className="flex gap-3 pt-1 lg:pt-0">
                       جواب به نظر :
-                      <div className=" flex-1 min-w-0 lg:w-80 w-50 truncate ">
+                      <div className="flex-1 min-w-0 lg:w-80 w-50 truncate">
                         {commentTitleForReply}
                       </div>
                     </div>
@@ -327,18 +322,18 @@ const CourseComments = ({ courseId, courseTitle }) => {
                         setCommentTitleForReply("");
                       }}
                       variant="primary"
-                      className=" flex text-[16px] lg:text-xl text-accent-foreground items-center pb-2 "
+                      className="flex text-[16px] lg:text-xl text-accent-foreground items-center pb-2"
                     >
                       <HugeiconsIcon
                         icon={Cancel01Icon}
-                        className="w-4 h-4 lg:w-6 lg:h-6 mt-3 "
+                        className="w-4 h-4 lg:w-6 lg:h-6 mt-3"
                       />
                       بستن
                     </Button>
                   </div>
                 </div>
                 <div
-                  className={`absolute bottom-0 left-10 right-6 ${isAddReplyComment ? "h-40 lg:h-44" : "h-28 lg:h-32"}   backdrop-blur-[2px] rounded-2xl duration-300 `}
+                  className={`absolute bottom-0 left-10 right-6 ${isAddReplyComment ? "h-40 lg:h-44" : "h-28 lg:h-32"} backdrop-blur-[2px] rounded-2xl duration-300`}
                 ></div>
               </AlertDialog.Dialog>
             </AlertDialog.Container>
@@ -346,7 +341,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
         </AlertDialog>
         {courseComments.length >= 1 ? (
           <div
-            className={`${!isShowAllComments && " max-h-200 "} flex flex-col gap-5.5 h-auto w-full overflow-hidden `}
+            className={`${!isShowAllComments && "max-h-200"} flex flex-col gap-5.5 h-auto w-full overflow-hidden`}
           >
             {courseComments.map((comment) => {
               return (
@@ -367,7 +362,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
             })}
           </div>
         ) : (
-          <div className=" h-40 w-full flex justify-center items-center text-muted text-sm md:text-[16px] text-center ">
+          <div className="h-40 w-full flex justify-center items-center text-muted text-sm md:text-[16px] text-center">
             هنوز نظری ثبت نشده است. اولین نفری باشید که نظر می‌دهید!
           </div>
         )}
@@ -378,13 +373,13 @@ const CourseComments = ({ courseId, courseTitle }) => {
                 setIsShowAllComments(!isShowAllComments);
               }}
               variant="secondary"
-              className={`${!isShowAllComments ? " absolute z-10 bottom-10 w-[93%] " : "w-full"}   h-10 flex gap-5 items-center rounded-full text-foreground  text-xl pb-2 `}
+              className={`${!isShowAllComments ? "absolute z-10 bottom-10 w-[93%]" : "w-full"} h-10 flex gap-5 items-center rounded-full text-foreground text-xl pb-2`}
             >
               {!isShowAllComments ? (
                 <>
                   <HugeiconsIcon
                     icon={Comment01Icon}
-                    className=" h-6 w-6 mt-3  "
+                    className="h-6 w-6 mt-3"
                   />
                   نمایش بیشتر
                 </>
@@ -392,14 +387,14 @@ const CourseComments = ({ courseId, courseTitle }) => {
                 <>
                   <HugeiconsIcon
                     icon={Comment01Icon}
-                    className=" h-6 w-6 mt-3  "
+                    className="h-6 w-6 mt-3"
                   />
                   نمایش کمتر
                 </>
               )}
             </Button>
             <div
-              className={`${isShowAllComments && " hidden "} absolute bottom-1 left-1 right-1 h-45 rounded-b-3xl bg-linear-to-t from-background to-transparent pointer-events-none `}
+              className={`${isShowAllComments && "hidden"} absolute bottom-1 left-1 right-1 h-45 rounded-b-3xl bg-linear-to-t from-background to-transparent pointer-events-none`}
             ></div>
           </>
         )}

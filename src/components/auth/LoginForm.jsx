@@ -53,10 +53,10 @@ const LoginForm = ({ submitFunction }) => {
   });
 
   return (
-    <div className=" w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
+    <div className="w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
       <div className="w-full flex flex-col gap-4 sm:gap-6">
-        <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold">
-          <div className="">خوش برگشتی! </div>
+        <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold text-foreground">
+          <div>خوش برگشتی!</div>
           <div className="text-lg sm:text-[25px]">👋</div>
         </div>
         <div className="font-light text-sm sm:text-base text-muted">
@@ -70,16 +70,16 @@ const LoginForm = ({ submitFunction }) => {
         initialValues={{ phoneOrGmail: "", password: "", rememberMe: false }}
         validationSchema={validationSchema}
       >
-        <Form className=" w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
+        <Form className="w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
           <div className="flex flex-col gap-3 sm:gap-5">
             <div className="w-full flex flex-col gap-1 sm:gap-1.5">
               <label
                 htmlFor="phoneOrGmail"
-                className="font-bold text-sm sm:text-[16px] mr-0.5"
+                className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
               >
                 شماره یا ایمیل
               </label>
-              <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl ">
+              <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                 <HugeiconsIcon
                   icon={Mail02Icon}
                   className="w-5 sm:w-6 text-default-foreground"
@@ -88,24 +88,24 @@ const LoginForm = ({ submitFunction }) => {
                   id="phoneOrGmail"
                   name="phoneOrGmail"
                   type="text"
-                  className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200"
+                  className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
                   placeholder="شماره همراه یا ایمیل خود را وارد کنید"
                 />
               </div>
               <ErrorMessage
                 name="phoneOrGmail"
                 component="div"
-                className=" text-xs text-red-600 "
+                className="text-xs text-danger"
               />
             </div>
             <div className="w-full flex flex-col gap-1 sm:gap-1.5">
               <label
                 htmlFor="password"
-                className="font-bold text-sm sm:text-[16px] mr-0.5"
+                className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
               >
                 رمزعبور
               </label>
-              <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl ">
+              <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                 <HugeiconsIcon
                   icon={LockPasswordIcon}
                   className="w-5 sm:w-6 text-default-foreground"
@@ -114,7 +114,7 @@ const LoginForm = ({ submitFunction }) => {
                   id="password"
                   name="password"
                   type={isHidenPass ? "password" : "text"}
-                  className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200"
+                  className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
                   placeholder="رمزعبور خود را وارد کنید"
                 />
 
@@ -129,36 +129,34 @@ const LoginForm = ({ submitFunction }) => {
               <ErrorMessage
                 name="password"
                 component="div"
-                className=" text-xs text-red-600 "
+                className="text-xs text-danger"
               />
             </div>
           </div>
 
-          <div className="flex justify-between  items-center gap-2 sm:gap-0">
-            <div className=" flex  mr-0.5 gap-1 sm:gap-1.5">
+          <div className="flex justify-between items-center gap-2 sm:gap-0">
+            <div className="flex mr-0.5 gap-1 sm:gap-1.5">
               <Field
                 id="rememberMe"
                 name="rememberMe"
                 type="checkBox"
-                className=" accent-accent rounded-lg w-4 sm:w-4.75 h-4 sm:h-4.75"
+                className="accent-accent rounded-lg w-4 sm:w-4.75 h-4 sm:h-4.75"
               />
               <label
                 htmlFor="rememberMe"
-                className="font-bold text-xs sm:text-[13px]"
+                className="font-bold text-xs sm:text-[13px] text-foreground"
               >
                 مرا به خاطر بسپار
               </label>
             </div>
             <Button
               variant="secondary"
-              className="bg-[rgba(55,114,255,0.231)] text-accent font-bold text-[10px] sm:text-xs"
+              className="bg-accent/20 text-accent font-bold text-[10px] sm:text-xs"
             >
               <HugeiconsIcon icon={SecurityPasswordIcon} />
-              <Link to={'/Auth/ForgotPassword'} > فراموشی رمز عبور</Link>
-             
+              <Link to={'/Auth/ForgotPassword'}>فراموشی رمز عبور</Link>
             </Button>
           </div>
-
 
           <Button
             variant="primary"
@@ -170,9 +168,9 @@ const LoginForm = ({ submitFunction }) => {
         </Form>
       </Formik>
 
-      <div className="w-full flex justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold">
-        <div className="">حساب کاربری ندارید؟</div>
-        <Link to={'/Auth/Register'} className="underline underline-offset-4">ایجاد حساب کاربری</Link>
+      <div className="w-full flex justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold text-foreground">
+        <div>حساب کاربری ندارید؟</div>
+        <Link to={'/Auth/Register'} className="underline underline-offset-4 text-accent">ایجاد حساب کاربری</Link>
       </div>
     </div>
   );

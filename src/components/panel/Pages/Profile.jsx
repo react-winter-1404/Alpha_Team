@@ -5,8 +5,7 @@ import AddressProfile from "../AddressProfile";
 import LinksProfile from "../LinksProfile";
 import { getUserProfile } from "../../../core/services/userPanel/get";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { SmartPhone01Icon,AccountSetting03Icon,Mail02Icon,PencilEdit01Icon,MoreHorizontalCircle01Icon,Notification01Icon } from "@hugeicons/core-free-icons";
-
+import { SmartPhone01Icon, AccountSetting03Icon, Mail02Icon, PencilEdit01Icon } from "@hugeicons/core-free-icons";
 
 const ProfilePanel = ({ profilePic, setProfilePic }) => {
   const [personal, setPersonal] = useState(true);
@@ -32,6 +31,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchUserProfile();
     setUserRoles(JSON.parse(localStorage.getItem("roles")));
@@ -40,26 +40,25 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
   return (
     <div>
       <div className="w-full bg-overlay mt-[20px] rounded-t-[16px]">
-        <div className="relative w-full h-[113px] rounded-[16px] bg-[#3772ff]">
-          <div className="w-[128px] h-[128px] rounded-full bg-[#427efc] border-overlay border-[5px] absolute top-[60px] right-[35px]">
+        <div className="relative w-full h-[113px] rounded-[16px] bg-accent">
+          <div className="w-[128px] h-[128px] rounded-full bg-accent border-overlay border-[5px] absolute top-[60px] right-[35px]">
             <img
               src={profilePic || userProfile.currentPictureAddress}
               alt=""
               className="m-auto rounded-full w-full h-full object-cover"
             />
-            <div className="w-[24px] h-[24px] bg-[#3772ff] border-overbg-overlay border[3px] rounded-full absolute top-[85px] right-1">
-            </div>
+            <div className="w-[24px] h-[24px] bg-accent border-overlay border-[3px] rounded-full absolute top-[85px] right-1"></div>
           </div>
         </div>
 
-        <div className="p-[30px] w-full  flex flex-col md:flex-row justify-start items-start md:gap-80">
-          <div className=" flex flex-col justify-start items-start">
+        <div className="p-[30px] w-full flex flex-col md:flex-row justify-start items-start md:gap-80">
+          <div className="flex flex-col justify-start items-start">
             <div className="w-full flex justify-start items-center gap-3 mt-10">
-              <h3 className="text-[24px] md:text-[36px] ">
+              <h3 className="text-[24px] md:text-[36px] text-foreground">
                 {userProfile.fName + " " + userProfile.lName}
               </h3>
 
-              <span className="text-[14px] md:text-[16px] text-[#787878] mt-4 w-[100px]">
+              <span className="text-[14px] md:text-[16px] text-muted mt-4 w-[100px]">
                 (
                 {userRoles &&
                   userRoles.map((role, index) => (
@@ -74,13 +73,13 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
 
             <div className="flex flex-col md:flex-row justify-start items-start md:items-center gap-2 mt-4">
               <div className="flex justify-center items-center gap-2">
-                <HugeiconsIcon icon={SmartPhone01Icon} className=" mr-3 w-6 h-6 text-muted " />
-                <span className="text-[16px]">{userProfile.phoneNumber}</span>
+                <HugeiconsIcon icon={SmartPhone01Icon} className="mr-3 w-6 h-6 text-muted" />
+                <span className="text-[16px] text-foreground">{userProfile.phoneNumber}</span>
               </div>
 
               <div className="flex justify-center items-center gap-2">
-                <HugeiconsIcon icon={AccountSetting03Icon} className=" mr-3 w-6 h-6 text-muted " />
-                <span className="text-[16px]">
+                <HugeiconsIcon icon={AccountSetting03Icon} className="mr-3 w-6 h-6 text-muted" />
+                <span className="text-[16px] text-foreground">
                   {birthDay &&
                     new Date(birthDay).toLocaleDateString("fa-IR", {
                       day: "numeric",
@@ -91,24 +90,24 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
               </div>
 
               <div className="flex justify-center items-center gap-2">
-                <HugeiconsIcon icon={Mail02Icon} className=" mr-3 w-6 h-6 text-muted " />
-                <span className="text-[16px]">{userProfile.gmail}</span>
+                <HugeiconsIcon icon={Mail02Icon} className="mr-3 w-6 h-6 text-muted" />
+                <span className="text-[16px] text-foreground">{userProfile.gmail}</span>
               </div>
 
-              <HugeiconsIcon icon={PencilEdit01Icon} className=" mr-3 w-6 h-6 text-accent " />
+              <HugeiconsIcon icon={PencilEdit01Icon} className="mr-3 w-6 h-6 text-accent" />
             </div>
           </div>
 
           <div className="mt-10 md:mt-20">
-            <span className="text-[16px] text-[#787878]">درباره من</span>
-            <p className="text-[16px]  mt-2">
+            <span className="text-[16px] text-muted">درباره من</span>
+            <p className="text-[16px] text-foreground mt-2">
               {userProfile.userAbout}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="bg-overlay border-b px-[30px] py-[20px] h-[65px] w-full flex justify-start items-center gap-6 text-[16px] md:text-[20px]  overflow-x-auto whitespace-nowrap overflow-y-hidden">
+      <div className="bg-overlay border-b border-separator px-[30px] py-[20px] h-[65px] w-full flex justify-start items-center gap-6 text-[16px] md:text-[20px] text-foreground overflow-x-auto whitespace-nowrap overflow-y-hidden">
         <span
           onClick={() => {
             setPersonal(true);
@@ -116,11 +115,10 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
             setAddres(false);
             setLinks(false);
           }}
-          className={`cursor-pointer opacity-[0.5] -mb-7.5   
-          ${
+          className={`cursor-pointer -mb-7.5 ${
             personal
-              ? "opacity-[1] border-b-[#3772ff] border-b-3"
-              : "opacity-[0.5] border-none"
+              ? "opacity-100 border-b-accent border-b-3"
+              : "opacity-50 border-none"
           }`}
         >
           اطلاعات شخصی
@@ -133,11 +131,10 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
             setAddres(false);
             setLinks(false);
           }}
-          className={`cursor-pointer opacity-[0.5] -mb-7.5     
-          ${
+          className={`cursor-pointer -mb-7.5 ${
             image
-              ? "opacity-[1] border-b-[#3772ff] border-b-3"
-              : "opacity-[0.5] border-none"
+              ? "opacity-100 border-b-accent border-b-3"
+              : "opacity-50 border-none"
           }`}
         >
           عکس پروفایل
@@ -150,11 +147,10 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
             setAddres(true);
             setLinks(false);
           }}
-          className={`cursor-pointer opacity-[0.5] -mb-7.5    
-          ${
+          className={`cursor-pointer -mb-7.5 ${
             addres
-              ? "opacity-[1] border-b-[#3772ff] border-b-3"
-              : "opacity-[0.5] border-none"
+              ? "opacity-100 border-b-accent border-b-3"
+              : "opacity-50 border-none"
           }`}
         >
           آدرس سکونت
@@ -167,11 +163,10 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
             setAddres(false);
             setLinks(true);
           }}
-          className={`cursor-pointer opacity-[0.5] -mb-7.5    
-          ${
+          className={`cursor-pointer -mb-7.5 ${
             links
-              ? "opacity-[1] border-b-[#3772ff] border-b-3"
-              : "opacity-[0.5] border-none"
+              ? "opacity-100 border-b-accent border-b-3"
+              : "opacity-50 border-none"
           }`}
         >
           لینک ها
@@ -179,9 +174,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
       </div>
 
       <div className="bg-overlay w-full rounded-b-[16px]">
-        <div
-          className={`${personal ? "h-full w-full rounded-b-[16px]" : "hidden"}`}
-        >
+        <div className={`${personal ? "h-full w-full rounded-b-[16px]" : "hidden"}`}>
           <PersonalProfie
             progressPercent={userProfile.profileCompletionPercentage}
           />

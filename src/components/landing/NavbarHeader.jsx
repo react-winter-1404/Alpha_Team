@@ -1,9 +1,6 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
-import { useTheme } from "@heroui/use-theme";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  Moon02Icon,
-  Sun03Icon,
   Menu02Icon,
   Home01Icon,
   Book02Icon,
@@ -17,12 +14,11 @@ import { CloseButton } from "@heroui/react";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import ScrollProgressBar from "../../layout/ScrollProgressBar";
+import ThemeSwitcher from "../../components/theme/ThemeSwitcher";
 
 
 export default function NavbarHeader() {
-  // const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { theme, setTheme } = useTheme("system");
   const [isLoged,setIsLoged]=useState(false);
 
     useEffect(()=>{
@@ -30,10 +26,7 @@ export default function NavbarHeader() {
 
     },[localStorage.getItem('token')])
 
-  // const toggleTheme = () => {
-  //   setIsDarkMode(!isDarkMode);
-  //   document.documentElement.classList.toggle("dark");
-  // };
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -105,19 +98,7 @@ export default function NavbarHeader() {
         </NavbarContent>
 
         <NavbarContent className="gap-2 md:gap-4">
-          <Button
-            isIconOnly
-            disableRipple
-            variant="flat"
-            onPress={() => setTheme(theme === "light" ? "dark" : "light")}
-            className="text-xl border-solid border flex items-center justify-center hover:bg-gray-100 dark:hover:bg-slate-800 dark:border-gray-600 duration-500 rounded-full border-gray-200 text-center"
-          >
-            {theme === "light" ? (
-              <HugeiconsIcon icon={Moon02Icon} className=" m-0 w-4 h-4 " />
-            ) : (
-              <HugeiconsIcon icon={Sun03Icon} className=" m-0 w-4 h-4 " />
-            )}
-          </Button>
+          <ThemeSwitcher />
 
           <Button
             disableRipple

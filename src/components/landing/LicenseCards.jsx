@@ -30,13 +30,13 @@ const License = () => {
         <motion.div
           key={e}
           variants={cardVariants}
-          className="h-[332px] w-[90%] md:w-[20%] p-2.5 flex flex-col border-[3px] rounded-[20px] bg-overlay"
+          className="h-[332px] w-[90%] md:w-[20%] p-2.5 flex flex-col border-[3px] border-border rounded-[20px] bg-overlay"
         >
-          <span className="block w-full text-[40px]">
-            <span className="block w-[95%] border-b m-auto">0{e}</span>
+          <span className="block w-full text-[40px] text-foreground">
+            <span className="block w-[95%] border-b border-separator m-auto">0{e}</span>
           </span>
-          <span className="block mt-5 text-[24px]">مدرک معتبر</span>
-          <span className="block text-[12px] text-muted ">بعدا اینجا پر میشه</span>
+          <span className="block mt-5 text-[24px] text-foreground">مدرک معتبر</span>
+          <span className="block text-[12px] text-muted">بعدا اینجا پر میشه</span>
         </motion.div>
       ))}
     </motion.div>

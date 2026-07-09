@@ -19,7 +19,7 @@ const ScrollProgressBar = () => {
         right: 0,
         height: 1.5,
         originX: 1,
-        backgroundColor: "#3772FF",
+        backgroundColor: "var(--accent)",
         zIndex: 9999
       }}
     />

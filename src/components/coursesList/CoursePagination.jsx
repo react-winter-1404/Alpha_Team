@@ -3,7 +3,7 @@
 import React from 'react';
 import { Pagination } from "@heroui/react";
 
- function CoursePagination({ page, totalPages, itemsPerPage, totalItems, onPageChange }) {
+function CoursePagination({ page, totalPages, itemsPerPage, totalItems, onPageChange }) {
   
   const getPageNumbers = () => {
     const pages = [];
@@ -37,7 +37,7 @@ import { Pagination } from "@heroui/react";
   return (
     <Pagination className="w-full flex flex-col items-center gap-3" style={{ direction: 'rtl' }}>
       
-      <Pagination.Summary className="text-gray-500 text-sm font-medium">
+      <Pagination.Summary className="text-muted text-sm font-medium">
         نمایش {startItem} تا {endItem} از مجموع {totalItems} دوره یافت شده
       </Pagination.Summary>
       
@@ -46,7 +46,7 @@ import { Pagination } from "@heroui/react";
           <Pagination.Previous 
             isDisabled={page === 1} 
             onPress={() => onPageChange(page - 1)}
-            className="px-3 py-1 text-sm bg-gray-50 rounded-xl hover:bg-gray-100"
+            className="px-3 py-1 text-sm bg-default rounded-xl hover:bg-default-foreground/10 text-foreground"
           >
             <Pagination.PreviousIcon className="mr-1" />
             <span>قبلی</span>
@@ -56,7 +56,7 @@ import { Pagination } from "@heroui/react";
         {getPageNumbers().map((p, i) =>
           p === "ellipsis" ? (
             <Pagination.Item key={`ellipsis-${i}`}>
-              <Pagination.Ellipsis className="text-gray-400" />
+              <Pagination.Ellipsis className="text-muted" />
             </Pagination.Item>
           ) : (
             <Pagination.Item key={p}>
@@ -64,7 +64,7 @@ import { Pagination } from "@heroui/react";
                 isActive={p === page} 
                 onPress={() => onPageChange(p)}
                 className={`w-9 h-9 flex items-center justify-center rounded-xl text-sm font-bold ${
-                  p === page ? 'bg-blue-600 text-white' : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
+                  p === page ? 'bg-accent text-accent-foreground' : 'bg-default hover:bg-default-foreground/10 text-foreground'
                 }`}
               >
                 {p}
@@ -77,7 +77,7 @@ import { Pagination } from "@heroui/react";
           <Pagination.Next 
             isDisabled={page === totalPages} 
             onPress={() => onPageChange(page + 1)}
-            className="px-3 py-1 text-sm bg-gray-50 rounded-xl hover:bg-gray-100"
+            className="px-3 py-1 text-sm bg-default rounded-xl hover:bg-default-foreground/10 text-foreground"
           >
             <span>بعدی</span>
             <Pagination.NextIcon className="ml-1" />

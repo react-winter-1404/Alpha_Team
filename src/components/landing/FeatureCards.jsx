@@ -30,10 +30,10 @@ export default function FeatureCards() {
     >
       <motion.div
         variants={cardVariants}
-        className="relative w-[90%] mx-auto md:mx-0 md:w-[40%] h-[332px] border-[3px] rounded-[30px] text-right overflow-hidden bg-surface-secondary"
+        className="relative w-[90%] mx-auto md:mx-0 md:w-[40%] h-[332px] border-[3px] border-border rounded-[30px] text-right overflow-hidden bg-surface-secondary"
       >
-        <p className="text-[32px] mr-5">پنل اختصاصی دانشجو</p>
-        <p className="w-55 text-[16px] opacity-80 font-light mt-2.5 mr-5">
+        <p className="text-[32px] mr-5 text-foreground">پنل اختصاصی دانشجو</p>
+        <p className="w-55 text-[16px] font-light mt-2.5 mr-5 text-muted">
           پنل های اختصاصی دانشجویی برای مدیریت دوره ها و تمرین ها
         </p>
         <img
@@ -45,20 +45,20 @@ export default function FeatureCards() {
 
       <motion.div
         variants={cardVariants}
-        className="w-[90%] relative md:w-[30%] mx-auto md:mx-0 h-[332px] rounded-[30px] bg-[#3772FF]"
+        className="w-[90%] relative md:w-[30%] mx-auto md:mx-0 h-[332px] rounded-[30px] bg-accent"
       >
         <div className="flex justify-between items-center p-5">
-          <p className="mr-[20px] text-white text-[24px]">
+          <p className="mr-[20px] text-accent-foreground text-[24px]">
             دوره‌های جدید تابستانه!
           </p>
-          <Button className="h-[40px] w-[40px] rounded-full bg-accent-foreground p-0 flex items-center justify-center">
+          <Button className="h-[40px] w-[40px] rounded-full bg-background p-0 flex items-center justify-center">
             <HugeiconsIcon
               icon={ArrowUpLeft01Icon}
-              className="m-0 w-6 h-6 text-muted"
+              className="m-0 w-6 h-6 text-foreground"
             />
           </Button>
         </div>
-        <p className="text-[13px] text-white w-[40%] mr-5">
+        <p className="text-[13px] text-accent-foreground w-[40%] mr-5">
           شروع دوره های جدید مبتدی و پیشرفته برای همین تابستان
         </p>
         <img
@@ -70,10 +70,10 @@ export default function FeatureCards() {
 
       <motion.div
         variants={cardVariants}
-        className="w-[90%] md:w-[25%] mx-auto md:mx-0 h-[332px] border-[3px] rounded-[30px] bg-surface-secondary"
+        className="w-[90%] md:w-[25%] mx-auto md:mx-0 h-[332px] border-[3px] border-border rounded-[30px] bg-surface-secondary"
       >
         <div className="flex justify-between items-center p-5">
-          <p className="text-[24px]">درباره ما بیشتر بخوانید</p>
+          <p className="text-[24px] text-foreground">درباره ما بیشتر بخوانید</p>
           <Button className="h-[40px] w-[40px] rounded-full bg-accent p-0 flex items-center justify-center">
             <HugeiconsIcon
               icon={ArrowUpLeft01Icon}
@@ -82,13 +82,13 @@ export default function FeatureCards() {
           </Button>
         </div>
 
-        <span className="text-[32px] mt-10 mr-2.5 block">+1000</span>
-        <span className="text-[16px] mr-2.5 text-gray-500">
+        <span className="text-[32px] mt-10 mr-2.5 block text-foreground">+1000</span>
+        <span className="text-[16px] mr-2.5 text-muted">
           دانشجوی آنلاین در دوره
         </span>
 
-        <span className="text-[32px] mt-5 mr-2.5 block">+13</span>
-        <span className="text-[16px] mr-2.5 text-gray-500">
+        <span className="text-[32px] mt-5 mr-2.5 block text-foreground">+13</span>
+        <span className="text-[16px] mr-2.5 text-muted">
           سال سابقه آموزش تخصصی
         </span>
       </motion.div>

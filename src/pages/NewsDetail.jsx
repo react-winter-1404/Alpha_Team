@@ -10,26 +10,26 @@ import { Skeleton } from "@heroui/react";
 const NewsDetailSkeleton = () => {
   return (
     <div className="w-[90.5%] flex flex-col lg:flex-row items-start gap-10 lg:gap-[4.75%] pt-16">
-      <div className="w-full lg:w-[35%] space-y-6 p-6 rounded-2xl bg-[#ece8e8] dark:bg-[#585757]">
-        <Skeleton className="h-8 w-3/4 rounded-lg" />
-        <Skeleton className="h-5 w-1/2 rounded-lg" />
+      <div className="w-full lg:w-[35%] space-y-6 p-6 rounded-2xl bg-overlay border border-border">
+        <Skeleton className="h-8 w-3/4 rounded-lg bg-default" />
+        <Skeleton className="h-5 w-1/2 rounded-lg bg-default" />
         <div className="space-y-3 pt-4">
-          <Skeleton className="h-4 w-full rounded-lg" />
-          <Skeleton className="h-4 w-full rounded-lg" />
+          <Skeleton className="h-4 w-full rounded-lg bg-default" />
+          <Skeleton className="h-4 w-full rounded-lg bg-default" />
         </div>
         <div className="flex gap-3 items-center pt-4">
-          <Skeleton className="h-10 w-10 rounded-full" />
-          <Skeleton className="h-4 w-24 rounded-lg" />
+          <Skeleton className="h-10 w-10 rounded-full bg-default" />
+          <Skeleton className="h-4 w-24 rounded-lg bg-default" />
         </div>
       </div>
 
-      <div className="w-full lg:w-[60%] space-y-6 p-6 rounded-2xl bg-[#ece8e8] dark:bg-[#585757]">
-        <Skeleton className="h-[300px] w-full rounded-2xl" />
-        <Skeleton className="h-8 w-2/4 rounded-lg" />
+      <div className="w-full lg:w-[60%] space-y-6 p-6 rounded-2xl bg-overlay border border-border">
+        <Skeleton className="h-[300px] w-full rounded-2xl bg-default" />
+        <Skeleton className="h-8 w-2/4 rounded-lg bg-default" />
         <div className="space-y-3">
-          <Skeleton className="h-4 w-full rounded-lg" />
-          <Skeleton className="h-4 w-full rounded-lg" />
-          <Skeleton className="h-4 w-5/6 rounded-lg" />
+          <Skeleton className="h-4 w-full rounded-lg bg-default" />
+          <Skeleton className="h-4 w-full rounded-lg bg-default" />
+          <Skeleton className="h-4 w-5/6 rounded-lg bg-default" />
         </div>
       </div>
     </div>
@@ -65,10 +65,10 @@ const NewsDetailPage = () => {
 
   if (isError) {
     return (
-      <div className="w-full flex flex-col items-center">
+      <div className="w-full flex flex-col items-center bg-overlay">
         <NavbarHeader />
         <div className="flex justify-center items-center h-screen">
-          <div className="text-2xl text-red-500">خطا در بارگذاری اطلاعات</div>
+          <div className="text-2xl text-danger">خطا در بارگذاری اطلاعات</div>
         </div>
         <Footer />
       </div>
@@ -76,7 +76,7 @@ const NewsDetailPage = () => {
   }
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center bg-overlay">
       <NavbarHeader />
 
       {isLoading || !newsDetail ? (

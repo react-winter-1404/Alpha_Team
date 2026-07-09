@@ -58,7 +58,7 @@ const infoBoxVariants = {
 
 const ContactUsPage = () => {
   return (
-    <div className="w-full flex flex-col" style={{ direction: "rtl" }}>
+    <div className="w-full flex flex-col bg-overlay" style={{ direction: "rtl" }}>
       <NavbarHeader />
 
       <motion.div
@@ -67,10 +67,10 @@ const ContactUsPage = () => {
         initial="initial"
         animate="animate"
       >
-        <div className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+        <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
           ارتباط با ما
         </div>
-        <div className="my-2 md:my-5 text-sm sm:text-lg lg:text-xl">
+        <div className="my-2 md:my-5 text-sm sm:text-lg lg:text-xl text-muted">
           {" "}
           در این صفحه میتوانید اطلاعات ارتباطی آکادمی کدنویسی بحر را مشاهده
           کنید.{" "}
@@ -78,7 +78,7 @@ const ContactUsPage = () => {
 
         <div className="flex my-8 md:my-15 gap-8 md:gap-11 lg:gap-14">
           <div className="flex flex-col gap-5 md:gap-8 lg:gap-10">
-            <div className="text-sm sm:text-lg lg:text-xl font-bold">
+            <div className="text-sm sm:text-lg lg:text-xl font-bold text-foreground">
               پل های ارتباطی
             </div>
             <motion.div
@@ -89,7 +89,7 @@ const ContactUsPage = () => {
             >
               <motion.div
                 variants={iconVariants}
-                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-[rgba(55,114,255,0.231)] text-accent cursor-pointer hover:bg-accent hover:text-white duration-150"
+                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-accent/20 text-accent cursor-pointer hover:bg-accent hover:text-accent-foreground duration-150"
               >
                 <HugeiconsIcon
                   icon={Call02Icon}
@@ -100,17 +100,17 @@ const ContactUsPage = () => {
               </motion.div>
               <motion.div
                 variants={iconVariants}
-                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-[rgba(55,114,255,0.231)] text-accent cursor-pointer hover:bg-accent hover:text-white duration-150"
+                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-accent/20 text-accent cursor-pointer hover:bg-accent hover:text-accent-foreground duration-150"
               >
                 <HugeiconsIcon icon={Mail02Icon} />
               </motion.div>
             </motion.div>
           </div>
 
-          <div className="border"></div>
+          <div className="border border-separator"></div>
 
           <div className="flex flex-col gap-5 md:gap-8 lg:gap-10">
-            <div className="text-sm sm:text-lg lg:text-xl font-bold">
+            <div className="text-sm sm:text-lg lg:text-xl font-bold text-foreground">
               شبکه های اجتماعی
             </div>
             <motion.div
@@ -121,31 +121,31 @@ const ContactUsPage = () => {
             >
               <motion.div
                 variants={iconVariants}
-                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-[rgba(55,114,255,0.231)] text-accent cursor-pointer hover:bg-accent hover:text-white duration-150"
+                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-accent/20 text-accent cursor-pointer hover:bg-accent hover:text-accent-foreground duration-150"
               >
                 <HugeiconsIcon icon={YoutubeIcon} />
               </motion.div>
               <motion.div
                 variants={iconVariants}
-                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-[rgba(55,114,255,0.231)] text-accent cursor-pointer hover:bg-accent hover:text-white duration-150"
+                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-accent/20 text-accent cursor-pointer hover:bg-accent hover:text-accent-foreground duration-150"
               >
                 <HugeiconsIcon icon={Facebook02Icon} fill="currentColor" />
               </motion.div>
               <motion.div
                 variants={iconVariants}
-                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-[rgba(55,114,255,0.231)] text-accent cursor-pointer hover:bg-accent hover:text-white duration-150"
+                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-accent/20 text-accent cursor-pointer hover:bg-accent hover:text-accent-foreground duration-150"
               >
                 <HugeiconsIcon icon={TwitterIcon} fill="currentColor" />
               </motion.div>
               <motion.div
                 variants={iconVariants}
-                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-[rgba(55,114,255,0.231)] text-accent cursor-pointer hover:bg-accent hover:text-white duration-150"
+                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-accent/20 text-accent cursor-pointer hover:bg-accent hover:text-accent-foreground duration-150"
               >
                 <HugeiconsIcon icon={InstagramIcon} />
               </motion.div>
               <motion.div
                 variants={iconVariants}
-                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-[rgba(55,114,255,0.231)] text-accent cursor-pointer hover:bg-accent hover:text-white duration-150"
+                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 flex items-center justify-center rounded-md bg-accent/20 text-accent cursor-pointer hover:bg-accent hover:text-accent-foreground duration-150"
               >
                 <HugeiconsIcon icon={TelegramIcon} />
               </motion.div>
@@ -163,13 +163,13 @@ const ContactUsPage = () => {
             <div className="sm:text-xl lg:text-2xl font-bold text-accent">
               شماره تماس دفتر
             </div>
-            <div className="text-xs sm:text-lg lg:text-xl">01122334455</div>
+            <div className="text-xs sm:text-lg lg:text-xl text-foreground">01122334455</div>
           </div>
           <div className="flex flex-col gap-1.5 md:gap-3">
             <div className="sm:text-xl lg:text-xl font-bold text-accent">
               آدرس دفتر
             </div>
-            <div className="text-xs sm:text-lg lg:text-xl">
+            <div className="text-xs sm:text-lg lg:text-xl text-foreground">
               مازندران، ساری، میدان خزر، جاده دریا، بعد از دنیای آرزو، ساختمان
               سپهرگان، طبقات دوم و سوم
             </div>

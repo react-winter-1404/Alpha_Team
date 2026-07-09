@@ -55,11 +55,11 @@ const DetailSection = ({
 
 
   return (
-    <div className=" w-full lg:w-[54.5%] flex flex-col">
+    <div className="w-full lg:w-[54.5%] flex flex-col">
       <img
         src={imageAddress}
         alt={title}
-        className="bg-danger-hover w-full h-64 lg:h-106.5 rounded-3xl object-cover"
+        className="bg-accent w-full h-64 lg:h-106.5 rounded-3xl object-cover"
       />
       <div className="w-full flex flex-col gap-3 lg:gap-5 mt-5 lg:mt-7">
         <div className="text-muted">مدرس</div>
@@ -71,10 +71,10 @@ const DetailSection = ({
                 "/public/images/placeholder.png"
               }
               alt={teacherName}
-              className="bg-border w-12 h-12 lg:w-14 lg:h-14 rounded-full object-cover"
+              className="bg-default w-12 h-12 lg:w-14 lg:h-14 rounded-full object-cover"
             />
             <div className="flex flex-col">
-              <div className="font-bold text-sm lg:text-lg">{teacherName}</div>
+              <div className="font-bold text-sm lg:text-lg text-foreground">{teacherName}</div>
             </div>
           </div>
         </div>
@@ -82,16 +82,16 @@ const DetailSection = ({
       <div className="w-full flex flex-col gap-3 lg:gap-5 mt-6 lg:mt-9">
         <div className="text-muted">توضیحات</div>
         <div className="flex flex-col gap-3 lg:gap-5">
-          <div className="font-bold text-lg lg:text-2xl">{miniDescribe}</div>
-          <div className="lg:text-xl">{describe}</div>
+          <div className="font-bold text-lg lg:text-2xl text-foreground">{miniDescribe}</div>
+          <div className="lg:text-xl text-muted">{describe}</div>
         </div>
 
-        <div className="h-10  mt-5 flex items-center gap-1.5 lg:gap-3 rounded-lg px-3">
+        <div className="h-10 mt-5 flex items-center gap-1.5 lg:gap-3 rounded-lg px-3">
           <HugeiconsIcon
             icon={StarCircleIcon}
             className="text-accent w-5 h-5 lg:w-6 lg:h-6"
           />
-          <div className="lg:text-xl font-bold">امتیاز بدید</div>
+          <div className="lg:text-xl font-bold text-foreground">امتیاز بدید</div>
           <div className="flex gap-1 mx-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <HugeiconsIcon
@@ -103,7 +103,7 @@ const DetailSection = ({
                 className={`w-5 h-5 lg:w-6 lg:h-6 cursor-pointer transition-all duration-150 ${
                   star <= (hoverRating || rating)
                     ? "text-yellow-400 fill-yellow-400"
-                    : "text-gray-300"
+                    : "text-muted"
                 }`}
               />
             ))}

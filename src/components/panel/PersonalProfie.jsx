@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { getUserProfile } from "../../core/services/userPanel/get";
 import { Skeleton } from "@heroui/react";
 
-const PersonalProfile = ({progressPercent}) => {
+const PersonalProfile = ({ progressPercent }) => {
   const [submittedPercent, setSubmittedPercent] = useState(0);
   const [userProfile, setUserProfile] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -46,7 +46,6 @@ const PersonalProfile = ({progressPercent}) => {
     formData.append("HomeAdderess", data.address?.trim() || "");
     formData.append("RecoveryEmail", 'asas');
     formData.append("phoneNumber", data.phone?.trim() || "");
-  
 
     try {
       const response = await putPersonalProfile(formData);
@@ -112,310 +111,296 @@ const PersonalProfile = ({progressPercent}) => {
           <Skeleton className="w-[169px] h-[56px] rounded-[64px]" />
         </div>
       ) : (
-
-        
         <div className="flex flex-col justify-center items-center">
-
-        <div className="w-full h-[35%] border p-3 block md:hidden">
-        <h3 className="text-[16px] ">وضعیت اطلاعات حساب</h3>
-        <div className="m-auto mt-[40px] h-[130px] w-[136px]">
-          <CircularProgressbar
-            value={submittedPercent}
-            text={`${submittedPercent}%`}
-            styles={buildStyles({
-              pathColor: pc.clr,
-              textColor: pc.clr,
-              trailColor: "transparent",
-              strokeLinecap: "round",
-              textSize: "34px",
-              pathTransitionDuration: 0.5,
-            })}
-          />
-        </div>
-        <p
-          className="text-[14px] mt-[20px] text-center"
-          style={{ color: pc.clr }}
-        >
-          {pc.p}
-        </p>
-        </div>
-
-
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className=" w-[90%] md:w-[70%] h-full flex flex-wrap gap-8 mt-10"
-        >
-          <div className="flex flex-col gap-2 w-full md:w-[40%] group">
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="n"
-                className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-115"
-              >
-                نام <span className="text-red-500">*</span>
-              </label>
-              {isError("name") && (
-                <span className="text-red-500 text-xs whitespace-nowrap">
-                  {errors.name.message}
-                </span>
-              )}
+          <div className="w-full h-[35%] border border-border p-3 block md:hidden">
+            <h3 className="text-[16px] text-foreground">وضعیت اطلاعات حساب</h3>
+            <div className="m-auto mt-[40px] h-[130px] w-[136px]">
+              <CircularProgressbar
+                value={submittedPercent}
+                text={`${submittedPercent}%`}
+                styles={buildStyles({
+                  pathColor: pc.clr,
+                  textColor: pc.clr,
+                  trailColor: "transparent",
+                  strokeLinecap: "round",
+                  textSize: "34px",
+                  pathTransitionDuration: 0.5,
+                })}
+              />
             </div>
-            <input
-              {...register("name", {
-                required: "نام الزامی است",
-                minLength: { value: 3, message: "نام حداقل 3 کاراکتر" },
-              })}
-              defaultValue={userProfile.fName}
-              id="n"
-              placeholder="نام خود را وارد کنید"
-              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("name") ? "border-2 border-red-500" : ""}`}
-            />
+            <p
+              className="text-[14px] mt-[20px] text-center"
+              style={{ color: pc.clr }}
+            >
+              {pc.p}
+            </p>
           </div>
 
-          <div className="flex flex-col gap-2 w-full md:w-[40%] group">
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="f"
-                className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-115"
-              >
-                نام خانوادگی <span className="text-red-500">*</span>
-              </label>
-              {isError("lastName") && (
-                <span className="text-red-500 text-xs whitespace-nowrap">
-                  {errors.lastName.message}
-                </span>
-              )}
-            </div>
-            <input
-              {...register("lastName", {
-                required: "نام خانوادگی الزامی است",
-                minLength: { value: 3, message: "حداقل 3 کاراکتر" },
-              })}
-              defaultValue={userProfile.lName}
-              id="f"
-              placeholder="نام خانوادگی خود را وارد کنید"
-              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("lastName") ? "border-2 border-red-500" : ""}`}
-            />
-          </div>
-
-          
-          <div className="flex flex-col gap-2 w-full mt-[-10px] group">
-            <div className="flex items-center justify-between w-full md:w-[86%]">
-              <label
-                htmlFor="a"
-                className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-115"
-              >
-                درباره من
-              </label>
-              {isError("aboutMe") && (
-                <span className="text-red-500 text-xs whitespace-nowrap">
-                  {errors.aboutMe.message}
-                </span>
-              )}
-            </div>
-            <textarea
-              {...register("aboutMe", {
-                minLength: { value: 10, message: "حداقل ۱۰ کاراکتر" },
-                maxLength: { value: 250, message: "حداکثر 250 کاراکتر" },
-              })}
-              defaultValue={userProfile.userAbout}
-              id="a"
-              placeholder="یک متن درباره خود بنویسید"
-              className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-default text-[14px]  p-3 text-right resize-none transition-all outline-0 ${isError("aboutMe") ? "border-2 border-red-500" : ""}`}
-              dir="rtl"
-            />
-          </div>
-
-          
-          <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px] group">
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="p"
-                className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-115"
-              >
-                شماره همراه
-              </label>
-              {isError("phone") && (
-                <span className="text-red-500 text-xs whitespace-nowrap">
-                  {errors.phone.message}
-                </span>
-              )}
-            </div>
-            <input
-              {...register("phone", {
-                pattern: {
-                  value: /^09[0-9]{9}$/,
-                  message: "شماره همراه معتبر نیست",
-                },
-              })}
-              defaultValue={userProfile.phoneNumber}
-              id="p"
-              placeholder="شماره همراه خود را وارد کنید"
-              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("phone") ? "border-2 border-red-500" : ""}`}
-            />
-          </div>
-
-          
-          <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px] group">
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="c"
-                className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-115"
-              >
-                کد ملی <span className="text-red-500">*</span>
-              </label>
-              {isError("code") && (
-                <span className="text-red-500 text-xs whitespace-nowrap">
-                  {errors.code.message}
-                </span>
-              )}
-            </div>
-            <input
-              {...register("code", {
-                required: "کد ملی الزامی است",
-                pattern: {
-                  value: /^[0-9]{10}$/,
-                  message: "کد ملی باید ۱۰ رقم باشد",
-                },
-              })}
-              defaultValue={userProfile.nationalCode}
-              id="c"
-              placeholder="کد ملی خود را وارد کنید"
-              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("code") ? "border-2 border-red-500" : ""}`}
-            />
-          </div>
-
-          
-          <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px] group">
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="b"
-                className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-[1.15]"
-              >
-                تاریخ تولد <span className="text-red-500">*</span>
-              </label>
-              {isError("birthday") && (
-                <span className="text-red-500 text-xs whitespace-nowrap">
-                  {errors.birthday.message}
-                </span>
-              )}
-            </div>
-            <input
-              defaultValue={userProfile.birthDay ? userProfile.birthDay.split("T")[0] : ""}
-              type="date"
-              {...register("birthday", { required: "تاریخ تولد الزامی است" })}
-              id="b"
-              className={`w-full h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("birthday") ? "border-2 border-red-500" : ""}`}
-            />
-          </div>
-
-          
-          <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px]">
-            <div className="flex items-center justify-between">
-              <label
-                className={`block whitespace-nowrap transition-all duration-200 cursor-pointer ${isError("sex") ? "text-red-500" : ""}`}
-              >
-                جنسیت <span className="text-red-500">*</span>
-              </label>
-              {isError("sex") && (
-                <span className="text-red-500 text-xs whitespace-nowrap">
-                  {errors.sex.message}
-                </span>
-              )}
-            </div>
-            <div className="flex gap-6">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  {...register("sex", { required: "جنسیت را انتخاب کنید" })}
-                  defaultChecked={userProfile.gender === true}
-                  type="radio"
-                  value="male"
-                  className="appearance-none w-3 h-3 rounded-full border-2 border-gray-400 checked:border-overlay checked:bg-accent checked:ring-2 checked:ring-offset-2 checked:ring-overlay/30 transition-all cursor-pointer"
-                />
-                مرد
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  {...register("sex", { required: "جنسیت را انتخاب کنید" })}
-                  defaultChecked={userProfile.gender === false}
-                  type="radio"
-                  value="female"
-                  className="appearance-none w-3 h-3 rounded-full border-2 border-gray-400 checked:border-overlay checked:bg-accent checked:ring-2 checked:ring-offset-2 checked:ring-overlay/30 transition-all cursor-pointer"
-                />
-                زن
-              </label>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2 w-full mt-[-10px] group">
-            <div className="flex items-center justify-between w-[86%]">
-              <label
-                htmlFor="e"
-                className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-115"
-              >
-                ایمیل
-              </label>
-              {isError("email") && (
-                <span className="text-red-500 text-xs whitespace-nowrap">
-                  {errors.email.message}
-                </span>
-              )}
-            </div>
-            <input
-              {...register("email", {
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "ایمیل معتبر نیست",
-                },
-              })}
-              defaultValue={userProfile.gmail}
-              id="e"
-              placeholder="ایمیل خود را وارد کنید"
-              className={`w-full md:w-[86%] h-[48px] rounded-[16px] bg-default text-[14px]  p-3 transition-all outline-0 ${isError("email") ? "border-2 border-red-500" : ""}`}
-            />
-          </div>
-
-          
-          <div className="flex flex-col gap-2 w-full mt-[-10px] group">
-            <div className="flex items-center justify-between w-[86%]">
-              <label
-                htmlFor="ad"
-                className="block whitespace-nowrap transition-all duration-200 cursor-pointer group-focus-within:scale-115"
-              >
-                آدرس سکونت
-              </label>
-              {isError("address") && (
-                <span className="text-red-500 text-xs whitespace-nowrap">
-                  {errors.address.message}
-                </span>
-              )}
-            </div>
-            <textarea
-              {...register("address", {
-                minLength: { value: 10, message: "حداقل ۱۰ کاراکتر" },
-                maxLength: { value: 250, message: "حداکثر 250 کاراکتر" },
-              })}
-              defaultValue={userProfile.homeAdderess}
-              id="ad"
-              placeholder="آدرس سکونت خود را وارد کنید"
-              className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-default text-[14px]  p-3 text-right resize-none transition-all outline-0 ${isError("address") ? "border-2 border-red-500" : ""}`}
-              dir="rtl"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-[145px] md:w-[169px] h-[41px] md:h-[56px] text-accent-foreground rounded-[64px] bg-[#3772ff] text-[16px] md:text-[20px] text-overlabg-overlay cursor-pointer hover:bg-[#2a5fd8] transition-colors"
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-[90%] md:w-[70%] h-full flex flex-wrap gap-8 mt-10"
           >
-            اعمال تغییرات
-          </button>
-        </form>
+            <div className="flex flex-col gap-2 w-full md:w-[40%] group">
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="n"
+                  className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
+                >
+                  نام <span className="text-danger">*</span>
+                </label>
+                {isError("name") && (
+                  <span className="text-danger text-xs whitespace-nowrap">
+                    {errors.name.message}
+                  </span>
+                )}
+              </div>
+              <input
+                {...register("name", {
+                  required: "نام الزامی است",
+                  minLength: { value: 3, message: "نام حداقل 3 کاراکتر" },
+                })}
+                defaultValue={userProfile.fName}
+                id="n"
+                placeholder="نام خود را وارد کنید"
+                className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("name") ? "border-2 border-danger" : ""}`}
+              />
+            </div>
 
+            <div className="flex flex-col gap-2 w-full md:w-[40%] group">
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="f"
+                  className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
+                >
+                  نام خانوادگی <span className="text-danger">*</span>
+                </label>
+                {isError("lastName") && (
+                  <span className="text-danger text-xs whitespace-nowrap">
+                    {errors.lastName.message}
+                  </span>
+                )}
+              </div>
+              <input
+                {...register("lastName", {
+                  required: "نام خانوادگی الزامی است",
+                  minLength: { value: 3, message: "حداقل 3 کاراکتر" },
+                })}
+                defaultValue={userProfile.lName}
+                id="f"
+                placeholder="نام خانوادگی خود را وارد کنید"
+                className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("lastName") ? "border-2 border-danger" : ""}`}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2 w-full mt-[-10px] group">
+              <div className="flex items-center justify-between w-full md:w-[86%]">
+                <label
+                  htmlFor="a"
+                  className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
+                >
+                  درباره من
+                </label>
+                {isError("aboutMe") && (
+                  <span className="text-danger text-xs whitespace-nowrap">
+                    {errors.aboutMe.message}
+                  </span>
+                )}
+              </div>
+              <textarea
+                {...register("aboutMe", {
+                  minLength: { value: 10, message: "حداقل ۱۰ کاراکتر" },
+                  maxLength: { value: 250, message: "حداکثر 250 کاراکتر" },
+                })}
+                defaultValue={userProfile.userAbout}
+                id="a"
+                placeholder="یک متن درباره خود بنویسید"
+                className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-default text-foreground text-[14px] p-3 text-right resize-none transition-all outline-0 ${isError("aboutMe") ? "border-2 border-danger" : ""}`}
+                dir="rtl"
+              />
+            </div>
+
+            <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px] group">
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="p"
+                  className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
+                >
+                  شماره همراه
+                </label>
+                {isError("phone") && (
+                  <span className="text-danger text-xs whitespace-nowrap">
+                    {errors.phone.message}
+                  </span>
+                )}
+              </div>
+              <input
+                {...register("phone", {
+                  pattern: {
+                    value: /^09[0-9]{9}$/,
+                    message: "شماره همراه معتبر نیست",
+                  },
+                })}
+                defaultValue={userProfile.phoneNumber}
+                id="p"
+                placeholder="شماره همراه خود را وارد کنید"
+                className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("phone") ? "border-2 border-danger" : ""}`}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px] group">
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="c"
+                  className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
+                >
+                  کد ملی <span className="text-danger">*</span>
+                </label>
+                {isError("code") && (
+                  <span className="text-danger text-xs whitespace-nowrap">
+                    {errors.code.message}
+                  </span>
+                )}
+              </div>
+              <input
+                {...register("code", {
+                  required: "کد ملی الزامی است",
+                  pattern: {
+                    value: /^[0-9]{10}$/,
+                    message: "کد ملی باید ۱۰ رقم باشد",
+                  },
+                })}
+                defaultValue={userProfile.nationalCode}
+                id="c"
+                placeholder="کد ملی خود را وارد کنید"
+                className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("code") ? "border-2 border-danger" : ""}`}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px] group">
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="b"
+                  className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-[1.15]"
+                >
+                  تاریخ تولد <span className="text-danger">*</span>
+                </label>
+                {isError("birthday") && (
+                  <span className="text-danger text-xs whitespace-nowrap">
+                    {errors.birthday.message}
+                  </span>
+                )}
+              </div>
+              <input
+                defaultValue={userProfile.birthDay ? userProfile.birthDay.split("T")[0] : ""}
+                type="date"
+                {...register("birthday", { required: "تاریخ تولد الزامی است" })}
+                id="b"
+                className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("birthday") ? "border-2 border-danger" : ""}`}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px]">
+              <div className="flex items-center justify-between">
+                <label className={`block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer ${isError("sex") ? "text-danger" : ""}`}>
+                  جنسیت <span className="text-danger">*</span>
+                </label>
+                {isError("sex") && (
+                  <span className="text-danger text-xs whitespace-nowrap">
+                    {errors.sex.message}
+                  </span>
+                )}
+              </div>
+              <div className="flex gap-6 text-foreground">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    {...register("sex", { required: "جنسیت را انتخاب کنید" })}
+                    defaultChecked={userProfile.gender === true}
+                    type="radio"
+                    value="male"
+                    className="appearance-none w-3 h-3 rounded-full border-2 border-default-foreground checked:border-overlay checked:bg-accent checked:ring-2 checked:ring-offset-2 checked:ring-overlay/30 transition-all cursor-pointer"
+                  />
+                  مرد
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    {...register("sex", { required: "جنسیت را انتخاب کنید" })}
+                    defaultChecked={userProfile.gender === false}
+                    type="radio"
+                    value="female"
+                    className="appearance-none w-3 h-3 rounded-full border-2 border-default-foreground checked:border-overlay checked:bg-accent checked:ring-2 checked:ring-offset-2 checked:ring-overlay/30 transition-all cursor-pointer"
+                  />
+                  زن
+                </label>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2 w-full mt-[-10px] group">
+              <div className="flex items-center justify-between w-[86%]">
+                <label
+                  htmlFor="e"
+                  className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
+                >
+                  ایمیل
+                </label>
+                {isError("email") && (
+                  <span className="text-danger text-xs whitespace-nowrap">
+                    {errors.email.message}
+                  </span>
+                )}
+              </div>
+              <input
+                {...register("email", {
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "ایمیل معتبر نیست",
+                  },
+                })}
+                defaultValue={userProfile.gmail}
+                id="e"
+                placeholder="ایمیل خود را وارد کنید"
+                className={`w-full md:w-[86%] h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("email") ? "border-2 border-danger" : ""}`}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2 w-full mt-[-10px] group">
+              <div className="flex items-center justify-between w-[86%]">
+                <label
+                  htmlFor="ad"
+                  className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
+                >
+                  آدرس سکونت
+                </label>
+                {isError("address") && (
+                  <span className="text-danger text-xs whitespace-nowrap">
+                    {errors.address.message}
+                  </span>
+                )}
+              </div>
+              <textarea
+                {...register("address", {
+                  minLength: { value: 10, message: "حداقل ۱۰ کاراکتر" },
+                  maxLength: { value: 250, message: "حداکثر 250 کاراکتر" },
+                })}
+                defaultValue={userProfile.homeAdderess}
+                id="ad"
+                placeholder="آدرس سکونت خود را وارد کنید"
+                className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-default text-foreground text-[14px] p-3 text-right resize-none transition-all outline-0 ${isError("address") ? "border-2 border-danger" : ""}`}
+                dir="rtl"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-[145px] md:w-[169px] h-[41px] md:h-[56px] text-accent-foreground rounded-[64px] bg-accent text-[16px] md:text-[20px] cursor-pointer hover:bg-accent/80 transition-colors"
+            >
+              اعمال تغییرات
+            </button>
+          </form>
         </div>
       )}
 
-      
-      <div className="w-[60%] h-[35%] border p-3 hidden md:block">
-        <h3 className="text-[16px] ">وضعیت اطلاعات حساب</h3>
+      <div className="w-[60%] h-[35%] border border-border p-3 hidden md:block">
+        <h3 className="text-[16px] text-foreground">وضعیت اطلاعات حساب</h3>
         <div className="m-auto mt-[40px] h-[130px] w-[136px]">
           <CircularProgressbar
             value={progressPercent || submittedPercent}
@@ -437,7 +422,6 @@ const PersonalProfile = ({progressPercent}) => {
           {pc.p}
         </p>
       </div>
-      
     </div>
   );
 };

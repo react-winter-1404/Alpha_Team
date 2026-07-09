@@ -62,13 +62,13 @@ const FavCourses = () => {
   return (
     <>
       <div className="hidden md:block">
-        <h3 className="text-[32px]  mt-5">علاقه‌مندی دوره</h3>
+        <h3 className="text-[32px] text-foreground mt-5">علاقه‌مندی دوره</h3>
 
         <div className="flex justify-start items-center gap-5 mt-7">
           <div>
             <div className="flex justify-start items-center gap-2">
-              <HugeiconsIcon icon={Search01Icon} className="m-0 w-5 h-5" />
-              <span className="text-[16px] ">جستجوِی دوره</span>
+              <HugeiconsIcon icon={Search01Icon} className="m-0 w-5 h-5 text-foreground" />
+              <span className="text-[16px] text-foreground">جستجوِی دوره</span>
             </div>
 
             <div className="relative mt-3">
@@ -77,17 +77,17 @@ const FavCourses = () => {
                 placeholder="جستجو کنید ..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-[289px] h-[48px] bg-[#bebebe] dark:bg-segment text-[14px] text-muted indent-3 rounded-[16px] focus:outline-none focus:ring-2 focus:ring-[#3772ff]"
+                className="w-[289px] h-[48px] bg-default text-[14px] text-foreground indent-3 rounded-[16px] focus:outline-none focus:ring-2 focus:ring-accent border border-border"
               />
-              <div className="absolute top-[-1px] left-0 cursor-pointer w-[48px] h-[48px] rounded-[16px] bg-[#3772ff] flex justify-center items-center">
-                <HugeiconsIcon icon={Search01Icon} className="m-0 w-5 h-5 text-white" />
+              <div className="absolute top-[-1px] left-0 cursor-pointer w-[48px] h-[48px] rounded-[16px] bg-accent flex justify-center items-center">
+                <HugeiconsIcon icon={Search01Icon} className="m-0 w-5 h-5 text-accent-foreground" />
               </div>
             </div>
           </div>
 
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 font-bold text-sm mb-1">
+              <div className="flex items-center gap-2 font-bold text-sm mb-1 text-foreground">
                 <span>
                   <HugeiconsIcon icon={Calendar02Icon} className="m-0 w-5 h-5" />
                 </span>
@@ -97,7 +97,7 @@ const FavCourses = () => {
               {(dateRange.start || dateRange.end) && (
                 <button
                   onClick={clearDateFilter}
-                  className="w-7 h-7 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors"
+                  className="w-7 h-7 bg-danger hover:bg-danger/80 text-danger-foreground rounded-full flex items-center justify-center transition-colors"
                 >
                   <HugeiconsIcon icon={Cancel01Icon} className="w-4 h-4" />
                 </button>
@@ -115,23 +115,23 @@ const FavCourses = () => {
                 >
                   <DateField.Group
                     fullWidth
-                    className="bg-[#bebebe] dark:bg-segment rounded-2xl h-12 flex items-center justify-between px-3 border-none text-sm text-muted"
+                    className="bg-default rounded-2xl h-12 flex items-center justify-between px-3 border-none text-sm"
                   >
-                    <DateField.Input slot="start" className="outline-none bg-transparent">
+                    <DateField.Input slot="start" className="outline-none bg-transparent text-foreground">
                       {(segment) => <DateField.Segment segment={segment} />}
                     </DateField.Input>
-                    <DateRangePicker.RangeSeparator className="mx-2 text-gray-400" />
-                    <DateField.Input slot="end" className="outline-none bg-transparent">
+                    <DateRangePicker.RangeSeparator className="mx-2 text-muted" />
+                    <DateField.Input slot="end" className="outline-none bg-transparent text-foreground">
                       {(segment) => <DateField.Segment segment={segment} />}
                     </DateField.Input>
                     <DateField.Suffix className="mr-auto">
                       <DateRangePicker.Trigger>
-                        <DateRangePicker.TriggerIndicator className="text-gray-400" />
+                        <DateRangePicker.TriggerIndicator className="text-muted" />
                       </DateRangePicker.Trigger>
                     </DateField.Suffix>
                   </DateField.Group>
 
-                  <DateRangePicker.Popover className="bg-overlay rounded-2xl shadow-xl border p-2">
+                  <DateRangePicker.Popover className="bg-overlay rounded-2xl shadow-xl border border-border p-2">
                     <RangeCalendar aria-label="انتخاب تاریخ برگزاری">
                       <RangeCalendar.Header className="flex items-center justify-between pb-2">
                         <RangeCalendar.YearPickerTrigger className="flex items-center gap-1 font-medium text-muted">
@@ -139,16 +139,16 @@ const FavCourses = () => {
                           <RangeCalendar.YearPickerTriggerIndicator />
                         </RangeCalendar.YearPickerTrigger>
                         <div className="flex gap-1">
-                          <RangeCalendar.NavButton slot="previous" className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" />
-                          <RangeCalendar.NavButton slot="next" className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" />
+                          <RangeCalendar.NavButton slot="previous" className="p-1 rounded-lg hover:bg-default text-foreground" />
+                          <RangeCalendar.NavButton slot="next" className="p-1 rounded-lg hover:bg-default text-foreground" />
                         </div>
                       </RangeCalendar.Header>
                       <RangeCalendar.Grid>
                         <RangeCalendar.GridHeader>
-                          {(day) => <RangeCalendar.HeaderCell className="text-gray-400 font-normal p-1">{day}</RangeCalendar.HeaderCell>}
+                          {(day) => <RangeCalendar.HeaderCell className="text-muted font-normal p-1">{day}</RangeCalendar.HeaderCell>}
                         </RangeCalendar.GridHeader>
                         <RangeCalendar.GridBody>
-                          {(date) => <RangeCalendar.Cell date={date} className="p-1 text-center data-[selected=true]:bg-blue-600 data-[selected=true]:text-white rounded-lg" />}
+                          {(date) => <RangeCalendar.Cell date={date} className="p-1 text-center data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground rounded-lg text-foreground" />}
                         </RangeCalendar.GridBody>
                       </RangeCalendar.Grid>
                     </RangeCalendar>
@@ -169,7 +169,7 @@ const FavCourses = () => {
             <span className="w-[10%] flex justify-center"></span>
           </div>
 
-          <div className="border-black flex flex-col gap-4 w-full h-full py-4 px-3 overflow-auto">
+          <div className="flex flex-col gap-4 w-full h-full py-4 px-3 overflow-auto">
             {isLoading ? (
               <div className="flex justify-center items-center h-full text-muted text-lg">
                 <Spinner />
@@ -204,7 +204,7 @@ const FavCourses = () => {
                   </div>
                   <div className="w-[10%] flex justify-center">
                     <Link to={`/courses/${course.courseId}`}>
-                      <HugeiconsIcon className="cursor-pointer" icon={ViewIcon} />
+                      <HugeiconsIcon className="cursor-pointer text-foreground" icon={ViewIcon} />
                     </Link>
                   </div>
                 </div>
@@ -216,8 +216,8 @@ const FavCourses = () => {
 
       <div className="block md:hidden">
         <div className="flex justify-between items-center">
-          <h3 className="text-[32px] ">علاقه‌مندی دوره</h3>
-          <button className="w-[83px] h-[41px] rounded-[64px] bg-[#3772ff] text-[16px] text-[#fefdff]">فیلتر</button>
+          <h3 className="text-[32px] text-foreground">علاقه‌مندی دوره</h3>
+          <button className="w-[83px] h-[41px] rounded-[64px] bg-accent text-[16px] text-accent-foreground">فیلتر</button>
         </div>
 
         <div className="mt-10 w-full p-3 rounded-[16px] bg-overlay flex flex-col items-center justify-center gap-2">
