@@ -22,6 +22,7 @@ const NewsFilter = ({
   currentSort,
   onSortChange 
 }) => {
+  const [searchTerm, setSearchTerm] = useState(currentFilters.query || "");
   const [categories, setCategories] = useState([]);
   const [isCatOpen, setIsCatOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
@@ -40,12 +41,20 @@ const NewsFilter = ({
     fetchCategories();
   }, []);
 
-  const handleSearchSubmit = (value) => {
-    onFilterChange({
-      ...currentFilters,
-      query: value || ""
-    });
-  };
+  useEffect(() => {
+    setSearchTerm(currentFilters.query || "");
+  }, [currentFilters.query]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      onFilterChange({
+        ...currentFilters,
+        query: searchTerm || ""
+      });
+    }, 600);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
 
   const handleCategoryClick = (id) => {
     let updatedIds = [...currentFilters.categoryIds];
@@ -100,7 +109,12 @@ const NewsFilter = ({
           </svg>
           <span>جستجوی اخبار و مقالات</span>
         </div>
-        <SearchField name="search" defaultValue={currentFilters.query || ""} onSubmit={handleSearchSubmit} onClear={() => handleSearchSubmit("")}>
+        <SearchField 
+          name="search" 
+          value={searchTerm} 
+          onChange={(val) => setSearchTerm(val)} 
+          onClear={() => setSearchTerm("")}
+        >
           <SearchField.Group className="bg-overlay border-0 rounded-xl h-11 px-3 shadow-none flex items-center">
             <SearchField.Input 
               className="w-full text-right text-xs bg-transparent border-none outline-none text-foreground dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500" 
