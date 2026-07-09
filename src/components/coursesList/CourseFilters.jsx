@@ -33,6 +33,7 @@ export default function CourseFilters({
   currentSortType,
   onSortChange 
 }) {
+  const [searchTerm, setSearchTerm] = useState(filters.Query || "");
   const [localPrice, setLocalPrice] = useState([10000, 5000000]);
   const [categories, setCategories] = useState([]);
   const [teachers, setTeachers] = useState([]);
@@ -65,13 +66,21 @@ export default function CourseFilters({
     fetchFilterData();
   }, []);
 
-  const handleSearchSubmit = (value) => {
-    setFilters(prev => ({
-      ...prev,
-      Query: value || null,
-      PageNumber: 1
-    }));
-  };
+  useEffect(() => {
+    setSearchTerm(filters.Query || "");
+  }, [filters.Query]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      setFilters(prev => ({
+        ...prev,
+        Query: searchTerm || null,
+        PageNumber: 1
+      }));
+    }, 600);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, setFilters]);
 
   const handleSelectField = (name, value) => {
     setFilters(prev => ({
@@ -117,9 +126,9 @@ export default function CourseFilters({
         </div>
         <SearchField 
           name="search" 
-          defaultValue={filters.Query || ""}
-          onSubmit={handleSearchSubmit} 
-          onClear={() => handleSearchSubmit("")}
+          value={searchTerm}
+          onChange={(val) => setSearchTerm(val)}
+          onClear={() => setSearchTerm("")}
         >
           <SearchField.Group className="bg-overlay rounded-2xl border-none shadow-sm h-12 px-3 flex items-center">
             <SearchField.Input placeholder="... جستجو کنید" className="w-full text-right text-sm bg-transparent border-none outline-none dark:text-white dark:placeholder-gray-400" />
