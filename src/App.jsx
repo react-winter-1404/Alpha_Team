@@ -2,8 +2,7 @@ import { RouterProvider } from "react-router-dom";
 import router from "./router/router";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
-// import ListingPage from "../src/pages/ListingPage";
-// import {ListingPage} from "../src/pages/ListingPage";
+
 
 
 
