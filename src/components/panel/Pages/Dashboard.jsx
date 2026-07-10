@@ -12,8 +12,10 @@ import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import CommentCard from "../card/CommentCard";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Clock01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
+import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
+  const { t } = useTranslation("panel");
   const [value, setValue] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [course, setCourse] = useState([]);
@@ -24,9 +26,9 @@ const Dashboard = () => {
   const [submittedPercent, setSubmittedPercent] = useState(0);
 
   const getProgressInfo = (c) => {
-    if (c < 50) return { clr: "#ffc619", p: "اطلاعات کاربری شما تکمیل نیست!" };
-    if (c < 100) return { clr: "#3E98C7", p: "اطلاعات کاربری شما تکمیل نیست!" };
-    return { clr: "#47C724", p: "اطلاعات کاربری شما تکمیل شد" };
+    if (c < 50) return { clr: "#ffc619", p: t("dashboard.profileIncomplete") };
+    if (c < 100) return { clr: "#3E98C7", p: t("dashboard.profileIncomplete") };
+    return { clr: "#47C724", p: t("dashboard.profileComplete") };
   };
   const pc = getProgressInfo(submittedPercent);
 
@@ -107,10 +109,10 @@ const Dashboard = () => {
 
   const getGreeting = () => {
     const hour = time.getHours();
-    if (hour >= 5 && hour < 12) return "صبح بخیر";
-    if (hour >= 12 && hour < 15) return "ظهر بخیر";
-    if (hour >= 15 && hour < 19) return "عصر بخیر";
-    return "شب بخیر";
+    if (hour >= 5 && hour < 12) return t("dashboard.greeting.morning");
+    if (hour >= 12 && hour < 15) return t("dashboard.greeting.noon");
+    if (hour >= 15 && hour < 19) return t("dashboard.greeting.afternoon");
+    return t("dashboard.greeting.night");
   };
 
   const now = new Date();
@@ -123,7 +125,7 @@ const Dashboard = () => {
     <div className="w-full p-3 md:p-5 flex flex-col gap-4">
       <div className="w-[80%] flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-4">
         <div className="text-[20px] md:text-[32px] text-foreground w-[500px]">
-          سلام، {getGreeting()} {userProfile.fName} 😍
+          {t("dashboard.hello")}, {getGreeting()} {userProfile.fName} 😍
         </div>
 
         <div className="w-[300px] flex justify-between items-center gap-3 text-sm md:text-base">
@@ -133,7 +135,7 @@ const Dashboard = () => {
             </div>
             <div>
               <span className="block text-[14px] md:text-[16px] text-muted">
-                ساعت
+                {t("dashboard.time")}
               </span>
               <span className="block text-[16px] text-foreground">
                 {time.toLocaleTimeString("fa-IR", {
@@ -150,7 +152,7 @@ const Dashboard = () => {
             </div>
             <div>
               <span className="block text-[14px] md:text-[16px] text-muted">
-                تاریخ
+                {t("dashboard.date")}
               </span>
               <span className="block text-[16px] text-foreground">
                 {fullDate}
@@ -163,11 +165,11 @@ const Dashboard = () => {
       <div className="hidden w-full mt-10 md:flex flex-wrap justify-center items-center gap-5">
         <div className="w-full md:w-[40%] h-[287px] bg-overlay rounded-[16px] p-3">
           <div className="h-[30px] w-full flex justify-between items-center">
-            <h3 className="text-[16px] text-muted">نظرات‌ شما</h3>
+            <h3 className="text-[16px] text-muted">{t("dashboard.yourComments")}</h3>
           </div>
           <div className="flex gap-2 overflow-y-auto">
-            <div className="w-full mr-2 my-1 text-foreground">دوره ها</div>
-            <div className="w-full mr-2 my-1 text-foreground">اخبار و مقالات</div>
+            <div className="w-full mr-2 my-1 text-foreground">{t("dashboard.courses")}</div>
+            <div className="w-full mr-2 my-1 text-foreground">{t("dashboard.news")}</div>
           </div>
           <div className="flex gap-2 h-52 overflow-y-auto">
             <div className="w-[49%] flex flex-col gap-2 h-auto">
@@ -219,7 +221,7 @@ const Dashboard = () => {
 
         <div className="hidden md:flex w-[25%] h-[287px] bg-overlay rounded-[16px] p-3 flex-col items-center justify-center">
           <h3 className="text-[16px] text-foreground mb-4">
-            وضعیت اطلاعات حساب
+            {t("dashboard.accountStatus")}
           </h3>
           <div className="w-[130px] h-[130px]">
             <CircularProgressbar
@@ -254,11 +256,11 @@ const Dashboard = () => {
 
         <div className="w-full md:w-[40%] h-[287px] bg-overlay rounded-[16px] p-3">
           <div className="h-[30px] w-full flex justify-between items-center">
-            <h3 className="text-[16px] text-muted">نظرات‌ شما</h3>
+            <h3 className="text-[16px] text-muted">{t("dashboard.yourComments")}</h3>
           </div>
           <div className="flex gap-2 overflow-y-auto">
-            <div className="w-full mr-2 my-1 text-foreground">دوره ها</div>
-            <div className="w-full mr-2 my-1 text-foreground">اخبار و مقالات</div>
+            <div className="w-full mr-2 my-1 text-foreground">{t("dashboard.courses")}</div>
+            <div className="w-full mr-2 my-1 text-foreground">{t("dashboard.news")}</div>
           </div>
           <div className="flex gap-2 h-52 overflow-y-auto">
             <div className="w-[49%] flex flex-col gap-2 h-auto">
@@ -301,31 +303,31 @@ const Dashboard = () => {
 
       <div className="w-full h-[470px] flex flex-col justify-start items-center gap-3 mt-3 p-3 bg-overlay rounded-[16px]">
         <div className="h-[30px] w-full flex justify-between items-center">
-          <h3 className="text-[16px] text-foreground">جدیدترین دوره ها</h3>
+          <h3 className="text-[16px] text-foreground">{t("dashboard.latestCourses")}</h3>
           <span className="text-[14px] text-accent cursor-pointer">
-            مشاهده همه {">"}
+            {t("dashboard.viewAll")} {">"}
           </span>
         </div>
 
         <div className="hidden w-full h-[48px] bg-default rounded-[16px] md:flex justify-start items-center gap-3 p-3">
           <span className="text-[16px] text-muted ml-[260px]">
-            نام دوره
+            {t("dashboard.courseName")}
           </span>
           <span className="text-[16px] text-muted ml-[50px]">
-            درباره دوره
+            {t("dashboard.aboutCourse")}
           </span>
           <span className="text-[16px] text-muted ml-[35px]">
-            اساتید دوره
+            {t("dashboard.courseTeacher")}
           </span>
           <span className="text-[16px] text-muted ml-[90px]">
-            تاریخ برگزاری
+            {t("dashboard.startDate")}
           </span>
-          <span className="text-[16px] text-muted">قیمت دوره</span>
+          <span className="text-[16px] text-muted">{t("dashboard.coursePrice")}</span>
         </div>
 
         <div className="w-full h-[470px] bg-overlay rounded-[16px] flex flex-col justify-start items-start">
           {isLoading ? (
-            <p className="text-foreground">در حال فراخوانی...</p>
+            <p className="text-foreground">{t("dashboard.loading")}</p>
           ) : (
             course.map((c) => (
               <div
@@ -345,7 +347,7 @@ const Dashboard = () => {
                   {formatPersianDate(c.startTime)}
                 </span>
                 <span className="hidden md:block text-[20px] text-foreground w-[150px]">
-                  {c.cost} <span>تومان</span>
+                  {c.cost} <span>{t("dashboard.toman")}</span>
                 </span>
                 <img
                   src="/public/icons/view-stroke-rounded 1.png"

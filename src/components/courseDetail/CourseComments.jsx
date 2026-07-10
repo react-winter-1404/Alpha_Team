@@ -19,8 +19,10 @@ import toast from "react-hot-toast";
 import EmojiPicker from "emoji-picker-react";
 import "../../index.css";
 import { useResizeDetector } from "react-resize-detector";
+import { useTranslation } from "react-i18next";
 
 const CourseComments = ({ courseId, courseTitle }) => {
+  const { t } = useTranslation("courses");
   const [isShowAllComments, setIsShowAllComments] = useState(false);
   const [isShowCommentModal, setIsShowCommentModal] = useState(false);
   const [isAddReplyComment, setIsAddReplyComment] = useState(false);
@@ -33,8 +35,8 @@ const CourseComments = ({ courseId, courseTitle }) => {
   const [focusCount, setFocusCount] = useState(0);
 
   const validitionSchema = Yup.object({
-    Title: Yup.string().trim().required("عنوان نظر نباید خالی باشه"),
-    Describe: Yup.string().trim().required("متن نظر نباید خالی باشه"),
+    Title: Yup.string().trim().required(t("comments.titleRequired")),
+    Describe: Yup.string().trim().required(t("comments.describeRequired")),
   });
 
   const fetchcourseComments = async () => {
@@ -114,7 +116,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
 
   return (
     <div className="w-full flex flex-col gap-7 lg:gap-12.5 mt-10 lg:mt-20 relative">
-      <div className="text-3xl lg:text-5xl font-bold text-foreground">نظرات</div>
+      <div className="text-3xl lg:text-5xl font-bold text-foreground">{t("comments.title")}</div>
       <div
         ref={ref}
         className="border-4 border-border w-full flex flex-col gap-4 lg:gap-6 p-3 lg:p-5 rounded-3xl"
@@ -128,7 +130,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
               icon={Comment01Icon}
               className="h-5 w-5 lg:h-6 lg:w-6 mt-2 lg:mt-3"
             />
-            نظر شما
+            {t("comments.yourComment")}
           </Button>
           <AlertDialog.Backdrop>
             <AlertDialog.Container size="xl" className="lg:max-w-240">
@@ -136,7 +138,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                 <AlertDialog.Header>
                   <AlertDialog.Heading className="flex justify-between mb-5">
                     <div className="flex items-center gap-2 font-bold">
-                      <div className="text-xl lg:text-2xl text-foreground">نظرات</div>
+                      <div className="text-xl lg:text-2xl text-foreground">{t("comments.title")}</div>
                       <div className="lg:text-xl text-muted">
                         ({courseTitle})
                       </div>
@@ -150,7 +152,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                         icon={Cancel01Icon}
                         className="w-5 h-5 lg:w-6 lg:h-6 mt-2"
                       />
-                      بستن
+                      {t("comments.close")}
                     </Button>
                   </AlertDialog.Heading>
                 </AlertDialog.Header>
@@ -179,7 +181,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                     </>
                   ) : (
                     <div className="h-40 w-full flex justify-center items-center text-muted text-sm md:text-[16px] text-center">
-                      هنوز نظری ثبت نشده است. اولین نفری باشید که نظر می‌دهید!
+                      {t("comments.noComments")}
                     </div>
                   )}
                   <div className="h-22 lg:h-26"></div>
@@ -275,7 +277,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                             onFocus={() => {
                               setFocusCount(0);
                             }}
-                            placeholder="عنوان نظر خود را بنویسید"
+                            placeholder={t("comments.titlePlaceholder")}
                             className="text-xs lg:text-[16px] h-full outline-0 bg-transparent text-foreground"
                           />
                           <ErrorMessage
@@ -292,7 +294,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                             onFocus={() => {
                               setFocusCount(1);
                             }}
-                            placeholder="متن نظر خود را بنویسید"
+                            placeholder={t("comments.describePlaceholder")}
                             className="text-xs lg:text-[16px] h-full outline-0 bg-transparent text-foreground"
                           />
                           <ErrorMessage
@@ -311,7 +313,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                 >
                   <div className="flex justify-between text-[16px] lg:text-xl text-accent-foreground gap-3">
                     <div className="flex gap-3 pt-1 lg:pt-0">
-                      جواب به نظر :
+                      {t("comments.replyTo")} :
                       <div className="flex-1 min-w-0 lg:w-80 w-50 truncate">
                         {commentTitleForReply}
                       </div>
@@ -328,7 +330,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                         icon={Cancel01Icon}
                         className="w-4 h-4 lg:w-6 lg:h-6 mt-3"
                       />
-                      بستن
+                      {t("comments.closeReply")}
                     </Button>
                   </div>
                 </div>
@@ -363,7 +365,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
           </div>
         ) : (
           <div className="h-40 w-full flex justify-center items-center text-muted text-sm md:text-[16px] text-center">
-            هنوز نظری ثبت نشده است. اولین نفری باشید که نظر می‌دهید!
+            {t("comments.noComments")}
           </div>
         )}
         {showButton && (
@@ -381,7 +383,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                     icon={Comment01Icon}
                     className="h-6 w-6 mt-3"
                   />
-                  نمایش بیشتر
+                  {t("comments.showMore")}
                 </>
               ) : (
                 <>
@@ -389,7 +391,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                     icon={Comment01Icon}
                     className="h-6 w-6 mt-3"
                   />
-                  نمایش کمتر
+                  {t("comments.showLess")}
                 </>
               )}
             </Button>

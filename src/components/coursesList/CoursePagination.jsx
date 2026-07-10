@@ -2,8 +2,10 @@
 
 import React from 'react';
 import { Pagination } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 function CoursePagination({ page, totalPages, itemsPerPage, totalItems, onPageChange }) {
+  const { t } = useTranslation("courses");
   
   const getPageNumbers = () => {
     const pages = [];
@@ -38,7 +40,7 @@ function CoursePagination({ page, totalPages, itemsPerPage, totalItems, onPageCh
     <Pagination className="w-full flex flex-col items-center gap-3" style={{ direction: 'rtl' }}>
       
       <Pagination.Summary className="text-muted text-sm font-medium">
-        نمایش {startItem} تا {endItem} از مجموع {totalItems} دوره یافت شده
+        {t("listing.showing")} {startItem} {t("listing.to")} {endItem} {t("listing.of")} {totalItems} {t("listing.coursesFound")}
       </Pagination.Summary>
       
       <Pagination.Content className="flex items-center gap-1" style={{ direction: 'ltr' }}>
@@ -49,7 +51,7 @@ function CoursePagination({ page, totalPages, itemsPerPage, totalItems, onPageCh
             className="px-3 py-1 text-sm bg-default rounded-xl hover:bg-default-foreground/10 text-foreground"
           >
             <Pagination.PreviousIcon className="mr-1" />
-            <span>قبلی</span>
+            <span>{t("listing.previous")}</span>
           </Pagination.Previous>
         </Pagination.Item>
 
@@ -79,7 +81,7 @@ function CoursePagination({ page, totalPages, itemsPerPage, totalItems, onPageCh
             onPress={() => onPageChange(page + 1)}
             className="px-3 py-1 text-sm bg-default rounded-xl hover:bg-default-foreground/10 text-foreground"
           >
-            <span>بعدی</span>
+            <span>{t("listing.next")}</span>
             <Pagination.NextIcon className="ml-1" />
           </Pagination.Next>
         </Pagination.Item>

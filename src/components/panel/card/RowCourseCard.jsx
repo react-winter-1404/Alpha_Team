@@ -4,8 +4,10 @@ import { Chip } from "@heroui/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ViewIcon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const RowCourseCard = ({ course }) => {
+  const { t } = useTranslation("panel");
   const [isLoading, setIsLoading] = useState(false);
   const [courseDetail, setCourseDetail] = useState([]);
 
@@ -48,7 +50,7 @@ const RowCourseCard = ({ course }) => {
       </div>
       <div className="w-[15%] flex justify-center text-foreground">
         {" "}
-        {courseDetail.cost && courseDetail.cost.toLocaleString("fa-IR")} تومان
+        {courseDetail.cost && courseDetail.cost.toLocaleString("fa-IR")} {t("myReserve.toman")}
       </div>
 
       <div className="w-[15%] flex justify-center">
@@ -57,7 +59,7 @@ const RowCourseCard = ({ course }) => {
           color={course.accept ? "success" : "danger"}
           className="font-bold px-2 py-1"
         >
-          {course.accept ? "تایید شده" : "تایید نشده"}
+          {course.accept ? t("myReserve.accepted") : t("myReserve.notAccepted")}
         </Chip>
       </div>
       <div className="w-[10%] flex justify-center">

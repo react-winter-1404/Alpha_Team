@@ -2,8 +2,11 @@ import { motion } from "framer-motion";
 import { Button, Chip } from "@heroui/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ThirdBracketCircleIcon } from "@hugeicons/core-free-icons";
+import { useTranslation } from "react-i18next";
 
 const Hero = () => {
+  const { t } = useTranslation("home");
+
   return (
     <motion.section
       initial={{ opacity: 0, scale: 0.8 }}
@@ -13,7 +16,7 @@ const Hero = () => {
       className="my-10 mx-auto w-[90%] md:w-3/5 text-center"
     >
       <div className="items-center justify-center flex flex-wrap gap-5 my-5 text-[33px] md:text-[40px] lg:text-[48px] text-foreground">
-        <p>تجربه‌ای بی‌نظیر در یادگیری</p>
+        <p>{t("hero.line1")}</p>
         <Chip
           isIconOnly
           disableRipple
@@ -25,14 +28,14 @@ const Hero = () => {
             className="m-0 w-8 h-8 text-muted"
           />
         </Chip>
-        <p>کدنویسی؛</p>
+        <p>{t("hero.line2")}</p>
       </div>
       <p className="text-[33px] md:text-[48px] my-5 text-foreground">
-        از <span className="text-accent">مبتدی</span> تا{" "}
-        <span className="text-danger">حرفه ای</span> !
+        {t("hero.from")} <span className="text-accent">{t("hero.from")}</span>{" "}
+        <span className="text-danger">{t("hero.to")}</span> !
       </p>
       <p className="text-[16px] md:text-[20px] w-[80%] mx-auto text-muted my-5">
-        آکادمی فوق تخصصی کدنویسی و برنامه‌نویسی از سنین کودکی تا بزرگسالی
+        {t("hero.description")}
       </p>
       <Button
         color="primary"
@@ -41,7 +44,7 @@ const Hero = () => {
         disableRipple
         className="my-5 px-2 text-[16px] md:text-[20px] bg-accent text-accent-foreground w-[140px] h-[40px] md:w-43 md:h-14 rounded-4xl"
       >
-        شروع یادگیری
+        {t("hero.cta")}
       </Button>
     </motion.section>
   );

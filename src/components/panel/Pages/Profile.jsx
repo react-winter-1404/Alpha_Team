@@ -6,8 +6,10 @@ import LinksProfile from "../LinksProfile";
 import { getUserProfile } from "../../../core/services/userPanel/get";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { SmartPhone01Icon, AccountSetting03Icon, Mail02Icon, PencilEdit01Icon } from "@hugeicons/core-free-icons";
+import { useTranslation } from "react-i18next";
 
 const ProfilePanel = ({ profilePic, setProfilePic }) => {
+  const { t } = useTranslation("panel");
   const [personal, setPersonal] = useState(true);
   const [image, setImage] = useState(false);
   const [addres, setAddres] = useState(false);
@@ -99,7 +101,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
           </div>
 
           <div className="mt-10 md:mt-20">
-            <span className="text-[16px] text-muted">درباره من</span>
+            <span className="text-[16px] text-muted">{t("profile.aboutMe")}</span>
             <p className="text-[16px] text-foreground mt-2">
               {userProfile.userAbout}
             </p>
@@ -121,7 +123,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
               : "opacity-50 border-none"
           }`}
         >
-          اطلاعات شخصی
+          {t("profile.personalInfo")}
         </span>
 
         <span
@@ -137,7 +139,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
               : "opacity-50 border-none"
           }`}
         >
-          عکس پروفایل
+          {t("profile.profileImage")}
         </span>
 
         <span
@@ -153,7 +155,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
               : "opacity-50 border-none"
           }`}
         >
-          آدرس سکونت
+          {t("profile.homeAddress")}
         </span>
 
         <span
@@ -169,7 +171,7 @@ const ProfilePanel = ({ profilePic, setProfilePic }) => {
               : "opacity-50 border-none"
           }`}
         >
-          لینک ها
+          {t("profile.links")}
         </span>
       </div>
 

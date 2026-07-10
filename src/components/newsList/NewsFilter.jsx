@@ -12,6 +12,7 @@ import {
 } from "@heroui/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Cancel01Icon } from "@hugeicons/core-free-icons";
+import { useTranslation } from "react-i18next";
 
 const NewsFilter = ({ 
   currentFilters, 
@@ -22,6 +23,7 @@ const NewsFilter = ({
   currentSort,
   onSortChange 
 }) => {
+  const { t } = useTranslation("news");
   const [searchTerm, setSearchTerm] = useState(currentFilters.query || "");
   const [categories, setCategories] = useState([]);
   const [isCatOpen, setIsCatOpen] = useState(false);
@@ -85,7 +87,7 @@ const NewsFilter = ({
   };
 
   const getSelectedCategoriesLabel = () => {
-    if (!currentFilters.categoryIds || currentFilters.categoryIds.length === 0) return "انتخاب کنید";
+    if (!currentFilters.categoryIds || currentFilters.categoryIds.length === 0) return t("listing.select");
     return categories
       .filter((cat) => currentFilters.categoryIds.includes(String(cat.id)))
       .map((cat) => cat.categoryName)
@@ -93,11 +95,11 @@ const NewsFilter = ({
   };
 
   const getSortLabel = () => {
-    if (currentSort?.sortingCol === "insertDate") return "جدیدترین‌ها";
-    if (currentSort?.sortingCol === "currentView") return "پرطرفدارترین";
-    if (currentSort?.sortingCol === "newsRate") return "محبوب‌ترین";
-    if (currentSort?.sortingCol === "currentLikeCount") return "پرامتیازترین";
-    return "انتخاب کنید";
+    if (currentSort?.sortingCol === "insertDate") return t("listing.newest");
+    if (currentSort?.sortingCol === "currentView") return t("listing.mostViewed");
+    if (currentSort?.sortingCol === "newsRate") return t("listing.mostPopular");
+    if (currentSort?.sortingCol === "currentLikeCount") return t("listing.highestRated");
+    return t("listing.select");
   };
 
   const renderFilterFields = () => (
@@ -107,7 +109,7 @@ const NewsFilter = ({
           <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <span>جستجوی اخبار و مقالات</span>
+          <span>{t("listing.searchNews")}</span>
         </div>
         <SearchField 
           name="search" 
@@ -118,7 +120,7 @@ const NewsFilter = ({
           <SearchField.Group className="bg-overlay border-0 rounded-xl h-11 px-3 shadow-none flex items-center">
             <SearchField.Input 
               className="w-full text-right text-xs bg-transparent border-none outline-none text-foreground placeholder:text-muted" 
-              placeholder="جستجو کنید..." 
+              placeholder={t("listing.searchPlaceholder")} 
             />
             <SearchField.ClearButton className="text-muted hover:text-foreground" />
             <SearchField.SearchIcon className="text-accent w-5 h-5 mr-auto cursor-pointer" />
@@ -131,7 +133,7 @@ const NewsFilter = ({
           <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
           </svg>
-          <span>دسته بندی</span>
+          <span>{t("listing.category")}</span>
         </div>
 
         <Popover isOpen={isCatOpen} onOpenChange={setIsCatOpen} placement="bottom-start">
@@ -167,7 +169,7 @@ const NewsFilter = ({
           <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-          <span>تاریخ انتشار</span>
+          <span>{t("listing.publishDate")}</span>
         </div>
         <DateRangePicker 
           className="w-full" 
@@ -217,7 +219,7 @@ const NewsFilter = ({
       {isMobile && (
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2 font-bold text-sm mb-1 text-foreground">
-            <span className="text-sm font-bold">ترتیب</span>
+            <span className="text-sm font-bold">{t("listing.order")}</span>
           </div>
           <Popover isOpen={isSortOpen} onOpenChange={setIsSortOpen} placement="bottom-start">
             <Popover.Trigger>
@@ -229,10 +231,10 @@ const NewsFilter = ({
             <Popover.Content className="bg-overlay rounded-xl shadow-lg border border-border w-[281px] p-1">
               <div className="flex flex-col w-full">
                 {[
-                  { id: "default", label: "جدیدترین‌ها", col: "insertDate", type: "DESC" },
-                  { id: "view", label: "پرطرفدارترین", col: "currentView", type: "DESC" },
-                  { id: "rate", label: "محبوب‌ترین", col: "newsRate", type: "DESC" },
-                  { id: "like", label: "پرامتیازترین", col: "currentLikeCount", type: "DESC" }
+                  { id: "default", label: t("listing.newest"), col: "insertDate", type: "DESC" },
+                  { id: "view", label: t("listing.mostViewed"), col: "currentView", type: "DESC" },
+                  { id: "rate", label: t("listing.mostPopular"), col: "newsRate", type: "DESC" },
+                  { id: "like", label: t("listing.highestRated"), col: "currentLikeCount", type: "DESC" }
                 ].map((item) => {
                   const isAct = currentSort?.sortingCol === item.col && currentSort?.sortType === item.type;
                   return (
@@ -273,10 +275,10 @@ const NewsFilter = ({
         <div className="absolute inset-0 bg-black/30 backdrop-blur-md transition-all" onClick={onClose} />
         <div className={`relative w-full max-h-[90vh] bg-overlay rounded-t-[40px] p-6 shadow-2xl flex flex-col transition-transform duration-300 ease-out transform ${isOpen ? "translate-y-0" : "translate-y-full"}`}>
           <div className="flex items-center justify-between mb-6 border-b border-separator pb-4">
-            <span className="text-lg font-bold text-foreground">ترتیب و فیلتر</span>
+            <span className="text-lg font-bold text-foreground">{t("listing.sortAndFilter")}</span>
             <button onClick={onClose} className="flex items-center gap-1 border border-danger text-danger px-4 py-1.5 rounded-full text-xs font-bold bg-danger/10 hover:bg-danger/20 transition-colors cursor-pointer">
               <HugeiconsIcon icon={Cancel01Icon} className="w-4 h-4" />
-              <span>بستن</span>
+              <span>{t("listing.close")}</span>
             </button>
           </div>
           <div className="flex-1 overflow-y-auto pr-1 flex flex-col gap-6 pb-20">
@@ -284,7 +286,7 @@ const NewsFilter = ({
           </div>
           <div className="absolute bottom-4 left-6 right-6 bg-gradient-to-t from-overlay pt-2">
             <Button onClick={onClose} className="w-full h-12 bg-accent text-accent-foreground font-bold text-base rounded-2xl shadow-md cursor-pointer transition-all active:scale-95">
-              اعمال
+              {t("listing.apply")}
             </Button>
           </div>
         </div>

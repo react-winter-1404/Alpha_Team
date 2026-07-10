@@ -7,8 +7,10 @@ import { Link } from "react-router-dom";
 import { Calendar02Icon, Cancel01Icon, Search01Icon } from "@hugeicons/core-free-icons";
 import { DateRangePicker, DateField, RangeCalendar } from "@heroui/react";
 import { I18nProvider } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 const FavCourses = () => {
+  const { t } = useTranslation("panel");
   const [myFavoriteCourses, setMyFavoriteCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -62,19 +64,19 @@ const FavCourses = () => {
   return (
     <>
       <div className="hidden md:block">
-        <h3 className="text-[32px] text-foreground mt-5">علاقه‌مندی دوره</h3>
+        <h3 className="text-[32px] text-foreground mt-5">{t("favCourses.title")}</h3>
 
         <div className="flex justify-start items-center gap-5 mt-7">
           <div>
             <div className="flex justify-start items-center gap-2">
               <HugeiconsIcon icon={Search01Icon} className="m-0 w-5 h-5 text-foreground" />
-              <span className="text-[16px] text-foreground">جستجوِی دوره</span>
+              <span className="text-[16px] text-foreground">{t("favCourses.searchCourse")}</span>
             </div>
 
             <div className="relative mt-3">
               <input
                 type="text"
-                placeholder="جستجو کنید ..."
+                placeholder={t("favCourses.searchPlaceholder")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-[289px] h-[48px] bg-default text-[14px] text-foreground indent-3 rounded-[16px] focus:outline-none focus:ring-2 focus:ring-accent border border-border"
@@ -91,7 +93,7 @@ const FavCourses = () => {
                 <span>
                   <HugeiconsIcon icon={Calendar02Icon} className="m-0 w-5 h-5" />
                 </span>
-                <span>تاریخ برگزاری</span>
+                <span>{t("favCourses.startDate")}</span>
               </div>
 
               {(dateRange.start || dateRange.end) && (
@@ -162,10 +164,10 @@ const FavCourses = () => {
         <div className="mt-5 w-full h-[681px] rounded-[16px] bg-overlay p-3 flex flex-col justify-start items-center">
           <div className="w-full h-[48px] text-muted bg-default rounded-[16px] flex justify-between items-center p-3">
             <span className="w-[15%] flex justify-center">#</span>
-            <span className="w-[15%] flex justify-center">نام دوره</span>
-            <span className="w-[15%] flex justify-center">استاد دوره</span>
-            <span className="w-[15%] flex justify-center">شروع دوره</span>
-            <span className="w-[15%] flex justify-center">قیمت دوره</span>
+            <span className="w-[15%] flex justify-center">{t("favCourses.courseName")}</span>
+            <span className="w-[15%] flex justify-center">{t("favCourses.courseTeacher")}</span>
+            <span className="w-[15%] flex justify-center">{t("favCourses.startDate")}</span>
+            <span className="w-[15%] flex justify-center">{t("favCourses.coursePrice")}</span>
             <span className="w-[10%] flex justify-center"></span>
           </div>
 
@@ -177,8 +179,8 @@ const FavCourses = () => {
             ) : filteredCourses.length === 0 ? (
               <div className="flex justify-center items-center h-full text-muted text-lg">
                 {searchTerm || dateRange.start || dateRange.end
-                  ? "دوره‌ای با شرایط انتخابی یافت نشد"
-                  : "دوره‌ای در لیست علاقه‌مندی‌ها یافت نشد"}
+                  ? t("favCourses.noCoursesFound")
+                  : t("favCourses.noFavCourses")}
               </div>
             ) : (
               filteredCourses.map((course) => (
@@ -200,7 +202,7 @@ const FavCourses = () => {
                     {new Date(course.course.startTime).toLocaleDateString("fa-IR", { day: "numeric", month: "long", year: "numeric" })}
                   </div>
                   <div className="w-[15%] flex justify-center text-foreground">
-                    {course.cost && course.cost.toLocaleString("fa-IR")} تومان
+                    {course.cost && course.cost.toLocaleString("fa-IR")} {t("favCourses.toman")}
                   </div>
                   <div className="w-[10%] flex justify-center">
                     <Link to={`/courses/${course.courseId}`}>
@@ -216,8 +218,8 @@ const FavCourses = () => {
 
       <div className="block md:hidden">
         <div className="flex justify-between items-center">
-          <h3 className="text-[32px] text-foreground">علاقه‌مندی دوره</h3>
-          <button className="w-[83px] h-[41px] rounded-[64px] bg-accent text-[16px] text-accent-foreground">فیلتر</button>
+          <h3 className="text-[32px] text-foreground">{t("favCourses.title")}</h3>
+          <button className="w-[83px] h-[41px] rounded-[64px] bg-accent text-[16px] text-accent-foreground">{t("favCourses.filter")}</button>
         </div>
 
         <div className="mt-10 w-full p-3 rounded-[16px] bg-overlay flex flex-col items-center justify-center gap-2">
@@ -226,8 +228,8 @@ const FavCourses = () => {
           ) : filteredCourses.length === 0 ? (
             <div className="flex justify-center items-center h-full text-muted text-lg">
               {searchTerm || dateRange.start || dateRange.end
-                ? "دوره‌ای با شرایط انتخابی یافت نشد"
-                : "دوره‌ای در لیست علاقه‌مندی‌ها یافت نشد"}
+                ? t("favCourses.noCoursesFound")
+                : t("favCourses.noFavCourses")}
             </div>
           ) : (
             myFavoriteCourses.map((course) => (

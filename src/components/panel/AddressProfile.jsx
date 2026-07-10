@@ -6,6 +6,7 @@ import { Button, Skeleton } from "@heroui/react";
 import { getUserProfile } from "../../core/services/userPanel/get";
 import toast from "react-hot-toast";
 import { putPersonalProfile } from "../../core/services/userPanel/put";
+import { useTranslation } from "react-i18next";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -51,6 +52,7 @@ const MapComponent = ({ position, setPosition }) => {
 };
 
 const AddressProfile = () => {
+  const { t } = useTranslation("panel");
   const [position, setPosition] = useState([35.6997, 51.3376]);
   const [userProfile, setUserProfile] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -98,13 +100,13 @@ const AddressProfile = () => {
       ) : (
         <>
           <h2 className="text-[16px] text-accent indent-8 font-medium">
-            داخل نقشه موقعیت مکانی محل سکونت خود را انتخاب کنید
+            {t("profile.mapGuide")}
           </h2>
           <div className="w-full h-[380px] rounded-[16px] overflow-hidden border border-border shadow-md">
             <MapComponent position={position} setPosition={setPosition} />
           </div>
           <Button onClick={onSubmit} variant="primary" className="font-bold h-11 my-0">
-            ثبت موقعیت مکانی
+            {t("profile.saveLocation")}
           </Button>
         </>
       )}

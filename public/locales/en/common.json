@@ -1,0 +1,24 @@
+{
+  "navbar": {
+    "home": "Home",
+    "courses": "Courses",
+    "news": "News & Articles",
+    "contact": "Contact Us",
+    "login": "Login / Register",
+    "profile": "Account"
+  },
+  "footer": {
+    "academyName": "Bahr Coding Academy",
+    "description": "Over 13 years of experience in coding education from childhood to adulthood. Our goal has always been to equip students with the necessary skills to succeed in the world of technology and programming.",
+    "instagram": "Instagram",
+    "telegram": "Telegram",
+    "pages": "Pages",
+    "home": "Home",
+    "courses": "Courses",
+    "news": "News & Articles",
+    "about": "About",
+    "teachers": "Teachers",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us"
+  }
+}

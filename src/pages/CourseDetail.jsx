@@ -11,6 +11,7 @@ import {
   getCourseDetails,
   getCoursesWithPagination,
 } from "../core/services/Course/get";
+import { useTranslation } from "react-i18next";
 
 const DetailPageSkeleton = () => {
   return (
@@ -40,6 +41,7 @@ const DetailPageSkeleton = () => {
 };
 
 const CourseDetailPage = () => {
+  const { t } = useTranslation("courses");
   const Params = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -138,7 +140,7 @@ const CourseDetailPage = () => {
       <div className="w-full flex flex-col items-center bg-overlay">
         <NavbarHeader />
         <div className="flex justify-center items-center h-screen">
-          <div className="text-2xl text-danger">خطا در بارگذاری اطلاعات</div>
+          <div className="text-2xl text-danger">{t("detail.loadError")}</div>
         </div>
         <Footer />
       </div>
@@ -182,7 +184,7 @@ const CourseDetailPage = () => {
 
           {courses.length >= 1 && (
             <div className="mt-10 flex flex-col w-[90.5%] gap-10 lg:gap-15 pt-16 px-5">
-              <div className="text-5xl text-foreground">دوره های دیگر</div>
+              <div className="text-5xl text-foreground">{t("detail.otherCourses")}</div>
               <div className="flex flex-wrap gap-5.75 justify-center">
                 {courses.map((course, index) => (
                   <CourseCard
@@ -195,7 +197,7 @@ const CourseDetailPage = () => {
                     }
                     title={course.title || course.courseName || ""}
                     discribtion={course.describe || course.shortDescribe || ""}
-                    teacher={course.teacherName || "مدرس دوره"}
+                    teacher={course.teacherName || t("card.teacher")}
                     date={course.lastUpdate || course.startDate || ""}
                     number={course.capacity || 0}
                     price={

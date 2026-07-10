@@ -8,8 +8,10 @@ import { getUserProfile } from "../../core/services/userPanel/get";
 import { DeleteProfileImage } from "../../core/services/userPanel/delete";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { MoreVerticalCircle01Icon } from "@hugeicons/core-free-icons";
+import { useTranslation } from "react-i18next";
 
 const ImageProfile = ({ onProfileChange }) => {
+  const { t } = useTranslation("panel");
   const [imageList, setImageList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [userProfile, setUserProfile] = useState([]);
@@ -142,10 +144,10 @@ const ImageProfile = ({ onProfileChange }) => {
           <input type="file" id="choose" onChange={(event) => fileHandler(event)} className="hidden" />
           <label htmlFor="choose" className="flex flex-col justify-center items-center cursor-pointer">
             <img src="/public/icons/Group 148.png" alt="" className="h-[32px] w-[32px] mb-[10px]" />
-            <span className="block text-[16px] text-foreground">اضافه کردن عکس</span>
+            <span className="block text-[16px] text-foreground">{t("profile.addImage")}</span>
           </label>
           <span className="block text-[14px] text-muted">
-            اندازه فریم ( 236*236 )
+            {t("profile.imageSize")}
           </span>
         </div>
 
@@ -161,7 +163,7 @@ const ImageProfile = ({ onProfileChange }) => {
             <div className={`${i.option ? "w-[234px] h-[112px] rounded-[16px] bg-overlay shadow-lg absolute top-12 right-0 flex flex-col" : "hidden"}`}>
               <div onClick={() => mainImageHandler(i.image, i.id)} className="h-[50%] cursor-pointer border-b border-separator flex justify-start items-center gap-3 p-2">
                 <img src="/public/icons/checkmark-circle-02-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px]" />
-                <span className="text-[16px] text-foreground">انتخاب عکس اصلی</span>
+                <span className="text-[16px] text-foreground">{t("profile.selectMainImage")}</span>
               </div>
 
               <div
@@ -175,7 +177,7 @@ const ImageProfile = ({ onProfileChange }) => {
                   alt=""
                   className="w-[24px] h-[24px]"
                 />
-                <span className="text-[16px] text-danger">حذف عکس</span>
+                <span className="text-[16px] text-danger">{t("profile.deleteImage")}</span>
               </div>
             </div>
           </div>

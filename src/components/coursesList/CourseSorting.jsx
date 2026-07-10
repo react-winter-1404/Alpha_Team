@@ -1,7 +1,9 @@
 "use client";
 import { Tag, TagGroup } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
+  const { t } = useTranslation("courses");
   
   const handleSelectionChange = (keys) => {
     const selectedId = Array.from(keys)[0];
@@ -39,7 +41,7 @@ function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
 
   return (
     <div className="flex items-center gap-3 bg-default px-6 py-3 rounded-[20px] shadow-sm mb-6 w-full">
-      <span className="font-bold text-sm shrink-0 text-foreground">مرتب‌سازی بر اساس:</span>
+      <span className="font-bold text-sm shrink-0 text-foreground">{t("listing.sortBy")}</span>
       
       <TagGroup 
         aria-label="سورت کردن دوره‌ها" 
@@ -49,16 +51,16 @@ function CourseSorting({ currentSortingCol, currentSortType, onSortChange }) {
       >
         <TagGroup.List className="flex gap-2">
           <Tag id="price-desc" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl  ${isSelected("price-desc") ? 'bg-accent text-accent-foreground font-bold' : ''}`}>
-            گران‌ترین‌ها
+            {t("listing.mostExpensive")}
           </Tag>
           <Tag id="price-asc" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl  ${isSelected("price-asc") ? 'bg-accent text-accent-foreground font-bold' : ''}`}>
-            ارزان‌ترین‌ها
+            {t("listing.cheapest")}
           </Tag>
           <Tag id="rating" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl  ${isSelected("rating") ? 'bg-accent text-accent-foreground font-bold' : ''}`}>
-            بالاترین امتیاز
+            {t("listing.highestRated")}
           </Tag>
           <Tag id="popularity" className={`cursor-pointer font-medium h-8 text-xs px-3 py-1 rounded-xl  ${isSelected("popularity") ? 'bg-accent text-accent-foreground font-bold' : ''}`}>
-            محبوب‌ترین‌ها
+            {t("listing.mostPopular")}
           </Tag>
         </TagGroup.List>
       </TagGroup>

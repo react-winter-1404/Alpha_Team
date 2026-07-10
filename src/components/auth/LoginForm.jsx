@@ -11,13 +11,16 @@ import { useState } from "react";
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const LoginForm = ({ submitFunction }) => {
+  const { t } = useTranslation("auth");
   const [isHidenPass, setIsHidenPass] = useState(true);
+
   const validationSchema = Yup.object({
     phoneOrGmail: Yup.string()
-      .required("ایمیل یا شماره همراه الزامی است")
-      .test("email-or-phone", "ایمیل یا شماره همراه معتبر نیست", (value) => {
+      .required(t("errors.emailOrPhoneRequired"))
+      .test("email-or-phone", t("errors.emailOrPhoneInvalid"), (value) => {
         if (!value) return false;
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,15 +42,15 @@ const LoginForm = ({ submitFunction }) => {
         return false;
       }),
     password: Yup.string()
-      .min(8, "رمز عبور حداقل ۸ کاراکتر")
-      .required("رمز عبور الزامی است")
-      .max(32, "رمز عبور نمی‌تواند بیشتر از ۳۲ کاراکتر باشد")
-      .matches(/[a-z]/, "رمز عبور باید حداقل یک حرف کوچک داشته باشد")
-      .matches(/[A-Z]/, "رمز عبور باید حداقل یک حرف بزرگ داشته باشد")
-      .matches(/\d/, "رمز عبور باید حداقل یک عدد داشته باشد")
+      .min(8, t("errors.passwordMin"))
+      .required(t("errors.passwordRequired"))
+      .max(32, t("errors.passwordMax"))
+      .matches(/[a-z]/, t("errors.passwordLowercase"))
+      .matches(/[A-Z]/, t("errors.passwordUppercase"))
+      .matches(/\d/, t("errors.passwordNumber"))
       .matches(
         /[!@#$%^&*(),.?":{}|<>]/,
-        "رمز عبور باید حداقل یک کاراکتر خاص داشته باشد",
+        t("errors.passwordSpecial"),
       ),
     rememberMe: Yup.boolean(),
   });
@@ -56,12 +59,11 @@ const LoginForm = ({ submitFunction }) => {
     <div className="w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
       <div className="w-full flex flex-col gap-4 sm:gap-6">
         <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold text-foreground">
-          <div>خوش برگشتی!</div>
+          <div>{t("login.welcomeBack")}</div>
           <div className="text-lg sm:text-[25px]">👋</div>
         </div>
         <div className="font-light text-sm sm:text-base text-muted">
-          لطفا برای ورود به پنل خود ایمیل یا شماره همراه و رمزعبور خود را وارد
-          کنید
+          {t("login.description")}
         </div>
       </div>
 
@@ -77,7 +79,7 @@ const LoginForm = ({ submitFunction }) => {
                 htmlFor="phoneOrGmail"
                 className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
               >
-                شماره یا ایمیل
+                {t("login.emailOrPhone")}
               </label>
               <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                 <HugeiconsIcon
@@ -89,7 +91,7 @@ const LoginForm = ({ submitFunction }) => {
                   name="phoneOrGmail"
                   type="text"
                   className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
-                  placeholder="شماره همراه یا ایمیل خود را وارد کنید"
+                  placeholder={t("login.emailOrPhonePlaceholder")}
                 />
               </div>
               <ErrorMessage
@@ -103,7 +105,7 @@ const LoginForm = ({ submitFunction }) => {
                 htmlFor="password"
                 className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
               >
-                رمزعبور
+                {t("login.password")}
               </label>
               <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                 <HugeiconsIcon
@@ -115,7 +117,7 @@ const LoginForm = ({ submitFunction }) => {
                   name="password"
                   type={isHidenPass ? "password" : "text"}
                   className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
-                  placeholder="رمزعبور خود را وارد کنید"
+                  placeholder={t("login.passwordPlaceholder")}
                 />
 
                 <HugeiconsIcon
@@ -146,7 +148,7 @@ const LoginForm = ({ submitFunction }) => {
                 htmlFor="rememberMe"
                 className="font-bold text-xs sm:text-[13px] text-foreground"
               >
-                مرا به خاطر بسپار
+                {t("login.rememberMe")}
               </label>
             </div>
             <Button
@@ -154,7 +156,7 @@ const LoginForm = ({ submitFunction }) => {
               className="bg-accent/20 text-accent font-bold text-[10px] sm:text-xs"
             >
               <HugeiconsIcon icon={SecurityPasswordIcon} />
-              <Link to={'/Auth/ForgotPassword'}>فراموشی رمز عبور</Link>
+              <Link to={'/Auth/ForgotPassword'}>{t("login.forgotPassword")}</Link>
             </Button>
           </div>
 
@@ -163,14 +165,14 @@ const LoginForm = ({ submitFunction }) => {
             type="submit"
             className="w-full h-10 sm:h-11 font-bold text-sm sm:text-[16px]"
           >
-            ورود به حساب کاربری
+            {t("login.submit")}
           </Button>
         </Form>
       </Formik>
 
       <div className="w-full flex justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold text-foreground">
-        <div>حساب کاربری ندارید؟</div>
-        <Link to={'/Auth/Register'} className="underline underline-offset-4 text-accent">ایجاد حساب کاربری</Link>
+        <div>{t("login.noAccount")}</div>
+        <Link to={'/Auth/Register'} className="underline underline-offset-4 text-accent">{t("login.createAccount")}</Link>
       </div>
     </div>
   );

@@ -2,15 +2,17 @@ import { motion } from "framer-motion";
 import { Button } from "@heroui/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpLeft01Icon } from "@hugeicons/core-free-icons";
+import { useTranslation } from "react-i18next";
 
 export default function FeatureCards() {
+  const { t } = useTranslation("home");
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
         staggerChildren: 0.45,
-        
       },
     },
   };
@@ -32,9 +34,9 @@ export default function FeatureCards() {
         variants={cardVariants}
         className="relative w-[90%] mx-auto md:mx-0 md:w-[40%] h-[332px] border-[3px] border-border rounded-[30px] text-right overflow-hidden bg-surface-secondary"
       >
-        <p className="text-[32px] mr-5 text-foreground">پنل اختصاصی دانشجو</p>
+        <p className="text-[32px] mr-5 text-foreground">{t("features.studentPanel")}</p>
         <p className="w-55 text-[16px] font-light mt-2.5 mr-5 text-muted">
-          پنل های اختصاصی دانشجویی برای مدیریت دوره ها و تمرین ها
+          {t("features.studentPanelDesc")}
         </p>
         <img
           src="/icons/Frame.png"
@@ -49,7 +51,7 @@ export default function FeatureCards() {
       >
         <div className="flex justify-between items-center p-5">
           <p className="mr-[20px] text-accent-foreground text-[24px]">
-            دوره‌های جدید تابستانه!
+            {t("features.summerCourses")}
           </p>
           <Button className="h-[40px] w-[40px] rounded-full bg-background p-0 flex items-center justify-center">
             <HugeiconsIcon
@@ -59,7 +61,7 @@ export default function FeatureCards() {
           </Button>
         </div>
         <p className="text-[13px] text-accent-foreground w-[40%] mr-5">
-          شروع دوره های جدید مبتدی و پیشرفته برای همین تابستان
+          {t("features.summerCoursesDesc")}
         </p>
         <img
           src="/icons/Group 143.png"
@@ -73,7 +75,7 @@ export default function FeatureCards() {
         className="w-[90%] md:w-[25%] mx-auto md:mx-0 h-[332px] border-[3px] border-border rounded-[30px] bg-surface-secondary"
       >
         <div className="flex justify-between items-center p-5">
-          <p className="text-[24px] text-foreground">درباره ما بیشتر بخوانید</p>
+          <p className="text-[24px] text-foreground">{t("features.aboutUs")}</p>
           <Button className="h-[40px] w-[40px] rounded-full bg-accent p-0 flex items-center justify-center">
             <HugeiconsIcon
               icon={ArrowUpLeft01Icon}
@@ -84,12 +86,12 @@ export default function FeatureCards() {
 
         <span className="text-[32px] mt-10 mr-2.5 block text-foreground">+1000</span>
         <span className="text-[16px] mr-2.5 text-muted">
-          دانشجوی آنلاین در دوره
+          {t("features.onlineStudents")}
         </span>
 
         <span className="text-[32px] mt-5 mr-2.5 block text-foreground">+13</span>
         <span className="text-[16px] mr-2.5 text-muted">
-          سال سابقه آموزش تخصصی
+          {t("features.experienceYears")}
         </span>
       </motion.div>
     </motion.div>

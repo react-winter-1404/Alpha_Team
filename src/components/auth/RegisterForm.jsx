@@ -13,6 +13,7 @@ import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const RegisterForm = ({
   step,
@@ -20,6 +21,7 @@ const RegisterForm = ({
   submitFuncTwo,
   submitFuncThree,
 }) => {
+  const { t } = useTranslation("auth");
   const [isHidenPass, setIsHidenPass] = useState(true);
   const [gmailInpValue, setGmailInpValue] = useState("");
 
@@ -64,7 +66,7 @@ const RegisterForm = ({
     <div className="w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
       <div className="w-full flex flex-col gap-4 sm:gap-6">
         <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold text-foreground">
-          <div>به آکادمی بحر خوش اومدی!</div>
+          <div>{t("register.welcome")}</div>
           <div className="text-lg sm:text-[25px]">😍</div>
         </div>
         {step == 1 && (
@@ -75,8 +77,7 @@ const RegisterForm = ({
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <div className="font-light text-sm sm:text-base text-muted">
-              لطفا برای ثبت نام شماره همراه خود را وارد کنید تا برای شما کد
-              تایید ارسال شود
+              {t("register.step1Desc")}
             </div>
           </motion.div>
         )}
@@ -88,11 +89,10 @@ const RegisterForm = ({
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <div className="font-light text-sm sm:text-base text-muted">
-              لطفا کد ارسال شده به ایمیل{" "}
+              {t("register.step2Desc")}
               <span className="text-accent font-bold">
                 {gmailInpValue}
-              </span>{" "}
-              را وارد نمایید
+              </span>
             </div>
           </motion.div>
         )}
@@ -104,7 +104,7 @@ const RegisterForm = ({
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <div className="font-light text-sm sm:text-base text-muted">
-              لطفا اطلاعات شخصی حساب کاربری خود را وارد کنید
+              {t("register.step3Desc")}
             </div>
           </motion.div>
         )}
@@ -126,11 +126,11 @@ const RegisterForm = ({
             }}
             validationSchema={Yup.object({
               gmail: Yup.string()
-                .email("ایمیل معتبر نیست")
-                .required("ایمیل الزامی است")
+                .email(t("errors.emailInvalid"))
+                .required(t("errors.emailRequired"))
                 .matches(
                   /@(gmail\.com|yahoo\.com|outlook\.com|hotmail\.com)$/,
-                  "ایمیل وارد شده معتبر نیست",
+                  t("errors.emailDomainInvalid"),
                 ),
             })}
             onSubmit={(values) => {
@@ -147,7 +147,7 @@ const RegisterForm = ({
                     htmlFor="gmail"
                     className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                   >
-                    ایمیل
+                    {t("register.email")}
                   </label>
                   <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                     <HugeiconsIcon
@@ -159,7 +159,7 @@ const RegisterForm = ({
                       name="gmail"
                       type="text"
                       className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
-                      placeholder="ایمیل خود را وارد کنید"
+                      placeholder={t("register.emailPlaceholder")}
                     />
                   </div>
                   <ErrorMessage
@@ -174,16 +174,16 @@ const RegisterForm = ({
                   type="submit"
                   className="w-full h-10 sm:h-11 font-bold text-sm sm:text-[16px]"
                 >
-                  ارسال کد تایید
+                  {t("register.sendCode")}
                 </Button>
               </Form>
             )}
           </Formik>
 
           <div className="w-full flex justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold text-foreground">
-            <div>حساب کاربری دارید؟</div>
+            <div>{t("register.hasAccount")}</div>
             <Link to={"/Auth/Login"} className="underline underline-offset-4 text-accent">
-              ورود به حساب کاربری
+              {t("register.loginLink")}
             </Link>
           </div>
         </motion.div>
@@ -215,16 +215,16 @@ const RegisterForm = ({
             }}
             validationSchema={Yup.object({
               verifyCode: Yup.string()
-                .required("لطفا کد تایید را وارد کنید")
-                .length(6, "کد تایید باید ۶ رقمی باشد")
-                .matches(/^[0-9]{6}$/, "کد تایید فقط باید شامل اعداد باشد"),
+                .required(t("errors.verifyCodeRequired"))
+                .length(6, t("errors.verifyCodeLength"))
+                .matches(/^[0-9]{6}$/, t("errors.verifyCodeNumbers")),
             })}
           >
             {({ values, errors, touched, setFieldValue }) => (
               <>
                 <Form className="w-full flex flex-col gap-3 sm:gap-4.25 pt-0.5 mt-3 sm:mt-5">
                   <div className="flex flex-col gap-3 sm:gap-5">
-                    <label className="font-bold text-lg text-foreground">کد تایید</label>
+                    <label className="font-bold text-lg text-foreground">{t("register.verifyCode")}</label>
 
                     <InputOTP
                       className="flex-row-reverse justify-center"
@@ -284,7 +284,7 @@ const RegisterForm = ({
                     type="submit"
                     className="w-full h-10 sm:h-11 font-bold text-sm sm:text-[16px]"
                   >
-                    تایید
+                    {t("register.confirm")}
                   </Button>
                 </Form>
 
@@ -302,14 +302,14 @@ const RegisterForm = ({
                       }}
                       className={`underline underline-offset-4 text-xs ${timer !== 0 ? "text-foreground" : "text-accent cursor-pointer"}`}
                     >
-                      ارسال مجدد کد
+                      {t("register.resendCode")}
                     </div>
                   </div>
                   <Button
                     variant="secondary"
                     className="bg-accent/20 text-accent font-bold text-[10px] sm:text-xs"
                   >
-                    تغییر شماره همراه
+                    {t("register.changeEmail")}
                     <HugeiconsIcon icon={ArrowMoveUpLeftIcon} />
                   </Button>
                 </div>
@@ -339,19 +339,19 @@ const RegisterForm = ({
             }}
             validationSchema={Yup.object({
               phoneNumber: Yup.string()
-                .required("لطفا شماره تماس خود را وارد کنید")
-                .length(11, "شماره تماس معتبر نیست")
-                .matches(/^09[0-9]{9}$/, "شماره تماس معتبر نیست"),
+                .required(t("errors.phoneRequired"))
+                .length(11, t("errors.phoneLength"))
+                .matches(/^09[0-9]{9}$/, t("errors.phoneInvalid")),
               password: Yup.string()
-                .required("لطفا رمز عبور را وارد کنید")
-                .min(8, "رمز عبور نمیتونه کمتر از ۸ کاراکتر باشه")
-                .max(32, "رمز عبور نمیتواند بیشتر از ۳۲ کاراکتر باشد")
-                .matches(/[a-z]/, "رمز عبور باید حداقل یک حرف کوچک داشته باشد")
-                .matches(/[A-Z]/, "رمز عبور باید حداقل یک حرف بزرگ داشته باشد")
-                .matches(/\d/, "رمز عبور باید حداقل یک عدد داشته باشد")
+                .required(t("errors.passwordRequired"))
+                .min(8, t("errors.passwordMin"))
+                .max(32, t("errors.passwordMax"))
+                .matches(/[a-z]/, t("errors.passwordLowercase"))
+                .matches(/[A-Z]/, t("errors.passwordUppercase"))
+                .matches(/\d/, t("errors.passwordNumber"))
                 .matches(
                   /[!@#$%^&*(),.?":{}|<>]/,
-                  "رمز عبور باید حداقل یک کاراکتر خاص داشته باشد",
+                  t("errors.passwordSpecial"),
                 ),
             })}
           >
@@ -362,7 +362,7 @@ const RegisterForm = ({
                     htmlFor="phoneNumber"
                     className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                   >
-                    شماره همراه
+                    {t("register.phoneNumber")}
                   </label>
                   <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                     <HugeiconsIcon
@@ -374,7 +374,7 @@ const RegisterForm = ({
                       name="phoneNumber"
                       type="text"
                       className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
-                      placeholder="شماره همراه خود را وارد کنید"
+                      placeholder={t("register.phoneNumberPlaceholder")}
                     />
                   </div>
                   <ErrorMessage
@@ -388,7 +388,7 @@ const RegisterForm = ({
                     htmlFor="password"
                     className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                   >
-                    رمزعبور
+                    {t("login.password")}
                   </label>
                   <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                     <HugeiconsIcon
@@ -400,7 +400,7 @@ const RegisterForm = ({
                       name="password"
                       type={isHidenPass ? "password" : "text"}
                       className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
-                      placeholder="رمزعبور خود را وارد کنید"
+                      placeholder={t("login.passwordPlaceholder")}
                     />
 
                     <HugeiconsIcon
@@ -424,7 +424,7 @@ const RegisterForm = ({
                 type="submit"
                 className="w-full h-10 sm:h-11 font-bold text-sm sm:text-[16px]"
               >
-                ثبت اطلاعات
+                {t("register.submitInfo")}
               </Button>
             </Form>
           </Formik>

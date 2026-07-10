@@ -9,8 +9,10 @@ import {
   postRgisterDataStpThree,
   postRgisterDataStpTwo,
 } from "../core/services/Auth/post";
+import { useTranslation } from "react-i18next";
 
 const RegisterPage = () => {
+  const { t } = useTranslation("auth");
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
@@ -76,9 +78,9 @@ const RegisterPage = () => {
           <Steps
             step={step}
             stepsList={[
-              { id: 1, describe: "وارد کردن ایمیل" },
-              { id: 2, describe: "تایید کد ارسال شده به ایمیل" },
-              { id: 3, describe: "وارد کردن اطلاعات حساب کاربری" },
+              { id: 1, describe: t("register.stepList1") },
+              { id: 2, describe: t("register.stepList2") },
+              { id: 3, describe: t("register.stepList3") },
             ]}
           />
         </motion.div>

@@ -8,8 +8,10 @@ import {
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ForgotPasswordPage = () => {
+  const { t } = useTranslation("auth");
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
@@ -62,8 +64,8 @@ const ForgotPasswordPage = () => {
           <Steps
             step={step}
             stepsList={[
-              { id: 1, describe: "وارد کردن ایمیل" },
-              { id: 2, describe: "وارد کردن رمزعبور جدید" },
+              { id: 1, describe: t("forgotPassword.stepList1") },
+              { id: 2, describe: t("forgotPassword.stepList2") },
             ]}
           />
         </motion.div>

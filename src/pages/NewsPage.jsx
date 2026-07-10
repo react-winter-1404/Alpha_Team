@@ -12,6 +12,7 @@ import NewsCard from "../components/newsList/newsCard";
 import NewsPagination from "../components/newsList/NewsPagination";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { FilterIcon } from "@hugeicons/core-free-icons";
+import { useTranslation } from "react-i18next";
 
 const pageVariants = {
   initial: {
@@ -54,6 +55,7 @@ const cardVariants = {
 };
 
 const NewsPage = () => {
+  const { t } = useTranslation("news");
   const [newsList, setNewsList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -170,7 +172,7 @@ const NewsPage = () => {
                   onClick={() => setIsFilterOpen(true)}
                   className="lg:hidden flex items-center gap-2 bg-accent text-accent-foreground px-4 h-10 rounded-xl font-bold text-sm shadow-sm cursor-pointer transition-all active:scale-[0.98]"
                 >
-                  <span>ترتیب و فیلتر</span>
+                  <span>{t("listing.sortAndFilter")}</span>
                   <HugeiconsIcon icon={FilterIcon} className="w-4 h-4" />
                 </button>
 
@@ -223,7 +225,7 @@ const NewsPage = () => {
                   </motion.div>
                 ) : (
                   <div className="w-full text-center py-20 text-muted font-medium">
-                    خبری با فیلترهای انتخاب شده پیدا نشد.
+                    {t("listing.noNewsFound")}
                   </div>
                 )}
               </div>

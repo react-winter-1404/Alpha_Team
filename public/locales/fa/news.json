@@ -1,0 +1,50 @@
+{
+  "listing": {
+    "sortAndFilter": "ترتیب و فیلتر",
+    "searchNews": "جستجوی اخبار و مقالات",
+    "searchPlaceholder": "جستجو کنید...",
+    "category": "دسته بندی",
+    "select": "انتخاب کنید",
+    "publishDate": "تاریخ انتشار",
+    "order": "ترتیب",
+    "newest": "جدیدترین‌ها",
+    "mostViewed": "پرطرفدارترین",
+    "mostPopular": "محبوب‌ترین",
+    "highestRated": "پرامتیازترین",
+    "noNewsFound": "خبری با فیلترهای انتخاب شده پیدا نشد.",
+    "showing": "نمایش",
+    "to": "تا",
+    "of": "از مجموع",
+    "newsFound": "خبر یافت شده",
+    "previous": "قبلی",
+    "next": "بعدی",
+    "apply": "اعمال",
+    "close": "بستن"
+  },
+  "card": {
+    "readMore": "بیشتر بخوانید"
+  },
+  "detail": {
+    "publisher": "منتشر کننده",
+    "article": "مقاله",
+    "loadError": "خطا در بارگذاری اطلاعات",
+    "rate": "امتیاز بدید",
+    "yourRate": "امتیاز شما"
+  },
+  "comments": {
+    "title": "نظرات",
+    "yourComment": "نظر شما",
+    "noComments": "هنوز نظری ثبت نشده است. اولین نفری باشید که نظر می‌دهید!",
+    "showMore": "نمایش بیشتر",
+    "showLess": "نمایش کمتر",
+    "reply": "جواب دادن",
+    "seeReplies": "مشاهده جواب‌ها",
+    "closeReply": "بستن",
+    "replyTo": "جواب به نظر",
+    "titlePlaceholder": "عنوان نظر خود را بنویسید",
+    "describePlaceholder": "متن نظر خود را بنویسید",
+    "titleRequired": "عنوان نظر نباید خالی باشه",
+    "describeRequired": "متن نظر نباید خالی باشه",
+    "close": "بستن"
+  }
+}

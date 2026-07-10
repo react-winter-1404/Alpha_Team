@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Heart } from "@gravity-ui/icons";
 import { ToggleButton } from "@heroui/react";
 import { addCourseLike, addCourseDislike, deleteCourseLike, addCourseFavorite } from "../../core/services/Course/post";
+import { useTranslation } from "react-i18next";
 
 const CourseCard = ({
   viewMode, 
@@ -23,6 +24,7 @@ const CourseCard = ({
   isUserFavorite,
   onUpdate
 }) => {
+  const { t } = useTranslation("courses");
   const isRow = viewMode === 'row';
   const navigate = useNavigate();
 
@@ -125,11 +127,11 @@ const CourseCard = ({
         </div>
         <div className={`flex ${isRow ? 'flex-row flex-wrap gap-x-6 gap-y-2' : 'flex-col gap-2'}`}>
           <div className="text-[16px] mb-2 flex justify-start items-center gap-3"><img src="/icons/teacher-stroke-rounded 1.png" alt="teacher" className="h-6 w-6"/><span className="text-[14px] md:text-[16px]">{teacher}</span></div>
-          <div className="text-[16px] mb-2 flex justify-start items-center gap-3"><img src="/icons/calendar-03-stroke-rounded 1.png" alt="calendar" className="h-6 w-6"/><span className="text-[14px] md:text-[16px]">{date} <span className="text-muted">(شروع)</span></span></div>
-          <div className="text-[16px] mb-2 flex justify-start items-center gap-3"><img src="/icons/students-stroke-rounded 1.png" alt="students" className="h-6 w-6"/><span className="text-[16px]">{number} دانشجو</span></div>
+          <div className="text-[16px] mb-2 flex justify-start items-center gap-3"><img src="/icons/calendar-03-stroke-rounded 1.png" alt="calendar" className="h-6 w-6"/><span className="text-[14px] md:text-[16px]">{date} <span className="text-muted">({t("card.start")})</span></span></div>
+          <div className="text-[16px] mb-2 flex justify-start items-center gap-3"><img src="/icons/students-stroke-rounded 1.png" alt="students" className="h-6 w-6"/><span className="text-[16px]">{number} {t("card.student")}</span></div>
         </div>
         <div className="flex justify-between items-center mt-auto pt-2">
-          <p className="text-[20px] md:text-[24px] text-foreground">{price}<span className="text-[14px] md:text-[16px] text-accent"> تومان </span></p>
+          <p className="text-[20px] md:text-[24px] text-foreground">{price}<span className="text-[14px] md:text-[16px] text-accent"> {t("card.toman")} </span></p>
           <div className="w-[120px] flex justify-between items-center">
             <button onClick={handleLike} disabled={isLiking} className={`w-[50px] flex justify-between items-center cursor-pointer hover:scale-105 active:scale-95 transition-transform ${isLiking ? 'opacity-60' : ''} ${userLiked ? 'text-accent font-bold scale-105' : ''}`}>
               <img src="/icons/thumbs-up-stroke-rounded 1.png" alt="like" className={`h-6 w-6 transition-all ${userLiked ? 'scale-110 filter brightness-100 hue-rotate-[200deg] saturate-200' : ''}`} />

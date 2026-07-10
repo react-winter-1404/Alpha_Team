@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { getCourseReplyComment } from "../../core/services/Course/get";
 import { postAddCourseCommentLike } from "../../core/services/Course/post";
+import { useTranslation } from "react-i18next";
 
 const Comment = ({
   pictureAddress,
@@ -21,6 +22,7 @@ const Comment = ({
   commentId,
   replyBtnFunc
 }) => {
+  const { t } = useTranslation("courses");
   const [isShowReply, setIsShowReply] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -96,7 +98,7 @@ const Comment = ({
           className="w-20 h-8 lg:w-25 lg:h-10 border-accent text-accent text-sm lg:text-[16px] rounded-full font-bold pb-1 mx-2"
           onClick={(e)=>{replyBtnFunc(title,e)}}
         >
-          جواب دادن
+          {t("comments.reply")}
         </Button>
         <div className="cursor-pointer flex items-center lg:gap-1">
           <div
@@ -105,7 +107,7 @@ const Comment = ({
             }}
             className="text-xs lg:text-sm underline-offset-4 underline text-muted hover:text-foreground transition-colors"
           >
-            مشاهده جواب‌ها ({courseReplysComment.length})
+            {t("comments.seeReplies")} ({courseReplysComment.length})
           </div>
           <HugeiconsIcon icon={ArrowUp01Icon} className={`${isShowReply && 'rotate-180'} h-4 lg:h-4.5 mt-1 duration-200 text-muted`} />
         </div>

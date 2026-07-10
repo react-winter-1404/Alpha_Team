@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Teachers } from "../../core/services/landing/get";
+import { useTranslation } from "react-i18next";
 
 const BestTeachers = () => {
+  const { t } = useTranslation("home");
   const [course, setCourse] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,16 +28,16 @@ const BestTeachers = () => {
     <div className="m-auto w-[95%] mt-15">
       <div className="m-auto w-full text-center mb-[80px]">
         <span className="block text-[28px] md:text-[40px] text-foreground">
-          برترین اساتید هفته
+          {t("bestTeachers.title")}
         </span>
         <span className="block text-[14px] md:text-[20px] text-muted">
-          اساتیدی که با نظرسنجی در دوره ها به انها بیشترین رای مثبت را دادند
+          {t("bestTeachers.subtitle")}
         </span>
       </div>
 
       <div className="flex flex-wrap justify-center items-end gap-[100px] ">
         {isLoading ? (
-          <p className="text-foreground">در حال فراخوانی...</p>
+          <p className="text-foreground">{t("bestTeachers.loading")}</p>
         ) : (
           <>
             <div className="relative border-4 border-border bg-overlay h-[297px] w-[90%] md:w-[20%] flex flex-col items-center gap-2 rounded-[24px] text-center">
@@ -67,7 +69,7 @@ const BestTeachers = () => {
               </p>
 
               <button className="cursor-pointer mx-auto w-[90%] h-[40px] text-[20px] text-accent-foreground rounded-[65px] bg-accent">
-                صفحه استاد
+                {t("bestTeachers.teacherPage")}
               </button>
             </div>
 
@@ -100,7 +102,7 @@ const BestTeachers = () => {
               </p>
 
               <button className="cursor-pointer mx-auto mt-[20px] w-[90%] h-[50px] text-[20px] text-accent-foreground rounded-[65px] bg-accent">
-                صفحه استاد
+                {t("bestTeachers.teacherPage")}
               </button>
             </div>
 
@@ -133,7 +135,7 @@ const BestTeachers = () => {
               </p>
 
               <button className="cursor-pointer mx-auto w-[90%] h-[40px] text-[20px] text-accent-foreground rounded-[65px] bg-accent">
-                صفحه استاد
+                {t("bestTeachers.teacherPage")}
               </button>
             </div>
           </>

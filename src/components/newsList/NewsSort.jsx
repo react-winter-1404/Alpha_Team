@@ -1,13 +1,16 @@
 "use client";
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const NewsSort = ({ currentSort, onSortChange }) => {
+  const { t } = useTranslation("news");
+
   const tabs = [
-    { key: "default", title: "جدیدترین‌ها", col: "insertDate", type: "DESC" },
-    { key: "view", title: "پرطرفدارترین", col: "currentView", type: "DESC" },
-    { key: "rate", title: "محبوب‌ترین", col: "newsRate", type: "DESC" },
-    { key: "like", title: "پرامتیازترین", col: "currentLikeCount", type: "DESC" },
+    { key: "default", title: t("listing.newest"), col: "insertDate", type: "DESC" },
+    { key: "view", title: t("listing.mostViewed"), col: "currentView", type: "DESC" },
+    { key: "rate", title: t("listing.mostPopular"), col: "newsRate", type: "DESC" },
+    { key: "like", title: t("listing.highestRated"), col: "currentLikeCount", type: "DESC" },
   ];
 
   const handleTabChange = (col, type) => {
@@ -20,7 +23,7 @@ const NewsSort = ({ currentSort, onSortChange }) => {
 
   return (
     <div dir="rtl" className="w-full bg-default rounded-[16px] p-2 backdrop-blur-sm flex items-center gap-4 select-none">
-      <span className="text-foreground font-medium text-xs mr-2">ترتیب</span>
+      <span className="text-foreground font-medium text-xs mr-2">{t("listing.order")}</span>
       
       <div className="flex gap-2 bg-transparent rounded-xl p-0.5">
         {tabs.map((tab) => {

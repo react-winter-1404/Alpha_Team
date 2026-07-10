@@ -4,8 +4,10 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { getUserProfile } from "../../core/services/userPanel/get";
 import { Skeleton } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 const LinksProfile = () => {
+  const { t } = useTranslation("panel");
   const {
     register,
     handleSubmit,
@@ -77,7 +79,7 @@ const LinksProfile = () => {
                 htmlFor="n"
                 className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
               >
-                تلگرام
+                {t("profile.telegram")}
               </label>
               {isError("tel") && (
                 <span className="text-danger text-xs whitespace-nowrap">
@@ -89,12 +91,12 @@ const LinksProfile = () => {
               {...register("tel", {
                 pattern: {
                   value: /^(https?:\/\/)?(t\.me|telegram\.me)\/.+/,
-                  message: "لینک تلگرام معتبر نیست",
+                  message: t("profile.telegramInvalid"),
                 },
               })}
               defaultValue={userProfile.telegramLink}
               id="n"
-              placeholder="لینک تلگرام خود را وارد کنید"
+              placeholder={t("profile.telegramPlaceholder")}
               className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("tel") ? "border-2 border-danger" : ""}`}
             />
           </div>
@@ -105,7 +107,7 @@ const LinksProfile = () => {
                 htmlFor="f"
                 className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
               >
-                لینکدین
+                {t("profile.linkedin")}
               </label>
               {isError("link") && (
                 <span className="text-danger text-xs whitespace-nowrap">
@@ -117,12 +119,12 @@ const LinksProfile = () => {
               {...register("link", {
                 pattern: {
                   value: /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/.+/,
-                  message: "لینک لینکدین معتبر نیست",
+                  message: t("profile.linkedinInvalid"),
                 },
               })}
               defaultValue={userProfile.linkdinProfile}
               id="f"
-              placeholder="لینک لینکدین خود را وارد کنید"
+              placeholder={t("profile.linkedinPlaceholder")}
               className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("link") ? "border-2 border-danger" : ""}`}
             />
           </div>
@@ -131,7 +133,7 @@ const LinksProfile = () => {
             type="submit"
             className="w-[169px] h-[56px] rounded-[64px] bg-accent text-accent-foreground text-[20px] cursor-pointer hover:bg-accent/80 transition-colors"
           >
-            اعمال تغییرات
+            {t("profile.applyChanges")}
           </button>
         </form>
       )}

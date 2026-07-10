@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getTeacherDetails } from "../../core/services/teacher/get";
 import toast from "react-hot-toast";
 import { postAddCourseRate } from "../../core/services/Course/post";
+import { useTranslation } from "react-i18next";
 
 const DetailSection = ({
   courseId,
@@ -16,6 +17,7 @@ const DetailSection = ({
   title,
   rate
 }) => {
+  const { t } = useTranslation("courses");
   const [isLoading, setIsLoading] = useState(false);
   const [teacherDetail, setTeacherDetail] = useState([]);
   const [rating, setRating] = useState(rate || 0);
@@ -62,7 +64,7 @@ const DetailSection = ({
         className="bg-accent w-full h-64 lg:h-106.5 rounded-3xl object-cover"
       />
       <div className="w-full flex flex-col gap-3 lg:gap-5 mt-5 lg:mt-7">
-        <div className="text-muted">مدرس</div>
+        <div className="text-muted">{t("detail.teacher")}</div>
         <div className="w-full flex gap-1.5">
           <div className="flex items-center gap-4 w-[40%]">
             <img
@@ -80,7 +82,7 @@ const DetailSection = ({
         </div>
       </div>
       <div className="w-full flex flex-col gap-3 lg:gap-5 mt-6 lg:mt-9">
-        <div className="text-muted">توضیحات</div>
+        <div className="text-muted">{t("detail.description")}</div>
         <div className="flex flex-col gap-3 lg:gap-5">
           <div className="font-bold text-lg lg:text-2xl text-foreground">{miniDescribe}</div>
           <div className="lg:text-xl text-muted">{describe}</div>
@@ -91,7 +93,7 @@ const DetailSection = ({
             icon={StarCircleIcon}
             className="text-accent w-5 h-5 lg:w-6 lg:h-6"
           />
-          <div className="lg:text-xl font-bold text-foreground">امتیاز بدید</div>
+          <div className="lg:text-xl font-bold text-foreground">{t("detail.rate")}</div>
           <div className="flex gap-1 mx-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <HugeiconsIcon
@@ -109,7 +111,7 @@ const DetailSection = ({
             ))}
           </div>
           {rating > 0 && (
-            <span className="text-sm text-muted">امتیاز شما: {rating}</span>
+            <span className="text-sm text-muted">{t("detail.yourRate")}: {rating}</span>
           )}
         </div>
       </div>

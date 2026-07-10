@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { postAddCourseFavorite, postAddCourseReserve, addCourseLike, addCourseDislike, deleteCourseLike } from "../../core/services/Course/post";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const InfoBox = ({
   title,
@@ -31,6 +32,7 @@ const InfoBox = ({
   userIsLiked,
   currentUserDissLike,
 }) => {
+  const { t } = useTranslation("courses");
   const [isShowReserveCourseModal, setIsShowReserveCourseModal] = useState(false);
   const [isFavorited, setIsFavorited] = useState(isFavorite);
   const [like, setLike] = useState(false);
@@ -152,7 +154,7 @@ const InfoBox = ({
       {isActive && (
         <Chip variant="danger-soft" className="h-6 w-27.5 bg-danger-soft text-danger flex justify-center items-center gap-2 text-center p-0 pb-1 font-semibold">
           <span className="w-2 h-2 bg-danger rounded-full mt-1"></span>
-          درحال برگزاری
+          {t("detail.inProgress")}
         </Chip>
       )}
 
@@ -173,27 +175,27 @@ const InfoBox = ({
       <div className="flex flex-col gap-2 lg:gap-4 lg:text-xl my-3.5 lg:my-7 text-foreground">
         <div className="flex gap-4 items-center">
           <HugeiconsIcon icon={StudentsIcon} className="lg:w-6.5 lg:h-6.5" />
-          <div>{capacity} دانشجو</div>
+          <div>{capacity} {t("detail.student")}</div>
         </div>
         <div className="flex gap-4 items-center">
           <HugeiconsIcon icon={Calendar03Icon} className="lg:w-6.5 lg:h-6.5" />
-          <div>{start} <span className="text-muted lg:text-lg font-medium">(شروع)</span></div>
+          <div>{start} <span className="text-muted lg:text-lg font-medium">({t("detail.start")})</span></div>
         </div>
         <div className="flex gap-4 items-center">
           <HugeiconsIcon icon={Calendar03Icon} className="lg:w-6.5 lg:h-6.5" />
-          <div>{end} <span className="text-muted lg:text-lg font-medium">(پایان)</span></div>
+          <div>{end} <span className="text-muted lg:text-lg font-medium">({t("detail.end")})</span></div>
         </div>
       </div>
 
       <div className="font-semibold flex gap-1.5 items-end">
         <span className="text-xl lg:text-[28px] text-foreground">{cost && cost.toLocaleString("fa-IR")}</span>
-        <span className="text-accent text-sm lg:text-md">تومان</span>
+        <span className="text-accent text-sm lg:text-md">{t("detail.toman")}</span>
       </div>
 
       <div className="flex justify-between gap-3 items-center mt-4 lg:mt-7.5">
         <AlertDialog isOpen={isShowReserveCourseModal} onOpenChange={setIsShowReserveCourseModal}>
           <Button onClick={() => { setIsShowReserveCourseModal(false); fetchAddCourseReserve(); }} className="w-[56%] h-10 lg:h-14 rounded-full font-bold text-lg lg:text-xl pb-2 bg-accent text-accent-foreground">
-            رزرو دوره
+            {t("detail.reserveCourse")}
           </Button>
           <AlertDialog.Backdrop>
             <AlertDialog.Container>
@@ -201,7 +203,7 @@ const InfoBox = ({
                 <AlertDialog.Header>
                   <AlertDialog.Heading>
                     <Chip variant="primary" color="success" className="w-full flex justify-center items-center gap-2 lg:text-xl text-success-foreground h-12 rounded-full">
-                      <div className="mb-1 lg:mb-2">دوره با موفقیت به لیست رزرو های شما اضافه شد</div>
+                      <div className="mb-1 lg:mb-2">{t("detail.reserveSuccess")}</div>
                       <HugeiconsIcon icon={CheckmarkCircle03Icon} className="w-5 h-5 lg:w-6 lg:h-6" />
                     </Chip>
                   </AlertDialog.Heading>
@@ -217,7 +219,7 @@ const InfoBox = ({
                       <Chip variant="primary" color="accent" className="flex items-center justify-center text-[15px] w-18 h-18 lg:h-25 lg:w-25 rounded-full px-2.5 pb-1.5">
                         <HugeiconsIcon strokeWidth={1} icon={UserStoryIcon} className="mt-1 w-[65%] h-[65%]" />
                       </Chip>
-                      <div className="text-center lg:text-xl text-foreground font-bold">رزرو من</div>
+                      <div className="text-center lg:text-xl text-foreground font-bold">{t("detail.myReserve")}</div>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="160" height="48" viewBox="0 0 160 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted">
                       <path d="M16 24h130" strokeDasharray="6 6" />
@@ -228,18 +230,18 @@ const InfoBox = ({
                       <Chip variant="tertiary" className="flex items-center justify-center border-4 border-border text-[15px] w-18 h-18 lg:h-25 lg:w-25 rounded-full px-2.5 pb-1.5">
                         <HugeiconsIcon strokeWidth={1} icon={ProfileIcon} className="w-[65%] h-[65%]" />
                       </Chip>
-                      <div className="text-center lg:text-xl text-foreground font-bold">دوره من</div>
+                      <div className="text-center lg:text-xl text-foreground font-bold">{t("detail.myCourse")}</div>
                     </div>
                   </div>
                   <div className="text-center mx-auto w-[75%] lg:text-xl leading-relaxed text-muted">
-                    بعد از تایید ادمین مربوط دوره شما به <span className="text-foreground underline-offset-7 underline">دوره من</span> اضافه خواهد شد
+                    {t("detail.reserveConfirmText")}
                   </div>
                 </AlertDialog.Body>
                 <AlertDialog.Footer className="gap-5 mt-10">
                   <Button slot="close" className="w-[68%] h-11 lg:h-13 lg:text-xl pb-1 lg:pb-2 rounded-full bg-accent text-accent-foreground">
-                    <Link to={'/panel'}>لیست رزرو های من</Link>
+                    <Link to={'/panel'}>{t("detail.myReserveList")}</Link>
                   </Button>
-                  <Button slot="close" variant="outline" className="w-[28%] h-11 lg:h-13 lg:text-xl pb-1 lg:pb-2 rounded-full">باشه</Button>
+                  <Button slot="close" variant="outline" className="w-[28%] h-11 lg:h-13 lg:text-xl pb-1 lg:pb-2 rounded-full">{t("detail.ok")}</Button>
                 </AlertDialog.Footer>
               </AlertDialog.Dialog>
             </AlertDialog.Container>

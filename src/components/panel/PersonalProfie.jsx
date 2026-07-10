@@ -6,8 +6,10 @@ import { putPersonalProfile } from "../../core/services/userPanel/put";
 import toast from "react-hot-toast";
 import { getUserProfile } from "../../core/services/userPanel/get";
 import { Skeleton } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 const PersonalProfile = ({ progressPercent }) => {
+  const { t } = useTranslation("panel");
   const [submittedPercent, setSubmittedPercent] = useState(0);
   const [userProfile, setUserProfile] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -60,9 +62,9 @@ const PersonalProfile = ({ progressPercent }) => {
   };
 
   const getProgressInfo = (c) => {
-    if (c < 50) return { clr: "#ffc619", p: "اطلاعات کاربری شما تکمیل نیست!" };
-    if (c < 100) return { clr: "#3E98C7", p: "اطلاعات کاربری شما تکمیل نیست!" };
-    return { clr: "#47C724", p: "اطلاعات کاربری شما تکمیل شد" };
+    if (c < 50) return { clr: "#ffc619", p: t("dashboard.profileIncomplete") };
+    if (c < 100) return { clr: "#3E98C7", p: t("dashboard.profileIncomplete") };
+    return { clr: "#47C724", p: t("dashboard.profileComplete") };
   };
 
   const pc = getProgressInfo(progressPercent || submittedPercent);
@@ -113,7 +115,7 @@ const PersonalProfile = ({ progressPercent }) => {
       ) : (
         <div className="flex flex-col justify-center items-center">
           <div className="w-full h-[35%] border border-border p-3 block md:hidden">
-            <h3 className="text-[16px] text-foreground">وضعیت اطلاعات حساب</h3>
+            <h3 className="text-[16px] text-foreground">{t("dashboard.accountStatus")}</h3>
             <div className="m-auto mt-[40px] h-[130px] w-[136px]">
               <CircularProgressbar
                 value={submittedPercent}
@@ -146,7 +148,7 @@ const PersonalProfile = ({ progressPercent }) => {
                   htmlFor="n"
                   className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
                 >
-                  نام <span className="text-danger">*</span>
+                  {t("profile.name")} <span className="text-danger">*</span>
                 </label>
                 {isError("name") && (
                   <span className="text-danger text-xs whitespace-nowrap">
@@ -156,12 +158,12 @@ const PersonalProfile = ({ progressPercent }) => {
               </div>
               <input
                 {...register("name", {
-                  required: "نام الزامی است",
-                  minLength: { value: 3, message: "نام حداقل 3 کاراکتر" },
+                  required: t("profile.nameRequired"),
+                  minLength: { value: 3, message: t("profile.nameMin") },
                 })}
                 defaultValue={userProfile.fName}
                 id="n"
-                placeholder="نام خود را وارد کنید"
+                placeholder={t("profile.namePlaceholder")}
                 className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("name") ? "border-2 border-danger" : ""}`}
               />
             </div>
@@ -172,7 +174,7 @@ const PersonalProfile = ({ progressPercent }) => {
                   htmlFor="f"
                   className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
                 >
-                  نام خانوادگی <span className="text-danger">*</span>
+                  {t("profile.lastName")} <span className="text-danger">*</span>
                 </label>
                 {isError("lastName") && (
                   <span className="text-danger text-xs whitespace-nowrap">
@@ -182,12 +184,12 @@ const PersonalProfile = ({ progressPercent }) => {
               </div>
               <input
                 {...register("lastName", {
-                  required: "نام خانوادگی الزامی است",
-                  minLength: { value: 3, message: "حداقل 3 کاراکتر" },
+                  required: t("profile.lastNameRequired"),
+                  minLength: { value: 3, message: t("profile.lastNameMin") },
                 })}
                 defaultValue={userProfile.lName}
                 id="f"
-                placeholder="نام خانوادگی خود را وارد کنید"
+                placeholder={t("profile.lastNamePlaceholder")}
                 className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("lastName") ? "border-2 border-danger" : ""}`}
               />
             </div>
@@ -198,7 +200,7 @@ const PersonalProfile = ({ progressPercent }) => {
                   htmlFor="a"
                   className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
                 >
-                  درباره من
+                  {t("profile.aboutMe")}
                 </label>
                 {isError("aboutMe") && (
                   <span className="text-danger text-xs whitespace-nowrap">
@@ -208,12 +210,12 @@ const PersonalProfile = ({ progressPercent }) => {
               </div>
               <textarea
                 {...register("aboutMe", {
-                  minLength: { value: 10, message: "حداقل ۱۰ کاراکتر" },
-                  maxLength: { value: 250, message: "حداکثر 250 کاراکتر" },
+                  minLength: { value: 10, message: t("profile.aboutMeMin") },
+                  maxLength: { value: 250, message: t("profile.aboutMeMax") },
                 })}
                 defaultValue={userProfile.userAbout}
                 id="a"
-                placeholder="یک متن درباره خود بنویسید"
+                placeholder={t("profile.aboutMePlaceholder")}
                 className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-default text-foreground text-[14px] p-3 text-right resize-none transition-all outline-0 ${isError("aboutMe") ? "border-2 border-danger" : ""}`}
                 dir="rtl"
               />
@@ -225,7 +227,7 @@ const PersonalProfile = ({ progressPercent }) => {
                   htmlFor="p"
                   className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
                 >
-                  شماره همراه
+                  {t("profile.phone")}
                 </label>
                 {isError("phone") && (
                   <span className="text-danger text-xs whitespace-nowrap">
@@ -237,12 +239,12 @@ const PersonalProfile = ({ progressPercent }) => {
                 {...register("phone", {
                   pattern: {
                     value: /^09[0-9]{9}$/,
-                    message: "شماره همراه معتبر نیست",
+                    message: t("profile.phoneInvalid"),
                   },
                 })}
                 defaultValue={userProfile.phoneNumber}
                 id="p"
-                placeholder="شماره همراه خود را وارد کنید"
+                placeholder={t("profile.phonePlaceholder")}
                 className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("phone") ? "border-2 border-danger" : ""}`}
               />
             </div>
@@ -253,7 +255,7 @@ const PersonalProfile = ({ progressPercent }) => {
                   htmlFor="c"
                   className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
                 >
-                  کد ملی <span className="text-danger">*</span>
+                  {t("profile.nationalCode")} <span className="text-danger">*</span>
                 </label>
                 {isError("code") && (
                   <span className="text-danger text-xs whitespace-nowrap">
@@ -263,15 +265,15 @@ const PersonalProfile = ({ progressPercent }) => {
               </div>
               <input
                 {...register("code", {
-                  required: "کد ملی الزامی است",
+                  required: t("profile.nationalCodeRequired"),
                   pattern: {
                     value: /^[0-9]{10}$/,
-                    message: "کد ملی باید ۱۰ رقم باشد",
+                    message: t("profile.nationalCodeInvalid"),
                   },
                 })}
                 defaultValue={userProfile.nationalCode}
                 id="c"
-                placeholder="کد ملی خود را وارد کنید"
+                placeholder={t("profile.nationalCodePlaceholder")}
                 className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("code") ? "border-2 border-danger" : ""}`}
               />
             </div>
@@ -282,7 +284,7 @@ const PersonalProfile = ({ progressPercent }) => {
                   htmlFor="b"
                   className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-[1.15]"
                 >
-                  تاریخ تولد <span className="text-danger">*</span>
+                  {t("profile.birthday")} <span className="text-danger">*</span>
                 </label>
                 {isError("birthday") && (
                   <span className="text-danger text-xs whitespace-nowrap">
@@ -293,7 +295,7 @@ const PersonalProfile = ({ progressPercent }) => {
               <input
                 defaultValue={userProfile.birthDay ? userProfile.birthDay.split("T")[0] : ""}
                 type="date"
-                {...register("birthday", { required: "تاریخ تولد الزامی است" })}
+                {...register("birthday", { required: t("profile.birthdayRequired") })}
                 id="b"
                 className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("birthday") ? "border-2 border-danger" : ""}`}
               />
@@ -302,7 +304,7 @@ const PersonalProfile = ({ progressPercent }) => {
             <div className="flex flex-col gap-2 w-full md:w-[40%] mt-[-10px]">
               <div className="flex items-center justify-between">
                 <label className={`block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer ${isError("sex") ? "text-danger" : ""}`}>
-                  جنسیت <span className="text-danger">*</span>
+                  {t("profile.gender")} <span className="text-danger">*</span>
                 </label>
                 {isError("sex") && (
                   <span className="text-danger text-xs whitespace-nowrap">
@@ -313,23 +315,23 @@ const PersonalProfile = ({ progressPercent }) => {
               <div className="flex gap-6 text-foreground">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
-                    {...register("sex", { required: "جنسیت را انتخاب کنید" })}
+                    {...register("sex", { required: t("profile.genderRequired") })}
                     defaultChecked={userProfile.gender === true}
                     type="radio"
                     value="male"
                     className="appearance-none w-3 h-3 rounded-full border-2 border-default-foreground checked:border-overlay checked:bg-accent checked:ring-2 checked:ring-offset-2 checked:ring-overlay/30 transition-all cursor-pointer"
                   />
-                  مرد
+                  {t("profile.male")}
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
-                    {...register("sex", { required: "جنسیت را انتخاب کنید" })}
+                    {...register("sex", { required: t("profile.genderRequired") })}
                     defaultChecked={userProfile.gender === false}
                     type="radio"
                     value="female"
                     className="appearance-none w-3 h-3 rounded-full border-2 border-default-foreground checked:border-overlay checked:bg-accent checked:ring-2 checked:ring-offset-2 checked:ring-overlay/30 transition-all cursor-pointer"
                   />
-                  زن
+                  {t("profile.female")}
                 </label>
               </div>
             </div>
@@ -340,7 +342,7 @@ const PersonalProfile = ({ progressPercent }) => {
                   htmlFor="e"
                   className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
                 >
-                  ایمیل
+                  {t("profile.email")}
                 </label>
                 {isError("email") && (
                   <span className="text-danger text-xs whitespace-nowrap">
@@ -352,12 +354,12 @@ const PersonalProfile = ({ progressPercent }) => {
                 {...register("email", {
                   pattern: {
                     value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    message: "ایمیل معتبر نیست",
+                    message: t("profile.emailInvalid"),
                   },
                 })}
                 defaultValue={userProfile.gmail}
                 id="e"
-                placeholder="ایمیل خود را وارد کنید"
+                placeholder={t("profile.emailPlaceholder")}
                 className={`w-full md:w-[86%] h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("email") ? "border-2 border-danger" : ""}`}
               />
             </div>
@@ -368,7 +370,7 @@ const PersonalProfile = ({ progressPercent }) => {
                   htmlFor="ad"
                   className="block whitespace-nowrap text-foreground transition-all duration-200 cursor-pointer group-focus-within:scale-115"
                 >
-                  آدرس سکونت
+                  {t("profile.address")}
                 </label>
                 {isError("address") && (
                   <span className="text-danger text-xs whitespace-nowrap">
@@ -378,12 +380,12 @@ const PersonalProfile = ({ progressPercent }) => {
               </div>
               <textarea
                 {...register("address", {
-                  minLength: { value: 10, message: "حداقل ۱۰ کاراکتر" },
-                  maxLength: { value: 250, message: "حداکثر 250 کاراکتر" },
+                  minLength: { value: 10, message: t("profile.addressMin") },
+                  maxLength: { value: 250, message: t("profile.addressMax") },
                 })}
                 defaultValue={userProfile.homeAdderess}
                 id="ad"
-                placeholder="آدرس سکونت خود را وارد کنید"
+                placeholder={t("profile.addressPlaceholder")}
                 className={`w-full md:w-[86%] h-[93px] rounded-[16px] bg-default text-foreground text-[14px] p-3 text-right resize-none transition-all outline-0 ${isError("address") ? "border-2 border-danger" : ""}`}
                 dir="rtl"
               />
@@ -393,14 +395,14 @@ const PersonalProfile = ({ progressPercent }) => {
               type="submit"
               className="w-[145px] md:w-[169px] h-[41px] md:h-[56px] text-accent-foreground rounded-[64px] bg-accent text-[16px] md:text-[20px] cursor-pointer hover:bg-accent/80 transition-colors"
             >
-              اعمال تغییرات
+              {t("profile.applyChanges")}
             </button>
           </form>
         </div>
       )}
 
       <div className="w-[60%] h-[35%] border border-border p-3 hidden md:block">
-        <h3 className="text-[16px] text-foreground">وضعیت اطلاعات حساب</h3>
+        <h3 className="text-[16px] text-foreground">{t("dashboard.accountStatus")}</h3>
         <div className="m-auto mt-[40px] h-[130px] w-[136px]">
           <CircularProgressbar
             value={progressPercent || submittedPercent}

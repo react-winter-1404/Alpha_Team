@@ -1,0 +1,34 @@
+{
+  "aboutUs": {
+    "title": "About Us",
+    "intro": "Over 13 years of experience in coding education from childhood to adulthood. Our goal has always been to equip students with the necessary skills to succeed in the world of technology and programming.",
+    "goalTitle": "Our Goal at Bahr Academy",
+    "goalText1": "As an educational website, we strive to help all of you Persian speakers find your path in this boundless world of programming languages, frameworks, and tools. We also aim to accompany you on this journey so you can use the knowledge gained in your own business or for employment in a company you wish to work for. Our goal is your success.",
+    "goalText2": "Therefore, we decided to create a friendly space that can be used both for learning and for connecting and solving problems of various programmers in the Persian web space, so that while learning new tools, as a programmer you can solve your problems in Rocket or even find your future job.",
+    "activitiesTitle": "Some of Our Activities",
+    "onlineLearning": "Online Learning",
+    "onlineLearningText1": "Online learning is the most important part upon which Bahr Academy is built. In this section, we strive to teach Persian speakers how to work with the world's latest programming languages, frameworks, and tools.",
+    "onlineLearningText2": "At Bahr Academy, we make every effort to provide you with up-to-date and practical courses and prepare you for the job market. This is a very difficult task for an educational website to provide high-quality training while keeping content up-to-date. But at Bahr Academy, we work around the clock to provide the best content worthy of Iranian users.",
+    "workshops": "In-Person Workshops",
+    "workshopsText1": "In-person workshops are a unique opportunity for deep learning and direct interaction that Bahr Academy proudly offers alongside its online courses. In these workshops, participants learn programming skills practically and step-by-step under the guidance of experienced instructors in a dynamic and friendly environment.",
+    "workshopsText2": "At Bahr Academy, we make every effort to design workshops tailored to the real needs of the job market; workshops that use the latest teaching methods and where each participant can solidify their learning through practical projects and in-person troubleshooting. Holding a quality workshop is not an easy task; it requires up-to-date content, suitable environment, experienced instructors, and effective support all at once. But at Bahr Academy, with careful planning and continuous effort, we strive to provide you with the best in-person educational experience worthy of Iranian users.",
+    "news": "Educational News & Articles",
+    "newsText1": "Educational news and articles serve as a guiding light for awareness of the fast-paced world of technology, which Bahr Academy takes seriously. In this section, we strive to provide Persian speakers with the latest news, events, and analyses from the world of programming and technology in an accurate, smooth, and practical manner.",
+    "newsText2": "At Bahr Academy, we believe that a successful programmer needs not only technical skills but must also always be aware of new changes and trends. From introducing new versions of languages and frameworks to comparing tools, interviews with experts, and step-by-step guides, all content is prepared with care and precision for this section. Producing quality content that is both up-to-date, credible, and conveys complex concepts in simple language is not an easy task. But Bahr Academy's content team is continuously monitoring, researching, and producing to provide the best articles and news worthy of you."
+  },
+  "contactUs": {
+    "title": "Contact Us",
+    "subtitle": "On this page you can view the contact information of Bahr Coding Academy.",
+    "communication": "Communication Channels",
+    "socialMedia": "Social Media",
+    "officePhone": "Office Phone",
+    "phone": "01122334455",
+    "officeAddress": "Office Address",
+    "address": "Mazandaran, Sari, Khazar Square, Darya Road, After Donyaye Arezoo, Sepehrgan Building, 2nd and 3rd Floors"
+  },
+  "notFound": {
+    "code": "404",
+    "message": "We couldn't find the page you're looking for!",
+    "homeButton": "Home Page"
+  }
+}

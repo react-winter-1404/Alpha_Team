@@ -22,6 +22,7 @@ import {
   Cancel01Icon,
 } from "@hugeicons/core-free-icons";
 import { I18nProvider } from "@react-aria/i18n";
+import { useTranslation } from "react-i18next";
 
 export default function CourseFilters({ 
   filters, 
@@ -33,6 +34,7 @@ export default function CourseFilters({
   currentSortType,
   onSortChange 
 }) {
+  const { t } = useTranslation("courses");
   const [searchTerm, setSearchTerm] = useState(filters.Query || "");
   const [localPrice, setLocalPrice] = useState([10000, 5000000]);
   const [categories, setCategories] = useState([]);
@@ -43,9 +45,9 @@ export default function CourseFilters({
   const [isSortOpen, setIsSortOpen] = useState(false);
 
   const levels = [
-    { id: "cl1", name: "مبتدی" },
-    { id: "cl2", name: "متوسط" },
-    { id: "cl3", name: "پیشرفته" }
+    { id: "cl1", name: t("listing.beginner") },
+    { id: "cl2", name: t("listing.intermediate") },
+    { id: "cl3", name: t("listing.advanced") }
   ];
 
   useEffect(() => {
@@ -110,11 +112,11 @@ export default function CourseFilters({
   };
 
   const getSortLabel = () => {
-    if (currentSortingCol === "cost" && currentSortType === "DESC") return "گران‌ترین‌ها";
-    if (currentSortingCol === "cost" && currentSortType === "ASC") return "ارزان‌ترین‌ها";
-    if (currentSortingCol === "courseRate") return "بالاترین امتیاز";
-    if (currentSortingCol === "capacity") return "محبوب‌ترین‌ها";
-    return "انتخاب کنید";
+    if (currentSortingCol === "cost" && currentSortType === "DESC") return t("listing.mostExpensive");
+    if (currentSortingCol === "cost" && currentSortType === "ASC") return t("listing.cheapest");
+    if (currentSortingCol === "courseRate") return t("listing.highestRated");
+    if (currentSortingCol === "capacity") return t("listing.mostPopular");
+    return t("listing.select");
   };
 
   const renderFilterFields = () => (
@@ -122,7 +124,7 @@ export default function CourseFilters({
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1 text-foreground">
           <HugeiconsIcon icon={CellsIcon} className="w-5 h-5 text-muted" />
-          <span>جستجوی دوره</span>
+          <span>{t("listing.searchCourse")}</span>
         </div>
         <SearchField 
           name="search" 
@@ -131,7 +133,7 @@ export default function CourseFilters({
           onClear={() => setSearchTerm("")}
         >
           <SearchField.Group className="bg-overlay rounded-2xl border-none shadow-sm h-12 px-3 flex items-center">
-            <SearchField.Input placeholder="... جستجو کنید" className="w-full text-right text-sm bg-transparent border-none outline-none text-foreground placeholder:text-muted" />
+            <SearchField.Input placeholder={t("listing.searchPlaceholder")} className="w-full text-right text-sm bg-transparent border-none outline-none text-foreground placeholder:text-muted" />
             <SearchField.ClearButton className="text-muted" />
             <SearchField.SearchIcon className="text-accent w-5 h-5 mr-auto cursor-pointer" />
           </SearchField.Group>
@@ -141,13 +143,13 @@ export default function CourseFilters({
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1 text-foreground">
           <HugeiconsIcon icon={Search01Icon} className="w-5 h-5 text-muted" />
-          <span>دسته‌بندی</span>
+          <span>{t("listing.category")}</span>
         </div>
         <Popover isOpen={isCatOpen} onOpenChange={setIsCatOpen} placement="bottom-start">
           <Popover.Trigger>
             <Button className="w-full bg-overlay border-none rounded-2xl h-12 px-4 flex items-center justify-between shadow-sm text-sm text-muted font-normal">
               <span className="truncate max-w-[220px] text-right w-full">
-                {categories.find(c => String(c.id) === String(filters.CourseTypeId))?.categoryName || "انتخاب کنید"}
+                {categories.find(c => String(c.id) === String(filters.CourseTypeId))?.categoryName || t("listing.select")}
               </span>
               <span className="text-muted text-xs">▼</span>
             </Button>
@@ -179,13 +181,13 @@ export default function CourseFilters({
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1 text-foreground">
           <HugeiconsIcon icon={Layers01Icon} className="w-5 h-5 text-muted" />
-          <span>سطح آموزشی</span>
+          <span>{t("listing.level")}</span>
         </div>
         <Popover isOpen={isLevelOpen} onOpenChange={setIsLevelOpen} placement="bottom-start">
           <Popover.Trigger>
             <Button className="w-full bg-overlay border-none rounded-2xl h-12 px-4 flex items-center justify-between shadow-sm text-sm text-muted font-normal">
               <span className="truncate max-w-[220px] text-right w-full">
-                {levels.find(l => String(l.id) === String(filters.courseLevelId))?.name || "انتخاب کنید"}
+                {levels.find(l => String(l.id) === String(filters.courseLevelId))?.name || t("listing.select")}
               </span>
               <span className="text-muted text-xs">▼</span>
             </Button>
@@ -217,13 +219,13 @@ export default function CourseFilters({
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1 text-foreground">
           <HugeiconsIcon icon={TeacherIcon} className="w-5 h-5 text-muted" />
-          <span>اساتید</span>
+          <span>{t("listing.teachers")}</span>
         </div>
         <Popover isOpen={isTeacherOpen} onOpenChange={setIsTeacherOpen} placement="bottom-start">
           <Popover.Trigger>
             <Button className="w-full bg-overlay border-none rounded-2xl h-12 px-4 flex items-center justify-between shadow-sm text-sm text-muted font-normal">
               <span className="truncate max-w-[220px] text-right w-full">
-                {teachers.find(t => String(t.teacherId) === String(filters.TeacherId))?.fullName || "انتخاب کنید"}
+                {teachers.find(t => String(t.teacherId) === String(filters.TeacherId))?.fullName || t("listing.select")}
               </span>
               <span className="text-muted text-xs">▼</span>
             </Button>
@@ -256,12 +258,12 @@ export default function CourseFilters({
         <div className="flex justify-between items-center text-sm font-bold mb-1 text-foreground">
           <div className="flex items-center gap-2">
             <HugeiconsIcon icon={Money03Icon} className="w-5 h-5 text-muted" />
-            <span className="font-bold text-sm">قیمت</span>
+            <span className="font-bold text-sm">{t("listing.price")}</span>
           </div>
           <div className="text-xs font-semibold text-muted flex gap-1" style={{ direction: 'ltr' }}>
             <span>{localPrice[1].toLocaleString()}</span>
-            <span className="text-muted">تا</span>
-            <span className="text-muted">از</span>
+            <span className="text-muted">{t("listing.toPrice")}</span>
+            <span className="text-muted">{t("listing.from")}</span>
             <span>{localPrice[0].toLocaleString()}</span>
           </div>
         </div>
@@ -303,7 +305,7 @@ export default function CourseFilters({
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 font-bold text-sm mb-1 text-foreground">
           <HugeiconsIcon icon={Calendar02Icon} className="w-5 h-5 text-muted" />
-          <span>تاریخ شروع برگزاری</span>
+          <span>{t("listing.startDate")}</span>
         </div>
         
         <DatePicker 
@@ -369,7 +371,7 @@ export default function CourseFilters({
       {isMobile && (
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2 font-bold text-sm mb-1 text-foreground">
-            <span className="text-sm font-bold">ترتیب</span>
+            <span className="text-sm font-bold">{t("listing.order")}</span>
           </div>
           <Popover isOpen={isSortOpen} onOpenChange={setIsSortOpen} placement="bottom-start">
             <Popover.Trigger>
@@ -381,10 +383,10 @@ export default function CourseFilters({
             <Popover.Content className="bg-overlay rounded-xl shadow-lg border border-border w-[273px] p-1">
               <div className="flex flex-col w-full">
                 {[
-                  { id: "price-desc", label: "گران‌ترین‌ها", col: "cost", type: "DESC" },
-                  { id: "price-asc", label: "ارزان‌ترین‌ها", col: "cost", type: "ASC" },
-                  { id: "rating", label: "بالاترین امتیاز", col: "courseRate", type: "DESC" },
-                  { id: "popularity", label: "محبوب‌ترین‌ها", col: "capacity", type: "DESC" }
+                  { id: "price-desc", label: t("listing.mostExpensive"), col: "cost", type: "DESC" },
+                  { id: "price-asc", label: t("listing.cheapest"), col: "cost", type: "ASC" },
+                  { id: "rating", label: t("listing.highestRated"), col: "courseRate", type: "DESC" },
+                  { id: "popularity", label: t("listing.mostPopular"), col: "capacity", type: "DESC" }
                 ].map((item) => {
                   const isAct = currentSortingCol === item.col && currentSortType === item.type;
                   return (
@@ -433,14 +435,14 @@ export default function CourseFilters({
           }`}
         >
           <div className="flex items-center justify-between mb-6 border-b border-separator pb-4">
-            <span className="text-lg font-bold text-foreground">ترتیب و فیلتر</span>
+            <span className="text-lg font-bold text-foreground">{t("listing.sortAndFilter")}</span>
             
             <button 
               onClick={onClose}
               className="flex items-center gap-1 border border-danger text-danger px-4 py-1.5 rounded-full text-xs font-bold bg-danger/10 hover:bg-danger/20 transition-colors cursor-pointer"
             >
               <HugeiconsIcon icon={Cancel01Icon} className="w-4 h-4" />
-              <span>بستن</span>
+              <span>{t("listing.close")}</span>
             </button>
           </div>
 
@@ -453,7 +455,7 @@ export default function CourseFilters({
               onClick={onClose}
               className="w-full h-12 bg-accent text-accent-foreground font-bold text-base rounded-2xl shadow-md cursor-pointer transition-all active:scale-95"
             >
-              اعمال
+              {t("listing.apply")}
             </Button>
           </div>
         </div>

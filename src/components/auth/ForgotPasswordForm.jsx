@@ -11,8 +11,10 @@ import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
+  const { t } = useTranslation("auth");
   const [isHidenPass, setIsHidenPass] = useState(true);
   const [isHidenAgainPass, setIsHidenAgainPass] = useState(true);
   const [gmailInpValue, setGmailInpValue] = useState("");
@@ -30,13 +32,12 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
           <div className="w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
             <div className="w-full flex flex-col gap-4 sm:gap-6">
               <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold text-foreground">
-                <div>فراموشی رمزعبور؟</div>
+                <div>{t("forgotPassword.title")}</div>
                 <div className="text-lg sm:text-[25px]">🔐</div>
               </div>
 
               <div className="font-light text-sm sm:text-base text-muted">
-                اگر رمزعبور خود را فراموش کرده‌اید ایمیل خود را وارد کنید تا
-                لینک صفحه تغییر رمزعبور برای شما ارسال شود
+                {t("forgotPassword.step1Desc")}
               </div>
             </div>
 
@@ -51,11 +52,11 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
               }}
               validationSchema={Yup.object({
                 email: Yup.string()
-                  .email("ایمیل معتبر نیست")
-                  .required("ایمیل الزامی است")
+                  .email(t("errors.emailInvalid"))
+                  .required(t("errors.emailRequired"))
                   .matches(
                     /@(gmail\.com|yahoo\.com|outlook\.com|hotmail\.com)$/,
-                    "ایمیل وارد شده معتبر نیست",
+                    t("errors.emailDomainInvalid"),
                   ),
               })}
               onSubmit={(values) => {
@@ -71,7 +72,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                       htmlFor="email"
                       className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                     >
-                      ایمیل
+                      {t("forgotPassword.email")}
                     </label>
                     <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                       <HugeiconsIcon
@@ -83,7 +84,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                         name="email"
                         type="text"
                         className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
-                        placeholder="ایمیل خود را وارد کنید"
+                        placeholder={t("forgotPassword.emailPlaceholder")}
                       />
                     </div>
                     <ErrorMessage
@@ -98,16 +99,16 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                     type="submit"
                     className="w-full h-10 sm:h-11 font-bold text-sm sm:text-[16px]"
                   >
-                    ارسال لینک
+                    {t("forgotPassword.sendLink")}
                   </Button>
                 </Form>
               )}
             </Formik>
 
             <div className="w-full flex justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold text-foreground">
-              <div>رمزعبور خود فراموش نکردید؟</div>
+              <div>{t("forgotPassword.notForgot")}</div>
               <Link to={"/Auth/Login"} className="underline underline-offset-4 text-accent">
-                ورود به حساب کاربری
+                {t("forgotPassword.loginLink")}
               </Link>
             </div>
           </div>
@@ -124,12 +125,12 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
           <div className="w-full max-w-109 h-full flex flex-col gap-3 sm:gap-5 px-4 sm:px-0">
             <div className="w-full flex flex-col gap-4 sm:gap-6">
               <div className="flex gap-1.5 items-center text-2xl sm:text-3xl font-bold text-foreground">
-                <div>رمزعبور جدید</div>
+                <div>{t("forgotPassword.newPassword")}</div>
                 <div className="text-lg sm:text-[25px]">🔓</div>
               </div>
 
               <div className="font-light text-sm sm:text-base text-muted">
-                رمزعبور جدید خود را وارد کنید
+                {t("forgotPassword.newPassword")}
               </div>
             </div>
 
@@ -148,32 +149,32 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
               }}
               validationSchema={Yup.object({
                 newPassword1: Yup.string()
-                  .required("لطفا رمز عبور را وارد کنید")
-                  .min(8, "رمز عبور نمیتونه کمتر از ۸ کاراکتر باشه")
-                  .max(32, "رمز عبور نمیتواند بیشتر از ۳۲ کاراکتر باشد")
+                  .required(t("errors.passwordRequired"))
+                  .min(8, t("errors.passwordMin"))
+                  .max(32, t("errors.passwordMax"))
                   .matches(
                     /[a-z]/,
-                    "رمز عبور باید حداقل یک حرف کوچک داشته باشد",
+                    t("errors.passwordLowercase"),
                   )
                   .matches(
                     /[A-Z]/,
-                    "رمز عبور باید حداقل یک حرف بزرگ داشته باشد",
+                    t("errors.passwordUppercase"),
                   )
-                  .matches(/\d/, "رمز عبور باید حداقل یک عدد داشته باشد")
+                  .matches(/\d/, t("errors.passwordNumber"))
                   .matches(
                     /[!@#$%^&*(),.?":{}|<>]/,
-                    "رمز عبور باید حداقل یک کاراکتر خاص داشته باشد",
+                    t("errors.passwordSpecial"),
                   ),
                 newPassword: Yup.string()
-                  .required("لطفا تکرار رمز عبور را وارد کنید")
+                  .required(t("errors.passwordRequired"))
                   .oneOf(
                     [Yup.ref("newPassword1")],
-                    "رمز عبور و تکرار آن مطابقت ندارند",
+                    t("errors.passwordsNotMatch"),
                   ),
                 resetValue: Yup.string()
-                  .required("لطفا کد تایید را وارد کنید")
-                  .length(6, "کد تایید باید ۶ رقمی باشد")
-                  .matches(/^[0-9]{6}$/, "کد تایید فقط باید شامل اعداد باشد"),
+                  .required(t("errors.verifyCodeRequired"))
+                  .length(6, t("errors.verifyCodeLength"))
+                  .matches(/^[0-9]{6}$/, t("errors.verifyCodeNumbers")),
               })}
             >
               {({ values, errors, touched, setFieldValue }) => (
@@ -184,7 +185,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                         htmlFor="newPassword1"
                         className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                       >
-                        رمزعبور جدید
+                        {t("forgotPassword.newPassword")}
                       </label>
                       <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                         <HugeiconsIcon
@@ -196,7 +197,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                           name="newPassword1"
                           type={isHidenPass ? "password" : "text"}
                           className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
-                          placeholder="رمزعبور جدید خود را وارد کنید"
+                          placeholder={t("forgotPassword.newPasswordPlaceholder")}
                         />
 
                         <HugeiconsIcon
@@ -218,7 +219,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                         htmlFor="newPassword"
                         className="font-bold text-sm sm:text-[16px] mr-0.5 text-foreground"
                       >
-                        تکرار رمزعبور
+                        {t("forgotPassword.repeatPassword")}
                       </label>
                       <div className="h-10 sm:h-11.25 flex items-center gap-4 px-3 bg-surface-secondary rounded-xl">
                         <HugeiconsIcon
@@ -230,7 +231,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                           name="newPassword"
                           type={isHidenAgainPass ? "password" : "text"}
                           className="w-full h-full outline-0 text-[10px] sm:text-xs focus:text-sm duration-200 bg-transparent text-foreground"
-                          placeholder="رمزعبور جدید خود را دوباره وارد کنید"
+                          placeholder={t("forgotPassword.repeatPasswordPlaceholder")}
                         />
 
                         <HugeiconsIcon
@@ -248,7 +249,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                       />
                     </div>
                     <div className="flex flex-col gap-3 sm:gap-5">
-                      <label className="font-bold text-lg text-foreground">کد تایید</label>
+                      <label className="font-bold text-lg text-foreground">{t("register.verifyCode")}</label>
 
                       <InputOTP
                         className="flex-row-reverse justify-center"
@@ -306,7 +307,7 @@ const ForgotPasswordForm = ({ step, submitFuncOne, submitFuncTwo }) => {
                     type="submit"
                     className="w-full h-10 sm:h-11 font-bold text-sm sm:text-[16px]"
                   >
-                    تایید
+                    {t("register.confirm")}
                   </Button>
                 </Form>
               )}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BestCourses } from "../../core/services/landing/get";
 import { Button } from "@heroui/button";
 import { Skeleton } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 const BasicSkeleton = () => {
   return (
@@ -20,7 +21,7 @@ const BasicSkeleton = () => {
   );
 };
 
-const CourseCard = ({ e, formatPersianDate }) => (
+const CourseCard = ({ e, formatPersianDate, t }) => (
   <div className="relative text-foreground bg-default border border-border h-[530px] w-[90%] md:w-[22%] flex flex-col gap-2 rounded-[20px] text-right">
     <img
       src={e.imageAddress}
@@ -44,19 +45,19 @@ const CourseCard = ({ e, formatPersianDate }) => (
         <img src="/icons/calendar-03-stroke-rounded 1.png" alt="" className="h-6 w-6" />
         <span>
           {formatPersianDate(e.startTime)}{" "}
-          <span className="text-muted">(شروع)</span>
+          <span className="text-muted">({t("popularCourses.start")})</span>
         </span>
       </div>
 
       <div className="text-[16px] mb-2 flex justify-start items-center gap-3">
         <img src="/icons/students-stroke-rounded 1.png" alt="" className="h-6 w-6" />
-        <span className="text-[16px]">{e.capacity} دانشجو</span>
+        <span className="text-[16px]">{e.capacity} {t("popularCourses.student")}</span>
       </div>
 
       <div className="flex justify-between align-middle">
         <p className="text-[20px] md:text-[24px] text-foreground">
           {e.cost}
-          <span className="text-[14px] md:text-[16px] text-accent"> تومان </span>
+          <span className="text-[14px] md:text-[16px] text-accent"> {t("popularCourses.toman")} </span>
         </p>
         <div className="w-[120px] flex justify-between align-middle pt-2">
           <div className="w-[50px] flex justify-between align-middle">
@@ -82,6 +83,8 @@ const CourseCard = ({ e, formatPersianDate }) => (
 );
 
 const PopularCourse = () => {
+  const { t } = useTranslation("home");
+
   const formatPersianDate = (isoString) => {
     if (!isoString) return "—";
     const date = new Date(isoString);
@@ -113,9 +116,9 @@ const PopularCourse = () => {
   return (
     <div className="m-auto w-[95%] mt-15">
       <div className="m-auto w-full text-center mb-7.5">
-        <span className="block text-[28px] md:text-[40px] text-foreground">محبوب ترین دوره ها</span>
+        <span className="block text-[28px] md:text-[40px] text-foreground">{t("popularCourses.title")}</span>
         <span className="block text-[14px] md:text-[20px] text-muted">
-          دوره هایی که بین دانشجو های ما محبوبیت بالایی داشتند
+          {t("popularCourses.subtitle")}
         </span>
       </div>
 
@@ -124,7 +127,7 @@ const PopularCourse = () => {
           Array(4).fill(0).map((_, index) => <BasicSkeleton key={index} />)
         ) : (
           course.map((e) => (
-            <CourseCard key={e.courseId} e={e} formatPersianDate={formatPersianDate} />
+            <CourseCard key={e.courseId} e={e} formatPersianDate={formatPersianDate} t={t} />
           ))
         )}
       </div>
@@ -134,7 +137,7 @@ const PopularCourse = () => {
           Array(2).fill(0).map((_, index) => <BasicSkeleton key={index} />)
         ) : (
           course.slice(0, 2).map((e) => (
-            <CourseCard key={e.courseId} e={e} formatPersianDate={formatPersianDate} />
+            <CourseCard key={e.courseId} e={e} formatPersianDate={formatPersianDate} t={t} />
           ))
         )}
 
@@ -145,7 +148,7 @@ const PopularCourse = () => {
           disableRipple
           className="my-5 px-2 cursor-pointer text-[16px] md:text-[20px] bg-accent text-accent-foreground w-[140px] h-[40px] md:w-43 md:h-14 rounded-4xl mx-auto"
         >
-          نمایش بیشتر
+          {t("popularCourses.showMore")}
         </Button>
       </div>
     </div>

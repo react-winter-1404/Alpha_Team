@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { News } from "../../core/services/landing/get";
 import { Button } from "@heroui/button";
 import { Skeleton } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 const BasicSkeleton = () => {
   return (
@@ -20,7 +21,7 @@ const BasicSkeleton = () => {
   );
 };
 
-const NewsCard = ({ e }) => (
+const NewsCard = ({ e, t }) => (
   <div className="relative text-foreground bg-default border border-border h-[530px] w-[90%] md:w-[22%] flex flex-col gap-2 rounded-[20px] text-right">
     <img
       src={e.currentImageAddress}
@@ -59,7 +60,7 @@ const NewsCard = ({ e }) => (
         </div>
 
         <button className="w-[40%] h-[40px] bg-accent rounded-[65px] text-[14px] md:text-[16px] text-accent-foreground">
-          بیشتر بخوانید
+          {t("news.readMore")}
         </button>
       </div>
     </div>
@@ -72,6 +73,7 @@ const NewsCard = ({ e }) => (
 );
 
 const NewsBar = () => {
+  const { t } = useTranslation("home");
   const [course, setCourse] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -93,9 +95,9 @@ const NewsBar = () => {
   return (
     <div className="m-auto mt-[60px] w-[95%]">
       <div className="m-auto w-full text-center mb-7.5">
-        <span className="block text-[28px] md:text-[40px] text-foreground">اخبار و مقالات هفته</span>
+        <span className="block text-[28px] md:text-[40px] text-foreground">{t("news.title")}</span>
         <span className="block text-[14px] md:text-[20px] text-muted">
-          خبر ها و مقاله هایی که در این هفته منتشر شدند
+          {t("news.subtitle")}
         </span>
       </div>
 
@@ -103,7 +105,7 @@ const NewsBar = () => {
         {isLoading ? (
           Array(4).fill(0).map((_, index) => <BasicSkeleton key={index} />)
         ) : (
-          course.map((e) => <NewsCard key={e.id} e={e} />)
+          course.map((e) => <NewsCard key={e.id} e={e} t={t} />)
         )}
       </div>
 
@@ -111,7 +113,7 @@ const NewsBar = () => {
         {isLoading ? (
           Array(2).fill(0).map((_, index) => <BasicSkeleton key={index} />)
         ) : (
-          course.slice(0, 2).map((e) => <NewsCard key={e.id} e={e} />)
+          course.slice(0, 2).map((e) => <NewsCard key={e.id} e={e} t={t} />)
         )}
 
         <Button
@@ -121,7 +123,7 @@ const NewsBar = () => {
           disableRipple
           className="my-5 px-2 cursor-pointer text-[16px] md:text-[20px] bg-accent text-accent-foreground w-[140px] h-[40px] md:w-43 md:h-14 rounded-4xl mx-auto"
         >
-          نمایش بیشتر
+          {t("news.showMore")}
         </Button>
       </div>
     </div>

@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import { postLogin } from "../core/services/Auth/post";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
 
   const fetchLogin = async (values) => {
@@ -50,7 +52,7 @@ const LoginPage = () => {
         >
           <Steps
             step={1}
-            stepsList={[{ id: 1, describe: "وارد کردن شماره همراه یا ایمیل" }]}
+            stepsList={[{ id: 1, describe: t("login.step1") }]}
           />
         </motion.div>
       </div>

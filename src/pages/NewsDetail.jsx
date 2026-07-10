@@ -6,6 +6,7 @@ import NewsInfoBox from "../components/newsDetail/NewsInfoBox";
 import { getNewsDetails } from "../core/services/News/get";
 import NewsDetailSection from "../components/newsDetail/NewsDetailSection";
 import { Skeleton } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 const NewsDetailSkeleton = () => {
   return (
@@ -37,6 +38,7 @@ const NewsDetailSkeleton = () => {
 };
 
 const NewsDetailPage = () => {
+  const { t } = useTranslation("news");
   const Params = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -68,7 +70,7 @@ const NewsDetailPage = () => {
       <div className="w-full flex flex-col items-center bg-overlay">
         <NavbarHeader />
         <div className="flex justify-center items-center h-screen">
-          <div className="text-2xl text-danger">خطا در بارگذاری اطلاعات</div>
+          <div className="text-2xl text-danger">{t("detail.loadError")}</div>
         </div>
         <Footer />
       </div>

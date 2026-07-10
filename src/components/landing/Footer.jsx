@@ -2,8 +2,11 @@ import { Button } from "@heroui/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { InstagramIcon, TelegramIcon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation("home");
+
   return (
     <>
       <div className="hidden relative p-3 w-[90%] h-[320px] mx-auto rounded-[30px] bg-surface-secondary my-[50px] md:flex flex-wrap items-center">
@@ -17,44 +20,42 @@ const Footer = () => {
               icon={InstagramIcon}
               className="m-0 lg:w-6 lg:h-6 w-5 h-5"
             />
-            اینستاگرام
+            {t("footer.instagram")}
           </Button>
           <Button
             variant="secondary"
             className="bg-overlay pt-3.5 pb-4 px-2 gap-1 lg:px-3.5 lg:gap-2 font-bold text-accent mt-2 text-sm lg:text-[16px]"
           >
             <HugeiconsIcon icon={TelegramIcon} className="m-0 w-6 h-6" />
-            تلگرام
+            {t("footer.telegram")}
           </Button>
         </div>
 
         <div className="w-[30%] h-[80%] mx-[2%] lg:mx-[5%]">
           <h3 className="lg:text-[24px] text-lg font-bold text-foreground">
-            آکادمی کدنویسی بحر
+            {t("footer.academyName")}
           </h3>
           <p className="mt-[20px] text-sm lg:text-[16px] text-muted">
-            +13 سال سابقه فعالیت در زمینه آموزش کدنویسی از سنین کودکی تا
-            بزرگسال. هدف ما همیشه این بوده که دانشجویان را با مهارت های لازم
-            برای موفقیت در دنیای فناوری و برنامه نویسی مجهز کنیم.
+            {t("footer.description")}
           </p>
         </div>
 
         <div className="lg:w-[25%] w-[27%] h-[80%] flex justify-between items-start mx-[2%] lg:mx-[5%]">
           <ul className="text-[16px] lg:text-[20px] font-bold text-foreground">
-            <li className="text-accent mb-5">صفحات</li>
-            <li>خانه</li>
-            <li>دوره ها</li>
-            <li>اخبار و مقالات</li>
+            <li className="text-accent mb-5">{t("footer.pages")}</li>
+            <li>{t("footer.home")}</li>
+            <li>{t("footer.courses")}</li>
+            <li>{t("footer.news")}</li>
           </ul>
 
           <ul className="text-[16px] lg:text-[20px] font-bold text-foreground">
-            <li className="text-accent mb-5">ما</li>
-            <li>اساتید</li>
+            <li className="text-accent mb-5">{t("footer.about")}</li>
+            <li>{t("footer.teachers")}</li>
             <li>
-              <Link to={"/About_Us"}>درباره ما</Link>
+              <Link to={"/About_Us"}>{t("footer.aboutUs")}</Link>
             </li>
             <li>
-              <Link to={"/Contact_Us"}>ارتباط با ما</Link>
+              <Link to={"/Contact_Us"}>{t("footer.contactUs")}</Link>
             </li>
           </ul>
         </div>
@@ -84,32 +85,30 @@ const Footer = () => {
 
         <div className="w-full h-auto mt-0 flex justify-around items-start">
           <ul className="text-[16px] sm:text-[20px] font-bold text-foreground">
-            <li className="text-accent mb-3 sm:mb-5">صفحات</li>
-            <li>خانه</li>
-            <li>دوره ها</li>
-            <li>اخبار و مقالات</li>
+            <li className="text-accent mb-3 sm:mb-5">{t("footer.pages")}</li>
+            <li>{t("footer.home")}</li>
+            <li>{t("footer.courses")}</li>
+            <li>{t("footer.news")}</li>
           </ul>
 
           <ul className="text-[16px] sm:text-[20px] font-bold text-foreground">
-            <li className="text-accent mb-3 sm:mb-5">ما</li>
-            <li>اساتید</li>
+            <li className="text-accent mb-3 sm:mb-5">{t("footer.about")}</li>
+            <li>{t("footer.teachers")}</li>
             <li>
-              <Link to={"/About_Us"}>درباره ما</Link>
+              <Link to={"/About_Us"}>{t("footer.aboutUs")}</Link>
             </li>
             <li>
-              <Link to={"/Contact_Us"}>ارتباط با ما</Link>
+              <Link to={"/Contact_Us"}>{t("footer.contactUs")}</Link>
             </li>
           </ul>
         </div>
 
         <div className="w-full h-auto mt-0">
           <h3 className="text-[18px] sm:text-[20px] font-bold text-foreground">
-            آکادمی کدنویسی بحر
+            {t("footer.academyName")}
           </h3>
           <p className="mt-[10px] sm:mt-[14px] text-[14px] sm:text-[16px] text-muted">
-            +13 سال سابقه فعالیت در زمینه آموزش کدنویسی از سنین کودکی تا
-            بزرگسال. هدف ما همیشه این بوده که دانشجویان را با مهارت های لازم
-            برای موفقیت در دنیای فناوری و برنامه نویسی مجهز کنیم.
+            {t("footer.description")}
           </p>
         </div>
 
@@ -123,7 +122,7 @@ const Footer = () => {
               icon={InstagramIcon}
               className="w-4 h-4 sm:w-5 sm:h-5"
             />
-            اینستاگرام
+            {t("footer.instagram")}
           </Button>
           <Button
             variant="secondary"
@@ -134,7 +133,7 @@ const Footer = () => {
               icon={TelegramIcon}
               className="w-4 h-4 sm:w-5 sm:h-5"
             />
-            تلگرام
+            {t("footer.telegram")}
           </Button>
         </div>
       </div>

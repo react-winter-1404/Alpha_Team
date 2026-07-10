@@ -11,6 +11,7 @@ import {
   InstagramIcon,
   TelegramIcon,
 } from "@hugeicons/core-free-icons";
+import { useTranslation } from "react-i18next";
 
 const pageVariants = {
   initial: {
@@ -57,6 +58,8 @@ const infoBoxVariants = {
 };
 
 const ContactUsPage = () => {
+  const { t } = useTranslation("miniPages");
+
   return (
     <div className="w-full flex flex-col bg-overlay" style={{ direction: "rtl" }}>
       <NavbarHeader />
@@ -68,18 +71,16 @@ const ContactUsPage = () => {
         animate="animate"
       >
         <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
-          ارتباط با ما
+          {t("contactUs.title")}
         </div>
         <div className="my-2 md:my-5 text-sm sm:text-lg lg:text-xl text-muted">
-          {" "}
-          در این صفحه میتوانید اطلاعات ارتباطی آکادمی کدنویسی بحر را مشاهده
-          کنید.{" "}
+          {t("contactUs.subtitle")}
         </div>
 
         <div className="flex my-8 md:my-15 gap-8 md:gap-11 lg:gap-14">
           <div className="flex flex-col gap-5 md:gap-8 lg:gap-10">
             <div className="text-sm sm:text-lg lg:text-xl font-bold text-foreground">
-              پل های ارتباطی
+              {t("contactUs.communication")}
             </div>
             <motion.div
               className="flex gap-3 md:gap-4.5 lg:gap-6"
@@ -111,7 +112,7 @@ const ContactUsPage = () => {
 
           <div className="flex flex-col gap-5 md:gap-8 lg:gap-10">
             <div className="text-sm sm:text-lg lg:text-xl font-bold text-foreground">
-              شبکه های اجتماعی
+              {t("contactUs.socialMedia")}
             </div>
             <motion.div
               className="flex gap-3 md:gap-4.5 lg:gap-6"
@@ -161,17 +162,18 @@ const ContactUsPage = () => {
         >
           <div className="flex flex-col gap-1.5 md:gap-3">
             <div className="sm:text-xl lg:text-2xl font-bold text-accent">
-              شماره تماس دفتر
+              {t("contactUs.officePhone")}
             </div>
-            <div className="text-xs sm:text-lg lg:text-xl text-foreground">01122334455</div>
+            <div className="text-xs sm:text-lg lg:text-xl text-foreground">
+              {t("contactUs.phone")}
+            </div>
           </div>
           <div className="flex flex-col gap-1.5 md:gap-3">
             <div className="sm:text-xl lg:text-xl font-bold text-accent">
-              آدرس دفتر
+              {t("contactUs.officeAddress")}
             </div>
             <div className="text-xs sm:text-lg lg:text-xl text-foreground">
-              مازندران، ساری، میدان خزر، جاده دریا، بعد از دنیای آرزو، ساختمان
-              سپهرگان، طبقات دوم و سوم
+              {t("contactUs.address")}
             </div>
           </div>
         </motion.div>

@@ -1,0 +1,61 @@
+{
+  "hero": {
+    "line1": "An Unparalleled Experience in Learning",
+    "line2": "Coding;",
+    "from": "Beginner",
+    "to": "Professional",
+    "description": "Specialized coding and programming academy from childhood to adulthood",
+    "cta": "Start Learning"
+  },
+  "features": {
+    "studentPanel": "Student Dashboard",
+    "studentPanelDesc": "Dedicated student panels for managing courses and exercises",
+    "summerCourses": "New Summer Courses!",
+    "summerCoursesDesc": "New beginner and advanced courses starting this summer",
+    "aboutUs": "Read More About Us",
+    "onlineStudents": "Online students in course",
+    "experienceYears": "Years of specialized training"
+  },
+  "banner": {
+    "text": "Services We Provide to You"
+  },
+  "license": {
+    "title": "Valid Certificate",
+    "description": "Will be filled later"
+  },
+  "popularCourses": {
+    "title": "Most Popular Courses",
+    "subtitle": "Courses that are highly popular among our students",
+    "showMore": "Show More",
+    "start": "Start",
+    "student": "Students",
+    "toman": "Toman",
+    "teacherPage": "Teacher Page"
+  },
+  "bestTeachers": {
+    "title": "Top Teachers of the Week",
+    "subtitle": "Teachers who received the most positive votes in course surveys",
+    "loading": "Loading...",
+    "teacherPage": "Teacher Page"
+  },
+  "news": {
+    "title": "News & Articles of the Week",
+    "subtitle": "News and articles published this week",
+    "showMore": "Show More",
+    "readMore": "Read More"
+  },
+  "footer": {
+    "academyName": "Bahr Coding Academy",
+    "description": "Over 13 years of experience in coding education from childhood to adulthood. Our goal has always been to equip students with the necessary skills to succeed in the world of technology and programming.",
+    "instagram": "Instagram",
+    "telegram": "Telegram",
+    "pages": "Pages",
+    "home": "Home",
+    "courses": "Courses",
+    "news": "News & Articles",
+    "about": "About",
+    "teachers": "Teachers",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us"
+  }
+}

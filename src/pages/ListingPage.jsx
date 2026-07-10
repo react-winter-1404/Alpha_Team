@@ -14,6 +14,7 @@ import {
   ViewAgendaIcon,
   FilterIcon,
 } from "@hugeicons/core-free-icons";
+import { useTranslation } from "react-i18next";
 
 const pageVariants = {
   initial: {
@@ -56,6 +57,7 @@ const cardVariants = {
 };
 
 const ListingPage = () => {
+  const { t } = useTranslation("courses");
   const [courses, setCourses] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -80,7 +82,7 @@ const ListingPage = () => {
   });
 
   const convertToPersianDate = (dateString) => {
-    if (!dateString) return "مدرس دوره";
+    if (!dateString) return t("card.teacher");
     try {
       const date = new Date(dateString);
       return new Intl.DateTimeFormat("fa-IR", {
@@ -159,7 +161,7 @@ const ListingPage = () => {
                   onClick={() => setIsFilterOpen(true)}
                   className="lg:hidden flex items-center gap-2 bg-accent text-accent-foreground px-4 h-10 rounded-xl font-bold text-sm shadow-sm cursor-pointer transition-all active:scale-[0.98]"
                 >
-                  <span>ترتیب و فیلتر</span>
+                  <span>{t("listing.sortAndFilter")}</span>
                   <HugeiconsIcon icon={FilterIcon} className="w-4 h-4" />
                 </button>
 
@@ -200,7 +202,7 @@ const ListingPage = () => {
                   </div>
                 ) : courses.length === 0 ? (
                   <div className="w-full text-center py-20 text-muted font-medium">
-                    دوره‌ای با فیلترهای انتخاب شده یافت نشد.
+                    {t("listing.noCoursesFound")}
                   </div>
                 ) : (
                   <motion.div
@@ -235,7 +237,7 @@ const ListingPage = () => {
                           discribtion={
                             course.describe || course.shortDescribe || ""
                           }
-                          teacher={course.teacherName || "مدرس دوره"}
+                          teacher={course.teacherName || t("card.teacher")}
                           date={convertToPersianDate(
                             course.lastUpdate || course.startDate,
                           )}

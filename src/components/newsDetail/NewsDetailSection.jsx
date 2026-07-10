@@ -4,8 +4,10 @@ import NewsComments from "./NewsComments";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { postAddNewsRate } from "../../core/services/News/post";
+import { useTranslation } from "react-i18next";
 
 const NewsDetailSection = ({ newsId, imageAddress, miniDescribe, describe, newsTitle, rate }) => {
+  const { t } = useTranslation("news");
   const [rating, setRating] = useState(rate || 0);
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -33,7 +35,7 @@ const NewsDetailSection = ({ newsId, imageAddress, miniDescribe, describe, newsT
         </div>
         <div className="h-10 mt-5 flex items-center gap-1.5 lg:gap-3 rounded-lg px-3">
           <HugeiconsIcon icon={StarCircleIcon} className="text-accent w-5 h-5 lg:w-6 lg:h-6" />
-          <div className="lg:text-xl font-bold text-foreground">امتیاز بدید</div>
+          <div className="lg:text-xl font-bold text-foreground">{t("detail.rate")}</div>
           <div className="flex gap-1 mx-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <HugeiconsIcon
@@ -48,7 +50,7 @@ const NewsDetailSection = ({ newsId, imageAddress, miniDescribe, describe, newsT
               />
             ))}
           </div>
-          {rating > 0 && <span className="text-sm text-muted">امتیاز شما: {rating}</span>}
+          {rating > 0 && <span className="text-sm text-muted">{t("detail.yourRate")}: {rating}</span>}
         </div>
       </div>
       <NewsComments newsId={newsId} newsTitle={newsTitle} />

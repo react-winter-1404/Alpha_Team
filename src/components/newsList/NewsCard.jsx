@@ -5,6 +5,7 @@ import viewIcon from "../../assets/News/view-stroke-rounded (1) 1.png";
 import calendarIcon from "../../assets/News/calendar-03-stroke-rounded 1.png";
 import thumbsUpIcon from "../../assets/News/thumbs-up-stroke-rounded 1.png";
 import thumbsDownIcon from "../../assets/News/thumbs-down-stroke-rounded 1.png";
+import { useTranslation } from "react-i18next";
 
 const newsCard = ({
   imageURL,
@@ -17,8 +18,10 @@ const newsCard = ({
   dislike,
   id,
 }) => {
+  const { t } = useTranslation("news");
+
   return (
-    <div className="absolute w-[985px] h-[288px] flex flex-row-reverse items-center justify-between p-4 bg-white rounded-3xl shadow-sm dir-rtl">
+    <div className="absolute w-[985px] h-[288px] flex flex-row-reverse items-center justify-between p-4 bg-overlay rounded-3xl shadow-sm border border-border dir-rtl">
       <img
         src={imageURL}
         alt={title}
@@ -27,15 +30,15 @@ const newsCard = ({
 
       <div className="flex flex-col justify-between h-full pr-[450px] pl-4 py-2 w-full">
         <div className="flex flex-col gap-2">
-          <h1 className="text-xl font-bold text-gray-900 line-clamp-1">
+          <h1 className="text-xl font-bold text-foreground line-clamp-1">
             {title}+{id}
           </h1>
-          <span className="text-sm text-gray-600 line-clamp-3 leading-relaxed">
+          <span className="text-sm text-muted line-clamp-3 leading-relaxed">
             {discribtion}
           </span>
         </div>
 
-        <div className="flex items-center gap-6 text-xs text-gray-500 my-4">
+        <div className="flex items-center gap-6 text-xs text-muted my-4">
           <div className="flex items-center gap-1">
             <img
               src={quillIcon}
@@ -60,7 +63,7 @@ const newsCard = ({
             />
             <span>{date}</span>
           </div>
-          <div className="flex items-center gap-3 border-r pr-4 border-gray-200">
+          <div className="flex items-center gap-3 border-r pr-4 border-separator">
             <div className="flex items-center gap-1">
               <img
                 src={thumbsUpIcon}
@@ -82,9 +85,9 @@ const newsCard = ({
 
         <Link
           to={`/news/${id}`}
-          className="self-start px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl transition-colors"
+          className="self-start px-5 py-2 bg-accent hover:bg-accent/80 text-accent-foreground text-sm font-medium rounded-xl transition-colors"
         >
-          بیشتر بخوانید
+          {t("card.readMore")}
         </Link>
       </div>
     </div>

@@ -2,8 +2,10 @@
 
 import React from 'react';
 import { Pagination } from "@heroui/react";
+import { useTranslation } from "react-i18next";
 
 function NewsPagination({ page, totalPages, itemsPerPage, totalItems, onPageChange }) {
+  const { t } = useTranslation("news");
   
   const getPageNumbers = () => {
     const pages = [];
@@ -37,8 +39,8 @@ function NewsPagination({ page, totalPages, itemsPerPage, totalItems, onPageChan
   return (
     <Pagination className="w-full flex flex-col items-center gap-3" style={{ direction: 'rtl' }}>
       
-      <Pagination.Summary className="text-gray-500 text-sm font-medium">
-        نمایش {startItem} تا {endItem} از مجموع {totalItems} خبر یافت شده
+      <Pagination.Summary className="text-muted text-sm font-medium">
+        {t("listing.showing")} {startItem} {t("listing.to")} {endItem} {t("listing.of")} {totalItems} {t("listing.newsFound")}
       </Pagination.Summary>
       
       <Pagination.Content className="flex items-center gap-1" style={{ direction: 'ltr' }}>
@@ -46,17 +48,17 @@ function NewsPagination({ page, totalPages, itemsPerPage, totalItems, onPageChan
           <Pagination.Previous 
             isDisabled={page === 1} 
             onPress={() => onPageChange(page - 1)}
-            className="px-3 py-1 text-sm bg-gray-50 rounded-xl hover:bg-gray-100"
+            className="px-3 py-1 text-sm bg-default rounded-xl hover:bg-default-foreground/10 text-foreground"
           >
             <Pagination.PreviousIcon className="mr-1" />
-            <span>قبلی</span>
+            <span>{t("listing.previous")}</span>
           </Pagination.Previous>
         </Pagination.Item>
 
         {getPageNumbers().map((p, i) =>
           p === "ellipsis" ? (
             <Pagination.Item key={`ellipsis-${i}`}>
-              <Pagination.Ellipsis className="text-gray-400" />
+              <Pagination.Ellipsis className="text-muted" />
             </Pagination.Item>
           ) : (
             <Pagination.Item key={p}>
@@ -64,7 +66,7 @@ function NewsPagination({ page, totalPages, itemsPerPage, totalItems, onPageChan
                 isActive={p === page} 
                 onPress={() => onPageChange(p)}
                 className={`w-9 h-9 flex items-center justify-center rounded-xl text-sm font-bold ${
-                  p === page ? 'bg-blue-600 text-white' : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
+                  p === page ? 'bg-accent text-accent-foreground' : 'bg-default hover:bg-default-foreground/10 text-foreground'
                 }`}
               >
                 {p}
@@ -77,9 +79,9 @@ function NewsPagination({ page, totalPages, itemsPerPage, totalItems, onPageChan
           <Pagination.Next 
             isDisabled={page === totalPages} 
             onPress={() => onPageChange(page + 1)}
-            className="px-3 py-1 text-sm bg-gray-50 rounded-xl hover:bg-gray-100"
+            className="px-3 py-1 text-sm bg-default rounded-xl hover:bg-default-foreground/10 text-foreground"
           >
-            <span>بعدی</span>
+            <span>{t("listing.next")}</span>
             <Pagination.NextIcon className="ml-1" />
           </Pagination.Next>
         </Pagination.Item>

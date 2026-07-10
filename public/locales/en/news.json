@@ -1,0 +1,50 @@
+{
+  "listing": {
+    "sortAndFilter": "Sort & Filter",
+    "searchNews": "Search News & Articles",
+    "searchPlaceholder": "Search...",
+    "category": "Category",
+    "select": "Select",
+    "publishDate": "Publish Date",
+    "order": "Order",
+    "newest": "Newest",
+    "mostViewed": "Most Viewed",
+    "mostPopular": "Most Popular",
+    "highestRated": "Highest Rated",
+    "noNewsFound": "No news found with selected filters.",
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "newsFound": "news found",
+    "previous": "Previous",
+    "next": "Next",
+    "apply": "Apply",
+    "close": "Close"
+  },
+  "card": {
+    "readMore": "Read More"
+  },
+  "detail": {
+    "publisher": "Publisher",
+    "article": "Article",
+    "loadError": "Error loading information",
+    "rate": "Rate",
+    "yourRate": "Your rating"
+  },
+  "comments": {
+    "title": "Comments",
+    "yourComment": "Your Comment",
+    "noComments": "No comments yet. Be the first to comment!",
+    "showMore": "Show More",
+    "showLess": "Show Less",
+    "reply": "Reply",
+    "seeReplies": "View replies",
+    "closeReply": "Close",
+    "replyTo": "Reply to",
+    "titlePlaceholder": "Write your comment title",
+    "describePlaceholder": "Write your comment text",
+    "titleRequired": "Title cannot be empty",
+    "describeRequired": "Comment text cannot be empty",
+    "close": "Close"
+  }
+}

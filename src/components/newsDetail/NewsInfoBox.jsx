@@ -12,8 +12,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { addNewsLike, addNewsDislike, deleteNewsLike, addNewsFavorite } from "../../core/services/News/post";
+import { useTranslation } from "react-i18next";
 
 const NewsInfoBox = ({ newsId, title, insertDate, newsCatregoryName, currentView, addUserFullName, addUserProfileImage, newsRate, isFavorite, userIsLiked, currentUserDissLike }) => {
+  const { t } = useTranslation("news");
   const [isFavorited, setIsFavorited] = useState(false);
   const [like, setLike] = useState(false);
   const [dislike, setDislike] = useState(false);
@@ -113,7 +115,7 @@ const NewsInfoBox = ({ newsId, title, insertDate, newsCatregoryName, currentView
       </div>
       <div className="flex mt-2 lg:mt-4 text-lg gap-2">
         <Chip variant="primary" color="accent" className="h-7 px-1.25 lg:text-[15px] lg:h-8 lg:px-2.5 pb-1.5">{newsCatregoryName}</Chip>
-        <Chip variant="primary" color="accent" className="h-7 px-1.25 lg:text-[15px] lg:h-8 lg:px-2.5 pb-1.5">مقاله</Chip>
+        <Chip variant="primary" color="accent" className="h-7 px-1.25 lg:text-[15px] lg:h-8 lg:px-2.5 pb-1.5">{t("detail.article")}</Chip>
       </div>
       <div className="flex flex-col gap-2 lg:gap-4 lg:text-xl my-3.5 lg:my-7 text-foreground">
         <div className="flex gap-4 items-center">
@@ -126,7 +128,7 @@ const NewsInfoBox = ({ newsId, title, insertDate, newsCatregoryName, currentView
         </div>
       </div>
       <div className="flex flex-col gap-3 mt-0">
-        <div className="text-muted">منتشر کننده</div>
+        <div className="text-muted">{t("detail.publisher")}</div>
         <div className="flex justify-between gap-3 items-center">
           <div className="flex items-center gap-4">
             <img src={addUserProfileImage} alt="" className="bg-default w-12 h-12 lg:w-14 lg:h-14 rounded-full object-cover" />

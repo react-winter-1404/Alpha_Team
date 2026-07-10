@@ -1,0 +1,18 @@
+{
+  "list": {
+    "title": "Teachers List",
+    "loading": "Loading...",
+    "error": "Error fetching data",
+    "coursesCount": "Number of courses",
+    "linkedinProfile": "LinkedIn Profile"
+  },
+  "detail": {
+    "loading": "Loading...",
+    "error": "Error fetching data",
+    "teacherNotFound": "Teacher not found",
+    "biography": "Biography",
+    "courses": "Teacher's Courses",
+    "noCourses": "No courses registered for this teacher",
+    "linkedinProfile": "LinkedIn Profile"
+  }
+}

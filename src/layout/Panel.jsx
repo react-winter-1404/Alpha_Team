@@ -18,8 +18,10 @@ import {
 import { Button } from "@heroui/button";
 import { Link, useNavigate } from "react-router-dom";
 import ThemeSwitcher from "../components/theme/ThemeSwitcher";
+import { useTranslation } from "react-i18next";
 
 const Panel = () => {
+  const { t } = useTranslation("panel");
   const [dashboard, setDashboard] = useState(true);
   const [myCourse, setMyCourse] = useState(false);
   const [myReserve, setMyReserve] = useState(false);
@@ -76,7 +78,7 @@ const Panel = () => {
 
         <div className="flex flex-col items-start mt-10">
           <div>
-            <h4 className="text-[16px] mb-2.5 text-muted">عمومی</h4>
+            <h4 className="text-[16px] mb-2.5 text-muted">{t("sidebar.general")}</h4>
             <ul className="w-full">
               <li
                 onClick={() => {
@@ -90,7 +92,7 @@ const Panel = () => {
                 className={`${dashboard ? "bg-accent text-accent-foreground" : "bg-default text-muted"} mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center cursor-pointer`}
               >
                 <HugeiconsIcon icon={DashboardCircleIcon} className="mr-3 w-6 h-6" />
-                <span className="text-[18px] indent-4">داشبورد</span>
+                <span className="text-[18px] indent-4">{t("sidebar.dashboard")}</span>
               </li>
 
               <li
@@ -105,7 +107,7 @@ const Panel = () => {
                 className={`${myCourse ? "bg-accent text-accent-foreground" : "bg-default text-muted"} mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center cursor-pointer`}
               >
                 <HugeiconsIcon icon={Book02Icon} className="mr-3 w-6 h-6" />
-                <span className="text-[18px] indent-4">دوره من</span>
+                <span className="text-[18px] indent-4">{t("sidebar.myCourses")}</span>
               </li>
 
               <li
@@ -120,7 +122,7 @@ const Panel = () => {
                 className={`${myReserve ? "bg-accent text-accent-foreground" : "bg-default text-muted"} mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center cursor-pointer`}
               >
                 <HugeiconsIcon icon={TimeSetting03Icon} className="mr-3 w-6 h-6" />
-                <span className="text-[18px] indent-4">رزرو من</span>
+                <span className="text-[18px] indent-4">{t("sidebar.myReserve")}</span>
               </li>
 
               <li
@@ -135,7 +137,7 @@ const Panel = () => {
                 className={`${favCourses ? "bg-accent text-accent-foreground" : "bg-default text-muted"} mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center cursor-pointer`}
               >
                 <HugeiconsIcon icon={BookBookmark02Icon} className="mr-3 w-6 h-6" />
-                <span className="text-[18px] indent-4">علاقه مندی دوره</span>
+                <span className="text-[18px] indent-4">{t("sidebar.favCourses")}</span>
               </li>
 
               <li
@@ -150,7 +152,7 @@ const Panel = () => {
                 className={`${favMag ? "bg-accent text-accent-foreground" : "bg-default text-muted"} mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center cursor-pointer`}
               >
                 <HugeiconsIcon icon={FileBookmarkIcon} className="mr-3 w-6 h-6" />
-                <span className="text-[18px] indent-4">علاقه مندی مقالات</span>
+                <span className="text-[18px] indent-4">{t("sidebar.favMag")}</span>
               </li>
 
               <li
@@ -165,17 +167,17 @@ const Panel = () => {
                 className={`${profile ? "bg-accent text-accent-foreground" : "bg-default text-muted"} mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center cursor-pointer`}
               >
                 <HugeiconsIcon icon={UserEdit01Icon} className="mr-3 w-6 h-6" />
-                <span className="text-[18px] indent-4">پروفایل</span>
+                <span className="text-[18px] indent-4">{t("sidebar.profile")}</span>
               </li>
             </ul>
           </div>
 
           <div className="mt-4">
-            <h4 className="text-[16px] mb-2.5 text-muted">مالی</h4>
+            <h4 className="text-[16px] mb-2.5 text-muted">{t("sidebar.financial")}</h4>
 
             <div className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center bg-default text-muted cursor-pointer">
               <HugeiconsIcon icon={MoneySend02Icon} className="mr-3 w-6 h-6" />
-              <span className="text-[18px] indent-4">پرداخت ها</span>
+              <span className="text-[18px] indent-4">{t("sidebar.payments")}</span>
             </div>
           </div>
         </div>
@@ -184,12 +186,12 @@ const Panel = () => {
           <ul>
             <li className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center text-muted bg-default cursor-pointer">
               <HugeiconsIcon icon={UserSettings01Icon} className="mr-3 w-6 h-6" />
-              <span className="text-[18px] indent-4">حساب های کاربری</span>
+              <span className="text-[18px] indent-4">{t("sidebar.accounts")}</span>
             </li>
 
             <li className="mb-[10px] w-[228px] h-[53px] rounded-[38px] text-right flex justify-start items-center text-danger bg-default cursor-pointer">
               <HugeiconsIcon icon={Logout01Icon} className="mr-3 w-6 h-6" />
-              <span className="text-[18px] indent-4">خروج از حساب</span>
+              <span className="text-[18px] indent-4">{t("sidebar.logout")}</span>
             </li>
           </ul>
         </div>
@@ -229,7 +231,7 @@ const Panel = () => {
           />
 
           <div className="flex justify-between items-center w-[120px] h-full">
-            <button className="relative text-xl w-[56px] h-[56px] cursor-pointer border-solid border  rounded-full text-center flex items-center justify-center">
+            <button className="relative text-xl w-[56px] h-[56px] cursor-pointer border-solid border rounded-full text-center flex items-center justify-center">
               <HugeiconsIcon icon={Notification01Icon} className="m-0 w-6 h-6" />
               <div className="w-5 h-5 rounded-full bg-danger text-danger-foreground absolute top-[34px] -right-1 flex justify-center items-center text-[14px]">
                 5
@@ -328,7 +330,7 @@ const Panel = () => {
                   className="flex justify-start items-center gap-3 p-2 cursor-pointer text-foreground"
                 >
                   <HugeiconsIcon icon={BookBookmark02Icon} className="w-6 h-6" />
-                  <span className="text-[16px]">علاقه‌مندی دوره</span>
+                  <span className="text-[16px]">{t("sidebar.favCoursesShort")}</span>
                 </li>
 
                 <li
@@ -343,12 +345,12 @@ const Panel = () => {
                   className="flex justify-start items-center gap-3 p-2 cursor-pointer text-foreground"
                 >
                   <HugeiconsIcon icon={FileBookmarkIcon} className="w-6 h-6" />
-                  <span className="text-[16px]">علاقه‌مندی مقاله</span>
+                  <span className="text-[16px]">{t("sidebar.favMagShort")}</span>
                 </li>
 
                 <li className="flex justify-start items-center gap-3 p-2 cursor-pointer text-muted">
                   <HugeiconsIcon icon={MoneySend02Icon} className="w-6 h-6" />
-                  <span className="text-[16px]">پرداخت ها</span>
+                  <span className="text-[16px]">{t("sidebar.payments")}</span>
                 </li>
 
                 <li className="flex justify-start items-center gap-3 p-2 cursor-pointer text-foreground">
@@ -357,12 +359,12 @@ const Panel = () => {
                     alt=""
                     className="w-[24px] h-[24px] rounded-full"
                   />
-                  <span className="text-[16px]">حساب‌های کاربری</span>
+                  <span className="text-[16px]">{t("sidebar.accounts")}</span>
                 </li>
 
                 <Link to={"/"} onClick={() => { localStorage.removeItem('token'); localStorage.setItem('isLogin', false); console.log('hi') }} className="flex justify-start items-center gap-3 text-danger p-2">
                   <HugeiconsIcon icon={Logout01Icon} className="w-6 h-6" />
-                  <span className="text-[16px]">خروج از حساب</span>
+                  <span className="text-[16px]">{t("sidebar.logout")}</span>
                 </Link>
               </ul>
             </div>
