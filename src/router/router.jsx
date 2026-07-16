@@ -15,6 +15,7 @@ import TeacherList from "../pages/TeacherList";
 import TeacherDetail from "../components/Teacher/TeacherDetail";
 // import NewsPage from "../pages/NewsPage";
 import NewsDetailPage from "../pages/NewsDetail";
+import PaymentCallback from "../components/panel/Pages/PaymentCallback" ; 
 
 const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
   { path: "/courses/:id", element: <CourseDetailPage /> },
   { path: "/news", element: <NewsPage /> },
   { path: "/news/:id", element: <NewsDetailPage /> },
+  { path : "/payment-callback" , element : <PaymentCallback /> } 
 
 ]);
 
