@@ -7,21 +7,21 @@ import {
 import { getUserProfile } from "../../core/services/userPanel/get";
 import { DeleteProfileImage } from "../../core/services/userPanel/delete";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { MoreVerticalCircle01Icon } from "@hugeicons/core-free-icons";
+import { MoreVerticalCircle01Icon, ImageAdd02Icon } from "@hugeicons/core-free-icons";
 import { useTranslation } from "react-i18next";
+import { Skeleton } from "@heroui/react";
 
 const ImageProfile = ({ onProfileChange }) => {
   const { t } = useTranslation("panel");
   const [imageList, setImageList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [userProfile, setUserProfile] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
 
   const fetchUserProfile = async () => {
     setIsLoading(true);
     try {
       const response = await getUserProfile();
-      setUserProfile(response.data);
-      if (response.data.userPicture && response.data.userPicture.length > 0) {
+      if (response?.data?.userPicture && response.data.userPicture.length > 0) {
         const currentMainPic = response.data.currentPictureAddress;
 
         const serverImages = response.data.userPicture.map((pic) => ({
@@ -33,6 +33,8 @@ const ImageProfile = ({ onProfileChange }) => {
           isFromServer: true,
         }));
         setImageList(serverImages);
+      } else {
+        setImageList([]);
       }
     } catch (error) {
       console.error(error);
@@ -45,143 +47,195 @@ const ImageProfile = ({ onProfileChange }) => {
     fetchUserProfile();
   }, []);
 
-  const fetchAddProfileImage = async (data) => {
+  const fetchAddProfileImage = async (file) => {
+    setIsUploading(true);
     const formData = new FormData();
-    formData.append("formFile", data);
+    formData.append("formFile", file);
+
     try {
       const response = await postAddProfileImage(formData);
-      if (response.data.success) {
+      if (response?.data?.success) {
         toast.success(response.data.message);
+        await fetchUserProfile();
       } else {
-        toast.error(response.data.message || "خطا در ثبت اطلاعات");
+        toast.error(response?.data?.message || t("profile.errorUpload"));
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "خطا در ارتباط با سرور");
+      toast.error(error.response?.data?.message || t("profile.serverError"));
+    } finally {
+      setIsUploading(false);
     }
   };
 
-  const fetchSelectProfileImage = async (data) => {
+  const fetchSelectProfileImage = async (id) => {
     const formData = new FormData();
-    formData.append("ImageId", data);
+    formData.append("ImageId", id);
+
     try {
       const response = await postSelectProfileImage(formData);
-      if (response.data.success) {
+      if (response?.data?.success) {
         toast.success(response.data.message);
       } else {
-        toast.error(response.data.message || "خطا در ثبت اطلاعات");
+        toast.error(response?.data?.message || t("profile.errorSelect"));
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "خطا در ارتباط با سرور");
+      toast.error(error.response?.data?.message || t("profile.serverError"));
     }
   };
 
   const fetchDeleteProfileImage = async (id) => {
     const formData = new FormData();
     formData.append("DeleteEntityId", id);
-    console.log(formData);
+
     try {
       const response = await DeleteProfileImage(formData);
-      if (response.data.success) {
+      if (response?.data?.success) {
         toast.success(response.data.message);
       } else {
-        toast.error(response.data.message || "خطا در حذف عکس");
+        toast.error(response?.data?.message || t("profile.errorDelete"));
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "خطا در ارتباط با سرور");
+      toast.error(error.response?.data?.message || t("profile.serverError"));
     }
   };
 
   const fileHandler = (e) => {
-    const image = e.target.files[0];
-    if (!image) return;
+    const file = e.target.files[0];
+    if (!file) return;
 
-    const imgURL = URL.createObjectURL(image);
-    fetchAddProfileImage(image);
-    setImageList((i) => [
-      ...i,
-      {
-        image: imgURL,
-        file: image,
-        main: false,
-        option: false,
-      },
-    ]);
+    fetchAddProfileImage(file);
+    e.target.value = null;
   };
 
-  const imageOptionsHandler = (e) => {
+  const imageOptionsHandler = (targetImage) => {
     setImageList((prevList) =>
-      prevList.map((l) => {
-        if (l.image == e) {
-          return { ...l, option: !l.option };
-        }
-        return { ...l, option: false };
-      }),
+      prevList.map((item) => ({
+        ...item,
+        option: item.image === targetImage ? !item.option : false,
+      }))
     );
   };
 
-  const mainImageHandler = (e, x) => {
+  const mainImageHandler = (targetImage, id) => {
     setImageList((prevList) =>
-      prevList.map((l) => {
-        if (l.image == e) {
-          if (x) fetchSelectProfileImage(x);
-          if (onProfileChange) onProfileChange(e);
-          return { ...l, main: true };
+      prevList.map((item) => {
+        if (item.image === targetImage) {
+          if (id) fetchSelectProfileImage(id);
+          if (onProfileChange) onProfileChange(targetImage);
+          return { ...item, main: true, option: false };
         }
-        return { ...l, main: false };
-      }),
+        return { ...item, main: false, option: false };
+      })
     );
   };
 
-  const deleteImageHandler = (e, id) => {
-    setImageList((prev) => prev.filter((item) => item.image !== e));
+  const deleteImageHandler = (targetImage, id) => {
+    setImageList((prev) => prev.filter((item) => item.image !== targetImage));
     if (id) fetchDeleteProfileImage(id);
   };
 
   return (
     <div className="w-full h-[580px] p-2">
       <div className="h-full w-full flex flex-wrap justify-start items-start gap-5 p-2 overflow-y-auto">
-        <div className="w-[148px] h-[148px] md:w-[225px] md:h-[225px] border border-border rounded-[10px] flex flex-col bg-default justify-center items-center">
-          <input type="file" id="choose" onChange={(event) => fileHandler(event)} className="hidden" />
-          <label htmlFor="choose" className="flex flex-col justify-center items-center cursor-pointer">
-            <img src="/public/icons/Group 148.png" alt="" className="h-[32px] w-[32px] mb-[10px]" />
-            <span className="block text-[16px] text-foreground">{t("profile.addImage")}</span>
+        <div className="w-[180px] h-[180px] md:w-[236px] md:h-[236px] border-4 border-default rounded-[24px] flex flex-col bg-overlay justify-center items-center shadow-sm">
+          <input
+            type="file"
+            id="choose"
+            accept="image/*"
+            disabled={isUploading}
+            onChange={fileHandler}
+            className="hidden"
+          />
+          <label
+            htmlFor="choose"
+            className={`flex flex-col justify-center items-center cursor-pointer ${
+              isUploading ? "opacity-50 pointer-events-none" : ""
+            }`}
+          >
+            <HugeiconsIcon
+              icon={ImageAdd02Icon}
+              className="w-[40px] h-[40px] text-accent mb-[12px]"
+            />
+            <span className="block text-[16px] md:text-[18px] font-medium text-foreground mb-1">
+              {isUploading ? "..." : t("profile.addImage")}
+            </span>
           </label>
-          <span className="block text-[14px] text-muted">
+          <span className="block text-[12px] md:text-[14px] text-muted">
             {t("profile.imageSize")}
           </span>
         </div>
 
-        {imageList.map((i, index) => (
-          <div key={index} className="relative w-[148px] h-[148px] md:w-[225px] md:h-[225px] border border-border rounded-[10px]">
-            <img src={i.image} alt="" className="h-full w-full rounded-[10px]" />
-
-            <div onClick={() => imageOptionsHandler(i.image)} className="w-[32px] h-[32px] p-0 flex items-center justify-center rounded-full absolute top-2 right-2 border border-border rounded-full shadow bg-overlay cursor-pointer">
-              <HugeiconsIcon icon={MoreVerticalCircle01Icon} className="w-5 h-5 m-0 text-foreground" />
-            </div>
-            <img src="/public/icons/Group 155.png" alt="" className={`${i.main ? "w-[32px] h-[32px] rounded-full absolute top-2 right-12 cursor-pointer" : "hidden"}`} />
-
-            <div className={`${i.option ? "w-[234px] h-[112px] rounded-[16px] bg-overlay shadow-lg absolute top-12 right-0 flex flex-col" : "hidden"}`}>
-              <div onClick={() => mainImageHandler(i.image, i.id)} className="h-[50%] cursor-pointer border-b border-separator flex justify-start items-center gap-3 p-2">
-                <img src="/public/icons/checkmark-circle-02-stroke-rounded 1.png" alt="" className="w-[24px] h-[24px]" />
-                <span className="text-[16px] text-foreground">{t("profile.selectMainImage")}</span>
-              </div>
+        {isLoading ? (
+          Array.from({ length: 3 }).map((_, idx) => (
+            <Skeleton
+              key={idx}
+              className="w-[180px] h-[180px] md:w-[236px] md:h-[236px] rounded-[24px]"
+            />
+          ))
+        ) : (
+          imageList.map((item) => (
+            <div
+              key={item.id || item.image}
+              className="relative w-[180px] h-[180px] md:w-[236px] md:h-[236px] border border-border rounded-[24px] overflow-hidden shadow-sm"
+            >
+              <img
+                src={item.image}
+                alt="Profile"
+                className="h-full w-full object-cover"
+              />
 
               <div
-                onClick={() => {
-                  deleteImageHandler(i.image, i.id);
-                }}
-                className="h-[50%] cursor-pointer flex justify-start items-center gap-3 p-2"
+                onClick={() => imageOptionsHandler(item.image)}
+                className="w-[32px] h-[32px] flex items-center justify-center absolute top-3 right-3 border border-border rounded-full shadow bg-overlay cursor-pointer z-10"
               >
-                <img
-                  src="/public/icons/delete-02-stroke-rounded 1.png"
-                  alt=""
-                  className="w-[24px] h-[24px]"
+                <HugeiconsIcon
+                  icon={MoreVerticalCircle01Icon}
+                  className="w-5 h-5 text-foreground"
                 />
-                <span className="text-[16px] text-danger">{t("profile.deleteImage")}</span>
               </div>
+
+              {item.main && (
+                <img
+                  src="/icons/Group 155.png"
+                  alt="Main Profile"
+                  className="w-[32px] h-[32px] rounded-full absolute top-3 right-14 z-10"
+                />
+              )}
+
+              {item.option && (
+                <div className="w-[234px] h-[112px] rounded-[16px] bg-overlay shadow-lg absolute top-14 right-3 flex flex-col z-20 border border-border">
+                  <div
+                    onClick={() => mainImageHandler(item.image, item.id)}
+                    className="h-[50%] cursor-pointer border-b border-separator flex justify-start items-center gap-3 p-2 hover:bg-default transition-colors rounded-t-[16px]"
+                  >
+                    <img
+                      src="/icons/checkmark-circle-02-stroke-rounded 1.png"
+                      alt=""
+                      className="w-[24px] h-[24px]"
+                    />
+                    <span className="text-[16px] text-foreground">
+                      {t("profile.selectMainImage")}
+                    </span>
+                  </div>
+
+                  <div
+                    onClick={() => deleteImageHandler(item.image, item.id)}
+                    className="h-[50%] cursor-pointer flex justify-start items-center gap-3 p-2 hover:bg-default transition-colors rounded-b-[16px]"
+                  >
+                    <img
+                      src="/icons/delete-02-stroke-rounded 1.png"
+                      alt=""
+                      className="w-[24px] h-[24px]"
+                    />
+                    <span className="text-[16px] text-danger">
+                      {t("profile.deleteImage")}
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

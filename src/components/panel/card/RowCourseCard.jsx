@@ -30,25 +30,25 @@ const RowCourseCard = ({ course }) => {
   return (
     <div
       key={course.id}
-      className="w-full h-25 flex items-center justify-between"
+      className="w-full h-25 flex items-center gap-5 mt-3 justify-start"
     >
       <img
         src={courseDetail.imageAddress}
-        className="w-[13%] h-full flex justify-center bg-muted rounded-2xl"
+        className="w-[12%] h-full flex justify-left bg-muted rounded-2xl"
       />
-      <div className="w-[13%] text-lg text-foreground overflow-hidden whitespace-nowrap text-ellipsis">
+      <div className="w-[10%] text-lg text-foreground overflow-hidden  whitespace-nowrap text-ellipsis">
         {course.courseName}
       </div>
 
-      <div className="w-[15%] flex justify-center text-foreground">{course.teacher}</div>
-      <div className="w-[15%] flex justify-center text-foreground">
+      <div className="w-[12%] flex justify-center text-foreground">{course.teacher}</div>
+      <div className="w-[12%] flex justify-center text-foreground">
         {new Date(course.startDate).toLocaleDateString("fa-IR", {
           day: "numeric",
           month: "long",
           year: "numeric",
         })}
       </div>
-      <div className="w-[15%] flex justify-center text-foreground">
+      <div className="w-[14%] flex justify-center text-foreground">
         {" "}
         {courseDetail.cost && courseDetail.cost.toLocaleString("fa-IR")} {t("myReserve.toman")}
       </div>

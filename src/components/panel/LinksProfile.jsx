@@ -11,34 +11,38 @@ const LinksProfile = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitted },
   } = useForm({ mode: "onSubmit" });
-  const [userProfile, setUserProfile] = useState([]);
+
+  const [userProfile, setUserProfile] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchUserProfile = async () => {
     setIsLoading(true);
     try {
       const response = await getUserProfile();
-      setUserProfile(response.data);
-      console.log(response.data);
+      const data = response.data;
+      setUserProfile(data);
+      setValue("tel", data?.telegramLink || "");
+      setValue("link", data?.linkdinProfile || "");
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchUserProfile();
-  }, []);
+  }, [setValue]);
 
   const onSubmit = async (data) => {
     const formData = new FormData();
 
     formData.append("TelegramLink", data.tel?.trim() || "");
     formData.append("LinkdinProfile", data.link?.trim() || "");
-    formData.append("BirthDay", new Date(userProfile.birthDay).toISOString());
-    console.log(formData);
+    formData.append("BirthDay", userProfile.birthDay ? new Date(userProfile.birthDay).toISOString() : "");
 
     try {
       const response = await putPersonalProfile(formData);
@@ -57,12 +61,12 @@ const LinksProfile = () => {
   return (
     <div className="w-full h-[500px] py-10 px-5">
       {isLoading ? (
-        <div className="w-[70%] h-full flex flex-col gap-8">
-          <div className="flex flex-col gap-2 w-[60%]">
+        <div className="w-full md:w-[70%] h-full flex flex-col gap-8">
+          <div className="flex flex-col gap-2 w-full md:w-[60%]">
             <Skeleton className="w-16 h-5 rounded-lg" />
             <Skeleton className="w-full h-[48px] rounded-[16px]" />
           </div>
-          <div className="flex flex-col gap-2 w-[60%]">
+          <div className="flex flex-col gap-2 w-full md:w-[60%]">
             <Skeleton className="w-16 h-5 rounded-lg" />
             <Skeleton className="w-full h-[48px] rounded-[16px]" />
           </div>
@@ -71,9 +75,9 @@ const LinksProfile = () => {
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-[70%] h-full flex flex-col gap-8"
+          className="w-full md:w-[70%] h-full flex flex-col gap-8"
         >
-          <div className="flex flex-col gap-2 w-[60%] group">
+          <div className="flex flex-col gap-2 w-full md:w-[60%] group">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="n"
@@ -94,14 +98,13 @@ const LinksProfile = () => {
                   message: t("profile.telegramInvalid"),
                 },
               })}
-              defaultValue={userProfile.telegramLink}
               id="n"
               placeholder={t("profile.telegramPlaceholder")}
               className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("tel") ? "border-2 border-danger" : ""}`}
             />
           </div>
 
-          <div className="flex flex-col gap-2 w-[60%] group">
+          <div className="flex flex-col gap-2 w-full md:w-[60%] group">
             <div className="flex items-center justify-between">
               <label
                 htmlFor="f"
@@ -122,7 +125,6 @@ const LinksProfile = () => {
                   message: t("profile.linkedinInvalid"),
                 },
               })}
-              defaultValue={userProfile.linkdinProfile}
               id="f"
               placeholder={t("profile.linkedinPlaceholder")}
               className={`w-full h-[48px] rounded-[16px] bg-default text-foreground text-[14px] p-3 transition-all outline-0 ${isError("link") ? "border-2 border-danger" : ""}`}

@@ -4,9 +4,6 @@ import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import ThemeProvider from "./providers/ThemeProvider";
 
-
-
-
 const App = () => {
   useEffect(() => {
     localStorage.getItem("token")
@@ -21,11 +18,11 @@ const App = () => {
   });
 
   return (
-  <ThemeProvider>
-    <RouterProvider router={router} />
-    <Toaster />
-  </ThemeProvider>
-);
+    <ThemeProvider>
+      <RouterProvider router={router} />
+      <Toaster />
+    </ThemeProvider>
+  );
 };
 
 export default App;

@@ -43,6 +43,7 @@
     "react-multi-date-picker": "^4.5.2",
     "react-resize-detector": "^12.3.0",
     "react-router-dom": "^7.15.1",
+    "react-speech-recognition": "^4.0.1",
     "use-sync-external-store": "^1.4.0",
     "yup": "^1.7.1"
   },

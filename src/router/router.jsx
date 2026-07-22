@@ -13,34 +13,38 @@ import CourseDetailPage from "../pages/CourseDetail";
 import NewsPage from "../pages/NewsPage"
 import TeacherList from "../pages/TeacherList";
 import TeacherDetail from "../components/Teacher/TeacherDetail";
-// import NewsPage from "../pages/NewsPage";
 import NewsDetailPage from "../pages/NewsDetail";
+import PaymentResult from "../components/panel/Pages/PaymentResult"; 
+import RootLayout from "../layout/RootLayout";  
 
 const router = createBrowserRouter([
-  { path: "/", element: <LandingPage /> },
-  { path: "/panel", element: <Panel /> },
   {
-    path: "/Auth",
-    element: <AuthLayout />,
+    element: <RootLayout />,
     children: [
-      { path: "/Auth/Login", element: <LoginPage /> },
-      { path: "/Auth/Register", element: <RegisterPage /> },
-      { path: "/Auth/ForgotPassword", element: <ForgotPasswordPage /> },
-    ],
-  },
-  { path: "/About_Us", element: <AboutUsPage /> },
-  { path: "/Contact_Us", element: <ContactUsPage /> },
-  { path: "*", element: <NotFound404Page /> },
-  { path: "/courses", element: <ListingPage /> },
-  { path: "/courses/:id", element: <CourseDetailPage/> } ,
-  { path: "/coursDetail", element: <CourseDetailPage/> }
-  ,{ path: "/News", element: <NewsPage/> } , 
-  { path: "/teacherList", element: <TeacherList/> } ,
-  { path: "/teachers/:id", element: <TeacherDetail /> } ,
-  { path: "/courses/:id", element: <CourseDetailPage /> },
-  { path: "/news", element: <NewsPage /> },
-  { path: "/news/:id", element: <NewsDetailPage /> },
-
+      { path: "/", element: <LandingPage /> },
+      { path: "/panel", element: <Panel /> },
+      {
+        path: "/Auth",
+        element: <AuthLayout />,
+        children: [
+          { path: "/Auth/Login", element: <LoginPage /> },
+          { path: "/Auth/Register", element: <RegisterPage /> },
+          { path: "/Auth/ForgotPassword", element: <ForgotPasswordPage /> },
+        ],
+      },
+      { path: "/About_Us", element: <AboutUsPage /> },
+      { path: "/Contact_Us", element: <ContactUsPage /> },
+      { path: "/courses", element: <ListingPage /> },
+      { path: "/courses/:id", element: <CourseDetailPage/> },
+      { path: "/coursDetail", element: <CourseDetailPage/> },
+      { path: "/news", element: <NewsPage /> },
+      { path: "/news/:id", element: <NewsDetailPage /> },
+      { path: "/teacherList", element: <TeacherList/> },
+      { path: "/teachers/:id", element: <TeacherDetail /> },
+      { path: "/payment-result", element: <PaymentResult /> },
+      { path: "*", element: <NotFound404Page /> },
+    ]
+  }
 ]);
 
 export default router;
