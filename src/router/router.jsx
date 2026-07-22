@@ -10,12 +10,12 @@ import AboutUsPage from "../pages/AboutUs";
 import Panel from "../layout/Panel";
 import ListingPage from "../pages/ListingPage";
 import CourseDetailPage from "../pages/CourseDetail";
-import NewsPage from "../pages/NewsPage"
+import NewsPage from "../pages/NewsPage";
 import TeacherList from "../pages/TeacherList";
 import TeacherDetail from "../components/Teacher/TeacherDetail";
 import NewsDetailPage from "../pages/NewsDetail";
-import PaymentResult from "../components/panel/Pages/PaymentResult"; 
-import RootLayout from "../layout/RootLayout";  
+import PaymentResult from "../components/panel/Pages/PaymentResult";
+import RootLayout from "../layout/RootLayout";
 
 const router = createBrowserRouter([
   {
@@ -35,16 +35,16 @@ const router = createBrowserRouter([
       { path: "/About_Us", element: <AboutUsPage /> },
       { path: "/Contact_Us", element: <ContactUsPage /> },
       { path: "/courses", element: <ListingPage /> },
-      { path: "/courses/:id", element: <CourseDetailPage/> },
-      { path: "/coursDetail", element: <CourseDetailPage/> },
+      { path: "/courses/:id", element: <CourseDetailPage /> },
+      { path: "/coursDetail", element: <CourseDetailPage /> },
       { path: "/news", element: <NewsPage /> },
       { path: "/news/:id", element: <NewsDetailPage /> },
-      { path: "/teacherList", element: <TeacherList/> },
+      { path: "/teacherList", element: <TeacherList /> },
       { path: "/teachers/:id", element: <TeacherDetail /> },
       { path: "/payment-result", element: <PaymentResult /> },
       { path: "*", element: <NotFound404Page /> },
-    ]
-  }
+    ],
+  },
 ]);
 
 export default router;
