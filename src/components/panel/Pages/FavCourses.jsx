@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { getUserFavoriteCourses } from "../../../core/services/userPanel/get";
 import { Spinner, DateRangePicker, DateField, RangeCalendar, I18nProvider } from "@heroui/react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ViewIcon, Calendar02Icon, Cancel01Icon, Search01Icon } from "@hugeicons/core-free-icons";
+import { ViewIcon, Calendar02Icon, Cancel01Icon, Search01Icon, Delete01Icon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-hot-toast";
 
 const FavCourses = () => {
   const { t } = useTranslation("panel");
@@ -14,7 +15,9 @@ const FavCourses = () => {
   const [dateValue, setDateValue] = useState(null);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
-  // Temp states for mobile filter modal
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
   const [tempSearchTerm, setTempSearchTerm] = useState("");
   const [tempDateValue, setTempDateValue] = useState(null);
 
@@ -34,6 +37,10 @@ const FavCourses = () => {
     fetchUserProfile();
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, dateValue]);
+
   const clearDateFilter = () => {
     setDateValue(null);
   };
@@ -52,6 +59,25 @@ const FavCourses = () => {
     setSearchTerm(tempSearchTerm);
     setDateValue(tempDateValue);
     setIsFilterModalOpen(false);
+  };
+
+  const handleRemoveFavorite = (id) => {
+    setTimeout(() => {
+      setMyFavoriteCourses((prev) =>
+        prev.filter((item) => (item.id || item.courseId) !== id)
+      );
+
+      toast.success(t("favCourses.removeSuccess") || "دوره با موفقیت از علاقه‌مندی‌ها حذف شد", {
+        position: "top-center",
+        duration: 4000,
+        style: {
+          background: "var(--background)",
+          color: "var(--foreground)",
+          border: "1px solid var(--border)",
+          borderRadius: "16px",
+        },
+      });
+    }, 1500);
   };
 
   const jalaliToGregorian = (jy, jm, jd) => {
@@ -135,9 +161,12 @@ const FavCourses = () => {
     return matchesSearch && matchesDate;
   });
 
+  const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = filteredCourses.slice(startIndex, startIndex + itemsPerPage);
+
   return (
     <div className="h-full w-full flex flex-col pb-0 p-4 md:p-6 gap-6 overflow-hidden">
-      {/* Header */}
       <div className="flex justify-between items-center flex-shrink-0">
         <h3 className="text-xl md:text-2xl font-bold text-foreground">
           {t("favCourses.title") || "دوره‌های مورد علاقه"}
@@ -151,7 +180,6 @@ const FavCourses = () => {
         </button>
       </div>
 
-      {/* Desktop Filter Toolbar */}
       <div className="hidden md:flex justify-start items-center gap-5 flex-shrink-0 flex-wrap">
         <div>
           <div className="flex justify-start items-center gap-2">
@@ -252,115 +280,174 @@ const FavCourses = () => {
         </div>
       </div>
 
-      {/* Desktop Table View */}
-      <div className="hidden md:flex flex-1 bg-overlay rounded-2xl border border-border p-4 overflow-hidden flex-col min-h-90">
-        <div className="grid grid-cols-7 gap-2 h-12 bg-default rounded-2xl p-3 text-sm text-muted flex-shrink-0 items-center">
-          <span className="col-span-1 text-center">#</span>
-          <span className="col-span-2">{t("favCourses.courseName") || "نام دوره"}</span>
-          <span className="col-span-1 text-center">{t("favCourses.courseTeacher") || "مدرس"}</span>
-          <span className="col-span-1 text-center">{t("favCourses.startDate") || "تاریخ شروع"}</span>
-          <span className="col-span-1 text-center">{t("favCourses.coursePrice") || "قیمت"}</span>
-          <span className="col-span-1 text-center"></span>
+      <div className="hidden md:flex flex-1 bg-overlay rounded-2xl border border-border p-4 overflow-hidden flex-col min-h-90 justify-between">
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <div className="grid grid-cols-7 gap-2 h-12 bg-default rounded-2xl p-3 text-sm text-muted flex-shrink-0 items-center">
+            <span className="col-span-1 text-center">#</span>
+            <span className="col-span-2">{t("favCourses.courseName") || "نام دوره"}</span>
+            <span className="col-span-1 text-center">{t("favCourses.courseTeacher") || "مدرس"}</span>
+            <span className="col-span-1 text-center">{t("favCourses.startDate") || "تاریخ شروع"}</span>
+            <span className="col-span-1 text-center">{t("favCourses.coursePrice") || "قیمت"}</span>
+            <span className="col-span-1 text-center"></span>
+          </div>
+          <div className="flex-1 overflow-y-auto mt-2">
+            {isLoading ? (
+              <div className="flex justify-center items-center h-full">
+                <Spinner />
+              </div>
+            ) : currentItems.length === 0 ? (
+              <div className="text-center text-muted py-10">
+                {searchTerm || dateValue
+                  ? t("favCourses.noCoursesFound") || "دوره‌ای پیدا نشد"
+                  : t("favCourses.noFavCourses") || "دوره مورد علاقه‌ای یافت نشد"}
+              </div>
+            ) : (
+              currentItems.map((course) => {
+                const startTime = course.course?.startTime || course.startTime;
+                const courseId = course.id || course.courseId;
+                return (
+                  <div
+                    key={courseId}
+                    className="grid grid-cols-7 gap-2 p-3 items-center border-b border-border/50 hover:bg-default/30 rounded-xl transition-colors"
+                  >
+                    <div className="col-span-1 flex justify-center">
+                      <img
+                        src={course.imageAddress || course.tumbImageAddress || "/placeholder.jpg"}
+                        alt=""
+                        className="w-16 h-12 rounded-xl bg-default object-cover"
+                      />
+                    </div>
+                    <div className="col-span-2 text-sm font-medium text-foreground truncate">
+                      {course.courseTitle || course.title}
+                    </div>
+                    <div className="col-span-1 text-center text-sm text-foreground truncate">
+                      {course.teacheName || course.teacherName || "-"}
+                    </div>
+                    <div className="col-span-1 text-center text-sm text-foreground">
+                      {startTime
+                        ? new Date(startTime).toLocaleDateString("fa-IR", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                          })
+                        : "-"}
+                    </div>
+                    <div className="col-span-1 text-center text-sm text-foreground">
+                      {course.cost ? `${Number(course.cost).toLocaleString("fa-IR")} ${t("favCourses.toman") || "تومان"}` : "رایگان"}
+                    </div>
+                    <div className="col-span-1 flex justify-center items-center gap-1">
+                      <Link
+                        to={`/courses/${courseId}`}
+                        className="p-2 hover:bg-default rounded-lg text-foreground transition-colors"
+                      >
+                        <HugeiconsIcon icon={ViewIcon} className="w-5 h-5" />
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveFavorite(courseId)}
+                        className="p-2 hover:bg-danger/10 text-danger rounded-lg transition-colors cursor-pointer"
+                        title={t("favCourses.remove") || "حذف"}
+                      >
+                        <HugeiconsIcon icon={Delete01Icon} className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
         </div>
-        <div className="flex-1 overflow-y-auto mt-2">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-full">
-              <Spinner />
-            </div>
-          ) : filteredCourses.length === 0 ? (
-            <div className="text-center text-muted py-10">
-              {searchTerm || dateValue
-                ? t("favCourses.noCoursesFound") || "دوره‌ای پیدا نشد"
-                : t("favCourses.noFavCourses") || "دوره مورد علاقه‌ای یافت نشد"}
-            </div>
-          ) : (
-            filteredCourses.map((course) => {
-              const startTime = course.course?.startTime || course.startTime;
-              return (
-                <div
-                  key={course.id || course.courseId}
-                  className="grid grid-cols-7 gap-2 p-3 items-center border-b border-border/50 hover:bg-default/30 rounded-xl transition-colors"
-                >
-                  <div className="col-span-1 flex justify-center">
-                    <img
-                      src={course.imageAddress || course.tumbImageAddress || "/placeholder.jpg"}
-                      alt=""
-                      className="w-16 h-12 rounded-xl bg-default object-cover"
-                    />
-                  </div>
-                  <div className="col-span-2 text-sm font-medium text-foreground truncate">
-                    {course.courseTitle || course.title}
-                  </div>
-                  <div className="col-span-1 text-center text-sm text-foreground truncate">
-                    {course.teacheName || course.teacherName || "-"}
-                  </div>
-                  <div className="col-span-1 text-center text-sm text-foreground">
-                    {startTime
-                      ? new Date(startTime).toLocaleDateString("fa-IR", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        })
-                      : "-"}
-                  </div>
-                  <div className="col-span-1 text-center text-sm text-foreground">
-                    {course.cost ? `${Number(course.cost).toLocaleString("fa-IR")} ${t("favCourses.toman") || "تومان"}` : "رایگان"}
-                  </div>
-                  <div className="col-span-1 flex justify-center">
-                    <Link
-                      to={`/courses/${course.courseId || course.id}`}
-                      className="p-2 hover:bg-default rounded-lg text-foreground transition-colors"
-                    >
-                      <HugeiconsIcon icon={ViewIcon} className="w-5 h-5" />
-                    </Link>
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </div>
+
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 pt-4 border-t border-border flex-shrink-0">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-9 h-9 rounded-xl text-sm font-medium transition-all cursor-pointer ${
+                  currentPage === page
+                    ? "bg-accent text-accent-foreground shadow-sm"
+                    : "bg-default text-foreground hover:bg-default/80"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Mobile Card View */}
-      <div className="md:hidden flex flex-col gap-3">
+      <div className="md:hidden flex flex-col gap-3 flex-1 overflow-y-auto">
         {isLoading ? (
           <div className="flex justify-center items-center h-20">
             <Spinner />
           </div>
-        ) : filteredCourses.length === 0 ? (
+        ) : currentItems.length === 0 ? (
           <div className="text-center text-muted py-10">
             {searchTerm || dateValue
               ? t("favCourses.noCoursesFound") || "دوره‌ای پیدا نشد"
               : t("favCourses.noFavCourses") || "دوره مورد علاقه‌ای یافت نشد"}
           </div>
         ) : (
-          filteredCourses.map((course) => (
-            <div
-              key={course.id || course.courseId}
-              className="w-full h-[90px] p-3 flex gap-3 items-center bg-background border border-border rounded-2xl shadow-xs"
-            >
-              <img
-                src={course.imageAddress || course.tumbImageAddress || "/placeholder.jpg"}
-                alt=""
-                className="w-[27%] h-[82px] rounded-xl bg-default object-cover"
-              />
-              <Link to={`/courses/${course.courseId || course.id}`} className="w-[70%]">
-                <span className="block text-sm font-semibold text-foreground truncate">
-                  {course.courseTitle || course.title}
-                </span>
-                <span className="block text-xs truncate my-1 text-muted">
-                  {course.teacheName || course.teacherName || "-"}
-                </span>
-                <span className="block text-[11px] text-foreground font-medium truncate">
-                  {course.cost ? `${Number(course.cost).toLocaleString("fa-IR")} ${t("favCourses.toman") || "تومان"}` : "رایگان"}
-                </span>
-              </Link>
-            </div>
-          ))
+          currentItems.map((course) => {
+            const courseId = course.id || course.courseId;
+            return (
+              <div
+                key={courseId}
+                className="w-full h-[90px] p-3 flex gap-3 items-center bg-background border border-border rounded-2xl shadow-xs relative"
+              >
+                <img
+                  src={course.imageAddress || course.tumbImageAddress || "/placeholder.jpg"}
+                  alt=""
+                  className="w-[27%] h-[82px] rounded-xl bg-default object-cover flex-shrink-0"
+                />
+                <Link to={`/courses/${courseId}`} className="w-[58%]">
+                  <span className="block text-sm font-semibold text-foreground truncate">
+                    {course.courseTitle || course.title}
+                  </span>
+                  <span className="block text-xs truncate my-1 text-muted">
+                    {course.teacheName || course.teacherName || "-"}
+                  </span>
+                  <span className="block text-[11px] text-foreground font-medium truncate">
+                    {course.cost ? `${Number(course.cost).toLocaleString("fa-IR")} ${t("favCourses.toman") || "تومان"}` : "رایگان"}
+                  </span>
+                </Link>
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 flex flex-col gap-2">
+                  <Link to={`/courses/${courseId}`} className="text-foreground p-1">
+                    <HugeiconsIcon icon={ViewIcon} className="w-4 h-4" />
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveFavorite(courseId)}
+                    className="text-danger p-1 cursor-pointer"
+                  >
+                    <HugeiconsIcon icon={Delete01Icon} className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            );
+          })
+        )}
+
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 py-4">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-8 h-8 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                  currentPage === page
+                    ? "bg-accent text-accent-foreground shadow-sm"
+                    : "bg-default text-foreground hover:bg-default/80"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
         )}
       </div>
 
-      {/* Mobile Filter Modal */}
       {isFilterModalOpen && (
         <div className="fixed inset-0 z-[1000] flex items-end justify-center bg-black/50 backdrop-blur-xs md:hidden animate-in fade-in duration-200 p-4">
           <div className="w-full bg-white dark:bg-background rounded-3xl p-6 shadow-2xl flex flex-col gap-5 border border-border max-h-[85vh] overflow-y-auto mb-14 animate-in slide-in-from-bottom duration-300">

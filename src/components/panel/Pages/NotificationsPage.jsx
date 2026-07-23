@@ -1,10 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Notification01Icon, CheckmarkCircle03Icon, Search01Icon,  } from "@hugeicons/core-free-icons";
+import { Notification01Icon, CheckmarkCircle03Icon, Search01Icon } from "@hugeicons/core-free-icons";
 import { getUnseenNotifications, markAllNotificationsAsRead } from "../../../core/services/userPanel/notification/get";
 import { markNotificationAsSeen } from "../../../core/services/userPanel/notification/patch";
+import { useTranslation } from "react-i18next";
 
 const NotificationsPage = () => {
+  const { t } = useTranslation("panel");
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -86,15 +88,15 @@ const NotificationsPage = () => {
     <div className="w-full space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-overlay p-6 rounded-2xl border border-border">
         <div>
-          <h1 className="text-xl font-bold text-foreground">مدیریت اعلان‌ها</h1>
-          <p className="text-xs text-muted mt-1">مشاهده و مدیریت تمام پیام‌ها و اطلاعیه‌های سیستم</p>
+          <h1 className="text-xl font-bold text-foreground">{t("notifications.management")}</h1>
+          <p className="text-xs text-muted mt-1">{t("notifications.managementDesc")}</p>
         </div>
         <button
           onClick={handleMarkAllAsRead}
           className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white text-xs font-medium rounded-xl hover:bg-emerald-700 transition-colors cursor-pointer"
         >
           <HugeiconsIcon icon={CheckmarkCircle03Icon} className="w-4 h-4" />
-          <span>علامت‌گذاری همه به عنوان خوانده شده</span>
+          <span>{t("notifications.markAllRead")}</span>
         </button>
       </div>
 
@@ -107,7 +109,7 @@ const NotificationsPage = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="جستجو در متن اعلان‌ها..."
+            placeholder={t("notifications.search")}
             className="w-full h-10 pr-9 pl-4 bg-default border border-border rounded-xl text-xs text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
           />
         </div>
@@ -120,7 +122,7 @@ const NotificationsPage = () => {
                 statusFilter === "all" ? "bg-accent text-accent-foreground shadow-sm" : "text-muted hover:text-foreground"
               }`}
             >
-              همه
+              {t("notifications.all")}
             </button>
             <button
               onClick={() => setStatusFilter("unseen")}
@@ -128,7 +130,7 @@ const NotificationsPage = () => {
                 statusFilter === "unseen" ? "bg-accent text-accent-foreground shadow-sm" : "text-muted hover:text-foreground"
               }`}
             >
-              دیده نشده
+              {t("notifications.unseen")}
             </button>
             <button
               onClick={() => setStatusFilter("seen")}
@@ -136,7 +138,7 @@ const NotificationsPage = () => {
                 statusFilter === "seen" ? "bg-accent text-accent-foreground shadow-sm" : "text-muted hover:text-foreground"
               }`}
             >
-              دیده شده
+              {t("notifications.seen")}
             </button>
           </div>
 
@@ -147,7 +149,7 @@ const NotificationsPage = () => {
                 sortOrder === "newest" ? "bg-accent text-accent-foreground shadow-sm" : "text-muted hover:text-foreground"
               }`}
             >
-              جدیدترین
+              {t("notifications.newest")}
             </button>
             <button
               onClick={() => setSortOrder("oldest")}
@@ -155,7 +157,7 @@ const NotificationsPage = () => {
                 sortOrder === "oldest" ? "bg-accent text-accent-foreground shadow-sm" : "text-muted hover:text-foreground"
               }`}
             >
-              قدیمی‌ترین
+              {t("notifications.oldest")}
             </button>
           </div>
         </div>
@@ -163,14 +165,14 @@ const NotificationsPage = () => {
 
       <div className="bg-overlay border border-border rounded-2xl overflow-hidden">
         {isLoading ? (
-          <div className="p-12 text-center text-muted text-xs">در حال بارگذاری اعلان‌ها...</div>
+          <div className="p-12 text-center text-muted text-xs">{t("notifications.loading")}</div>
         ) : filteredAndSortedNotifications.length === 0 ? (
           <div className="p-16 text-center flex flex-col items-center justify-center gap-3">
             <div className="w-12 h-12 rounded-full bg-default flex items-center justify-center text-muted">
               <HugeiconsIcon icon={Notification01Icon} className="w-6 h-6" />
             </div>
-            <p className="text-sm font-medium text-foreground">هیچ اعلانی یافت نشد</p>
-            <span className="text-xs text-muted">با توجه به فیلترها یا جستجوی انجام شده، نتیجه‌ای وجود ندارد.</span>
+            <p className="text-sm font-medium text-foreground">{t("notifications.noNotificationsFound")}</p>
+            <span className="text-xs text-muted">{t("notifications.noNotificationsDesc")}</span>
           </div>
         ) : (
           <div className="divide-y divide-border">

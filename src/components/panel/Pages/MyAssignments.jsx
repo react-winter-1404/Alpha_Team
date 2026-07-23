@@ -12,8 +12,10 @@ import {
   UserGroupIcon 
 } from "@hugeicons/core-free-icons";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const MyAssignments = () => {
+  const { t } = useTranslation("panel");
   const [assignments, setAssignments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -74,15 +76,15 @@ const MyAssignments = () => {
       const response = await postAddCourseUserHomeWork(stepOneValues);
 
       if (response) {
-        toast.success(response.message || "تکلیف شما تایید شد نسبت به اپلود فایل تکلیف اقدام کنید");
+        toast.success(response.message || t("assignments.submitSuccess"));
         setIsUploadModalOpen(true);
         setUploadFile(null);
       } else {
-        toast.error("خطا در تایید اولیه تکلیف.");
+        toast.error(t("assignments.submitError"));
       }
     } catch (error) {
       console.error("Error in step one:", error);
-      toast.error("خطا در ارتباط با سرور.");
+      toast.error(t("assignments.serverError"));
     }
   };
 
@@ -108,19 +110,19 @@ const MyAssignments = () => {
         const stepTwoResponse = await postAddExerciseFile(formData);
 
         if (stepTwoResponse) {
-          toast.success(stepTwoResponse?.message || "تکلیف با موفقیت ارسال شد!");
+          toast.success(stepTwoResponse?.message || t("assignments.uploadSuccess"));
           
           setUploadFile(null);
           fetchAssignments();
         } else {
-          toast.error("خطا در آپلود فایل.");
+          toast.error(t("assignments.uploadError"));
         }
       } else {
-        toast.error("خطا در ثبت اولیه تکلیف.");
+        toast.error(t("assignments.submitError"));
       }
     } catch (error) {
       console.error("Error submitting homework:", error);
-      toast.error("خطا در ارتباط با سرور.");
+      toast.error(t("assignments.serverError"));
     } finally {
       setIsSubmitting(false);
       setIsUploadModalOpen(false);
@@ -128,7 +130,7 @@ const MyAssignments = () => {
   };
 
   const handleDeleteHomework = async (item) => {
-    if (!confirm("آیا از حذف پاسخ این تکلیف مطمئن هستید؟")) return;
+    if (!confirm(t("assignments.confirmDelete"))) return;
 
     try {
       const deleteValues = {
@@ -137,14 +139,14 @@ const MyAssignments = () => {
       const response = await deleteExerciseFile(deleteValues);
 
       if (response) {
-        toast.success(response?.message || "پاسخ تکلیف با موفقیت حذف شد.");
+        toast.success(response?.message || t("assignments.deleteSuccess"));
         fetchAssignments();
       } else {
-        toast.error("خطا در حذف پاسخ.");
+        toast.error(t("assignments.deleteError"));
       }
     } catch (error) {
       console.error("Error deleting homework:", error);
-      toast.error("خطا در ارتباط با سرور.");
+      toast.error(t("assignments.serverError"));
     }
   };
 
@@ -152,16 +154,16 @@ const MyAssignments = () => {
     <div className="w-full flex flex-col gap-6 p-4 md:p-6">
       <div className="flex justify-between items-center border-b border-border pb-4">
         <div>
-          <h1 className="text-xl font-bold text-foreground">تکالیف من</h1>
-          <p className="text-xs text-muted mt-1">مشاهده تسک‌ها، ارسال پاسخ‌ها و پیگیری تکالیف دوره</p>
+          <h1 className="text-xl font-bold text-foreground">{t("assignments.title")}</h1>
+          <p className="text-xs text-muted mt-1">{t("assignments.description")}</p>
         </div>
       </div>
 
       {isLoading ? (
-        <div className="py-20 text-center text-muted text-sm">در حال بارگذاری تکالیف...</div>
+        <div className="py-20 text-center text-muted text-sm">{t("assignments.loading")}</div>
       ) : assignments.length === 0 ? (
         <div className="py-20 text-center text-muted text-sm bg-overlay border border-border/50 rounded-2xl">
-          هیچ تکلیفی برای شما ثبت نشده است.
+          {t("assignments.noAssignments")}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -194,7 +196,7 @@ const MyAssignments = () => {
                     className="flex-1 py-2 bg-default text-foreground text-xs font-semibold rounded-xl hover:bg-default/80 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <HugeiconsIcon icon={ViewIcon} className="w-4 h-4" />
-                    جزئیات
+                    {t("assignments.details")}
                   </button>
 
                   {isSubmitted ? (
@@ -203,7 +205,7 @@ const MyAssignments = () => {
                       className="flex-1 py-2 bg-rose-500/10 text-rose-500 text-xs font-semibold rounded-xl hover:bg-rose-500/20 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <HugeiconsIcon icon={Delete01Icon} className="w-4 h-4" />
-                      حذف پاسخ
+                      {t("assignments.deleteAnswer")}
                     </button>
                   ) : (
                     <button
@@ -211,7 +213,7 @@ const MyAssignments = () => {
                       className="flex-1 py-2 bg-accent text-accent-foreground text-xs font-semibold rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <HugeiconsIcon icon={Upload01Icon} className="w-4 h-4" />
-                      ارسال پاسخ
+                      {t("assignments.submitAnswer")}
                     </button>
                   )}
                 </div>
@@ -231,10 +233,10 @@ const MyAssignments = () => {
               <HugeiconsIcon icon={Cancel01Icon} className="w-5 h-5" />
             </button>
 
-            <h2 className="text-lg font-bold text-foreground border-b border-border pb-3">جزئیات کامل تکلیف</h2>
+            <h2 className="text-lg font-bold text-foreground border-b border-border pb-3">{t("assignments.detailTitle")}</h2>
 
             {isDetailLoading ? (
-              <div className="py-12 text-center text-muted text-xs">در حال دریافت اطلاعات...</div>
+              <div className="py-12 text-center text-muted text-xs">{t("assignments.detailLoading")}</div>
             ) : (
               <div className="flex flex-col gap-4 text-right">
                 {sessionDetail?.sessionFileDtos && sessionDetail.sessionFileDtos.length > 0 && (
@@ -248,17 +250,17 @@ const MyAssignments = () => {
                 )}
 
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs text-muted">عنوان تکلیف:</span>
+                  <span className="text-xs text-muted">{t("assignments.assignmentTitle")}:</span>
                   <span className="text-sm font-semibold text-foreground">{selectedAssignment?.hwTitle}</span>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs text-muted">نام گروه:</span>
+                  <span className="text-xs text-muted">{t("assignments.groupName")}:</span>
                   <span className="text-sm font-medium text-foreground">{selectedAssignment?.groupName}</span>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs text-muted">توضیحات کامل:</span>
+                  <span className="text-xs text-muted">{t("assignments.fullDescription")}:</span>
                   <p className="text-xs text-foreground bg-default/40 p-3 rounded-xl leading-relaxed whitespace-pre-wrap">
                     {selectedAssignment?.hwDescribe}
                   </p>
@@ -279,12 +281,12 @@ const MyAssignments = () => {
               <HugeiconsIcon icon={Cancel01Icon} className="w-5 h-5" />
             </button>
 
-            <h2 className="text-lg font-bold text-foreground border-b border-border pb-3">بارگذاری پاسخ تکلیف</h2>
-            <p className="text-xs text-muted">تکلیف: <span className="font-semibold text-foreground">{selectedAssignment?.hwTitle}</span></p>
+            <h2 className="text-lg font-bold text-foreground border-b border-border pb-3">{t("assignments.uploadTitle")}</h2>
+            <p className="text-xs text-muted">{t("assignments.assignmentTitle")}: <span className="font-semibold text-foreground">{selectedAssignment?.hwTitle}</span></p>
 
             <form onSubmit={handleSubmitHomework} className="flex flex-col gap-4 mt-2">
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-medium text-foreground">انتخاب فایل پاسخ (پروژه، زیپ یا تصویر):</label>
+                <label className="text-xs font-medium text-foreground">{t("assignments.uploadDescription")}:</label>
                 <input 
                   type="file" 
                   onChange={(e) => setUploadFile(e.target.files[0])}
@@ -299,14 +301,14 @@ const MyAssignments = () => {
                   onClick={() => setIsUploadModalOpen(false)}
                   className="px-4 py-2 rounded-xl border border-border text-xs font-semibold text-foreground hover:bg-default cursor-pointer"
                 >
-                  انصراف
+                  {t("assignments.cancel")}
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   className="px-5 py-2 rounded-xl bg-accent text-accent-foreground text-xs font-bold hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-50"
                 >
-                  {isSubmitting ? "در حال ارسال..." : "بارگذاری و ثبت نهایی"}
+                  {isSubmitting ? t("assignments.uploading") : t("assignments.uploadSubmit")}
                 </button>
               </div>
             </form>

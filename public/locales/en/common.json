@@ -20,5 +20,16 @@
     "teachers": "Teachers",
     "aboutUs": "About Us",
     "contactUs": "Contact Us"
+  },
+  "theme": {
+    "selectTheme": "Select Theme",
+    "default": "Default",
+    "dark": "Dark",
+    "purple": "Purple",
+    "orange": "Orange",
+    "red": "Red",
+    "green": "Green",
+    "blue": "Cyan",
+    "indigo": "Indigo"
   }
 }

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Outlet } from "react-router-dom";
 import ThemeSwitcher from "../components/theme/ThemeSwitcher";
+import LanguageSwitcher from "../components/language/LanguageSwitcher";
 
 const AuthLayout = () => {
   return (
@@ -14,7 +15,8 @@ const AuthLayout = () => {
       >
         <Outlet />
 
-        <div className="absolute top-7 left-3">
+        <div className="absolute top-7 left-3 flex items-center gap-2">
+          <LanguageSwitcher />
           <ThemeSwitcher />
         </div>
       </motion.div>

@@ -31,7 +31,7 @@ const Hero = () => {
         <p>{t("hero.line2")}</p>
       </div>
       <p className="text-[33px] md:text-[48px] my-5 text-foreground">
-        {t("hero.from")} <span className="text-accent">{t("hero.from")}</span>{" "}
+        {t("hero.from2")} <span className="text-accent">{t("hero.from")}</span>{" "} {t("hero.to2")} {" "}
         <span className="text-danger">{t("hero.to")}</span> !
       </p>
       <p className="text-[16px] md:text-[20px] w-[80%] mx-auto text-muted my-5">

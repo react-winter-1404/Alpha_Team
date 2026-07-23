@@ -16,20 +16,56 @@ import TeacherDetail from "../components/Teacher/TeacherDetail";
 import NewsDetailPage from "../pages/NewsDetail";
 import PaymentResult from "../components/panel/Pages/PaymentResult";
 import RootLayout from "../layout/RootLayout";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
+
+import Dashboard from "../components/panel/Pages/Dashboard";
+import MyCourses from "../components/panel/Pages/MyCourses";
+import MyReserve from "../components/panel/Pages/MyReserve";
+import FavCourses from "../components/panel/Pages/FavCourses";
+import FavMag from "../components/panel/Pages/FavMag";
+import ProfilePanel from "../components/panel/Pages/Profile";
+import NotificationsPage from "../components/panel/Pages/NotificationsPage";
+import Payments from "../components/panel/Pages/Payments";
+import Accounts from "../components/panel/Pages/Accounts";
+import MyAssignments from "../components/panel/Pages/MyAssignments";
+import MySessions from "../components/panel/Pages/MySessions";
+import MyTickets from "../components/panel/Pages/MyTickets";
 
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
     children: [
       { path: "/", element: <LandingPage /> },
-      { path: "/panel", element: <Panel /> },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          { 
+            path: "/panel", 
+            element: <Panel />,
+            children: [
+              { index: true, element: <Dashboard /> },
+              { path: "my-courses", element: <MyCourses /> },
+              { path: "my-classes", element: <MySessions /> },
+              { path: "my-assignments", element: <MyAssignments /> },
+              { path: "my-tickets", element: <MyTickets /> },
+              { path: "reserve", element: <MyReserve /> },
+              { path: "fav-courses", element: <FavCourses /> },
+              { path: "fav-mag", element: <FavMag /> },
+              { path: "profile", element: <ProfilePanel /> },
+              { path: "payments", element: <Payments /> },
+              { path: "notifications", element: <NotificationsPage /> },
+              { path: "accounts", element: <Accounts /> },
+            ]
+          }
+        ]
+      },
       {
         path: "/Auth",
         element: <AuthLayout />,
         children: [
-          { path: "/Auth/Login", element: <LoginPage /> },
-          { path: "/Auth/Register", element: <RegisterPage /> },
-          { path: "/Auth/ForgotPassword", element: <ForgotPasswordPage /> },
+          { path: "Login", element: <LoginPage /> },
+          { path: "Register", element: <RegisterPage /> },
+          { path: "ForgotPassword", element: <ForgotPasswordPage /> },
         ],
       },
       { path: "/About_Us", element: <AboutUsPage /> },

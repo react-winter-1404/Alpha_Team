@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useCallback, useState } from 'react';
+import i18n from 'i18next';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 const faCommands = [
@@ -28,6 +29,7 @@ const enCommands = [
   { keywords: ['contact us', 'contact'], path: '/Contact_Us' },
   { keywords: ['login', 'sign in', 'log in'], path: '/Auth/Login' },
   { keywords: ['register', 'sign up', 'registration'], path: '/Auth/Register' },
+  { keywords: ['forgot password', 'forgot'], path: '/Auth/ForgotPassword' },
   { keywords: ['cart', 'shopping cart', 'basket'], path: '/cart' },
   { keywords: ['course details', 'view course'], path: '/course-details' },
   { keywords: ['back', 'previous', 'go back'], action: 'back' }
@@ -36,12 +38,25 @@ const enCommands = [
 export const useVoiceNavigation = () => {
   const navigate = useNavigate();
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
-  const [currentLang, setCurrentLang] = useState('fa');
+
+  const getLanguage = () => {
+    const lang = i18n.language || localStorage.getItem('language') || 'fa';
+    return lang.startsWith('fa') ? 'fa' : 'en';
+  };
+
+  const [currentLang, setCurrentLang] = useState(getLanguage);
 
   useEffect(() => {
-    const savedLang = localStorage.getItem('language') || 'fa';
-    setCurrentLang(savedLang === 'fa' ? 'fa' : 'en');
-  }, [listening]);
+    const handleLanguageChange = (lng) => {
+      setCurrentLang(lng.startsWith('fa') ? 'fa' : 'en');
+    };
+
+    i18n.on('languageChanged', handleLanguageChange);
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange);
+    };
+  }, []);
 
   const processVoiceCommand = useCallback((text) => {
     if (!text) return;

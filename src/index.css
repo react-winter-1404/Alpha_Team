@@ -1,18 +1,8 @@
-@font-face {
-  font-family: "IRANYekan";
-  src: url("./assets/fonts/Yekan.ttf") format("truetype");
-  font-style: normal;
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
 
 @import "tailwindcss";
 @import "@heroui/styles";
 @import "leaflet/dist/leaflet.css";
-
-
-body {
-  /* font-family: "IRANYekan", sans-serif; */
-}
 
 :root {
   --text: #6b6375;
@@ -27,8 +17,8 @@ body {
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
-  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+  --sans: "Vazirmatn", system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: "Vazirmatn", system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 }
 
@@ -49,6 +39,7 @@ body,
 
 body {
   display: block;
+  font-family: "Vazirmatn", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -85,7 +76,7 @@ body {
 }
 
 /* =================================================
-   DEFAULT THEME (تم اصلی پروژه خودت)
+    DEFAULT THEME (تم اصلی پروژه خودت)
 ================================================= */
 
 :root,
@@ -160,12 +151,12 @@ body {
   --radius:0.5rem;
   --field-radius:0.75rem;
 
-  --font-sans:var(--font-inter);
+  --font-sans: "Vazirmatn", var(--font-inter);
 
 }
 
 /* =================================================
-   DARK THEME
+    DARK THEME
 ================================================= */
 
 [data-theme="dark"] {
@@ -224,7 +215,7 @@ body {
 }
 
 /* =================================================
-   PURPLE THEME
+    PURPLE THEME
 ================================================= */
 
 [data-theme="purple"] {
@@ -283,7 +274,7 @@ body {
 }
 
 /* =================================================
-   BLACK THEME
+    BLACK THEME
 ================================================= */
 
 [data-theme="black"] {
@@ -342,7 +333,7 @@ body {
 }
 
 /* =================================================
-   ORANGE THEME
+    ORANGE THEME
 ================================================= */
 
 [data-theme="orange"] {
@@ -401,7 +392,7 @@ body {
 }
 
 /* =================================================
-   RED THEME
+    RED THEME
 ================================================= */
 
 [data-theme="red"] {
@@ -460,7 +451,7 @@ body {
 }
 
 /* =================================================
-   GREEN THEME
+    GREEN THEME
 ================================================= */
 
 [data-theme="green"] {
@@ -519,7 +510,7 @@ body {
 }
 
 /* =================================================
-   BLUE THEME
+    BLUE THEME
 ================================================= */
 
 [data-theme="blue"] {
@@ -578,7 +569,7 @@ body {
 }
 
 /* =================================================
-   MODERN INDIGO THEME
+    MODERN INDIGO THEME
 ================================================= */
 
 [data-theme="indigo"] {
@@ -777,9 +768,7 @@ body {
 }
 
 html{
-
   transition:
   background-color .3s ease,
   color .3s ease;
-
 }

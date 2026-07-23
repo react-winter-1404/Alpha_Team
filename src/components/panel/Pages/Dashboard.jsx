@@ -13,6 +13,7 @@ import CommentCard from "../card/CommentCard";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Clock01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const { t } = useTranslation("panel");
@@ -304,9 +305,9 @@ const Dashboard = () => {
       <div className="w-full h-[470px] flex flex-col justify-start items-center gap-3 mt-3 p-3 bg-overlay rounded-[16px]">
         <div className="h-[30px] w-full flex justify-between items-center">
           <h3 className="text-[16px] text-foreground">{t("dashboard.latestCourses")}</h3>
-          <span className="text-[14px] text-accent cursor-pointer">
+          <Link to="/courses" className="text-[14px] text-accent cursor-pointer hover:underline">
             {t("dashboard.viewAll")} {">"}
-          </span>
+          </Link>
         </div>
 
         <div className="hidden w-full h-[48px] bg-default rounded-[16px] md:flex justify-start items-center gap-3 p-3">

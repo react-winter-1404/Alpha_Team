@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Spinner } from "@heroui/react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ViewIcon, Calendar02Icon, Cancel01Icon, Search01Icon } from "@hugeicons/core-free-icons";
+import { ViewIcon, Calendar02Icon, Cancel01Icon, Search01Icon, Delete01Icon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
 import { getUserFavoriteNews } from "../../../core/services/userPanel/get";
 import { DateRangePicker, DateField, RangeCalendar } from "@heroui/react";
@@ -16,7 +16,9 @@ const FavMag = () => {
   const [dateValue, setDateValue] = useState(null);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
-  // Temp states for mobile filter modal
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
   const [tempSearchTerm, setTempSearchTerm] = useState("");
   const [tempDateValue, setTempDateValue] = useState(null);
 
@@ -36,6 +38,10 @@ const FavMag = () => {
     fetchUserProfile();
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, dateValue]);
+
   const clearDateFilter = () => {
     setDateValue(null);
   };
@@ -54,6 +60,12 @@ const FavMag = () => {
     setSearchTerm(tempSearchTerm);
     setDateValue(tempDateValue);
     setIsFilterModalOpen(false);
+  };
+
+  const handleRemoveFavorite = (id) => {
+    setMyFavoriteNews((prev) =>
+      prev.filter((item) => (item.newsId || item.id) !== id)
+    );
   };
 
   const jalaliToGregorian = (jy, jm, jd) => {
@@ -142,9 +154,12 @@ const FavMag = () => {
     return matchesSearch && matchesDate;
   });
 
+  const totalPages = Math.ceil(filteredNews.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = filteredNews.slice(startIndex, startIndex + itemsPerPage);
+
   return (
     <div className="h-full w-full flex flex-col pb-0 p-4 md:p-6 gap-6 overflow-hidden">
-      {/* Header */}
       <div className="flex justify-between items-center flex-shrink-0">
         <h3 className="text-xl md:text-2xl font-bold text-foreground">
           {t("favMag.title") || "اخبار و مقالات مورد علاقه"}
@@ -158,7 +173,6 @@ const FavMag = () => {
         </button>
       </div>
 
-      {/* Desktop Filter Toolbar */}
       <div className="hidden md:flex justify-start items-center gap-5 flex-shrink-0 flex-wrap">
         <div>
           <div className="flex justify-start items-center gap-2">
@@ -259,101 +273,129 @@ const FavMag = () => {
         </div>
       </div>
 
-      {/* Desktop Table View */}
-      <div className="hidden md:flex flex-1 bg-overlay rounded-2xl border border-border p-4 overflow-hidden flex-col min-h-90">
-        <div className="grid grid-cols-7 gap-2 h-12 bg-default rounded-2xl p-3 text-sm text-muted flex-shrink-0 items-center">
-          <span className="col-span-1 text-center">#</span>
-          <span className="col-span-1">{t("favMag.title") || "عنوان مقاله"}</span>
-          <span className="col-span-1 text-center">{t("favMag.publisher") || "نویسنده"}</span>
-          <span className="col-span-2">{t("favMag.aboutArticle") || "توضیحات کوتاه"}</span>
-          <span className="col-span-1 text-center">{t("favMag.publishDate") || "تاریخ انتشار"}</span>
-          <span className="col-span-1 text-center"></span>
+      <div className="hidden md:flex flex-1 bg-overlay rounded-2xl border border-border p-4 overflow-hidden flex-col min-h-90 justify-between">
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <div className="grid grid-cols-7 gap-2 h-12 bg-default rounded-2xl p-3 text-sm text-muted flex-shrink-0 items-center">
+            <span className="col-span-1 text-center">#</span>
+            <span className="col-span-1">{t("favMag.title") || "عنوان مقاله"}</span>
+            <span className="col-span-1 text-center">{t("favMag.publisher") || "نویسنده"}</span>
+            <span className="col-span-2">{t("favMag.aboutArticle") || "توضیحات کوتاه"}</span>
+            <span className="col-span-1 text-center">{t("favMag.publishDate") || "تاریخ انتشار"}</span>
+            <span className="col-span-1 text-center"></span>
+          </div>
+          <div className="flex-1 overflow-y-auto mt-2">
+            {isLoading ? (
+              <div className="flex justify-center items-center h-full">
+                <Spinner />
+              </div>
+            ) : currentItems.length === 0 ? (
+              <div className="text-center text-muted py-10">
+                {searchTerm || dateValue
+                  ? t("favMag.noArticlesFound") || "مقاله‌ای پیدا نشد"
+                  : t("favMag.noFavArticles") || "مقاله مورد علاقه‌ای یافت نشد"}
+              </div>
+            ) : (
+              currentItems.map((news) => {
+                const newsData = news.news || news;
+                const newsId = news.newsId || news.id;
+                return (
+                  <div
+                    key={newsId}
+                    className="grid grid-cols-7 gap-2 p-3 items-center border-b border-border/50 hover:bg-default/30 rounded-xl transition-colors"
+                  >
+                    <div className="col-span-1 flex justify-center">
+                      <img
+                        src={news.currentImageAddressTumb || newsData.currentImageAddressTumb || "/placeholder.jpg"}
+                        alt=""
+                        className="w-16 h-12 rounded-xl bg-default object-cover"
+                      />
+                    </div>
+                    <div className="col-span-1 text-sm font-medium text-foreground truncate">
+                      {news.title || newsData.title}
+                    </div>
+                    <div className="col-span-1 text-center text-sm text-foreground truncate">
+                      {news.auther || newsData.auther || news.author || "-"}
+                    </div>
+                    <div className="col-span-2 text-sm text-muted truncate">
+                      {newsData.miniDescribe || news.miniDescribe || "-"}
+                    </div>
+                    <div className="col-span-1 text-center text-sm text-foreground">
+                      {newsData.insertDate
+                        ? new Date(newsData.insertDate).toLocaleDateString("fa-IR", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                          })
+                        : "-"}
+                    </div>
+                    <div className="col-span-1 flex justify-center items-center gap-1">
+                      <Link
+                        to={`/news/${newsId}`}
+                        className="p-2 hover:bg-default rounded-lg text-foreground transition-colors"
+                      >
+                        <HugeiconsIcon icon={ViewIcon} className="w-5 h-5" />
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveFavorite(newsId)}
+                        className="p-2 hover:bg-danger/10 text-danger rounded-lg transition-colors cursor-pointer"
+                        title={t("favMag.remove") || "حذف"}
+                      >
+                        <HugeiconsIcon icon={Delete01Icon} className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
         </div>
-        <div className="flex-1 overflow-y-auto mt-2">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-full">
-              <Spinner />
-            </div>
-          ) : filteredNews.length === 0 ? (
-            <div className="text-center text-muted py-10">
-              {searchTerm || dateValue
-                ? t("favMag.noArticlesFound") || "مقاله‌ای پیدا نشد"
-                : t("favMag.noFavArticles") || "مقاله مورد علاقه‌ای یافت نشد"}
-            </div>
-          ) : (
-            filteredNews.map((news) => {
-              const newsData = news.news || news;
-              return (
-                <div
-                  key={news.id || news.newsId}
-                  className="grid grid-cols-7 gap-2 p-3 items-center border-b border-border/50 hover:bg-default/30 rounded-xl transition-colors"
-                >
-                  <div className="col-span-1 flex justify-center">
-                    <img
-                      src={news.currentImageAddressTumb || newsData.currentImageAddressTumb || "/placeholder.jpg"}
-                      alt=""
-                      className="w-16 h-12 rounded-xl bg-default object-cover"
-                    />
-                  </div>
-                  <div className="col-span-1 text-sm font-medium text-foreground truncate">
-                    {news.title || newsData.title}
-                  </div>
-                  <div className="col-span-1 text-center text-sm text-foreground truncate">
-                    {news.auther || newsData.auther || news.author || "-"}
-                  </div>
-                  <div className="col-span-2 text-sm text-muted truncate">
-                    {newsData.miniDescribe || news.miniDescribe || "-"}
-                  </div>
-                  <div className="col-span-1 text-center text-sm text-foreground">
-                    {newsData.insertDate
-                      ? new Date(newsData.insertDate).toLocaleDateString("fa-IR", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        })
-                      : "-"}
-                  </div>
-                  <div className="col-span-1 flex justify-center">
-                    <Link
-                      to={`/news/${news.newsId || news.id}`}
-                      className="p-2 hover:bg-default rounded-lg text-foreground transition-colors"
-                    >
-                      <HugeiconsIcon icon={ViewIcon} className="w-5 h-5" />
-                    </Link>
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </div>
+
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 pt-4 border-t border-border flex-shrink-0">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-9 h-9 rounded-xl text-sm font-medium transition-all cursor-pointer ${
+                  currentPage === page
+                    ? "bg-accent text-accent-foreground shadow-sm"
+                    : "bg-default text-foreground hover:bg-default/80"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Mobile Card View */}
-      <div className="md:hidden flex flex-col gap-3">
+      <div className="md:hidden flex flex-col gap-3 flex-1 overflow-y-auto">
         {isLoading ? (
           <div className="flex justify-center items-center h-20">
             <Spinner />
           </div>
-        ) : filteredNews.length === 0 ? (
+        ) : currentItems.length === 0 ? (
           <div className="text-center text-muted py-10">
             {searchTerm || dateValue
               ? t("favMag.noArticlesFound") || "مقاله‌ای پیدا نشد"
               : t("favMag.noFavArticles") || "مقاله مورد علاقه‌ای یافت نشد"}
           </div>
         ) : (
-          filteredNews.map((news) => {
+          currentItems.map((news) => {
             const newsData = news.news || news;
+            const newsId = news.newsId || news.id;
             return (
               <div
-                key={news.id || news.newsId}
-                className="w-full h-[90px] p-3 flex gap-3 items-center bg-background border border-border rounded-2xl shadow-xs"
+                key={newsId}
+                className="w-full h-[90px] p-3 flex gap-3 items-center bg-background border border-border rounded-2xl shadow-xs relative"
               >
                 <img
                   src={news.currentImageAddressTumb || newsData.currentImageAddressTumb || "/placeholder.jpg"}
                   alt=""
-                  className="w-[27%] h-[82px] rounded-xl bg-default object-cover"
+                  className="w-[27%] h-[82px] rounded-xl bg-default object-cover flex-shrink-0"
                 />
-                <Link to={`/news/${news.newsId || news.id}`} className="w-[70%]">
+                <Link to={`/news/${newsId}`} className="w-[58%]">
                   <span className="block text-sm font-semibold text-foreground truncate">
                     {news.title || newsData.title}
                   </span>
@@ -364,13 +406,42 @@ const FavMag = () => {
                     {newsData.miniDescribe || news.miniDescribe}
                   </span>
                 </Link>
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 flex flex-col gap-2">
+                  <Link to={`/news/${newsId}`} className="text-foreground p-1">
+                    <HugeiconsIcon icon={ViewIcon} className="w-4 h-4" />
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveFavorite(newsId)}
+                    className="text-danger p-1 cursor-pointer"
+                  >
+                    <HugeiconsIcon icon={Delete01Icon} className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             );
           })
         )}
+
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 py-4">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-8 h-8 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                  currentPage === page
+                    ? "bg-accent text-accent-foreground shadow-sm"
+                    : "bg-default text-foreground hover:bg-default/80"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Mobile Filter Modal */}
       {isFilterModalOpen && (
         <div className="fixed inset-0 z-[1000] flex items-end justify-center bg-black/50 backdrop-blur-xs md:hidden animate-in fade-in duration-200 p-4">
           <div className="w-full bg-white dark:bg-background rounded-3xl p-6 shadow-2xl flex flex-col gap-5 border border-border max-h-[85vh] overflow-y-auto mb-14 animate-in slide-in-from-bottom duration-300">
@@ -452,6 +523,11 @@ const FavMag = () => {
                         </DateRangePicker.Trigger>
                       </DateField.Suffix>
                     </DateField.Group>
+                    <DateField.Suffix className="mr-auto">
+                      <DateRangePicker.Trigger>
+                        <DateRangePicker.TriggerIndicator className="text-muted" />
+                      </DateRangePicker.Trigger>
+                    </DateField.Suffix>
                     <DateRangePicker.Popover className="bg-background rounded-2xl shadow-xl border border-border p-2 z-[1010]">
                       <RangeCalendar aria-label="انتخاب تاریخ انتشار" className="bg-background">
                         <RangeCalendar.Header className="flex items-center justify-between pb-2 bg-background">
@@ -461,7 +537,7 @@ const FavMag = () => {
                           </RangeCalendar.YearPickerTrigger>
                           <div className="flex gap-1">
                             <RangeCalendar.NavButton slot="previous" className="p-1 rounded-lg hover:bg-default text-foreground cursor-pointer" />
-                            <RangeCalendar.NavButton slot="next" className="p-1 rounded-lg hover:bg-default text-foreground cursor-pointer" />
+                            <RangeCalendar.NavButton slot="next" className="p-1 rounded-lg hover:bg-default text-foreground grid cursor-pointer" />
                           </div>
                         </RangeCalendar.Header>
                         <RangeCalendar.Grid className="bg-background">

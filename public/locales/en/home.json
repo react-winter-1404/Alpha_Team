@@ -4,6 +4,8 @@
     "line2": "Coding;",
     "from": "Beginner",
     "to": "Professional",
+    "from2": "from",
+    "to2": "to",
     "description": "Specialized coding and programming academy from childhood to adulthood",
     "cta": "Start Learning"
   },

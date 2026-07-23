@@ -8,8 +8,10 @@ import NotificationsPage from "./Pages/NotificationsPage"
 import Payments from "./Pages/Payments"
 import Accounts from "./Pages/Accounts"
 import MyAssignments from "./Pages/MyAssignments"
+import MySessions from "./Pages/MySessions"
+import MyTickets from "./Pages/MyTickets"
 
-const PanelPages = ({dashboard, myCourse, myReserve, favCourses, favMag, profile, payments, notifications, accounts, assignments, profilePic, setProfilePic}) => {
+const PanelPages = ({dashboard, myCourse, myReserve, favCourses, favMag, profile, payments, notifications, accounts, assignments, sessions, myTickets, profilePic, setProfilePic}) => {
 
   return (
     <div>
@@ -23,6 +25,8 @@ const PanelPages = ({dashboard, myCourse, myReserve, favCourses, favMag, profile
         {notifications && (<NotificationsPage/>)}
         {accounts && (<Accounts/>)}
         {assignments && (<MyAssignments/>)}
+        {sessions && (<MySessions/>)}
+        {myTickets && (<MyTickets/>)}
     </div>
   )
 }

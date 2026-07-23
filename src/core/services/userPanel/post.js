@@ -25,3 +25,19 @@ export const postAddExerciseFile = (values) => {
 export const postStudentAP = (values) => {
   return apiClient.post(`/Session/Student_AP`, values);
 };
+
+export const createTicket = (data) => {
+  return apiClient.post(`/ticket/createTicket`, data);
+};
+
+export const sendUserMessage = (data) => {
+  return apiClient.post(`/ticket/message/sendUser`, data);
+};
+
+export const acceptTicket = (ticketId) => {
+  return apiClient.patch(`/ticket/acceptTicket/${ticketId}`);
+};
+
+export const addTicketOverview = (data) => {
+  return apiClient.post(`/ticket/ExistTicket/addOverview`, data);
+};

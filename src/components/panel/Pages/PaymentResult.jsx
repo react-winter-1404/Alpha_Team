@@ -4,13 +4,15 @@ import { Spinner } from "@heroui/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CheckmarkCircle02Icon, CancelCircleIcon } from "@hugeicons/core-free-icons";
 import { patchCoursePaymentStep2 } from "../../../core/services/userPanel/patch";
+import { useTranslation } from "react-i18next";
 
 const PaymentResult = () => {
+  const { t } = useTranslation("panel");
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const [status, setStatus] = useState("loading");
-  const [message, setMessage] = useState("در حال بررسی و تایید پرداخت...");
+  const [message, setMessage] = useState(t("payments.paymentResult.checkingMessage"));
   
   const isCalledRef = useRef(false);
 
@@ -24,7 +26,7 @@ const PaymentResult = () => {
 
       if (paymentStatus === "NOK" || !authority || !reserveId) {
         setStatus("error");
-        setMessage("پرداخت توسط کاربر لغو شد یا اطلاعات پرداخت نامعتبر است.");
+        setMessage(t("payments.paymentResult.failedMessage"));
         return;
       }
 
@@ -34,10 +36,8 @@ const PaymentResult = () => {
         const response = await patchCoursePaymentStep2(reserveId, authority);
         console.log("پاسخ تایید پرداخت:", response);
 
-        // از آنجا که درخواست بدون خطا اجرا شده و دوره هم در پنل ثبت شده،
-        // یعنی پرداخت موفق بوده است.
         setStatus("success");
-        setMessage("پرداخت شما با موفقیت انجام شد و دوره فعال گردید.");
+        setMessage(t("payments.paymentResult.successMessage"));
 
       } catch (error) {
         console.error("خطا در تایید پرداخت:", error);
@@ -51,7 +51,7 @@ const PaymentResult = () => {
     };
 
     verifyPayment();
-  }, [searchParams]);
+  }, [searchParams, t]);
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center p-4 bg-background">
@@ -68,13 +68,13 @@ const PaymentResult = () => {
             <div className="w-16 h-16 rounded-full bg-success/10 text-success flex items-center justify-center">
               <HugeiconsIcon icon={CheckmarkCircle02Icon} className="w-10 h-10" />
             </div>
-            <h2 className="text-xl font-bold text-foreground">پرداخت موفقیت‌آمیز بود</h2>
+            <h2 className="text-xl font-bold text-foreground">{t("payments.paymentResult.title")}</h2>
             <p className="text-muted text-sm">{message}</p>
             <button
               onClick={() => navigate("/panel")}
               className="mt-4 px-6 py-2.5 bg-accent text-accent-foreground font-bold rounded-2xl text-sm hover:opacity-90 transition-all cursor-pointer"
             >
-              بازگشت به پنل کاربری
+              {t("payments.paymentResult.backToPanel")}
             </button>
           </>
         )}
@@ -84,13 +84,13 @@ const PaymentResult = () => {
             <div className="w-16 h-16 rounded-full bg-danger/10 text-danger flex items-center justify-center">
               <HugeiconsIcon icon={CancelCircleIcon} className="w-10 h-10" />
             </div>
-            <h2 className="text-xl font-bold text-foreground">پرداخت ناموفق</h2>
+            <h2 className="text-xl font-bold text-foreground">{t("payments.paymentResult.titleFailed")}</h2>
             <p className="text-muted text-sm">{message}</p>
             <button
               onClick={() => navigate("/panel")}
               className="mt-4 px-6 py-2.5 bg-default text-foreground font-bold rounded-2xl text-sm hover:bg-default/80 transition-all cursor-pointer"
             >
-              بازگشت به پنل کاربری
+              {t("payments.paymentResult.backToPanel")}
             </button>
           </>
         )}

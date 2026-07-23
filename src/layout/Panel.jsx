@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import PanelPages from "../components/panel/PanelPages";
+import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
 import { getUserProfile } from "../core/services/userPanel/get";
 import { getUnseenNotifications } from "../core/services/userPanel/notification/get";
 import { markNotificationAsSeen } from "../core/services/userPanel/notification/patch";
@@ -20,15 +20,15 @@ import {
   TaskDaily01Icon,
   CustomerSupportIcon
 } from "@hugeicons/core-free-icons";
-import { Link, useNavigate } from "react-router-dom";
 import ThemeSwitcher from "../components/theme/ThemeSwitcher";
+import LanguageSwitcher from "../components/language/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
 const Panel = () => {
   const { t } = useTranslation("panel");
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [activeTab, setActiveTab] = useState("dashboard");
   const [profilePic, setProfilePic] = useState("");
   const [smallMenu, setSmallMenu] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -99,16 +99,23 @@ const Panel = () => {
   };
 
   const menuItems = [
-    { id: "dashboard", label: t("sidebar.dashboard"), icon: DashboardCircleIcon },
-    { id: "myCourse", label: t("sidebar.myCourses"), icon: Book02Icon },
-    { id: "myClasses", label: "کلاس‌های من", icon: TeachingIcon },
-    { id: "myAssignments", label: "تکالیف من", icon: TaskDaily01Icon },
-    { id: "myTickets", label: "تیکت‌های من", icon: CustomerSupportIcon },
-    { id: "myReserve", label: t("sidebar.myReserve"), icon: TimeSetting03Icon },
-    { id: "favCourses", label: t("sidebar.favCourses"), icon: BookBookmark02Icon },
-    { id: "favMag", label: t("sidebar.favMag"), icon: FileBookmarkIcon },
-    { id: "profile", label: t("sidebar.profile"), icon: UserEdit01Icon },
+    { id: "dashboard", path: "", label: t("sidebar.dashboard"), icon: DashboardCircleIcon },
+    { id: "myCourse", path: "my-courses", label: t("sidebar.myCourses"), icon: Book02Icon },
+    { id: "myClasses", path: "my-classes", label: t("sidebar.myClasses"), icon: TeachingIcon },
+    { id: "myAssignments", path: "my-assignments", label: t("sidebar.myAssignments"), icon: TaskDaily01Icon },
+    { id: "myTickets", path: "my-tickets", label: t("sidebar.myTickets"), icon: CustomerSupportIcon },
+    { id: "myReserve", path: "reserve", label: t("sidebar.myReserve"), icon: TimeSetting03Icon },
+    { id: "favCourses", path: "fav-courses", label: t("sidebar.favCourses"), icon: BookBookmark02Icon },
+    { id: "favMag", path: "fav-mag", label: t("sidebar.favMag"), icon: FileBookmarkIcon },
+    { id: "profile", path: "profile", label: t("sidebar.profile"), icon: UserEdit01Icon },
   ];
+
+  const isActive = (path) => {
+    if (path === "") {
+      return location.pathname === "/panel" || location.pathname === "/panel/";
+    }
+    return location.pathname.includes(`/panel/${path}`);
+  };
 
   return (
     <div className="min-h-screen w-full bg-background flex flex-col md:flex-row">
@@ -123,64 +130,69 @@ const Panel = () => {
             <h4 className="text-sm font-medium mb-3 text-muted">{t("sidebar.general")}</h4>
             <ul className="space-y-1">
               {menuItems.map((item) => (
-                <li
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`${
-                    activeTab === item.id
-                      ? "bg-accent text-accent-foreground"
-                      : "bg-transparent text-foreground hover:bg-default/50"
-                  } w-full h-11 rounded-[999px] text-right flex justify-start items-center cursor-pointer px-4 py-3 transition-colors`}
-                >
-                  <HugeiconsIcon icon={item.icon} className="ml-3 w-5 h-5 flex-shrink-0" />
-                  <span className="text-sm font-medium">{item.label}</span>
+                <li key={item.id}>
+                  <Link
+                    to={item.path}
+                    className={`${
+                      isActive(item.path)
+                        ? "bg-accent text-accent-foreground"
+                        : "bg-transparent text-foreground hover:bg-default/50"
+                    } w-full h-11 rounded-[999px] text-right flex justify-start items-center cursor-pointer px-4 py-3 transition-colors`}
+                  >
+                    <HugeiconsIcon icon={item.icon} className="ml-3 w-5 h-5 flex-shrink-0" />
+                    <span className="text-sm font-medium">{item.label}</span>
+                  </Link>
                 </li>
               ))}
             </ul>
 
             <div className="mt-4">
               <h4 className="text-sm font-medium mb-3 text-muted">{t("sidebar.financial")}</h4>
-              <div 
-                onClick={() => setActiveTab("payments")}
+              <Link
+                to="payments"
                 className={`${
-                  activeTab === "payments"
+                  isActive("payments")
                     ? "bg-accent text-accent-foreground"
                     : "bg-transparent text-foreground hover:bg-default/50"
                 } w-full h-11 rounded-[999px] text-right flex justify-start items-center cursor-pointer px-4 py-3 transition-colors`}
               >
                 <HugeiconsIcon icon={MoneySend02Icon} className="ml-3 w-5 h-5 flex-shrink-0" />
                 <span className="text-sm font-medium">{t("sidebar.payments")}</span>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
 
         <div className="pt-4 border-t border-default mt-4">
           <ul className="space-y-1">
-            <li 
-              onClick={() => setActiveTab("accounts")}
-              className={`${
-                activeTab === "accounts"
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-transparent text-foreground hover:bg-default/50 border border-default"
-              } w-full h-11 rounded-[999px] text-right flex justify-start items-center cursor-pointer px-4 py-3 transition-colors`}
-            >
-              <HugeiconsIcon icon={UserSettings01Icon} className="ml-3 w-5 h-5 flex-shrink-0" />
-              <span className="text-sm font-medium">{t("sidebar.accounts")}</span>
+            <li>
+              <Link
+                to="accounts"
+                className={`${
+                  isActive("accounts")
+                    ? "bg-accent text-accent-foreground"
+                    : "bg-transparent text-foreground hover:bg-default/50 border border-default"
+                } w-full h-11 rounded-[999px] text-right flex justify-start items-center cursor-pointer px-4 py-3 transition-colors`}
+              >
+                <HugeiconsIcon icon={UserSettings01Icon} className="ml-3 w-5 h-5 flex-shrink-0" />
+                <span className="text-sm font-medium">{t("sidebar.accounts")}</span>
+              </Link>
             </li>
-            <li
-              onClick={handleLogout}
-              className="w-full h-11 rounded-[999px] text-right flex justify-start items-center text-danger bg-transparent border border-default cursor-pointer px-4 py-3 hover:bg-danger/10 transition-colors"
-            >
-              <HugeiconsIcon icon={Logout01Icon} className="ml-3 w-5 h-5 flex-shrink-0" />
-              <span className="text-sm font-medium">{t("sidebar.logout")}</span>
+            <li>
+              <div
+                onClick={handleLogout}
+                className="w-full h-11 rounded-[999px] text-right flex justify-start items-center text-danger bg-transparent border border-default cursor-pointer px-4 py-3 hover:bg-danger/10 transition-colors"
+              >
+                <HugeiconsIcon icon={Logout01Icon} className="ml-3 w-5 h-5 flex-shrink-0" />
+                <span className="text-sm font-medium">{t("sidebar.logout")}</span>
+              </div>
             </li>
           </ul>
         </div>
       </aside>
 
-      <main className="min-h-screen w-full flex-1 p-4 md:p-8 pt-24 md:pt-8 overflow-x-hidden">
-        <div className="w-full mx-auto p-2.5 rounded-2xl md:bg-overlay flex justify-between items-center gap-3 bg-overlay border border-border/50 z-[1000] shadow-sm md:shadow-none backdrop-blur-md bg-opacity-90 md:bg-opacity-100 px-4 md:px-2.5 relative">
+      <main className="min-h-screen w-full flex-1 p-4 md:p-8 pt-4 md:pt-8 overflow-x-hidden">
+        <div className="w-full mx-auto p-2.5 rounded-2xl md:bg-overlay flex justify-between items-center gap-3 bg-overlay border border-border/50 z-30 shadow-sm md:shadow-none backdrop-blur-md bg-opacity-90 md:bg-opacity-100 px-4 md:px-2.5 relative">
           <div className="hidden md:flex justify-center items-center gap-3">
             <img
               src={profilePic || userProfile?.currentPictureAddress || "/default-avatar.png"}
@@ -219,18 +231,18 @@ const Panel = () => {
               </button>
 
               {isNotificationOpen && (
-                <div className="absolute left-0 mt-2 w-80 bg-overlay border border-border shadow-2xl rounded-2xl flex flex-col overflow-hidden z-[9999]">
+                <div className="absolute left-0 mt-2 w-80 bg-overlay border border-border shadow-2xl rounded-2xl flex flex-col overflow-hidden z-50">
                   <div className="flex justify-between items-center px-4 py-3 border-b border-border bg-default/40">
-                    <span className="text-xs font-bold text-foreground">اعلان‌ها</span>
+                    <span className="text-xs font-bold text-foreground">{t("notifications.title")}</span>
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-danger/10 text-danger font-semibold">
-                      {notifications.length} جدید
+                      {notifications.length} {t("notifications.new")}
                     </span>
                   </div>
 
                   <div className="max-h-72 overflow-y-auto divide-y divide-border/50">
                     {notifications.length === 0 ? (
                       <div className="py-8 text-center text-muted text-xs">
-                        هیچ نوتیفیکیشن خوانده نشده‌ای ندارید
+                        {t("notifications.noNotifications")}
                       </div>
                     ) : (
                       notifications.slice(0, 4).map((item) => (
@@ -258,11 +270,11 @@ const Panel = () => {
                       <button
                         onClick={() => {
                           setIsNotificationOpen(false);
-                          setActiveTab("notifications");
+                          navigate("notifications");
                         }}
                         className="w-full py-2 bg-accent text-accent-foreground text-xs font-bold rounded-xl hover:opacity-90 transition-opacity cursor-pointer"
                       >
-                        نمایش همه و مدیریت اعلان‌ها
+                        {t("notifications.viewAll")}
                       </button>
                     </div>
                   )}
@@ -270,52 +282,37 @@ const Panel = () => {
               )}
             </div>
 
+            <LanguageSwitcher />
             <ThemeSwitcher />
           </div>
         </div>
 
         <div className="mt-4 pb-20 md:pb-0">
-          <PanelPages
-            dashboard={activeTab === "dashboard"}
-            myCourse={activeTab === "myCourse"}
-            myClasses={activeTab === "myClasses"}
-            myAssignments={activeTab === "myAssignments"}
-            myTickets={activeTab === "myTickets"}
-            myReserve={activeTab === "myReserve"}
-            favCourses={activeTab === "favCourses"}
-            favMag={activeTab === "favMag"}
-            profile={activeTab === "profile"}
-            payments={activeTab === "payments"}
-            accounts={activeTab === "accounts"}
-            notifications={activeTab === "notifications"}
-            assignments={activeTab === "myAssignments"}
-            profilePic={profilePic}
-            setProfilePic={setProfilePic}
-          />
+          <Outlet context={{ profilePic, setProfilePic }} />
         </div>
       </main>
 
       <nav className="md:hidden fixed bottom-0 left-0 right-0 w-full h-[60px] rounded-t-[24px] bg-overlay border-t border-border flex justify-around items-center px-2 z-50">
         {menuItems.slice(0, 3).map((item) => (
-          <div
+          <Link
             key={item.id}
-            onClick={() => setActiveTab(item.id)}
+            to={item.path}
             className={`${
-              activeTab === item.id ? "bg-accent text-accent-foreground" : "bg-transparent text-foreground"
+              isActive(item.path) ? "bg-accent text-accent-foreground" : "bg-transparent text-foreground"
             } w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 cursor-pointer`}
           >
             <HugeiconsIcon icon={item.icon} className="w-5 h-5" />
-          </div>
+          </Link>
         ))}
 
-        <div
-          onClick={() => setActiveTab("payments")}
+        <Link
+          to="payments"
           className={`${
-            activeTab === "payments" ? "bg-accent text-accent-foreground" : "bg-transparent text-foreground"
+            isActive("payments") ? "bg-accent text-accent-foreground" : "bg-transparent text-foreground"
           } w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 cursor-pointer`}
         >
           <HugeiconsIcon icon={MoneySend02Icon} className="w-5 h-5" />
-        </div>
+        </Link>
 
         <div
           onClick={() => setSmallMenu(!smallMenu)}
@@ -326,35 +323,42 @@ const Panel = () => {
             <div className="absolute bottom-full left-0 mb-3 w-[220px] bg-overlay border border-border shadow-2xl rounded-2xl flex flex-col p-2 z-50 max-h-64 overflow-y-auto">
               <ul className="space-y-1">
                 {menuItems.slice(3).map((item) => (
-                  <li
-                    key={item.id}
-                    onClick={() => { setActiveTab(item.id); setSmallMenu(false); }}
-                    className={`${
-                      activeTab === item.id ? "bg-accent text-accent-foreground" : "bg-transparent text-foreground hover:bg-default"
-                    } flex justify-start items-center gap-3 p-2 cursor-pointer rounded-xl text-xs transition-colors`}
-                  >
-                    <HugeiconsIcon icon={item.icon} className="w-4 h-4" />
-                    <span>{item.label}</span>
+                  <li key={item.id}>
+                    <Link
+                      to={item.path}
+                      onClick={() => setSmallMenu(false)}
+                      className={`${
+                        isActive(item.path) ? "bg-accent text-accent-foreground" : "bg-transparent text-foreground hover:bg-default"
+                      } flex justify-start items-center gap-3 p-2 cursor-pointer rounded-xl text-xs transition-colors`}
+                    >
+                      <HugeiconsIcon icon={item.icon} className="w-4 h-4" />
+                      <span>{item.label}</span>
+                    </Link>
                   </li>
                 ))}
-                <li
-                  onClick={() => { setActiveTab("accounts"); setSmallMenu(false); }}
-                  className={`${
-                    activeTab === "accounts" ? "bg-accent text-accent-foreground" : "bg-transparent text-foreground hover:bg-default border border-default"
-                  } flex justify-start items-center gap-3 p-2 cursor-pointer rounded-xl text-xs transition-colors`}
-                >
-                  <HugeiconsIcon icon={UserSettings01Icon} className="w-4 h-4" />
-                  <span>{t("sidebar.accounts")}</span>
+                <li>
+                  <Link
+                    to="accounts"
+                    onClick={() => setSmallMenu(false)}
+                    className={`${
+                      isActive("accounts") ? "bg-accent text-accent-foreground" : "bg-transparent text-foreground hover:bg-default border border-default"
+                    } flex justify-start items-center gap-3 p-2 cursor-pointer rounded-xl text-xs transition-colors`}
+                  >
+                    <HugeiconsIcon icon={UserSettings01Icon} className="w-4 h-4" />
+                    <span>{t("sidebar.accounts")}</span>
+                  </Link>
                 </li>
-                <li
-                  onClick={() => {
-                    handleLogout();
-                    setSmallMenu(false);
-                  }}
-                  className="flex justify-start items-center gap-3 text-danger p-2 rounded-xl hover:bg-danger/10 text-xs cursor-pointer transition-colors border border-default"
-                >
-                  <HugeiconsIcon icon={Logout01Icon} className="w-4 h-4" />
-                  <span>{t("sidebar.logout")}</span>
+                <li>
+                  <div
+                    onClick={() => {
+                      handleLogout();
+                      setSmallMenu(false);
+                    }}
+                    className="flex justify-start items-center gap-3 text-danger p-2 rounded-xl hover:bg-danger/10 text-xs cursor-pointer transition-colors border border-default"
+                  >
+                    <HugeiconsIcon icon={Logout01Icon} className="w-4 h-4" />
+                    <span>{t("sidebar.logout")}</span>
+                  </div>
                 </li>
               </ul>
             </div>

@@ -19,6 +19,10 @@ const MyReserve = () => {
   const [acceptFilter, setAcceptFilter] = useState("all");
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
+
   const [tempSearchTerm, setTempSearchTerm] = useState("");
   const [tempDateValue, setTempDateValue] = useState(null);
   const [tempAcceptFilter, setTempAcceptFilter] = useState("all");
@@ -38,6 +42,11 @@ const MyReserve = () => {
   useEffect(() => {
     fetchUserProfile();
   }, []);
+
+  // Reset page to 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, dateValue, acceptFilter]);
 
   const clearDateFilter = () => {
     setDateValue(null);
@@ -154,6 +163,13 @@ const MyReserve = () => {
     return matchesSearch && matchesDate && matchesAccept;
   });
 
+  // Pagination Calculations
+  const totalPages = Math.ceil(filteredCourses.length / pageSize) || 1;
+  const paginatedCourses = filteredCourses.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
   return (
     <div className="h-full w-full flex flex-col pb-0 p-4 md:p-6 gap-6 overflow-hidden">
       <div className="flex justify-between items-center flex-shrink-0">
@@ -249,34 +265,55 @@ const MyReserve = () => {
         </div>
       </div>
 
-      <div className="hidden md:flex flex-1 bg-overlay rounded-2xl border border-border p-4 overflow-hidden flex-col min-h-90">
-        <div className="grid grid-cols-7 gap-2 h-12 bg-default rounded-2xl p-3 text-sm text-muted flex-shrink-0">
-          <span className="col-span-1">#</span>
-          <span className="col-span-1">{t("myReserve.courseName")}</span>
-          <span className="col-span-1">{t("myReserve.courseTeacher")}</span>
-          <span className="col-span-1">{t("myReserve.startDate")}</span>
-          <span className="col-span-1">{t("myReserve.coursePrice")}</span>
-          <span className="col-span-1">{t("myReserve.registerStatus")}</span>
-          <span className="col-span-1"></span>
+      <div className="hidden md:flex flex-1 bg-overlay rounded-2xl border border-border p-4 overflow-hidden flex-col min-h-90 justify-between">
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <div className="grid grid-cols-7 gap-2 h-12 bg-default rounded-2xl p-3 text-sm text-muted flex-shrink-0 items-center">
+            <span className="col-span-1">#</span>
+            <span className="col-span-1">{t("myReserve.courseName")}</span>
+            <span className="col-span-1">{t("myReserve.courseTeacher")}</span>
+            <span className="col-span-1">{t("myReserve.startDate")}</span>
+            <span className="col-span-1">{t("myReserve.coursePrice")}</span>
+            <span className="col-span-1">{t("myReserve.registerStatus")}</span>
+            <span className="col-span-1"></span>
+          </div>
+          <div className="flex-1 overflow-y-auto mt-2">
+            {isLoading ? (
+              <div className="flex justify-center items-center h-full"><Spinner /></div>
+            ) : paginatedCourses.length === 0 ? (
+              <div className="text-center text-muted py-10">{searchTerm || dateValue || acceptFilter !== "all" ? t("myReserve.noCoursesFound") : t("myReserve.noReservedCourse")}</div>
+            ) : (
+              paginatedCourses.map((course) => <RowCourseCard key={course.id} course={course} />)
+            )}
+          </div>
         </div>
-        <div className="flex-1 overflow-y-auto mt-2">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-full"><Spinner /></div>
-          ) : filteredCourses.length === 0 ? (
-            <div className="text-center text-muted py-10">{searchTerm || dateValue || acceptFilter !== "all" ? t("myReserve.noCoursesFound") : t("myReserve.noReservedCourse")}</div>
-          ) : (
-            filteredCourses.map((course) => <RowCourseCard key={course.id} course={course} />)
-          )}
-        </div>
+
+        {/* Pagination Controls Desktop */}
+        {!isLoading && totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 pt-4 border-t border-border flex-shrink-0">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-9 h-9 rounded-xl text-sm font-medium transition-all cursor-pointer ${
+                  currentPage === page
+                    ? "bg-accent text-accent-foreground shadow-sm"
+                    : "bg-default text-foreground hover:bg-default/80"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      <div className="md:hidden flex flex-col gap-3">
+      <div className="md:hidden flex flex-col gap-3 flex-1 overflow-y-auto">
         {isLoading ? (
           <div className="flex justify-center items-center h-20"><Spinner /></div>
-        ) : filteredCourses.length === 0 ? (
+        ) : paginatedCourses.length === 0 ? (
           <div className="text-center text-muted py-10">{searchTerm || dateValue || acceptFilter !== "all" ? t("myReserve.noCoursesFound") : t("myReserve.noFavCourses")}</div>
         ) : (
-          filteredCourses.map((course) => (
+          paginatedCourses.map((course) => (
             <div key={course.id} className="w-full h-[90px] p-3 flex gap-3 items-center bg-background border border-border rounded-2xl shadow-xs">
               <img src={course.image} alt="" className="w-[27%] h-[82px] rounded-xl bg-default object-cover" />
               <Link to={`/courses/${course.courseId}`} className="w-[70%]">
@@ -286,6 +323,25 @@ const MyReserve = () => {
               </Link>
             </div>
           ))
+        )}
+
+        {/* Pagination Controls Mobile */}
+        {!isLoading && totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 py-4">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-8 h-8 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                  currentPage === page
+                    ? "bg-accent text-accent-foreground shadow-sm"
+                    : "bg-default text-foreground hover:bg-default/80"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
         )}
       </div>
 

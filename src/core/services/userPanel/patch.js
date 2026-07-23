@@ -20,3 +20,7 @@ export const patchActiveAccount = async (id) => {
 export const patchRemoveAccount = async (id) => {
   return await apiClient.patch(`/v2/multiAccount/removeAccount/${id}`);
 };
+
+export const setSeenMessage = (messageId) => {
+  return apiClient.patch(`/message/seen/${messageId}`);
+};

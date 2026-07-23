@@ -30,8 +30,10 @@ import {
   putEditSecurityInfo, 
   putChangePassword 
 } from "../../../core/services/userPanel/put"; 
+import { useTranslation } from "react-i18next";
 
 const Accounts = () => {
+  const { t } = useTranslation("panel");
   const [accountsData, setAccountsData] = useState({ accounts: [], activeId: null });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,22 +48,22 @@ const Accounts = () => {
   const addFormik = useFormik({
     initialValues: { phoneOrGmail: "", password: "", rememberMe: true },
     validationSchema: Yup.object({
-      phoneOrGmail: Yup.string().required("شماره موبایل یا ایمیل الزامی است"),
-      password: Yup.string().min(6, "رمز عبور باید حداقل ۶ کاراکتر باشد").required("رمز عبور الزامی است"),
+      phoneOrGmail: Yup.string().required(t("profile.phoneInvalid")),
+      password: Yup.string().min(6, t("errors.passwordMin")).required(t("errors.passwordRequired")),
     }),
     onSubmit: async (values) => {
-      const toastId = toast.loading("در حال افزودن حساب جدید...");
+      const toastId = toast.loading(t("accounts.adding"));
       try {
         const res = await postAddAccount(values);
         if (res) {
-          toast.success("حساب جدید با موفقیت افزوده شد", { id: toastId });
+          toast.success(t("accounts.addSuccess"), { id: toastId });
           setIsAddModalOpen(false);
           addFormik.resetForm();
           fetchAccounts();
         }
       } catch (error) {
         console.error(error);
-        toast.error(error?.response?.data?.message || "خطا در افزودن حساب", { id: toastId });
+        toast.error(error?.response?.data?.message || t("accounts.addError"), { id: toastId });
       }
     }
   });
@@ -70,18 +72,18 @@ const Accounts = () => {
     initialValues: { twoStepAuth: false, recoveryEmail: "", telegramUsername: "" },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      recoveryEmail: Yup.string().email("فرمت ایمیل نامعتبر است").required("ایمیل بازیابی الزامی است"),
-      telegramUsername: Yup.string().required("نام کاربری تلگرام الزامی است"),
+      recoveryEmail: Yup.string().email(t("profile.emailInvalid")).required(t("accounts.recoveryEmailRequired")),
+      telegramUsername: Yup.string().required(t("accounts.telegramRequired")),
     }),
     onSubmit: async (values) => {
-      const toastId = toast.loading("در حال ذخیره تغییرات امنیتی...");
+      const toastId = toast.loading(t("accounts.saving"));
       try {
         await putEditSecurityInfo(values);
-        toast.success("تنظیمات امنیتی با موفقیت بروز شد", { id: toastId });
+        toast.success(t("accounts.saveSuccess"), { id: toastId });
         setIsSecurityModalOpen(false);
       } catch (error) {
         console.error(error);
-        toast.error("خطا در ذخیره تغییرات", { id: toastId });
+        toast.error(t("accounts.saveError"), { id: toastId });
       }
     }
   });
@@ -90,21 +92,21 @@ const Accounts = () => {
     initialValues: { password: "", newPassword: "" },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      password: Yup.string().required("رمز عبور فعلی الزامی است"),
-      newPassword: Yup.string().min(6, "رمز عبور جدید باید حداقل ۶ کاراکتر باشد").required("رمز عبور جدید الزامی است"),
+      password: Yup.string().required(t("accounts.currentPasswordRequired")),
+      newPassword: Yup.string().min(6, t("errors.passwordMin")).required(t("accounts.newPasswordRequired")),
     }),
     onSubmit: async (values) => {
-      const toastId = toast.loading("در حال تغییر رمز عبور...");
+      const toastId = toast.loading(t("accounts.changingPassword"));
       try {
         const res = await putChangePassword(values);
         if (res) {
-          toast.success("رمز عبور با موفقیت تغییر کرد", { id: toastId });
+          toast.success(t("accounts.passwordChanged"), { id: toastId });
           passwordFormik.resetForm();
           setIsSecurityModalOpen(false);
         }
       } catch (error) {
         console.error(error);
-        toast.error(error?.response?.data?.message || "خطا در تغییر رمز عبور", { id: toastId });
+        toast.error(error?.response?.data?.message || t("accounts.passwordError"), { id: toastId });
       }
     }
   });
@@ -121,7 +123,7 @@ const Accounts = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("خطا در دریافت لیست حساب‌ها");
+      toast.error(t("accounts.fetchError"));
     } finally {
       setIsLoading(false);
     }
@@ -132,38 +134,37 @@ const Accounts = () => {
   }, []);
 
   const handleSwitchAccount = async (id) => {
-    const toastId = toast.loading("در حال تغییر حساب فعال...");
+    const toastId = toast.loading(t("accounts.switching"));
     try {
       const res = await patchActiveAccount(id);
       if (res) {
-        toast.success("حساب فعال با موفقیت تغییر کرد", { id: toastId });
+        toast.success(t("accounts.switchSuccess"), { id: toastId });
         setTimeout(() => {
           window.location.reload();
         }, 1000);
       }
     } catch (error) {
       console.error(error);
-      toast.error("خطا در تغییر حساب فعال", { id: toastId });
+      toast.error(t("accounts.switchError"), { id: toastId });
     }
   };
 
   const handleRemoveAccount = async (id) => {
-    const toastId = toast.loading("در حال حذف حساب...");
+    const toastId = toast.loading(t("accounts.removing"));
     try {
       await patchRemoveAccount(id);
-      toast.success("حساب با موفقیت حذف شد", { id: toastId });
+      toast.success(t("accounts.removeSuccess"), { id: toastId });
       fetchAccounts();
     } catch (error) {
       console.error(error);
-      toast.error("خطا در حذف حساب", { id: toastId });
+      toast.error(t("accounts.removeError"), { id: toastId });
     }
   };
 
   const handleOpenSecurityModal = async () => {
     setIsSecurityModalOpen(true);
-    const toastId = toast.loading("در حال بارگذاری اطلاعات امنیتی و پروفایل...");
+    const toastId = toast.loading(t("accounts.loadingSecurity"));
     try {
-      // دریافت اطلاعات امنیتی و پروفایل کاربر به صورت هم‌زمان
       const [securityRes, profileRes] = await Promise.all([
         getSecurityInfo(),
         getUserProfile()
@@ -177,7 +178,6 @@ const Accounts = () => {
         });
       }
 
-      // قرار دادن رمز عبور دریافتی از متد getUserProfile داخل فرم تغییر رمز
       const profileData = profileRes?.data?.data || profileRes?.data;
       if (profileData && profileData.password) {
         passwordFormik.setFieldValue("password", profileData.password);
@@ -186,7 +186,7 @@ const Accounts = () => {
       toast.dismiss(toastId);
     } catch (error) {
       console.error(error);
-      toast.error("خطا در دریافت اطلاعات", { id: toastId });
+      toast.error(t("accounts.securityLoadError"), { id: toastId });
     }
   };
 
@@ -196,8 +196,8 @@ const Accounts = () => {
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-xl font-bold text-foreground">مدیریت حساب‌ها و امنیت</h1>
-          <p className="text-xs text-muted">مدیریت حساب‌های متصل، سوییچ بین اکانت‌ها و تنظیمات امنیتی</p>
+          <h1 className="text-xl font-bold text-foreground">{t("accounts.title")}</h1>
+          <p className="text-xs text-muted">{t("accounts.description")}</p>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -205,7 +205,7 @@ const Accounts = () => {
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent text-white text-xs font-medium hover:opacity-90 transition-opacity"
           >
             <HugeiconsIcon icon={UserAdd01Icon} className="w-4 h-4" />
-            افزودن حساب جدید
+            {t("accounts.addAccount")}
           </button>
         </div>
       </div>
@@ -213,13 +213,13 @@ const Accounts = () => {
       <div className="bg-overlay border border-border rounded-2xl p-6 shadow-sm space-y-4">
         <h2 className="text-sm font-bold text-foreground flex items-center gap-2">
           <HugeiconsIcon icon={UserAccountIcon} className="w-4 h-4 text-accent" />
-          حساب‌های متصل شما
+          {t("accounts.title")}
         </h2>
 
         {isLoading ? (
-          <div className="text-center py-8 text-muted text-xs">در حال بارگذاری حساب‌ها...</div>
+          <div className="text-center py-8 text-muted text-xs">{t("accounts.loading")}</div>
         ) : accountsData.accounts.length === 0 ? (
-          <div className="text-center py-8 text-muted text-xs">هیچ حسابی یافت نشد.</div>
+          <div className="text-center py-8 text-muted text-xs">{t("accounts.noAccounts")}</div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {accountsData.accounts.map((acc) => {
@@ -243,11 +243,11 @@ const Accounts = () => {
                         {isActive && (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/10 text-accent text-[10px] font-medium">
                             <HugeiconsIcon icon={CheckmarkCircle02Icon} className="w-3 h-3" />
-                            فعال
+                            {t("accounts.active")}
                           </span>
                         )}
                       </div>
-                      <span className="text-[11px] text-muted block mt-0.5">عضویت: {new Date(acc.insertDate).toLocaleDateString("fa-IR")}</span>
+                      <span className="text-[11px] text-muted block mt-0.5">{t("accounts.membership")}: {new Date(acc.insertDate).toLocaleDateString("fa-IR")}</span>
                     </div>
                   </div>
 
@@ -257,7 +257,7 @@ const Accounts = () => {
                         onClick={() => handleSwitchAccount(acc.id)}
                         className="px-3 py-1.5 rounded-lg bg-default border border-border text-xs font-medium text-foreground hover:bg-accent hover:text-white transition-colors"
                       >
-                        سوییچ
+                        {t("accounts.switch")}
                       </button>
                     ) : (
                       <button
@@ -265,7 +265,7 @@ const Accounts = () => {
                         className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-accent/10 text-accent text-xs font-medium hover:bg-accent/20 transition-colors"
                       >
                         <HugeiconsIcon icon={SecurityLockIcon} className="w-3.5 h-3.5" />
-                        امنیت
+                        {t("accounts.security")}
                       </button>
                     )}
 
@@ -273,7 +273,7 @@ const Accounts = () => {
                       <button
                         onClick={() => handleRemoveAccount(acc.id)}
                         className="p-1.5 rounded-lg text-danger hover:bg-danger/10 transition-colors"
-                        title="حذف حساب"
+                        title={t("accounts.deleteAccount")}
                       >
                         <HugeiconsIcon icon={Delete02Icon} className="w-4 h-4" />
                       </button>
@@ -290,7 +290,7 @@ const Accounts = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fadeIn">
           <div className="bg-overlay border border-border rounded-2xl w-full max-w-md p-6 space-y-4 shadow-xl">
             <div className="flex justify-between items-center border-b border-border pb-3">
-              <h3 className="text-sm font-bold text-foreground">افزودن حساب کاربری دیگر</h3>
+              <h3 className="text-sm font-bold text-foreground">{t("accounts.addAccountTitle")}</h3>
               <button onClick={() => setIsAddModalOpen(false)} className="text-muted hover:text-foreground">
                 <HugeiconsIcon icon={Cancel01Icon} className="w-5 h-5" />
               </button>
@@ -298,7 +298,7 @@ const Accounts = () => {
 
             <form onSubmit={addFormik.handleSubmit} className="space-y-4">
               <div>
-                <label className="text-xs text-muted block mb-1">شماره موبایل یا ایمیل</label>
+                <label className="text-xs text-muted block mb-1">{t("accounts.phoneOrEmail")}</label>
                 <input
                   type="text"
                   name="phoneOrGmail"
@@ -314,7 +314,7 @@ const Accounts = () => {
               </div>
 
               <div>
-                <label className="text-xs text-muted block mb-1">رمز عبور</label>
+                <label className="text-xs text-muted block mb-1">{t("accounts.password")}</label>
                 <div className="relative">
                   <input
                     type={showAddPassword ? "text" : "password"}
@@ -347,7 +347,7 @@ const Accounts = () => {
                   onChange={addFormik.handleChange}
                   className="rounded border-border accent-accent"
                 />
-                <label htmlFor="remember" className="text-xs text-muted">مرا به خاطر بسپار</label>
+                <label htmlFor="remember" className="text-xs text-muted">{t("accounts.rememberMe")}</label>
               </div>
 
               <div className="flex justify-end gap-2 pt-2">
@@ -356,13 +356,13 @@ const Accounts = () => {
                   onClick={() => setIsAddModalOpen(false)}
                   className="px-4 py-2 rounded-xl bg-default text-xs font-medium text-muted hover:text-foreground"
                 >
-                  انصراف
+                  {t("accounts.cancel")}
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2 rounded-xl bg-accent text-white text-xs font-medium hover:opacity-90"
                 >
-                  افزودن حساب
+                  {t("accounts.add")}
                 </button>
               </div>
             </form>
@@ -374,7 +374,7 @@ const Accounts = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fadeIn">
           <div className="bg-overlay border border-border rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-xl">
             <div className="flex justify-between items-center border-b border-border pb-3">
-              <h3 className="text-sm font-bold text-foreground">تنظیمات امنیتی حساب فعال</h3>
+              <h3 className="text-sm font-bold text-foreground">{t("accounts.securitySettings")}</h3>
               <button onClick={() => setIsSecurityModalOpen(false)} className="text-muted hover:text-foreground">
                 <HugeiconsIcon icon={Cancel01Icon} className="w-5 h-5" />
               </button>
@@ -386,14 +386,14 @@ const Accounts = () => {
                 onClick={() => setSecurityTab("info")}
                 className={`pb-2 border-b-2 transition-colors ${securityTab === "info" ? "border-accent text-accent" : "border-transparent text-muted"}`}
               >
-                اطلاعات امنیتی و تایید دو مرحله‌ای
+                {t("accounts.securityInfo")}
               </button>
               <button
                 type="button"
                 onClick={() => setSecurityTab("password")}
                 className={`pb-2 border-b-2 transition-colors ${securityTab === "password" ? "border-accent text-accent" : "border-transparent text-muted"}`}
               >
-                تغییر رمز عبور
+                {t("accounts.changePassword")}
               </button>
             </div>
 
@@ -401,8 +401,7 @@ const Accounts = () => {
               <form onSubmit={securityInfoFormik.handleSubmit} className="space-y-4">
                 <div className="flex items-center justify-between bg-sky-500/10 border border-sky-500/20 p-3.5 rounded-xl">
                   <div className="space-y-0.5">
-                    <span className="text-xs font-bold text-sky-600 dark:text-sky-400 block">ربات تلگرام احراز هویت</span>
-                    <p className="text-[11px] text-muted">برای مدیریت بهتر و دریافت هشدارها به ربات ما بپیوندید.</p>
+                    <span className="text-xs font-bold text-sky-600 dark:text-sky-400 block">{t("accounts.telegramBot")}</span>
                   </div>
                   <a
                     href="https://t.me/ReactRHBot"
@@ -410,13 +409,13 @@ const Accounts = () => {
                     rel="noopener noreferrer"
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500 text-white text-xs font-medium hover:bg-sky-600 transition-colors shrink-0"
                   >
-                    <span>اتصال به ربات</span>
+                    <span>{t("accounts.connectBot")}</span>
                     <HugeiconsIcon icon={LinkSquare02Icon} className="w-3.5 h-3.5" />
                   </a>
                 </div>
 
                 <div>
-                  <label className="text-xs text-muted block mb-1">ایمیل بازیابی</label>
+                  <label className="text-xs text-muted block mb-1">{t("accounts.recoveryEmail")}</label>
                   <input
                     type="email"
                     name="recoveryEmail"
@@ -432,7 +431,7 @@ const Accounts = () => {
                 </div>
 
                 <div>
-                  <label className="text-xs text-muted block mb-1">نام کاربری تلگرام</label>
+                  <label className="text-xs text-muted block mb-1">{t("accounts.telegramUsername")}</label>
                   <input
                     type="text"
                     name="telegramUsername"
@@ -448,7 +447,7 @@ const Accounts = () => {
                 </div>
 
                 <div className="flex items-center justify-between bg-default/40 p-3 rounded-xl border border-border">
-                  <span className="text-xs text-foreground font-medium">تایید دو مرحله‌ای</span>
+                  <span className="text-xs text-foreground font-medium">{t("accounts.twoStepAuth")}</span>
                   <input
                     type="checkbox"
                     name="twoStepAuth"
@@ -464,20 +463,20 @@ const Accounts = () => {
                     onClick={() => setIsSecurityModalOpen(false)}
                     className="px-4 py-2 rounded-xl bg-default text-xs font-medium text-muted hover:text-foreground"
                   >
-                    انصراف
+                    {t("accounts.cancel")}
                   </button>
                   <button
                     type="submit"
                     className="px-4 py-2 rounded-xl bg-accent text-white text-xs font-medium hover:opacity-90"
                   >
-                    ذخیره تغییرات امنیتی
+                    {t("accounts.saveSecurity")}
                   </button>
                 </div>
               </form>
             ) : (
               <form onSubmit={passwordFormik.handleSubmit} className="space-y-4">
                 <div>
-                  <label className="text-xs text-muted block mb-1">رمز عبور فعلی</label>
+                  <label className="text-xs text-muted block mb-1">{t("accounts.currentPassword")}</label>
                   <div className="relative">
                     <input
                       type={showOldPassword ? "text" : "password"}
@@ -502,7 +501,7 @@ const Accounts = () => {
                 </div>
 
                 <div>
-                  <label className="text-xs text-muted block mb-1">رمز عبور جدید</label>
+                  <label className="text-xs text-muted block mb-1">{t("accounts.newPassword")}</label>
                   <div className="relative">
                     <input
                       type={showNewPassword ? "text" : "password"}
@@ -532,13 +531,13 @@ const Accounts = () => {
                     onClick={() => setIsSecurityModalOpen(false)}
                     className="px-4 py-2 rounded-xl bg-default text-xs font-medium text-muted hover:text-foreground"
                   >
-                    انصراف
+                    {t("accounts.cancel")}
                   </button>
                   <button
                     type="submit"
                     className="px-4 py-2 rounded-xl bg-accent text-white text-xs font-medium hover:opacity-90"
                   >
-                    تغییر رمز عبور
+                    {t("accounts.submitPassword")}
                   </button>
                 </div>
               </form>

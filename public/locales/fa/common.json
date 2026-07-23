@@ -20,5 +20,16 @@
     "teachers": "اساتید",
     "aboutUs": "درباره ما",
     "contactUs": "ارتباط با ما"
+  },
+  "theme": {
+    "selectTheme": "انتخاب پوسته",
+    "default": "پیش فرض",
+    "dark": "تاریک",
+    "purple": "یاسی",
+    "orange": "کهربایی",
+    "red": "یاقوتی",
+    "green": "زمردی",
+    "blue": "اقیانوس",
+    "indigo": "آسمانی"
   }
 }

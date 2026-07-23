@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Spinner, DateRangePicker, DateField, RangeCalendar, I18nProvider } from "@heroui/react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ViewIcon, Calendar02Icon, Cancel01Icon, Search01Icon, MoneyAdd02Icon, FilterIcon } from "@hugeicons/core-free-icons";
+import { ViewIcon, Calendar02Icon, Cancel01Icon, Search01Icon, MoneyAdd02Icon, FilterIcon, ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { getUserMyCourses } from "../../../core/services/userPanel/get";
 import { patchCoursePaymentStep1 } from "../../../core/services/userPanel/patch";
 
@@ -17,6 +17,10 @@ const MyCourses = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [dateValue, setDateValue] = useState(null);
   const [paymentFilter, setPaymentFilter] = useState("all");
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 6;
 
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [tempSearchTerm, setTempSearchTerm] = useState("");
@@ -39,6 +43,11 @@ const MyCourses = () => {
   useEffect(() => {
     fetchMyCourses();
   }, []);
+
+  // Reset page to 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, dateValue, paymentFilter]);
 
   const parseDescription = (descRaw) => {
     if (!descRaw) return "-";
@@ -122,8 +131,6 @@ const MyCourses = () => {
   };
 
   const handlePayment = async (courseItem) => {
-    console.log("Full Course Item Data:", courseItem);
-
     const reserveId = courseItem.reserveId || courseItem.id;
     if (!reserveId) return;
 
@@ -195,6 +202,13 @@ const MyCourses = () => {
 
     return matchesSearch && matchesDate && matchesPayment;
   });
+
+  // Pagination Calculations
+  const totalPages = Math.ceil(filteredCourses.length / pageSize) || 1;
+  const paginatedCourses = filteredCourses.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   return (
     <div className="h-full w-full flex flex-col pb-0 p-4 md:p-6 gap-6 overflow-hidden">
@@ -325,6 +339,7 @@ const MyCourses = () => {
         </div>
       </div>
 
+      {/* Desktop Table View */}
       <div className="hidden md:flex flex-1 bg-overlay rounded-2xl border border-border p-4 overflow-hidden flex-col min-h-90">
         <div className="grid grid-cols-12 gap-1.5 h-12 bg-default rounded-2xl p-3 text-sm text-muted flex-shrink-0 items-center">
           <span className="col-span-1 text-center">#</span>
@@ -341,14 +356,14 @@ const MyCourses = () => {
             <div className="flex justify-center items-center h-full">
               <Spinner />
             </div>
-          ) : filteredCourses.length === 0 ? (
+          ) : paginatedCourses.length === 0 ? (
             <div className="text-center text-muted py-10">
               {searchTerm || dateValue || paymentFilter !== "all"
                 ? t("myCourses.noCoursesFound") || "دوره‌ای پیدا نشد"
                 : t("myCourses.noCourses") || "هیچ دوره‌ای ثبت نشده است"}
             </div>
           ) : (
-            filteredCourses.map((item) => {
+            paginatedCourses.map((item) => {
               const currentReserveId = item.reserveId || item.id;
               const startTime = item.course?.startTime || item.lastUpdate;
               const title = item.courseTitle || item.course?.title || "-";
@@ -430,21 +445,47 @@ const MyCourses = () => {
             })
           )}
         </div>
+
+        {/* Pagination Controls Desktop */}
+        {!isLoading && totalPages > 1 && (
+          <div className="flex justify-center items-center gap-3 pt-3 mt-auto border-t border-border flex-shrink-0">
+            <button
+              type="button"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              className="p-2 rounded-xl bg-default text-foreground disabled:opacity-40 cursor-pointer hover:bg-default/80 transition-all"
+            >
+              <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+            </button>
+            <span className="text-sm font-medium text-foreground">
+              صفحه {currentPage.toLocaleString("fa-IR")} از {totalPages.toLocaleString("fa-IR")}
+            </span>
+            <button
+              type="button"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              className="p-2 rounded-xl bg-default text-foreground disabled:opacity-40 cursor-pointer hover:bg-default/80 transition-all"
+            >
+              <HugeiconsIcon icon={ArrowLeft01Icon} className="w-4 h-4" />
+            </button>
+          </div>
+        )}
       </div>
 
+      {/* Mobile Card View */}
       <div className="md:hidden flex flex-col gap-3">
         {isLoading ? (
           <div className="flex justify-center items-center h-20">
             <Spinner />
           </div>
-        ) : filteredCourses.length === 0 ? (
+        ) : paginatedCourses.length === 0 ? (
           <div className="text-center text-muted py-10">
             {searchTerm || dateValue || paymentFilter !== "all"
               ? t("myCourses.noCoursesFound") || "دوره‌ای پیدا نشد"
               : t("myCourses.noCourses") || "هیچ دوره‌ای ثبت نشده است"}
           </div>
         ) : (
-          filteredCourses.map((item) => {
+          paginatedCourses.map((item) => {
             const currentReserveId = item.reserveId || item.id;
             const title = item.courseTitle || item.course?.title || "-";
             const image = item.tumbImageAddress || item.course?.tumbImageAddress || "/placeholder.jpg";
@@ -507,6 +548,31 @@ const MyCourses = () => {
               </div>
             );
           })
+        )}
+
+        {/* Pagination Controls Mobile */}
+        {!isLoading && totalPages > 1 && (
+          <div className="flex justify-center items-center gap-3 pt-2">
+            <button
+              type="button"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              className="p-2 rounded-xl bg-default text-foreground disabled:opacity-40 cursor-pointer"
+            >
+              <HugeiconsIcon icon={ArrowRight01Icon} className="w-4 h-4" />
+            </button>
+            <span className="text-sm font-medium text-foreground">
+              صفحه {currentPage.toLocaleString("fa-IR")} از {totalPages.toLocaleString("fa-IR")}
+            </span>
+            <button
+              type="button"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              className="p-2 rounded-xl bg-default text-foreground disabled:opacity-40 cursor-pointer"
+            >
+              <HugeiconsIcon icon={ArrowLeft01Icon} className="w-4 h-4" />
+            </button>
+          </div>
         )}
       </div>
 

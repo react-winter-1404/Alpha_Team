@@ -51,3 +51,22 @@ export const getSessionDetail = (sessionId) => {
   return apiClient.get(`/Session/SessionDetail?SessionId=${sessionId}`);
 };
 
+export const getStudentScheduals = (studentId) => {
+  return apiClient.get(`/Schedual/GetStudentScheduals?StudentId=${studentId}`);
+};
+
+export const getAllTicketsMineUser = (params = { pageNumber: 0, perPage: 10 }) => {
+  return apiClient.get(`/ticket/AllTicketsMineUser`, { params });
+};
+
+export const getChatDetailUser = (id) => {
+  return apiClient.get(`/ticket/message/chatDetailUser/${id}`);
+};
+
+export const getAutoComplete = (text) => {
+  return apiClient.get(`/ticket/autoComplete/${text}`);
+};
+
+export const checkExistTicket = (title) => {
+  return apiClient.get(`/ticket/checkExistTicket`, { params: { title } });
+};

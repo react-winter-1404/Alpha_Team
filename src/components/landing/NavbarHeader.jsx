@@ -109,7 +109,7 @@ export default function NavbarHeader() {
               isLoged
                 ? "bg-overlay border dark:border-0 hover:bg-field-hover dark:hover:bg-gray-900"
                 : "bg-accent text-accent-foreground"
-            } rounded-3xl flex items-center justify-center`}
+            } rounded-3xl flex items-center justify-center pt-1 `}
           >
             <Link
               to={isLoged ? "/panel" : "/Auth/Login"}
