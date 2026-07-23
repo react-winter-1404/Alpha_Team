@@ -3,6 +3,7 @@ import router from "./router/router";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import ThemeProvider from "./providers/ThemeProvider";
+import ChatBot from '../src/ai/ChatBot';
 
 const App = () => {
   useEffect(() => {
@@ -21,7 +22,9 @@ const App = () => {
     <ThemeProvider>
       <RouterProvider router={router} />
       <Toaster />
+      <ChatBot />
     </ThemeProvider>
+    
   );
 };
 
