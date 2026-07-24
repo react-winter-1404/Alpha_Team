@@ -78,7 +78,7 @@ const NewsPage = () => {
   const fetchNews = useCallback(async (page, filters, sort) => {
     try {
       setIsLoading(true);
-      let url = "http://188.121.104.25:3001/News";
+      let url = "http://162.19.253.202:3001/News";
       const params = new URLSearchParams();
 
       params.append("PageNumber", String(page));
