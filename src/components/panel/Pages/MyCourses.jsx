@@ -6,6 +6,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { ViewIcon, Calendar02Icon, Cancel01Icon, Search01Icon, MoneyAdd02Icon, FilterIcon, ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { getUserMyCourses } from "../../../core/services/userPanel/get";
 import { patchCoursePaymentStep1 } from "../../../core/services/userPanel/patch";
+import fallbackImg from "../../../assets/Courses/images.png"
 
 const MyCourses = () => {
   const { t } = useTranslation("panel");
@@ -18,7 +19,6 @@ const MyCourses = () => {
   const [dateValue, setDateValue] = useState(null);
   const [paymentFilter, setPaymentFilter] = useState("all");
 
-  // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 6;
 
@@ -44,7 +44,6 @@ const MyCourses = () => {
     fetchMyCourses();
   }, []);
 
-  // Reset page to 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, dateValue, paymentFilter]);
@@ -203,7 +202,6 @@ const MyCourses = () => {
     return matchesSearch && matchesDate && matchesPayment;
   });
 
-  // Pagination Calculations
   const totalPages = Math.ceil(filteredCourses.length / pageSize) || 1;
   const paginatedCourses = filteredCourses.slice(
     (currentPage - 1) * pageSize,
@@ -339,7 +337,6 @@ const MyCourses = () => {
         </div>
       </div>
 
-      {/* Desktop Table View */}
       <div className="hidden md:flex flex-1 bg-overlay rounded-2xl border border-border p-4 overflow-hidden flex-col min-h-90">
         <div className="grid grid-cols-12 gap-1.5 h-12 bg-default rounded-2xl p-3 text-sm text-muted flex-shrink-0 items-center">
           <span className="col-span-1 text-center">#</span>
@@ -446,7 +443,6 @@ const MyCourses = () => {
           )}
         </div>
 
-        {/* Pagination Controls Desktop */}
         {!isLoading && totalPages > 1 && (
           <div className="flex justify-center items-center gap-3 pt-3 mt-auto border-t border-border flex-shrink-0">
             <button
@@ -472,7 +468,6 @@ const MyCourses = () => {
         )}
       </div>
 
-      {/* Mobile Card View */}
       <div className="md:hidden flex flex-col gap-3">
         {isLoading ? (
           <div className="flex justify-center items-center h-20">
@@ -550,7 +545,6 @@ const MyCourses = () => {
           })
         )}
 
-        {/* Pagination Controls Mobile */}
         {!isLoading && totalPages > 1 && (
           <div className="flex justify-center items-center gap-3 pt-2">
             <button

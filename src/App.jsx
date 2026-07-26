@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import ThemeProvider from "./providers/ThemeProvider";
 import ChatBot from '../src/ai/ChatBot';
+import { OfflineBanner } from "./test/OfflineBanner";
 
 const App = () => {
   useEffect(() => {
@@ -20,6 +21,7 @@ const App = () => {
 
   return (
     <ThemeProvider>
+      <OfflineBanner />
       <RouterProvider router={router} />
       <Toaster />
       <ChatBot />

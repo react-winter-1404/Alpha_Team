@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-<<<<<<< HEAD
 const BASE_URL = "http://162.19.253.202:3001";
-=======
-const BASE_URL = "http://162.19.253.202:3001/";
->>>>>>> dd9a85cb4ae0a648869a192472958822887b0553
 
 const TeacherList = () => {
   const { t } = useTranslation("teachers");
