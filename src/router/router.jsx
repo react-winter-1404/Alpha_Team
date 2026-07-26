@@ -1,5 +1,4 @@
-import { createBrowserRouter, Outlet, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "../pages/Landing";
 import AuthLayout from "../layout/Auth";
 import LoginPage from "../pages/Login";
@@ -16,6 +15,7 @@ import TeacherList from "../pages/TeacherList";
 import TeacherDetail from "../components/Teacher/TeacherDetail";
 import NewsDetailPage from "../pages/NewsDetail";
 import PaymentResult from "../components/panel/Pages/PaymentResult";
+import RootLayout from "../layout/RootLayout";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 
 import Dashboard from "../components/panel/Pages/Dashboard";
@@ -31,30 +31,16 @@ import MyAssignments from "../components/panel/Pages/MyAssignments";
 import MySessions from "../components/panel/Pages/MySessions";
 import MyTickets from "../components/panel/Pages/MyTickets";
 
-const SmoothScrollToTop = () => {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }, [pathname]);
-
-  return <Outlet />;
-};
-
 const router = createBrowserRouter([
   {
-    element: <SmoothScrollToTop />,
+    element: <RootLayout />,
     children: [
       { path: "/", element: <LandingPage /> },
       {
         element: <ProtectedRoute />,
         children: [
-          { 
-            path: "/panel", 
+          {
+            path: "/panel",
             element: <Panel />,
             children: [
               { index: true, element: <Dashboard /> },
@@ -69,9 +55,9 @@ const router = createBrowserRouter([
               { path: "payments", element: <Payments /> },
               { path: "notifications", element: <NotificationsPage /> },
               { path: "accounts", element: <Accounts /> },
-            ]
-          }
-        ]
+            ],
+          },
+        ],
       },
       {
         path: "/Auth",
