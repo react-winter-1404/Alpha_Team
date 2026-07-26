@@ -13,10 +13,11 @@ import CommentCard from "../card/CommentCard";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Clock01Icon, Calendar03Icon } from "@hugeicons/core-free-icons";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const { t } = useTranslation("panel");
+  const navigate = useNavigate();
   const [value, setValue] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [course, setCourse] = useState([]);
@@ -62,6 +63,7 @@ const Dashboard = () => {
       setIsLoading(false);
     }
   };
+
   const fetchUserCoursesComments = async () => {
     setIsLoading(true);
     try {
@@ -73,6 +75,7 @@ const Dashboard = () => {
       setIsLoading(false);
     }
   };
+
   const fetchUserNewsComments = async () => {
     setIsLoading(true);
     try {
@@ -85,6 +88,7 @@ const Dashboard = () => {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchUserProfile();
     fetchUserCoursesComments();
@@ -350,11 +354,13 @@ const Dashboard = () => {
                 <span className="hidden md:block text-[20px] text-foreground w-[150px]">
                   {c.cost} <span>{t("dashboard.toman")}</span>
                 </span>
-                <img
-                  src="/public/icons/view-stroke-rounded 1.png"
-                  alt=""
-                  className="w-[24px] h-[24px] cursor-pointer"
-                />
+                <Link to={`/courses/${c.courseId}`}>
+                  <img
+                    src="/public/icons/view-stroke-rounded 1.png"
+                    alt="مشاهده جزئیات"
+                    className="w-[24px] h-[24px] cursor-pointer hover:opacity-80 transition-opacity"
+                  />
+                </Link>
               </div>
             ))
           )}
