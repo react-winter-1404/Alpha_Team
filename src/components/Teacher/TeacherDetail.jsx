@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const BASE_URL = "http://188.121.104.25:3001";
+const BASE_URL = "http://162.19.253.202:3001";
 
 const TeacherDetail = () => {
   const { id } = useParams();

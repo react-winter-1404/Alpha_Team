@@ -54,8 +54,8 @@ export default function CourseFilters({
     const fetchFilterData = async () => {
       try {
         const [catResponse, teacherResponse] = await Promise.all([
-          axios.get("http://188.121.104.25:3001/News/GetListNewsCategory"),
-          axios.get("http://188.121.104.25:3001/Home/GetTeachers")
+          axios.get("http://162.19.253.202:3001/News/GetListNewsCategory"),
+          axios.get("http://162.19.253.202:3001/Home/GetTeachers")
         ]);
 
         if (catResponse.data) setCategories(catResponse.data);

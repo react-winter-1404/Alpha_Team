@@ -1,74 +1,93 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { News } from "../../core/services/landing/get";
 import { Button } from "@heroui/button";
 import { Skeleton } from "@heroui/react";
 import { useTranslation } from "react-i18next";
+import fallbackImage from "../../assets/Courses/images.png";
 
 const BasicSkeleton = () => {
   return (
-    <div className="shadow-panel w-full md:w-[22%] h-[530px] space-y-5 rounded-[20px] bg-overlay border border-border p-4 flex flex-col justify-between">
+    <div className="shadow-panel w-full md:w-[22%] h-[510px] space-y-4 rounded-[20px] bg-overlay border border-border p-4 flex flex-col justify-between">
       <Skeleton className="h-[35%] rounded-lg bg-default" />
-      <div className="space-y-3 flex-1 mt-4">
+      <div className="space-y-3 flex-1 mt-3">
         <Skeleton className="h-6 w-3/5 rounded-lg bg-default" />
         <Skeleton className="h-4 w-4/5 rounded-lg bg-default" />
         <Skeleton className="h-4 w-2/5 rounded-lg bg-default" />
       </div>
-      <div className="flex justify-between items-center mt-auto">
+      <div className="flex justify-between items-center mt-auto pt-2">
         <Skeleton className="h-6 w-1/3 rounded-lg bg-default" />
-        <Skeleton className="h-10 w-2/5 rounded-[65px] bg-default" />
+        <Skeleton className="h-9 w-2/5 rounded-[65px] bg-default" />
       </div>
     </div>
   );
 };
 
 const NewsCard = ({ e, t }) => (
-  <div className="relative text-foreground bg-default border border-border h-[530px] w-[90%] md:w-[22%] flex flex-col gap-2 rounded-[20px] text-right">
-    <img
-      src={e.currentImageAddress}
-      alt=""
-      className="p-0 bg-accent rounded-[20px] w-full h-[35%]"
-    />
+  <div className="relative text-foreground bg-default border border-border h-[510px] w-[90%] md:w-[22%] flex flex-col rounded-[20px] text-right overflow-hidden transition-all duration-300">
+    <div className="relative w-full h-[35%] overflow-hidden">
+      <img
+        src={e.currentImageAddress || fallbackImage}
+        alt={e.title || "News"}
+        onError={(err) => {
+          err.currentTarget.onerror = null;
+          err.currentTarget.src = fallbackImage;
+        }}
+        className="w-full h-full object-cover bg-accent"
+      />
+    </div>
 
-    <div className="p-2 flex flex-col gap-4">
-      <h3 className="text-[20px] md:text-[24px]">{e.title}</h3>
+    <div className="p-3 flex flex-col justify-between flex-1 gap-2">
+      <div>
+        <Link to={`/news/${e.id}`} className="block">
+          <h3 className="text-[18px] md:text-[20px] font-bold h-[32px] mb-1 hover:text-accent transition-colors line-clamp-1">
+            {e.title}
+          </h3>
+        </Link>
 
-      <p className="text-[14px] md:text-[16px] w-[80%] h-[45px] text-muted overflow-hidden">
-        {e.describe}
-      </p>
-
-      <div className="text-[16px] mb-2 flex justify-start items-center gap-3">
-        <img src="/public/icons/quill-write-02-stroke-rounded 1.png" alt="" className="h-6 w-6" />
-        <span className="text-[16px]">{e.addUserFullName}</span>
+        <p className="text-[13px] md:text-[15px] w-full h-[40px] text-muted line-clamp-2 mb-2">
+          {e.describe}
+        </p>
       </div>
 
-      <div className="text-[16px] mb-2 flex justify-start items-center gap-3">
-        <img src="/public/icons/view-stroke-rounded (1) 1.png" alt="" className="h-6 w-6" />
-        <span className="text-[16px]">{e.currentView}</span>
+      <div className="flex flex-col gap-2">
+        <div className="text-[14px] flex justify-start items-center gap-2">
+          <img src="/icons/quill-write-02-stroke-rounded 1.png" alt="author" className="h-5 w-5" />
+          <span className="text-[13px] md:text-[14px] line-clamp-1">{e.addUserFullName}</span>
+        </div>
+
+        <div className="text-[14px] flex justify-start items-center gap-2">
+          <img src="/icons/view-stroke-rounded (1) 1.png" alt="views" className="h-5 w-5" />
+          <span className="text-[13px] md:text-[14px]">{e.currentView}</span>
+        </div>
       </div>
 
-      <div className="flex justify-between align-middle">
-        <div className="w-[120px] flex justify-between align-middle pt-2">
-          <div className="w-[50px] flex justify-between align-middle">
-            <img src="/public/icons/thumbs-up-stroke-rounded 1.png" alt="" className="h-6 w-6" />
-            <span className="text-[16px]">{e.currentLikeCount}</span>
+      <div className="flex justify-between items-center mt-auto pt-2 border-t border-border/40">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
+            <img src="/icons/thumbs-up-stroke-rounded 1.png" alt="like" className="h-5 w-5" />
+            <span className="text-[13px] md:text-[14px]">{e.currentLikeCount}</span>
           </div>
 
-          <div className="w-[50px] flex justify-between align-middle">
-            <img src="/public/icons/thumbs-down-stroke-rounded 2.png" alt="" className="h-6 w-6" />
-            <span className="text-[16px]">{e.currentDissLikeCount}</span>
+          <div className="flex items-center gap-1">
+            <img src="/icons/thumbs-down-stroke-rounded 2.png" alt="dislike" className="h-5 w-5" />
+            <span className="text-[13px] md:text-[14px]">{e.currentDissLikeCount}</span>
           </div>
         </div>
 
-        <button className="w-[40%] h-[40px] bg-accent rounded-[65px] text-[14px] md:text-[16px] text-accent-foreground">
-          {t("news.readMore")}
-        </button>
+        <Link to={`/news/${e.id}`}>
+          <button className="px-4 h-[36px] bg-accent rounded-[65px] text-[13px] md:text-[14px] text-accent-foreground font-medium hover:opacity-90 active:scale-95 transition-all">
+            {t("news.readMore")}
+          </button>
+        </Link>
       </div>
     </div>
 
-    <div className="absolute top-1 right-5 text-[12px] md:text-[14px] text-accent-foreground bg-accent h-[31px] w-[94px] flex items-center justify-center rounded-[64px] shadow-sm"></div>
-    <div className="absolute top-1 right-30 text-[12px] md:text-[14px] text-accent-foreground bg-accent h-[31px] w-[57px] flex items-center justify-center rounded-[64px] shadow-sm">
-      {e.newsCatregoryName}
-    </div>
+    {e.newsCatregoryName && (
+      <div className="absolute top-2 right-3 text-[12px] text-accent-foreground bg-accent h-[28px] px-3 flex items-center justify-center rounded-[64px] shadow-sm">
+        {e.newsCatregoryName}
+      </div>
+    )}
   </div>
 );
 

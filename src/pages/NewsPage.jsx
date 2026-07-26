@@ -13,6 +13,9 @@ import NewsPagination from "../components/newsList/NewsPagination";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { FilterIcon } from "@hugeicons/core-free-icons";
 import { useTranslation } from "react-i18next";
+import NewsHeroSection from "../components/newsList/NewsHeroSection";
+
+import fallbackImg from "../assets/Courses/images.png";
 
 const pageVariants = {
   initial: {
@@ -78,7 +81,7 @@ const NewsPage = () => {
   const fetchNews = useCallback(async (page, filters, sort) => {
     try {
       setIsLoading(true);
-      let url = "http://188.121.104.25:3001/News";
+      let url = "http://162.19.253.202:3001/News";
       const params = new URLSearchParams();
 
       params.append("PageNumber", String(page));
@@ -156,12 +159,26 @@ const NewsPage = () => {
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+  const getValidImageUrl = (imageAddress, thumbAddress) => {
+    const isValidUrl = (url) => {
+      if (!url || typeof url !== "string") return false;
+      const cleanUrl = url.trim();
+      return cleanUrl !== "" && cleanUrl !== "null" && cleanUrl !== "undefined";
+    };
+
+    if (isValidUrl(imageAddress)) return imageAddress;
+    if (isValidUrl(thumbAddress)) return thumbAddress;
+    return fallbackImg;
+  };
+
   return (
     <div
       className="w-full min-h-screen flex flex-col justify-between "
       style={{ direction: "rtl" }}
     >
       <NavbarHeader />
+
+      <NewsHeroSection />
 
       <motion.div variants={pageVariants} initial="initial" animate="animate">
         <div className="max-w-[1380px] w-full min-h-[500px] pb-[60px] rounded-[24px] md:rounded-[40px] bg-overlay border-4 border-border overflow-hidden mx-auto my-6 md:my-10 p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 relative">
@@ -204,17 +221,16 @@ const NewsPage = () => {
                         viewport={{ once: true, amount: 0.1 }}
                       >
                         <NewsCard
-                          imageURL={
-                            news.currentImageAddress ||
-                            news.currentImageAddressTumb ||
-                            "https://via.placeholder.com/427x287"
-                          }
+                          imageURL={getValidImageUrl(
+                            news.currentImageAddress,
+                            news.currentImageAddressTumb
+                          )}
                           title={news.title}
                           discribtion={news.miniDescribe}
                           publisher={news.addUserFullName}
                           number={news.currentView}
                           date={new Date(news.insertDate).toLocaleDateString(
-                            "fa-IR",
+                            "fa-IR"
                           )}
                           like={news.currentLikeCount}
                           dislike={news.currentDissLikeCount}

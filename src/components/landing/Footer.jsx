@@ -43,14 +43,22 @@ const Footer = () => {
         <div className="lg:w-[25%] w-[27%] h-[80%] flex justify-between items-start mx-[2%] lg:mx-[5%]">
           <ul className="text-[16px] lg:text-[20px] font-bold text-foreground">
             <li className="text-accent mb-5">{t("footer.pages")}</li>
-            <li>{t("footer.home")}</li>
-            <li>{t("footer.courses")}</li>
-            <li>{t("footer.news")}</li>
+            <li>
+              <Link to={"/"}>{t("footer.home")}</Link>
+            </li>
+            <li>
+               <Link to={"/courses"}>{t("footer.courses")}</Link>
+            </li> 
+            <li>
+              <Link to={"/news"}>{t("footer.news")}</Link>
+            </li>
           </ul>
 
           <ul className="text-[16px] lg:text-[20px] font-bold text-foreground">
             <li className="text-accent mb-5">{t("footer.about")}</li>
-            <li>{t("footer.teachers")}</li>
+            <li>
+              <Link to={"/teacherList"}>{t("footer.teachers")}</Link>
+            </li>
             <li>
               <Link to={"/About_Us"}>{t("footer.aboutUs")}</Link>
             </li>

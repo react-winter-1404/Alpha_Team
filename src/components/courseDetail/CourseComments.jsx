@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { getCourseComments } from "../../core/services/Course/get";
 import Comment from "./Comment";
+import AICommentSummary from "../../ai/AICommentSummary";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import {
@@ -53,7 +54,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
   };
   useEffect(() => {
     fetchcourseComments();
-  }, []);
+  }, [courseId]);
 
   const fetchAddCourseComment = async (values) => {
     try {
@@ -62,8 +63,6 @@ const CourseComments = ({ courseId, courseTitle }) => {
       payload.append("Title", values.Title);
       payload.append("Describe", values.Describe);
       const response = await postCourseComment(payload);
-      console.log("Status:", response);
-      console.log(response.data);
 
       if (response.data.success) {
         toast.success(response.data.message);
@@ -71,7 +70,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.error("خطا:", error);
+      console.error(error);
     }
   };
   const fetchAddReplyCourseComment = async (values) => {
@@ -82,8 +81,6 @@ const CourseComments = ({ courseId, courseTitle }) => {
       payload.append("Title", values.Title);
       payload.append("Describe", values.Describe);
       const response = await postAddReplyCourseComment(payload);
-      console.log("Status:", response);
-      console.log(response.data);
 
       if (response.data.success) {
         toast.success(response.data.message);
@@ -92,7 +89,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.error("خطا:", error);
+      console.error(error);
     }
   };
 
@@ -107,7 +104,6 @@ const CourseComments = ({ courseId, courseTitle }) => {
 
   useEffect(() => {
     if (height && height >= 850) {
-      console.log(height);
       setShowButton(true);
     } else {
       setShowButton(false);
@@ -159,6 +155,7 @@ const CourseComments = ({ courseId, courseTitle }) => {
                 <AlertDialog.Body>
                   {courseComments.length >= 1 ? (
                     <>
+                      <AICommentSummary comments={courseComments} courseId={courseId} />
                       <div className="flex flex-col gap-5.5 h-auto w-full text-foreground">
                         {courseComments.map((comment) => {
                           return (
@@ -196,11 +193,9 @@ const CourseComments = ({ courseId, courseTitle }) => {
                           CommentId: commentIdForReply,
                           ...values,
                         };
-                        console.log(datas);
                         fetchAddReplyCourseComment(datas);
                       } else {
                         const datas = { CourseId: courseId, ...values };
-                        console.log(datas);
                         fetchAddCourseComment(datas);
                       }
                       resetForm();
@@ -238,7 +233,6 @@ const CourseComments = ({ courseId, courseTitle }) => {
                           {showPicker && (
                             <EmojiPicker
                               onEmojiClick={(emoji) => {
-                                console.log(emoji.emoji);
                                 if (focusCount == 0) {
                                   setFieldValue(
                                     "Title",
@@ -341,27 +335,31 @@ const CourseComments = ({ courseId, courseTitle }) => {
             </AlertDialog.Container>
           </AlertDialog.Backdrop>
         </AlertDialog>
+
         {courseComments.length >= 1 ? (
-          <div
-            className={`${!isShowAllComments && "max-h-200"} flex flex-col gap-5.5 h-auto w-full overflow-hidden`}
-          >
-            {courseComments.map((comment) => {
-              return (
-                <Comment
-                  key={comment.id}
-                  pictureAddress={comment.pictureAddress}
-                  author={comment.author}
-                  insertDate={comment.insertDate}
-                  title={comment.title}
-                  describe={comment.describe}
-                  likeCount={comment.likeCount}
-                  disslikeCount={comment.disslikeCount}
-                  commentId={comment.id}
-                  courseId={courseId}
-                  replyBtnFunc={addReplyBtnHandler}
-                />
-              );
-            })}
+          <div className="flex flex-col w-full">
+            <AICommentSummary comments={courseComments} courseId={courseId} />
+            <div
+              className={`${!isShowAllComments && "max-h-200"} flex flex-col gap-5.5 h-auto w-full overflow-hidden`}
+            >
+              {courseComments.map((comment) => {
+                return (
+                  <Comment
+                    key={comment.id}
+                    pictureAddress={comment.pictureAddress}
+                    author={comment.author}
+                    insertDate={comment.insertDate}
+                    title={comment.title}
+                    describe={comment.describe}
+                    likeCount={comment.likeCount}
+                    disslikeCount={comment.disslikeCount}
+                    commentId={comment.id}
+                    courseId={courseId}
+                    replyBtnFunc={addReplyBtnHandler}
+                  />
+                );
+              })}
+            </div>
           </div>
         ) : (
           <div className="h-40 w-full flex justify-center items-center text-muted text-sm md:text-[16px] text-center">

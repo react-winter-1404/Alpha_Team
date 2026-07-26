@@ -4,6 +4,7 @@ import { Heart } from "@gravity-ui/icons";
 import { ToggleButton } from "@heroui/react";
 import { addCourseLike, addCourseDislike, deleteCourseLike, addCourseFavorite } from "../../core/services/Course/post";
 import { useTranslation } from "react-i18next";
+import fallbackImage from "../../assets/Courses/images.png";
 
 const CourseCard = ({
   viewMode, 
@@ -111,7 +112,15 @@ const CourseCard = ({
   return (
     <div className={`relative text-foreground bg-default border border-border rounded-[20px] text-right flex transition-all duration-300 ${isRow ? 'w-full h-auto md:h-[240px] flex-row-reverse p-4 gap-6 items-center' : 'w-full md:w-[315px] h-[530px] flex-col gap-2'}`} style={{ direction: 'rtl' }}>
       <div className={`relative overflow-hidden rounded-[20px] ${isRow ? 'w-[320px] h-full' : 'w-full h-[35%]'}`}>
-        <img src={imageURL} alt={title} className="w-full h-full object-cover transition-all duration-300 bg-accent" />
+        <img 
+          src={imageURL ? imageURL : fallbackImage} 
+          alt={title} 
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = fallbackImage;
+          }}
+          className="w-full h-full object-cover transition-all duration-300 bg-accent" 
+        />
         <div className="absolute top-3 left-3 z-10">
           <ToggleButton isSelected={userFavorite} onChange={handleFavorite} isDisabled={isFavoriting} aria-label="Favorite" className={`min-w-10 h-10 p-0 rounded-full transition-all shadow-md backdrop-blur-sm backdrop-brightness-95 ${userFavorite ? "bg-danger text-danger-foreground hover:bg-danger/80" : "bg-overlay/80 text-muted hover:bg-overlay hover:scale-105"}`}>
             <Heart className={userFavorite ? "fill-current" : ""} />

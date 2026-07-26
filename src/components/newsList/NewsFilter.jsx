@@ -4,14 +4,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { 
   SearchField, 
-  DateRangePicker, 
+  DatePicker, 
   DateField, 
-  RangeCalendar,
+  Calendar,
   Popover,
   Button
 } from "@heroui/react";
+import { PersianCalendar } from "@internationalized/date";
+import { I18nProvider } from "@react-aria/i18n";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Cancel01Icon } from "@hugeicons/core-free-icons";
+import { Cancel01Icon, Calendar02Icon } from "@hugeicons/core-free-icons";
 import { useTranslation } from "react-i18next";
 
 const NewsFilter = ({ 
@@ -32,7 +34,7 @@ const NewsFilter = ({
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://188.121.104.25:3001/News/GetListNewsCategory");
+        const response = await axios.get("http://162.19.253.202:3001/News/GetListNewsCategory");
         if (response.data) {
           setCategories(response.data);
         }
@@ -78,12 +80,32 @@ const NewsFilter = ({
     });
   };
 
-  const handleDateChange = (range) => {
+  const handleSingleDateChange = (dateValue) => {
+    if (!dateValue) {
+      onFilterChange({
+        ...currentFilters,
+        startDate: null
+      });
+      return;
+    }
+    
+    const jsDate = dateValue.toDate('UTC');
+    const year = jsDate.getUTCFullYear();
+    const month = String(jsDate.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(jsDate.getUTCDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}T00:00:00.000Z`;
+
     onFilterChange({
       ...currentFilters,
-      startDate: range?.start ? new Date(range.start.year, range.start.month - 1, range.start.day).toISOString() : null,
-      endDate: range?.end ? new Date(range.end.year, range.end.month - 1, range.end.day).toISOString() : null
+      startDate: formattedDate
     });
+  };
+
+  const createCalendar = (calendar) => {
+    if (calendar === "persian") {
+      return new PersianCalendar();
+    }
+    return null;
   };
 
   const getSelectedCategoriesLabel = () => {
@@ -103,7 +125,8 @@ const NewsFilter = ({
   };
 
   const renderFilterFields = () => (
-    <>
+    <I18nProvider locale="fa-IR-u-ca-persian">
+      {/* Search */}
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 text-foreground font-medium text-sm mb-1">
           <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,6 +151,7 @@ const NewsFilter = ({
         </SearchField>
       </div>
 
+      {/* Category */}
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 text-foreground font-medium text-sm mb-1">
           <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,58 +188,79 @@ const NewsFilter = ({
         </Popover>
       </div>
 
+      {/* Date Picker */}
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-foreground font-medium text-sm mb-1">
-          <svg className="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
+        <div className="flex items-center gap-2 font-bold text-sm mb-1 text-foreground">
+          <HugeiconsIcon icon={Calendar02Icon} className="w-5 h-5 text-muted" />
           <span>{t("listing.publishDate")}</span>
         </div>
-        <DateRangePicker 
+        
+        <DatePicker 
           className="w-full" 
-          endName="endDate" 
-          startName="startDate"
-          onChange={handleDateChange}
+          name="date"
+          aria-label={t("listing.publishDate")}
+          onChange={handleSingleDateChange}
+          placement="bottom-start"
+          createCalendar={createCalendar}
+          value={currentFilters.startDate ? null : undefined}
         >
-          <DateField.Group fullWidth className="bg-overlay border-0 rounded-xl h-11 px-3 flex items-center justify-between shadow-none text-xs text-muted">
-            <DateField.Input slot="start" className="outline-none bg-transparent text-foreground">
-              {(segment) => <DateField.Segment segment={segment} className="text-xs" />}
+          <DateField.Group fullWidth className="bg-overlay rounded-2xl h-12 flex items-center justify-between px-3 border-none text-sm text-muted">
+            <DateField.Input className="outline-none bg-transparent text-foreground">
+              {(segment) => <DateField.Segment segment={segment} />}
             </DateField.Input>
-            <DateRangePicker.RangeSeparator className="mx-1 text-muted" />
-            <DateField.Input slot="end" className="outline-none bg-transparent text-foreground">
-              {(segment) => <DateField.Segment segment={segment} className="text-xs" />}
-            </DateField.Input>
-            <DateField.Suffix className="mr-auto">
-              <DateRangePicker.Trigger>
-                <DateRangePicker.TriggerIndicator className="text-muted" />
-              </DateRangePicker.Trigger>
+            <DateField.Suffix className="mr-auto flex items-center gap-2">
+              {currentFilters.startDate && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSingleDateChange(null);
+                  }}
+                  className="text-muted hover:text-danger p-1 rounded-full transition-colors cursor-pointer flex items-center justify-center"
+                >
+                  <HugeiconsIcon icon={Cancel01Icon} className="w-4 h-4" />
+                </button>
+              )}
+              <DatePicker.Trigger>
+                <DatePicker.TriggerIndicator className="text-muted" />
+              </DatePicker.Trigger>
             </DateField.Suffix>
           </DateField.Group>
-          <DateRangePicker.Popover className="bg-overlay rounded-2xl shadow-xl border border-border p-2">
-            <RangeCalendar aria-label="انتخاب بازه زمانی" className="text-xs">
-              <RangeCalendar.Header className="flex items-center justify-between pb-2">
-                <RangeCalendar.YearPickerTrigger className="flex items-center gap-1 font-medium text-muted">
-                  <RangeCalendar.YearPickerTriggerHeading />
-                  <RangeCalendar.YearPickerTriggerIndicator />
-                </RangeCalendar.YearPickerTrigger>
-                <div className="flex gap-1">
-                  <RangeCalendar.NavButton slot="previous" className="p-1 rounded-lg hover:bg-default text-foreground" />
-                  <RangeCalendar.NavButton slot="next" className="p-1 rounded-lg hover:bg-default text-foreground" />
+          <DatePicker.Popover className="bg-overlay rounded-2xl shadow-xl border border-border p-4 w-[320px] min-w-[320px] max-w-[320px] overflow-visible">
+            <Calendar 
+              aria-label="Publish date" 
+              createCalendar={createCalendar}
+              className="w-full select-none overflow-visible"
+            >
+              <Calendar.Header className="flex items-center justify-between pb-3 border-b border-separator mb-2">
+                <Calendar.YearPickerTrigger className="flex items-center gap-1 font-medium text-sm text-foreground">
+                  <Calendar.YearPickerTriggerHeading />
+                  <Calendar.YearPickerTriggerIndicator />
+                </Calendar.YearPickerTrigger>
+                <div className="flex gap-2">
+                  <Calendar.NavButton slot="previous" className="p-1.5 rounded-lg border border-border hover:bg-default text-foreground" />
+                  <Calendar.NavButton slot="next" className="p-1.5 rounded-lg border border-border hover:bg-default text-foreground" />
                 </div>
-              </RangeCalendar.Header>
-              <RangeCalendar.Grid>
-                <RangeCalendar.GridHeader>
-                  {(day) => <RangeCalendar.HeaderCell className="text-muted font-normal p-1">{day}</RangeCalendar.HeaderCell>}
-                </RangeCalendar.GridHeader>
-                <RangeCalendar.GridBody>
-                  {(date) => <RangeCalendar.Cell date={date} className="p-1 text-center data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground rounded-lg text-foreground" />}
-                </RangeCalendar.GridBody>
-              </RangeCalendar.Grid>
-            </RangeCalendar>
-          </DateRangePicker.Popover>
-        </DateRangePicker>
+              </Calendar.Header>
+              <Calendar.Grid className="w-full table-fixed border-collapse px-1">
+                <Calendar.GridHeader>
+                  {(day) => <Calendar.HeaderCell className="text-muted font-semibold text-[11px] p-0.5 text-center">{day}</Calendar.HeaderCell>}
+                </Calendar.GridHeader>
+                <Calendar.GridBody>
+                  {(date) => <Calendar.Cell date={date} className="p-0.5 text-center text-xs font-medium data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground text-foreground rounded-xl cursor-pointer hover:bg-default transition-colors" />}
+                </Calendar.GridBody>
+              </Calendar.Grid>
+              <Calendar.YearPickerGrid className="w-full mt-2">
+                <Calendar.YearPickerGridBody>
+                  {({year}) => <Calendar.YearPickerCell year={year} className="p-1.5 text-center text-xs rounded-xl hover:bg-default text-foreground cursor-pointer" />}
+                </Calendar.YearPickerGridBody>
+              </Calendar.YearPickerGrid>
+            </Calendar>
+          </DatePicker.Popover>
+        </DatePicker>
       </div>
 
+      {/* Mobile Sort */}
       {isMobile && (
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2 font-bold text-sm mb-1 text-foreground">
@@ -261,7 +306,7 @@ const NewsFilter = ({
           </Popover>
         </div>
       )}
-    </>
+    </I18nProvider>
   );
 
   if (isMobile) {

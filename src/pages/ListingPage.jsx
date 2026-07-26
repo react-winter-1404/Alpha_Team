@@ -3,6 +3,7 @@ import apiClient from "../core/interceptor/interceptor";
 import { Spinner } from "@heroui/react";
 import { motion } from "framer-motion";
 import NavbarHeader from "../components/landing/NavbarHeader";
+import CourseHeroSection from "../components/coursesList/CourseHeroSection";
 import Footer from "../components/landing/Footer";
 import CourseFilters from "../components/coursesList/CourseFilters";
 import CourseCard from "../components/coursesList/CourseCard";
@@ -152,6 +153,8 @@ const ListingPage = () => {
     >
       <NavbarHeader />
 
+      <CourseHeroSection />
+
       <motion.div variants={pageVariants} initial="initial" animate="animate">
         <div className="max-w-[1380px] w-full min-h-[500px] pb-[60px] rounded-[24px] md:rounded-[40px] bg-overlay border-4 border-border overflow-hidden mx-auto my-6 md:my-10 p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 relative">
           <div className="col-span-1 lg:col-span-9 flex flex-col justify-between order-last lg:order-first">
@@ -231,7 +234,7 @@ const ListingPage = () => {
                           imageURL={
                             course.tumbImageAddress ||
                             course.imageAddress ||
-                            "https://via.placeholder.com/315x225"
+                            null
                           }
                           title={course.title || course.courseName || ""}
                           discribtion={
