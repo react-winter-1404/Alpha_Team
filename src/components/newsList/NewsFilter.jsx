@@ -34,7 +34,7 @@ const NewsFilter = ({
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://162.19.253.202:3001/News/GetListNewsCategory");
+        const response = await axios.get("https://fe-api.hexorix.net/News/GetListNewsCategory");
         if (response.data) {
           setCategories(response.data);
         }

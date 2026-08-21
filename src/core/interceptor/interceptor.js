@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://162.19.253.202:3001/";
+const API_BASE_URL = "https://fe-api.hexorix.net/";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,

@@ -5,7 +5,7 @@ import NavbarHeader from "../components/landing/NavbarHeader";
 import Footer from "../components/landing/Footer";
 import fallbackImg from "../assets/Courses/teachers-icon-18094.png";
 
-const BASE_URL = "http://162.19.253.202:3001";
+const BASE_URL = "https://fe-api.hexorix.net/";
 
 const TeacherList = () => {
   const { t } = useTranslation("teachers");

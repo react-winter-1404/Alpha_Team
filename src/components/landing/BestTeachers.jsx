@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import sadatiImg from "../../assets/Courses/photo_2026-07-26_14-38-56.jpg";
 import bahrImg from "../../assets/Courses/photo_2026-07-26_14-39-16.jpg";
 import parsa from "../../assets/Courses/teachers-icon-18094.png"
+import { Link } from "react-router-dom";
 
 const BestTeachers = () => {
   const { t } = useTranslation("home");
@@ -139,7 +140,8 @@ const BestTeachers = () => {
               </p>
 
               <button className="cursor-pointer mx-auto w-[90%] h-[40px] text-[20px] text-accent-foreground rounded-[65px] bg-accent">
-                {t("bestTeachers.teacherPage")}
+                
+                <Link to={'/teachers/6'}>{t("bestTeachers.teacherPage")}</Link>
               </button>
             </div>
           </>
